@@ -4,7 +4,6 @@ public class ItemBought  {
     private Item item;
     private int quantity;
 
-    public ItemBought(){};
     public ItemBought(Item item,int quantity)
     {
         this.item=item;
@@ -21,6 +20,10 @@ public class ItemBought  {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-    public double getTotalProductPrice(){};//GET TOTAL PRICE
-    public double getTotalTaxRate(){};//GET TOTAL TAX
+    public double getTotalProductPrice(){
+        return item.getSellingPrice()*this.quantity;
+    }
+    public double getTotalTaxRate(){
+        return 0.2*getTotalProductPrice();
+    }
 }
