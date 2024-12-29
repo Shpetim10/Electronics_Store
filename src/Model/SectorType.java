@@ -1,0 +1,13 @@
+package Model;
+
+public enum SectorType {
+    HOME_APPLIANCES,
+    ELECTRONICS,
+    COMPUTERS,
+    MOBILE_DEVICES,
+    ACCESSORIES,
+    GAMING,
+    CAMERAS,
+    KITCHEN_ELECTRONICS,
+    SMART_HOME;
+}
