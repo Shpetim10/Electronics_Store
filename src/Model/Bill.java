@@ -4,7 +4,7 @@ import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
-public class Bill {
+public class Bill implements CustomerLoyalty  {
     private long billId;
     private int cashierId;
     private Date dateGenerated;
@@ -85,4 +85,3 @@ public class Bill {
         }
     }
 
-}
