@@ -2,7 +2,7 @@ package Model;
 
 public enum Permission {
     BILLING_SYSTEM,
-    RETURN_And_REFUND,
+    RETURN_AND_REFUND,
     PRODUCT_INFORMATION,
     NOTIFICATION_PANEL,
     SUPPLIER_MANAGEMENT,

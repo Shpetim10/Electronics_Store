@@ -23,7 +23,7 @@ public class Item {
     private boolean isDiscontinued;
     private boolean isAvailable;
     private Date lastRestockDate;
-    private double AverageRating;
+    private double averageRating;
     private String image;
     private String barcode;
     private int nrOfReturns;
@@ -256,6 +256,8 @@ public class Item {
     public void setNrOfReturns(int nrOfReturns) {
         this.nrOfReturns = nrOfReturns;
     }
+
+    // To string dhe equals method
 }
 
 

@@ -1,6 +1,8 @@
 package Model;
 
+import java.util.ArrayList;
+
 public interface InventoryManagement{
-    public ArrayList<Item> items;
+     ArrayList<Item> items;
 }
 
