@@ -47,5 +47,5 @@ public Notification(int id,String message,Date dateCreated,  //All arguments con
         this.subject = subject;
     }
 
-    public boolean markAsRead(){return isRead=true;}
+    public void markAsRead(){ isRead=true;}
 }
