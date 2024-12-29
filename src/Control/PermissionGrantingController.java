@@ -1,4 +1,6 @@
 package Control;
+import Model.Permission;
+
 import java.util.*;
 
 public class PermissionGrantingController {
