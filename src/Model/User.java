@@ -1,6 +1,5 @@
 package Model;
 
-import javax.management.Notification;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
@@ -48,7 +47,7 @@ public abstract class User {
                 "\nWe hope we have a strong collaboration and get customers' experience even better! " +
                 "\nIf any concern arises, feel free to notify your assigned sector's manager. " +
                 "\n\nGreetings from stores' Management board! ";
-        notifications.add(new Notification(NotificationType.OTHER, message));
+        notifications.add(new Notification(NotificationType.OTHER ,message));
     }
 
 

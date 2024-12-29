@@ -5,5 +5,6 @@ public enum NotificationType {
     RETURN,
     LOW_STOCK,
     RESTOCKED,
-    DISCONTINUED;
+    DISCONTINUED,
+    OTHER;
 }
