@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLOutput;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,11 +31,17 @@ public class Shift {
         this.bills=new ArrayList<>();
         this.nrOfItemsSold=this.nrOfRefunds=this.nrOfReturns=0;
         this.report=null;
+        this.shiftStatus=ShiftStatus.PLANNED;
     }
 
     public void startShift(){
-        this.setShiftStatus(ShiftStatus.ACTIVE);
-        this.startHour=LocalTime.now();
+        if(getShiftStatus().equals(ShiftStatus.PLANNED)){
+            this.setShiftStatus(ShiftStatus.ACTIVE);
+            this.startHour=LocalTime.now();
+        }
+        else{
+            System.out.println("Shift is active or has already finished!");
+        }
     }
     public void endShift(){
         this.setShiftStatus(ShiftStatus.COMPLETED);
