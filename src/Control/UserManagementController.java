@@ -1,5 +1,7 @@
 package Control;
 
+import Model.*;
+
 import java.util.*;
 
 public class UserManagementController {

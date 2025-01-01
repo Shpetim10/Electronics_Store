@@ -1,6 +1,5 @@
 package Model;
 
-import javax.management.Notification;
 import java.util.*;
 
 public class Cashier extends User {
