@@ -70,4 +70,14 @@ public interface Design {
                 "-fx-font-size: 18;");
         return label;
     }
+    default TextField createOutputTextField(){
+        TextField output=new TextField();
+        output.setEditable(false);
+        output.setStyle("-fx-background-color: transparent;" +
+                "-fx-text-fill: green;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-family: Bahnschrift;" +
+                "-fx-font-size: 18;");
+        return output;
+    }
 }
