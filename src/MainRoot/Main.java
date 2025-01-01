@@ -1,5 +1,6 @@
 package MainRoot;
 
+import View.BillingSystemView;
 import View.Design;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -13,9 +14,10 @@ public class Main extends Application implements Design {
 
     @Override
     public void start(Stage primaryStage){
-        Scene scene=new Scene(createGeneralButton("Hello"));
-        primaryStage.setTitle("MainRoot.Main");
-        primaryStage.setScene(scene);
+        BillingSystemView view=new BillingSystemView();
+        primaryStage.setTitle("Billing System");
+        primaryStage.setScene(view.createScene());
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 }

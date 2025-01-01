@@ -1,13 +1,10 @@
 package View;
 
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 public interface Design {
-    default Button createNumberButton(String content, String style){
+    default Button createNumberButton(String content,String style){
         Button button=new Button(content);
         button.setPrefWidth(80);
         button.setPrefHeight(80);
@@ -40,7 +37,7 @@ public interface Design {
                 "-fx-border-radius: 10;" +
                 "-fx-border-color: yellowgreen;" +
                 "-fx-border-width: 2;");
-
+    box.setVisibleRowCount(10);
         return box;
     }
     default TextField createTextField(String prompt){
@@ -79,5 +76,15 @@ public interface Design {
                 "-fx-font-family: Bahnschrift;" +
                 "-fx-font-size: 18;");
         return output;
+    }
+    default CheckBox createCheckBox(){
+        CheckBox select=new CheckBox();
+        select.setPrefSize(5,5);
+        select.setStyle("-fx-border-radius: 2;" +
+                "-fx-border-color: yellowgreen;" +
+                "-fx-border-width: 1;" +
+                "-fx-background-color: white;" +
+                "-fx-text-fill: green;");
+        return select;
     }
 }
