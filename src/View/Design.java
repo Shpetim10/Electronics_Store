@@ -1,7 +1,10 @@
 package View;
 
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public interface Design {
     default Button createNumberButton(String content,String style){
@@ -86,5 +89,22 @@ public interface Design {
                 "-fx-background-color: white;" +
                 "-fx-text-fill: green;");
         return select;
+    }
+    default Button createLargeButton(String text){
+        Button button=new Button(text);
+        button.setStyle("-fx-background-color: white ;" +
+                "-fx-border-radius: 20 ;" +
+                "-fx-background-radius: 20;" +
+                "-fx-border-color: yellowgreen;"+
+                " -fx-border-width: 2;" +
+                "-fx-font-family: Bahnschrift;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-size: 15;");
+        button.setMinHeight(100);
+        button.setMinWidth(400);
+        button.setFont(Font.font("Bahnschrift", FontWeight.BOLD,20));
+        button.prefWidthProperty().bind(new SimpleDoubleProperty(400));
+        button.prefHeightProperty().bind(new SimpleDoubleProperty(100));
+        return button;
     }
 }
