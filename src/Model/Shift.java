@@ -1,6 +1,9 @@
 package Model;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,18 +30,60 @@ public class Shift {
         this.bills=new ArrayList<>();
         this.nrOfItemsSold=this.nrOfRefunds=this.nrOfReturns=0;
         this.report=null;
+        this.shiftStatus=ShiftStatus.PLANNED;
     }
 
     public void startShift(){
-        this.setShiftStatus(ShiftStatus.ACTIVE);
+        if(getShiftStatus().equals(ShiftStatus.PLANNED)){
+            this.setShiftStatus(ShiftStatus.ACTIVE);
+            this.startHour=LocalTime.now();
+        }
+        else{
+            System.out.println("Shift is active or has already finished!");
+        }
     }
     public void endShift(){
         this.setShiftStatus(ShiftStatus.COMPLETED);
+        this.endHour=LocalTime.now();
+        generateShiftReport();
+        System.out.println("Shift report was generated! "); //TBC
     }
-    public File generateShiftReport(){
-        File reprot=null;
+    //Will be generated automaticaly when the shift is completed
+    public void generateShiftReport(){
+        File report=null;
+        String reportName="C:\\Users\\Shpëtim Shabanaj\\OneDrive\\Desktop\\OOP Project\\ElectronicsStore_ShpëtimShabanaj\\Electronics_Store\\src\\Files\\Reports\\"+
+                shiftId+"_"+shiftDate.getDay()+"_"+shiftDate.getMonth()+"_"+shiftDate.getYear()+"txt";
+        report=new File(reportName);
+        try(PrintWriter output=new PrintWriter(new FileOutputStream(report))){
+            output.println("\t\t\t\t\tShift Report\n");
+            output.println("-".repeat(20));
+            output.println("ShiftId:\t\t"+getShiftId());
+            output.println("CashierId:\t\t"+cashier.getId());
+            output.println("Cashier Full Name:\t\t"+cashier.getFirstName()+" "+ cashier.getLastName());
+            output.println("Date of Report:\t\t"+getShiftDate());
+            output.println("Start Hour:\t\t"+getStartHour());
+            output.println("End Hour:\t\t"+getEndHour());
+            output.println("-".repeat(20));
+            output.println("");
+            double totalSales=0,totalTax=0;
+            for(Bill bill : bills){
+                for(ItemBought item: bill.getItemBought()){
+                    totalSales+=item.getTotalProductPrice();
+                    totalTax+=item.getTotalTaxRate();
+                }
+            }
+            output.println("\n\nTotal sales:\t\t"+totalSales);
+            output.println("Total tax paid:\t\t"+totalTax);
+            output.println("\n\n\n");
+            output.println("Number of items sold:\t\t"+nrOfItemsSold);
+            output.println("Number of items returned:\t\t"+nrOfReturns);
+            output.println("Number of items to refunded:\t\t"+nrOfRefunds);
+        }
+        catch(IOException ex){
+            System.out.println("There was an error in generating report file!");
+        }
 
-        return report;
+        this.report=report;
     }
 
     public int getShiftId() {
