@@ -1,5 +1,6 @@
 package View;
-import javafx.*;
+
+import javafx.scene.control.Label;
 
 
 public class ProductInformationView implements Design {
