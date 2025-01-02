@@ -2,6 +2,7 @@ module Electronics.Store {
     requires javafx.graphics;
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.desktop;
 
     opens MainRoot;
     exports Control;
