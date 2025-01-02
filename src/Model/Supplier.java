@@ -1,5 +1,5 @@
 package Model;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Supplier {
     private int supplierId;
