@@ -147,7 +147,7 @@ public class BillingSystemView implements Design{
     public Scene createScene(){
         //Create Grid pane for overall display
         GridPane billingSystem= new GridPane();
-        billingSystem.setHgap(400);
+        billingSystem.setHgap(300);
         billingSystem.setVgap(10);
         billingSystem.setPadding(new Insets(50,100,50,100));
         billingSystem.setStyle("-fx-background-color: rgba(167,246,8,0.15)");
@@ -155,7 +155,6 @@ public class BillingSystemView implements Design{
         //Create Search Boxes
         HBox searchBox=new HBox(30);
         searchBox.getChildren().addAll(category,products,addButton);
-
         //Add product Log
         VBox productLog=createProductLog();
 
