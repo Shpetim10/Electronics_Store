@@ -116,6 +116,7 @@ public class InventoryManagementView implements Design {
         Label headText = createAlignedGreenBoldLabel("Products", 150);
 
 
+
         VBox productList = new VBox(10);
         productList.setStyle("-fx-padding: 10;");
 
