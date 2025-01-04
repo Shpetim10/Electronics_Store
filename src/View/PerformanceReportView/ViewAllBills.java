@@ -5,10 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -36,7 +33,6 @@ public class ViewAllBills implements Design {
         scrollPane.prefWidthProperty().bind(pane.widthProperty());
         scrollPane.prefHeightProperty().bind(pane.heightProperty());
         scrollPane.setFitToWidth(true);
-
         scrollPane.setStyle("-fx-background-color: rgba(167,246,8,0.3);" +
                 "-fx-background-radius: 40;" +
                 "-fx-border-radius: 40;" +
@@ -49,10 +45,11 @@ public class ViewAllBills implements Design {
         box.setAlignment(Pos.TOP_CENTER);
         box.setPadding(new Insets(30,30,30,30));
         box.setStyle("-fx-background-color: rgba(167,246,8,0.3);");
-        box.getChildren().add(cashierName);
         box.prefHeightProperty().bind(pane.heightProperty());
         box.prefWidthProperty().bind(pane.widthProperty());
 
+        box.getChildren().add(createAlignedGreenBoldLabel("All Generated Bills",100));
+        box.getChildren().add(cashierName);
         for(Button bill: bills){
             bill.prefHeightProperty().bind(pane.heightProperty());
             bill.prefWidthProperty().bind(pane.widthProperty());

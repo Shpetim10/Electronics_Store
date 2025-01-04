@@ -3,6 +3,7 @@ package View;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
@@ -106,5 +107,18 @@ public interface Design {
         button.prefWidthProperty().bind(new SimpleDoubleProperty(400));
         button.prefHeightProperty().bind(new SimpleDoubleProperty(100));
         return button;
+    }
+    default DatePicker createDatePicker(Pane pane){
+        DatePicker date=new DatePicker();
+        date.prefHeightProperty().bind(pane.heightProperty());
+        date.prefWidthProperty().bind(pane.widthProperty());
+
+        date.setStyle("-fx-background-color: white;" +
+                "-fx-background-radius: 10;" +
+                "-fx-border-radius: 10;" +
+                "-fx-border-width: 2;" +
+                "-fx-border-color: yellowgreen;");
+
+        return date;
     }
 }
