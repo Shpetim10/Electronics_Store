@@ -3,10 +3,7 @@ package View;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -28,18 +25,21 @@ public class InventoryManagementView implements Design {
     private TextField costPrice;
     private TextField sellingPrice;
     private TextField brand;
-    private Button add;
+    private Button restock;
     private Button edit;
     private Button delete;
     private Button clear;
+    private Button add;
     private Button signOut;
     private ArrayList<InventoryListView> list;
+
 
     public InventoryManagementView() {
         this.refresh = createGeneralButton("Refresh");
         this.products = createGeneralButton("Products");
         products.setPrefWidth(200);
         products.setPrefHeight(50);
+
 
         this.suppliers = createGeneralButton("Suppliers");
         this.customers = createGeneralButton("Customers");
@@ -52,8 +52,9 @@ public class InventoryManagementView implements Design {
         this.costPrice = createTextField("Cost Price");
         this.sellingPrice = createTextField("Selling Price");
         this.brand = createTextField("Brand");
-        this.add = createGeneralButton("Add");
+        this.restock = createGeneralButton("Restock");
         this.edit = createGeneralButton("Edit");
+        this.add = createGeneralButton("Add Product");
         this.delete = createGeneralButton("Delete");
         this.clear = createGeneralButton("Clear");
         this.signOut = createGeneralButton("Sign Out");
@@ -75,9 +76,10 @@ public class InventoryManagementView implements Design {
         Label costPrice = createAlignedBlackLabel("Cost Price", 80);
         Label sellingPrice = createAlignedBlackLabel("Selling Price", 100);
         Label brand = createAlignedBlackLabel("Brand", 80);
+        Label check=createAlignedBlackLabel("Check",54);
         //shto dhe supplier ktu(vetem name)
 
-        metadata.getChildren().addAll( id, name, quantity, costPrice, sellingPrice, brand);
+        metadata.getChildren().addAll( check,id, name, quantity, costPrice, sellingPrice, brand);
         return metadata;
     }
 
@@ -86,37 +88,51 @@ public class InventoryManagementView implements Design {
         pane.setStyle("-fx-font-family: Bahnschrift;" +
                 "-fx-font-size: 15;");
 
-        pane.getChildren().addAll(item.getId(), item.getName(), item.getQuantity(),
+        pane.getChildren().addAll(item.getSelect(),item.getId(), item.getName(), item.getQuantity(),
                 item.getCostPrice(), item.getSellingPrice(), item.getBrand());
         return pane;
     }
 
-    public VBox createProductLog() {
+    public ScrollPane createProductLog() {
+        ScrollPane scroll=new ScrollPane();
+        scroll.setPrefHeight(400);
+        scroll.setPrefWidth(800);
+        scroll.setStyle("-fx-background-color: rgba(167,246,8,0.3);" +
+                "-fx-font-family: Bahnschrift;" +
+                "-fx-border-radius: 30;" +
+                "-fx-background-radius: 30;" +
+                "-fx-padding: 10;");
+        scroll.setFitToWidth(true);
+        scroll.setPannable(true);
+        //scroll.setAlignment(Pos.TOP_CENTER);
         VBox box = new VBox(10);
         box.setMinHeight(400);
         box.setMinWidth(600);
         box.setStyle("-fx-background-color: rgba(167,246,8,0.3);" +
                 "-fx-font-family: Bahnschrift;" +
-                "-fx-border-radius: 30;" +
-                "-fx-background-radius: 30;" +
                 "-fx-padding: 10;");
         box.setAlignment(Pos.TOP_CENTER);
 
         Label headText = createAlignedGreenBoldLabel("Products", 150);
 
 
+
         VBox productList = new VBox(10);
         productList.setStyle("-fx-padding: 10;");
 
         // Here is the section for products(ItemBought)
-        list.add(new InventoryListView(1, "Laptop", 50, 100, 200, "MacBook"));
-        list.add(new InventoryListView(2, "Phone", 75, 700, 860, "Iphone 16"));
+       // for(int i=0;i<10;i++){
+            list.add(new InventoryListView(1, "Laptop", 50, 100, 200, "MacBook"));
+            list.add(new InventoryListView(2, "Phone", 75, 700, 860, "Iphone 16"));
+       // }
+
         for (InventoryListView item : list) {
             productList.getChildren().add(addRow(item));
         }
 
         box.getChildren().addAll(headText, addMetadata(), productList);
-        return box;
+        scroll.setContent(box);
+        return scroll;
     }
 
     public Scene createScene() {
@@ -126,18 +142,23 @@ public class InventoryManagementView implements Design {
         inventory.setPadding(new Insets(50, 100, 50, 100));
         inventory.setStyle("-fx-background-color: rgba(167,246,8,0.15)");
 
-       // Label label = createAlignedGreenBoldLabel("User: [Name Surname] (Administrator)", 50);
+        Label label = createAlignedGreenBoldLabel("Inventory Management", 200);
         HBox searchBox = new HBox(100);
-        searchBox.getChildren().addAll(search, refresh);
+        searchBox.getChildren().addAll(search, refresh,label);
 
-        VBox productLog=createProductLog();
+        ScrollPane productLog=createProductLog();
 
-        HBox buttons = new HBox(10);
-        buttons.getChildren().addAll(add, edit, delete, clear);
+        HBox buttons = new HBox(5);
+        buttons.getChildren().addAll(restock, edit, delete, clear);
+
+        HBox buttons1 = new HBox(50);
+        buttons1.getChildren().add(add);
+
 
         GridPane control = new GridPane();
         control.setHgap(10);
         control.setVgap(10);
+
 
         Label productCodeLabel = createAlignedGreenBoldLabel("Product Code", 150);
         Label productNameLabel = createAlignedGreenBoldLabel("Product Name", 150);
@@ -146,15 +167,20 @@ public class InventoryManagementView implements Design {
         Label costPriceLabel = createAlignedGreenBoldLabel("Cost Price", 150);
         Label sellingPriceLabel = createAlignedGreenBoldLabel("Selling Price", 150);
         Label brandLabel = createAlignedGreenBoldLabel("Brand", 150);
-
+        Label title=createAlignedGreenBoldLabel("Restock",200);
+        /*
         control.add(productCodeLabel, 0, 0);
         control.add(this.productCode,1,0);
         control.add(productNameLabel, 0, 2);
         control.add(productName,1,2);
         control.add(dateLabel, 0, 4);
         control.add(date,1,4);
+
+         */
         control.add(quantityLabel, 0, 6);
         control.add(quantity,1,6);
+        control.add(title,1,4);
+        /*
         control.add(costPriceLabel, 0, 8);
         control.add(costPrice,1,8);
         control.add(sellingPriceLabel, 0, 10);
@@ -162,22 +188,14 @@ public class InventoryManagementView implements Design {
         control.add(brandLabel, 0, 12);
         control.add(brand,1,12);
 
-        GridPane extra = new GridPane();
-        control.setHgap(10);
-        control.setVgap(10);
-        extra.add(products,0,0);
-        extra.add(suppliers,0,1);
-        extra.add(customers,0,2);
-        extra.add(sales,0,3);
-        extra.add(users,0,4);
 
 
-
-        inventory.add(extra,0,1);
-        inventory.add(searchBox, 1, 0);
-        inventory.add(productLog,1,1);
-        inventory.add(buttons, 2, 2);
-        inventory.add(control, 1, 2);
+         */
+        inventory.add(searchBox, 0, 0);
+        inventory.add(productLog,0,1);
+        inventory.add(buttons, 1, 2);
+        inventory.add(buttons1, 1, 3);
+        inventory.add(control, 1, 1);
 
 
         Scene scene = new Scene(inventory);
