@@ -14,6 +14,17 @@ public class Cashier extends User {
         this.shifts = shifts;
     }
 
+    public Shift getActiveShift(){
+        for(Shift shift: shifts){
+            if(shift.getShiftStatus().equals(ShiftStatus.ACTIVE)){
+                return shift;
+            }
+        }
+        return null;
+    }
+    public void startShiftForCashier(){
+
+    }
     public SectorType getSector() {
         return sector;
     }

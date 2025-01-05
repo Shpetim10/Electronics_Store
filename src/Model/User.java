@@ -51,107 +51,107 @@ public abstract class User {
     }
 
 
-    protected int getId() {
+    public int getId() {
         return id;
     }
 
-    protected void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    protected String getFirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
-    protected void setFirstName(String firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    protected String getLastName() {
+    public String getLastName() {
         return lastName;
     }
 
-    protected void setLastName(String lastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    protected String getUsername() {
+    public String getUsername() {
         return username;
     }
 
-    protected void setUsername(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
-    protected String getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    protected void setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    protected String getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    protected void setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    protected String getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    protected void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    protected Date getDateEmployed() {
+    public Date getDateEmployed() {
         return dateEmployed;
     }
 
-    protected void setDateEmployed(Date dateEmployed) {
+    public void setDateEmployed(Date dateEmployed) {
         this.dateEmployed = dateEmployed;
     }
 
-    protected String getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    protected void setPhoto(String photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 
-    protected EmployeeRole getRole() {
+    public EmployeeRole getRole() {
         return role;
     }
 
-    protected void setRole(EmployeeRole role) {
+    public void setRole(EmployeeRole role) {
         this.role = role;
     }
 
-    protected ArrayList<Permission> getPermissions() {
+    public ArrayList<Permission> getPermissions() {
         return permissions;
     }
 
-    protected void setPermissions(ArrayList<Permission> permissions) {
+    public void setPermissions(ArrayList<Permission> permissions) {
         this.permissions = permissions;
     }
 
-    protected boolean isActive() {
+    public boolean isActive() {
         return isActive;
     }
 
-    protected void setActive(boolean active) {
+    public void setActive(boolean active) {
         isActive = active;
     }
 
-    protected ArrayList<Notification> getNotifications() {
+    public ArrayList<Notification> getNotifications() {
         return notifications;
     }
 
-    protected void setNotifications(ArrayList<Notification> notifications) {
+    public void setNotifications(ArrayList<Notification> notifications) {
         this.notifications = notifications;
     }
 

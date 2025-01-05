@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 import java.util.ArrayList;
@@ -15,9 +16,9 @@ public class BillingSystemView implements Design{
     private ComboBox<String> category;
     private ComboBox<String> products;
     private Button addButton;
-    private TextField message;
+    private Label message;
     private ArrayList<ItemBoughtView> boughtItem;
-    private TextField totalPrice;
+    private Label totalPrice;
     private Button[] numberLog;
     private Button clear;
     private Button delete;
@@ -32,7 +33,7 @@ public class BillingSystemView implements Design{
         this.products=createComboBox("Select Product...");
         this.addButton=createGeneralButton("Add");
         this.boughtItem=new ArrayList<>();
-        this.totalPrice=createOutputTextField();
+        this.totalPrice=createAlignedGreenBoldLabel("",50);
 
         String numberButtonStyle=
                 "-fx-background-color: white ;" +
@@ -42,13 +43,14 @@ public class BillingSystemView implements Design{
                         " -fx-border-width: 4;" +
                         "-fx-font-family: Bahnschrift;" +
                         "-fx-font-weight: bold;" +
-                        "-fx-font-size: 30;";
-        this.numberLog=new Button[12];  //For Designing Number log buttons
+                        "-fx-font-size: 28;";
+        this.numberLog=new Button[13];  //For Designing Number log buttons
         for(int i=0;i<10;i++){
             this.numberLog[i]=createNumberButton(String.valueOf(i),numberButtonStyle);
         }
         this.numberLog[10]=createNumberButton("+",numberButtonStyle+"-fx-text-fill: green;");
         this.numberLog[11]=createNumberButton("-",numberButtonStyle+"-fx-text-fill: red;");
+        this.numberLog[12]=createNumberButton("←",numberButtonStyle+"-fx-text-fill: red;");
 
         this.clear=createGeneralButton("Clear");
         this.delete=createGeneralButton("Delete");
@@ -60,8 +62,8 @@ public class BillingSystemView implements Design{
         this.changeField=createTextField("Change...");
         this.changeField.setEditable(false);
 
-        this.message=createOutputTextField();
-        this.message.setStyle("-fx-text-fill: red;");
+        this.message=createAlignedGreenBoldLabel("",200);
+        this.message.setTextFill(Color.RED);
     }
 
     public HBox addMetadata(){
@@ -93,19 +95,20 @@ public class BillingSystemView implements Design{
         pane.setVgap(5);
         int cnt=1;
         //Add buttons 1-9
-        for(int i=0;i<3;i++){
+        for(int i=1;i<=3;i++){ //in the 0 row will be backspace button
             for(int j=0;j<3;j++){
                 pane.add(numberLog[cnt],j,i);
                 cnt++;
             }
         }
         //0 Button
-        pane.add(numberLog[0],1,3);
+        pane.add(numberLog[0],1,4);
         //+ Button
-        pane.add(numberLog[10],0,3);
+        pane.add(numberLog[10],0,4);
         //- Button
         pane.add(numberLog[11],2,3);
-
+        //Backspace button
+        pane.add(numberLog[12],2,0);
         return pane;
     }
     public VBox createProductLog(){
@@ -226,11 +229,11 @@ public class BillingSystemView implements Design{
         this.addButton = addButton;
     }
 
-    public TextField getMessage() {
+    public Label getMessage() {
         return message;
     }
 
-    public void setMessage(TextField message) {
+    public void setMessage(Label message) {
         this.message = message;
     }
 
@@ -242,11 +245,11 @@ public class BillingSystemView implements Design{
         this.boughtItem = boughtItem;
     }
 
-    public TextField getTotalPrice() {
+    public Label getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(TextField totalPrice) {
+    public void setTotalPrice(Label totalPrice) {
         this.totalPrice = totalPrice;
     }
 

@@ -8,7 +8,7 @@ public class ItemBoughtView implements Design{
     private CheckBox select;
     private Label id;
     private Label name;
-    private Label quantity; //Will change value
+    private TextField quantity; //Will change value
     private Label sellingPrice;
     private Label totalProductPrice; //Will change value
 
@@ -16,22 +16,21 @@ public class ItemBoughtView implements Design{
         this.select=createCheckBox();
         this.id=createAlignedBlackLabel(String.valueOf(id),40);
         this.name=createAlignedBlackLabel(name,200);
-        this.quantity=createAlignedBlackLabel("0",80);
-        quantity.setStyle("-fx-font-size: 15;" +
-                "-fx-font-weight: normal;");
+
+        this.quantity=createTransparentTextField();
+        this.quantity.setPrefWidth(80);
         this.quantity.setText("0");
+
         this.sellingPrice=createAlignedBlackLabel(String.valueOf(sellingPrice),50);
+
         this.totalProductPrice=createAlignedBlackLabel("0.0",80);
-        totalProductPrice.setStyle("-fx-font-size: 15;" +
-                "-fx-font-weight: normal;");
-        this.totalProductPrice.setText(String.valueOf(0.0));
     }
 
-    public Label getQuantity() {
+    public TextField getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Label quantity) {
+    public void setQuantity(TextField quantity) {
         this.quantity = quantity;
     }
 
