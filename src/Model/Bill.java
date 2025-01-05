@@ -1,23 +1,25 @@
 package Model;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class Bill implements CustomerLoyalty  {
     private long billId;
     private int cashierId;
     private Date dateGenerated;
     private LocalTime timeGenerated;
-    private List<ItemBought> itemBought;
+    private ArrayList<ItemBought> itemBought;
     private PaymentMethod paymentMethod;
     private int customerIdCard;
 
 
-        public Bill() {}//No Argument constructor
+        public Bill() {
+            this.itemBought=new ArrayList<>();
+        }//No Argument constructor
 
         public Bill(long billId, int cashierId, Date dateGenerated, LocalTime timeGenerated,
-                    List<ItemBought> itemBought, PaymentMethod paymentMethod, int customerIdCard) {
+                    ArrayList<ItemBought> itemBought, PaymentMethod paymentMethod, int customerIdCard) {
             this.billId = billId;
             this.cashierId = cashierId;
             this.dateGenerated = dateGenerated;
@@ -27,6 +29,24 @@ public class Bill implements CustomerLoyalty  {
             this.customerIdCard = customerIdCard;
         }
 
+        public double getTotalOfBill(){
+            double total=0;
+
+            for(ItemBought item: itemBought){
+                total+=item.getTotalProductPrice();
+            }
+
+            return total;
+        }
+        public double getTotalTaxOfBill(){
+            double tax=0;
+
+            for(ItemBought item: itemBought){
+                tax+=item.getTotalTaxRate();
+            }
+
+            return tax;
+        }
         // Getters and Setters
         public long getBillId() {
             return this.billId;
@@ -60,11 +80,11 @@ public class Bill implements CustomerLoyalty  {
             this.timeGenerated = timeGenerated;
         }
 
-        public List<ItemBought> getItemBought() {
+        public ArrayList<ItemBought> getItemBought() {
             return this.itemBought;
         }
 
-        public void setItemBought(List<ItemBought> itemBought) {
+        public void setItemBought(ArrayList<ItemBought> itemBought) {
             this.itemBought = itemBought;
         }
 

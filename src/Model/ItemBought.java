@@ -20,10 +20,14 @@ public class ItemBought  {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+
     public double getTotalProductPrice(){
         return item.getSellingPrice()*this.quantity;
     }
     public double getTotalTaxRate(){
         return 0.2*getTotalProductPrice();
     }
+
+
 }
