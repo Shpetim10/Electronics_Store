@@ -2,7 +2,7 @@ package Model;
 
 import java.util.*;
 
-public class Cashier extends User {
+public class Cashier extends User implements InventoryManagement{
     private SectorType sector;
     private ArrayList<Shift> shifts;
 
@@ -12,6 +12,11 @@ public class Cashier extends User {
         super(id, firstName, lastName,username,password, email, phoneNumber,dateEmployed, photo, role, permissions, isActive, notifications);
         this.sector = sector;
         this.shifts = shifts;
+    }
+
+    public Cashier(int id, String firstName, String lastName, String username, String password, String email, String phoneNumber, Date dateEmployed, EmployeeRole role, ArrayList<Permission> permissions, boolean isActive){
+        super(id,firstName,lastName,username,password,email,phoneNumber,dateEmployed,role,permissions,isActive);
+        this.shifts=new ArrayList<>();
     }
 
     public Shift getActiveShift(){

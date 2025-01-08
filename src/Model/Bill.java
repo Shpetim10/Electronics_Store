@@ -1,13 +1,13 @@
 package Model;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Bill implements CustomerLoyalty  {
     private long billId;
     private int cashierId;
-    private Date dateGenerated;
+    private LocalDate dateGenerated;
     private LocalTime timeGenerated;
     private ArrayList<ItemBought> itemBought;
     private PaymentMethod paymentMethod;
@@ -18,7 +18,7 @@ public class Bill implements CustomerLoyalty  {
             this.itemBought=new ArrayList<>();
         }//No Argument constructor
 
-        public Bill(long billId, int cashierId, Date dateGenerated, LocalTime timeGenerated,
+        public Bill(long billId, int cashierId, LocalDate dateGenerated, LocalTime timeGenerated,
                     ArrayList<ItemBought> itemBought, PaymentMethod paymentMethod, int customerIdCard) {
             this.billId = billId;
             this.cashierId = cashierId;
@@ -47,6 +47,7 @@ public class Bill implements CustomerLoyalty  {
 
             return tax;
         }
+
         // Getters and Setters
         public long getBillId() {
             return this.billId;
@@ -64,11 +65,11 @@ public class Bill implements CustomerLoyalty  {
             this.cashierId = cashierId;
         }
 
-        public Date getDateGenerated() {
+        public LocalDate getDateGenerated() {
             return this.dateGenerated;
         }
 
-        public void setDateGenerated(Date dateGenerated) {
+        public void setDateGenerated(LocalDate dateGenerated) {
             this.dateGenerated = dateGenerated;
         }
 
