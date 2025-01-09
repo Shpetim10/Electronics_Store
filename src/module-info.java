@@ -10,4 +10,8 @@ module Electronics.Store {
     exports Model;
     //exports Files;
     exports Exceptions;
+    exports MainRoot;
+    exports View.PerformanceReportView;
+    opens View.PerformanceReportView;
+    opens View;
 }

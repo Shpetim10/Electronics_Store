@@ -3,7 +3,6 @@ package View;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 
-
 public class ProductInformationView implements Design {
 
 private Label name;
@@ -20,7 +19,6 @@ private Label weight;
 private CheckBox isAvailable;
 private CheckBox isDiscontinued;
 private Label priceBought;
-
 
     public ProductInformationView(String name, long productId, int quantity, double price,
                                   String sector, String description, String supplier, String brand) {
@@ -86,5 +84,4 @@ private Label priceBought;
     public Label getPriceBought() {
         return priceBought;
     }
-
 }
