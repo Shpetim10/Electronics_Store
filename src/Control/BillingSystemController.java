@@ -163,7 +163,7 @@ public class BillingSystemController {
         return false;
     } //Sh
 
-    public boolean validateCustomerCardExistance(Bill bill,int code){
+    public boolean validateCustomerExistance(Bill bill,int code){
         for(Map.Entry<Integer,Integer> customer : bill.customers.entrySet()){
             if(customer.getKey()==code) return true;
         }

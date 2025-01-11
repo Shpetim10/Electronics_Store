@@ -5,9 +5,10 @@ module Electronics.Store {
     requires java.desktop;
 
     opens MainRoot;
+    opens Images;
+
     exports Control;
     exports View;
     exports Model;
-    //exports Files;
     exports Exceptions;
 }

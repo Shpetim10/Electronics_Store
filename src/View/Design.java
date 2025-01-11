@@ -61,9 +61,29 @@ public interface Design {
         label.setAlignment(Pos.CENTER_LEFT);
         return label;
     }
+    default Label createAlignedBlackLabel(String text){
+        Label label=new Label(text);
+        label.setAlignment(Pos.CENTER_LEFT);
+        return label;
+    }
+    default Label createAlignedBlackBoldLabel(String text){
+        Label label=new Label(text);
+        label.setFont(Font.font("Bahnschrift",FontWeight.BOLD,13));
+        label.setAlignment(Pos.CENTER_LEFT);
+        return label;
+    }
     default Label createAlignedGreenBoldLabel(String text, int width){
         Label label=new Label(text);
         label.setPrefWidth(width);
+        label.setAlignment(Pos.CENTER_LEFT);
+        label.setStyle("-fx-text-fill: green;" +
+                "-fx-font-family: Bahnschrift;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-size: 18;");
+        return label;
+    }
+    default Label createAlignedGreenBoldLabel(String text){
+        Label label=new Label(text);
         label.setAlignment(Pos.CENTER_LEFT);
         label.setStyle("-fx-text-fill: green;" +
                 "-fx-font-family: Bahnschrift;" +

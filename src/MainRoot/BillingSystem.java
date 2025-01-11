@@ -1,8 +1,10 @@
 package MainRoot;
 
 import View.BillingSystemView;
+import View.BillingSystemViewFinal;
 import View.Design;
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class BillingSystem extends Application implements Design {
@@ -12,9 +14,9 @@ public class BillingSystem extends Application implements Design {
 
     @Override
     public void start(Stage primaryStage){
-        BillingSystemView view=new BillingSystemView();
+        BillingSystemViewFinal view=new BillingSystemViewFinal();
         primaryStage.setTitle("Billing System");
-        primaryStage.setScene(view.createScene());
+        primaryStage.setScene(new Scene(view));
         primaryStage.setMaximized(true);
         primaryStage.show();
     }
