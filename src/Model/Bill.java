@@ -112,17 +112,17 @@ public class Bill implements CustomerLoyalty  {
             output.println("-".repeat(140));
         }   //Sh
         public String createBillPath(){
-            String absolutePath = "C:\\Users\\Shpëtim Shabanaj\\OneDrive\\Desktop\\OOP Project\\ElectronicsStore_ShpëtimShabanaj\\Electronics_Store\\src\\Files\\Bills\\";
-            absolutePath += "Cashier" + cashier.getId(); //Add to folder of the current cashier
-            absolutePath += "\\Shift" + cashier.getActiveShift().getShiftId() + "\\";
-            File directory = new File(absolutePath);
+            String path = "src/Files/Bills/";
+            path += "Cashier" + cashier.getId(); //Add to folder of the current cashier
+            path += "/Shift" + cashier.getActiveShift().getShiftId() + "/";
+            File directory = new File(path);
 
             if (!directory.exists()) {
                 directory.mkdirs(); // Create directories if they do not exist
             }
 
-            absolutePath += "Bill" + this.getBillId() + "_" + this.getDateGenerated().getDayOfMonth() + "_" + this.getDateGenerated().getMonth() + "_" + this.getDateGenerated().getYear() + ".txt";
-            return absolutePath;
+            path += "Bill" + this.getBillId() + "_" + this.getDateGenerated().getDayOfMonth() + "_" + this.getDateGenerated().getMonth() + "_" + this.getDateGenerated().getYear() + ".txt";
+            return path;
     }  //Sh
 
         public double getTotalOfBill(){
