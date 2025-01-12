@@ -4,7 +4,7 @@ import Exceptions.ItemNotFoundException;
 import Exceptions.InsuffitientStockException;
 import Exceptions.OutOfStockException;
 import Model.*;
-import View.BillingSystemView;
+import View.BillingSystemView.BillingSystemView;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -19,6 +19,7 @@ public class BillingSystemController {
         setCustomerInfoButtonListener();
         setPayByCreditCardRbListener();
         setPayCashRbListener();
+
     }
 
     //Useful Methods
@@ -98,59 +99,68 @@ public class BillingSystemController {
 
     //Setting Actions
     public void setCustomerInfoButtonListener(){
-        view.getCustomerInfoButton().setOnAction(
+        view.getCheckOutPane().getCustomerInfoButton().setOnAction(
                 e->{
-                    view.getErrorMessage().setText("");
-                    view.getTemporaryPane().getChildren().clear();
-                    view.getTemporaryPane().setCenter(view.createCustomerBox());
+                    view.getProductCartBox().getErrorMessage().setText("");
+                    view.getCheckOutPane().getTemporaryPane().getChildren().clear();
+                    view.getCheckOutPane().getTemporaryPane().setCenter(view.getCheckOutPane().createCustomerBox());
                 }
         );
     }
     public void setCreditCardButtonListener(){
 
-            view.getCreditCardButton().setOnAction(
+            view.getCheckOutPane().getCreditCardButton().setOnAction(
                     e -> {
-                        if(view.getPayByCreditCardRb().isSelected()){
-                            view.getErrorMessage().setText("");
-                            view.getTemporaryPane().getChildren().clear();
-                            view.getTemporaryPane().setCenter(view.createCreditCardBox());
+                        if(view.getCheckOutPane().getPayByCreditCardRb().isSelected()){
+                            view.getProductCartBox().getErrorMessage().setText("");
+                            view.getCheckOutPane().getTemporaryPane().getChildren().clear();
+                            view.getCheckOutPane().getTemporaryPane().setCenter(view.getCheckOutPane().createCreditCardBox());
                         }
                         else{
-                            view.getErrorMessage().setText("Please select Credit Card as payment method!");
+                            view.getProductCartBox().getErrorMessage().setText("Please select Credit Card as payment method!");
                         }
                     }
             );
     }
     public void setCashButtonListener(){
 
-            view.getCalculateCashButton().setOnAction(
+            view.getCheckOutPane().getCalculateCashButton().setOnAction(
                     e-> {
-                        if(view.getPayCashRb().isSelected()){
-                            view.getErrorMessage().setText("");
-                            view.getTemporaryPane().getChildren().clear();
-                            view.getTemporaryPane().setCenter(view.createCashAndChangeBox());
+                        if(view.getCheckOutPane().getPayCashRb().isSelected()){
+                            view.getProductCartBox().getErrorMessage().setText("");
+                            view.getCheckOutPane().getTemporaryPane().getChildren().clear();
+                            view.getCheckOutPane().getTemporaryPane().setCenter(view.getCheckOutPane().createCashAndChangeBox());
                         }
                         else{
-                            view.getErrorMessage().setText("Please select pay cash as payment method!");
+                            view.getProductCartBox().getErrorMessage().setText("Please select pay cash as payment method!");
                         }
                     }
             );
         }
     public void setPayCashRbListener(){
-        view.getPayCashRb().setOnAction(
+        view.getCheckOutPane().getPayCashRb().setOnAction(
                 e->{
-                    view.getErrorMessage().setText("");
-                    view.getPayCashRb().setSelected(true);
+                    view.getProductCartBox().getErrorMessage().setText("");
+                    view.getCheckOutPane().getPayCashRb().setSelected(true);
                 }
         );
     }
     public void setPayByCreditCardRbListener(){
-        view.getPayByCreditCardRb().setOnAction(
+        view.getCheckOutPane().getPayByCreditCardRb().setOnAction(
                 e->{
-                    view.getErrorMessage().setText("");
-                    view.getPayByCreditCardRb().setSelected(true);
+                    view.getProductCartBox().getErrorMessage().setText("");
+                    view.getCheckOutPane().getPayByCreditCardRb().setSelected(true);
                 }
         );
     }
+//    public void setDeleteButtonListener(){
+//        view.getDeleteButton().setOnAction(e -> {
+//            ItemBought item = (ItemBought) view.getProductCartTable().getSelectionModel().getSelectedItem();
+//            if (item != null) {
+//                view.getProductCartTable().getItems().remove(item);
+//            }
+//        });
+//    }
+
 }
 

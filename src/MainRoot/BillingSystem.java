@@ -2,7 +2,6 @@ package MainRoot;
 
 import Control.BillingSystemController;
 import Model.*;
-import View.BillingSystemView;
 import View.Design;
 import javafx.application.Application;
 import javafx.scene.Scene;

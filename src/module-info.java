@@ -11,4 +11,5 @@ module Electronics.Store {
     exports View;
     exports Model;
     exports Exceptions;
+    exports View.BillingSystemView;
 }

@@ -1,5 +1,9 @@
 package Model;
 
+import Exceptions.InsuffitientStockException;
+import Exceptions.ItemNotFoundException;
+import Exceptions.OutOfStockException;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -7,6 +11,7 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Bill implements CustomerLoyalty  {
     private long billId;
@@ -65,61 +70,59 @@ public class Bill implements CustomerLoyalty  {
             return billFile;
         }  //Sh
         public void writeBill(PrintWriter output){
-        output.printf("%70s\n","Electronics Store");
-        output.println("-".repeat(140)+"\n");
-        output.println("Address:\t\tTirana, Albania\n");
-        output.println("Date:\t\t"+ this.getDateGenerated());
-        output.println("Time:\t\t"+ this.getTimeGenerated()+"\n\n");
-        output.println("CashierId:\t\t"+ this.getCashierId());
-        output.println("Customer Id:\t\t"+"\n\n");    //Update customer card id
-        output.println("Customer Card Id:\t\t");      //Update
-        output.printf("\n\n%70s\n\n","Fiscal Bill");
-        output.printf("%15s%40s%15s%20s%15s%30s\n","Id","Product Name","Quantity","Price","Total Tax","Total Price");
-        output.println("-".repeat(140)+"\n");
+            output.printf("%70s\n", "Electronics Store");
+            output.println("-".repeat(140) + "\n");
+            output.println("Address:\t\tTirana, Albania\n");
+            output.println("Date:\t\t" + this.getDateGenerated());
+            output.println("Time:\t\t" + this.getTimeGenerated() + "\n\n");
+            output.println("CashierId:\t\t" + this.getCashierId());
+            output.println("Customer Id:\t\t" + "\n\n");    //Update customer card id
+            output.println("Customer Card Id:\t\t");      //Update
+            output.printf("\n\n%70s\n\n", "Fiscal Bill");
+            output.printf("%15s%40s%15s%20s%15s%30s\n", "Id", "Product Name", "Quantity", "Price", "Total Tax", "Total Price");
+            output.println("-".repeat(140) + "\n");
 
-        if (this.getItemBought() != null) {
-            for (ItemBought itemBought : this.getItemBought()) {
-                output.printf("%15d%40s%15d%20.2f%15.2f%30.2f\n",
-                        itemBought.getProductId(),
-                        itemBought.getProductName(),
-                        itemBought.getQuantity(),
-                        itemBought.getSellingPrice(),
-                        itemBought.getTotalTax(),
-                        itemBought.getTotalPrice());
+            if (this.getItemBought() != null) {
+                for (ItemBought itemBought : this.getItemBought()) {
+                    output.printf("%15d%40s%15d%20.2f%15.2f%30.2f\n",
+                            itemBought.getProductId(),
+                            itemBought.getProductName(),
+                            itemBought.getQuantity(),
+                            itemBought.getSellingPrice(),
+                            itemBought.getTotalTax(),
+                            itemBought.getTotalPrice());
+                }
+            } else {
+                output.println("No items purchased.\n");
             }
-        }
-        else {
-            output.println("No items purchased.\n");
-        }
 
-        output.println("-".repeat(140)+"\n\n");
-        output.printf("%80s\t\t%20f\n","Total of Bill:",this.getTotalOfBill());
-        output.printf("%80s\t\t%20f\n","Tax of Bill:",this.getTotalTaxOfBill());
+            output.println("-".repeat(140) + "\n\n");
+            output.printf("%80s\t\t%20f\n", "Total of Bill:", this.getTotalOfBill());
+            output.printf("%80s\t\t%20f\n", "Tax of Bill:", this.getTotalTaxOfBill());
 
-        output.println("Payment Method:\t\t"+this.getPaymentMethod());
-        if(this.getPaymentMethod().equals(PaymentMethod.CASH)){
-            output.println("Money given:\t\t");  //Update
-            output.println("Change:\t\t");   //Update
-        }
-        else if(this.getPaymentMethod().equals(PaymentMethod.CARD)){
-            output.println("Full Name:\t\t");
-            output.println("Card Number:\t\t"); //Update
-        }
-        output.printf("%70s\n","Thank You for shopping with us!");
-        output.println("-".repeat(140));
+            output.println("Payment Method:\t\t" + this.getPaymentMethod());
+            if (this.getPaymentMethod().equals(PaymentMethod.CASH)) {
+                output.println("Money given:\t\t");  //Update
+                output.println("Change:\t\t");   //Update
+            } else if (this.getPaymentMethod().equals(PaymentMethod.CARD)) {
+                output.println("Full Name:\t\t");
+                output.println("Card Number:\t\t"); //Update
+            }
+            output.printf("%70s\n", "Thank You for shopping with us!");
+            output.println("-".repeat(140));
         }   //Sh
         public String createBillPath(){
-        String absolutePath="C:\\Users\\Shpëtim Shabanaj\\OneDrive\\Desktop\\OOP Project\\ElectronicsStore_ShpëtimShabanaj\\Electronics_Store\\src\\Files\\Bills\\";
-        absolutePath+="Cashier"+cashier.getId(); //Add to folder of the current cashier
-        absolutePath+="\\Shift"+cashier.getActiveShift().getShiftId()+"\\";
-        File directory=new File(absolutePath);
+            String absolutePath = "C:\\Users\\Shpëtim Shabanaj\\OneDrive\\Desktop\\OOP Project\\ElectronicsStore_ShpëtimShabanaj\\Electronics_Store\\src\\Files\\Bills\\";
+            absolutePath += "Cashier" + cashier.getId(); //Add to folder of the current cashier
+            absolutePath += "\\Shift" + cashier.getActiveShift().getShiftId() + "\\";
+            File directory = new File(absolutePath);
 
-        if (!directory.exists()) {
-            directory.mkdirs(); // Create directories if they do not exist
-        }
+            if (!directory.exists()) {
+                directory.mkdirs(); // Create directories if they do not exist
+            }
 
-        absolutePath+="Bill"+this.getBillId()+"_"+this.getDateGenerated().getDayOfMonth()+"_"+this.getDateGenerated().getMonth()+"_"+this.getDateGenerated().getYear()+".txt";
-        return absolutePath;
+            absolutePath += "Bill" + this.getBillId() + "_" + this.getDateGenerated().getDayOfMonth() + "_" + this.getDateGenerated().getMonth() + "_" + this.getDateGenerated().getYear() + ".txt";
+            return absolutePath;
     }  //Sh
 
         public double getTotalOfBill(){
@@ -141,6 +144,71 @@ public class Bill implements CustomerLoyalty  {
 
             return tax;
         }
+
+        public void addProductToCart(String productName) throws ItemNotFoundException, OutOfStockException, InsuffitientStockException {
+            Item bought = null;
+            for (Item item : cashier.items) {
+                if (productName.equals(item.getProductName())) {
+                    bought = item;
+                    break;
+                }
+            }
+            if (bought == null) throw new ItemNotFoundException(productName);
+            if (bought.getStockQuantity() == 0) throw new OutOfStockException();
+
+            int quantity = 0;
+            //Get Quantity from view and validate
+
+            if (!checkInventoryStockAvailable(bought, quantity)) throw new InsuffitientStockException();
+
+            // bill.getItemBought().add(new ItemBought(bought,quantity));
+            bought.decrementStock(quantity);
+        } //Sh
+
+        public void removeProductFromCart(int productId){//Will get from ItemBoughtView when selected, use a for loop to check each item if selected
+            for(ItemBought bought :this.getItemBought()){
+            //A condition to check checkbox can be added here
+                if(bought.getProductId()==productId){
+                    this.getItemBought().remove(bought);
+                    bought.getItem().incrementStock(bought.getQuantity());
+                    break;
+                }
+            }
+        } //Sh
+
+        public ArrayList<String> getProductNamesByCategory(SectorType type) throws ItemNotFoundException{
+            ArrayList<String> result=new ArrayList<>();
+            for(Item item: cashier.items){
+                if(item.getSector()==type){
+                    result.add(item.getProductName());
+                }
+            }
+            if(result.isEmpty()) throw new ItemNotFoundException("of type "+type+" ");
+
+            return result;
+        } //Sh
+
+        public void clearCart(){
+            this.getItemBought().clear();
+        } //Sh
+
+        public boolean checkInventoryStockAvailable(Item product, int quantity){
+        return product.getStockQuantity()-quantity>0;
+    }//Sh
+
+        public boolean validateGiftCardExistance(Bill bill,String code){
+        for(Map.Entry<String,Double> card: bill.giftCards.entrySet()){
+            if(card.getKey().equals(code)) return true;
+        }
+        return false;
+    } //Sh
+
+        public boolean validateCustomerExistance(Bill bill,int code){
+        for(Map.Entry<Integer,Integer> customer : bill.customers.entrySet()){
+            if(customer.getKey()==code) return true;
+        }
+        return false;
+    } //Sh
 
         // Getters and Setters
         public long getBillId() {

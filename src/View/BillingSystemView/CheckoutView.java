@@ -1,29 +1,21 @@
-package View;
+package View.BillingSystemView;
 
-import Model.ItemBought;
+import View.Design;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-//Sh
-public class BillingSystemView extends HBox implements Design{
-    private VBox productCartBox;
-    private GridPane checkOutPane;
+public class CheckoutView extends GridPane implements Design {
     private BorderPane temporaryPane=new BorderPane();
-    private final SearchBoxPane searchBox=new SearchBoxPane("Search Product...");
-    private Label totalBillNumber =createAlignedBlackLabel("0");
-    private Label moneyCollected=createAlignedBlackLabel("0");
-    private Label taxCollected=createAlignedBlackLabel("0");
-    private Label customerId=createAlignedBlackLabel("00000000");
-    private Label loyaltyPoints=createAlignedBlackLabel("0");
-    private Button clearCart=createGeneralButton("Clear Cart");
     private Label generatedDateTime=createAlignedBlackLabel("0");
     private Label billId=createAlignedBlackLabel("0");
     private Label collectedMoney=createAlignedBlackLabel("0");
@@ -43,66 +35,24 @@ public class BillingSystemView extends HBox implements Design{
     private TextField creditCardExpDate=createTextField("Expiration day...");
     private PasswordField creditCardCVV=createPasswordField();
     private TextField customerIdTf=createTextField("Customer ID...");
+    private Label loyaltyPoints=createAlignedBlackLabel("0");
     private Label billLoyalyPoints=createAlignedBlackLabel("");
-    private TableView productCartTable=createTableView();
     private RadioButton payCashRb=new RadioButton("Cash");
     private RadioButton payByCreditCardRb=new RadioButton("Credit Card");
-    private Label errorMessage=createAlignedBlackBoldLabel("");
-    public BillingSystemView(){
-        setupView();
+
+    public CheckoutView(){
+        setUpView();
     }
-    public void setupView(){
-        //Scene will be divided into 2 parts, left will be product card and right checkout
-        //Left part is ProductCart
-        setUpProductCartView();
-
-        //Right part for checkout
-        setUpCheckoutView();
-
-        //Arranging view
-        this.setPadding(new Insets(10,10,10,10));
-        this.setStyle("-fx-background-color: rgba(167,246,8,0.15);");
-        this.setSpacing(30);
-        this.getChildren().addAll(productCartBox,checkOutPane);
-    }
-
-    public void setUpProductCartView(){
-        //Product Cart
-        this.productCartBox=new VBox(10);
-        productCartBox.setStyle("-fx-background-color: transparent;");
-        productCartBox.prefWidthProperty().bind(this.widthProperty().divide(2));
-        productCartBox.prefHeightProperty().bind(this.heightProperty());
-
-        Label title=createAlignedGreenBoldLabel("Billing System",150);
-
-        //Total Sales Info Pane and Customer Info
-        HBox infoBox=new HBox(10);
-        Label todaySaleTitle=createAlignedGreenBoldLabel("Today's Sales");
-        infoBox.getChildren().addAll(createTodaySalesInfoPane(),createCustomerInfoPane());
-
-        //Header of product cart
-        HBox headerBox=new HBox(20);
-        Label productCartTitle=createAlignedGreenBoldLabel("Product Cart");
-        headerBox.getChildren().addAll(productCartTitle,searchBox,clearCart);
-        errorMessage.setTextFill(Color.RED);
-        errorMessage.setAlignment(Pos.CENTER);
-
-        productCartBox.getChildren().addAll(title,todaySaleTitle,infoBox,headerBox,errorMessage,productCartTable);
-    }
-
-    public void setUpCheckoutView(){
-        checkOutPane=new GridPane();
-        checkOutPane.setHgap(20);
-        checkOutPane.setVgap(10);
-        checkOutPane.setStyle("-fx-background-color: white;" +
+    public void setUpView(){
+        this.setHgap(20);
+        this.setVgap(10);
+        this.setStyle("-fx-background-color: white;" +
                 "-fx-border-radius: 10;" +
                 "-fx-background-radius: 10;" +
                 "-fx-border-color: yellowgreen;" +
                 "-fx-border-width: 1;");
-        checkOutPane.setAlignment(Pos.CENTER);
-        checkOutPane.prefWidthProperty().bind(this.widthProperty().divide(2));
-        checkOutPane.prefHeightProperty().bind(this.heightProperty());
-        checkOutPane.setPadding(new Insets(20,20,20,20));
+        this.setAlignment(Pos.CENTER);
+        this.setPadding(new Insets(20,20,20,20));
 
         //Titles
         Label checkoutTitle=createAlignedGreenBoldLabel("Checkout\n");
@@ -134,78 +84,26 @@ public class BillingSystemView extends HBox implements Design{
         Label totalTitle=createAlignedGreenBoldLabel("Total");
 
         //Adding to checkout gridpane
-        checkOutPane.add(checkoutTitle,0,0);
-        checkOutPane.add(dateTitle,0,1);
-        checkOutPane.add(generatedDateTime,1,1);
-        checkOutPane.add(billIdTitle,0,2);
-        checkOutPane.add(billId,1,2);
-        checkOutPane.add(collectAmountBox,0,3);
-        checkOutPane.add(changeAmountBox,1,3);
-        checkOutPane.add(paymentMethodTitle,0,4);
-        checkOutPane.add(paymentBox,1,4);
-        checkOutPane.add(buttonBox,0,5);
-        checkOutPane.add(temporaryPane,1,5);
-        checkOutPane.add(noTaxTitle,0,6);
-        checkOutPane.add(noTaxTotal,1,6);
-        checkOutPane.add(taxesTitle,0,7);
-        checkOutPane.add(taxAmount,1,7);
-        checkOutPane.add(totalTitle,0,8);
-        checkOutPane.add(totalAmount,1,8);
-        checkOutPane.add(newBillButton,0,9);
-        checkOutPane.add(generateBillButton,1,9);
+        this.add(checkoutTitle,0,0);
+        this.add(dateTitle,0,1);
+        this.add(generatedDateTime,1,1);
+        this.add(billIdTitle,0,2);
+        this.add(billId,1,2);
+        this.add(collectAmountBox,0,3);
+        this.add(changeAmountBox,1,3);
+        this.add(paymentMethodTitle,0,4);
+        this.add(paymentBox,1,4);
+        this.add(buttonBox,0,5);
+        this.add(temporaryPane,1,5);
+        this.add(noTaxTitle,0,6);
+        this.add(noTaxTotal,1,6);
+        this.add(taxesTitle,0,7);
+        this.add(taxAmount,1,7);
+        this.add(totalTitle,0,8);
+        this.add(totalAmount,1,8);
+        this.add(newBillButton,0,9);
+        this.add(generateBillButton,1,9);
     }
-
-    public GridPane createTodaySalesInfoPane(){
-        GridPane todaysaleInfo=new GridPane();
-
-        todaysaleInfo.setHgap(100);
-        todaysaleInfo.setVgap(15);
-
-        todaysaleInfo.setStyle("-fx-background-color: white;" +
-                "-fx-background-radius: 10;" +
-                "-fx-border-radius: 10;" +
-                "-fx-border-color: yellowgreen;" +
-                "-fx-border-width: 1;");
-        todaysaleInfo.setPadding(new Insets(10,10,10,10));
-        todaysaleInfo.setPrefWidth(350);
-        Label billNrTitle=createAlignedBlackBoldLabel("Total Bills");
-        Label moneyTitle=createAlignedBlackBoldLabel("Collected Money");
-        Label taxTitle=createAlignedBlackBoldLabel("Collected Tax");
-
-
-        todaysaleInfo.add(billNrTitle,0,0);
-        todaysaleInfo.add(totalBillNumber,1,0);
-        todaysaleInfo.add(moneyTitle,0,1);
-        todaysaleInfo.add(moneyCollected,1,1);
-        todaysaleInfo.add(taxTitle,0,2);
-        todaysaleInfo.add(taxCollected,1,2);
-        return todaysaleInfo;
-    }
-
-    public GridPane createCustomerInfoPane(){
-        GridPane customerInfo=new GridPane();
-        customerInfo.setHgap(100);
-        customerInfo.setVgap(15);
-
-        customerInfo.setStyle("-fx-background-color: white;" +
-                "-fx-background-radius: 10;" +
-                "-fx-border-radius: 10;" +
-                "-fx-border-color: yellowgreen;" +
-                "-fx-border-width: 1;");
-        customerInfo.setPadding(new Insets(10,10,10,10));
-        customerInfo.setPrefWidth(350);
-
-        Label customerIdTitle=createAlignedBlackBoldLabel("Customer Personal Id");
-        Label loyaltyPointsTitle=createAlignedBlackBoldLabel("Loyalty Points");
-
-        customerInfo.add(customerIdTitle,0,0);
-        customerInfo.add(customerId,0,1);
-        customerInfo.add(loyaltyPointsTitle,1,0);
-        customerInfo.add(loyaltyPoints,1,1);
-
-        return customerInfo;
-        }
-
     public VBox createStyledVBoxForInfo(String titleText, Label content) {
         VBox box = new VBox(5);
         Label title = createAlignedBlackBoldLabel(titleText);
@@ -289,77 +187,8 @@ public class BillingSystemView extends HBox implements Design{
         return grid;
     }
 
-    public TableView createTableView(){
-        TableView<ItemBought> table=new TableView<>();
-        table.setStyle("-fx-background-color: white;" +
-                "-fx-border-radius: 30;" +
-                "-fx-background-radius: 30;" +
-                "-fx-border-width: 1;" +
-                "-fx-border-color: yellowgreen;");
-
-        TableColumn<ItemBought,Integer> idColumn=new TableColumn<>("Product ID");
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("productId"));
-
-
-        TableColumn<ItemBought,String> nameColumn=new TableColumn<>("Product Name");
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
-
-        TableColumn<ItemBought,Integer> quantityColumn=new TableColumn<>("Quantity");
-        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-
-        TableColumn<ItemBought,Double> sellingPriceColumn=new TableColumn<>("Selling Price");
-        sellingPriceColumn.setCellValueFactory(new PropertyValueFactory<>("sellingPrice"));
-
-        TableColumn<ItemBought,Double> totalTaxColumn=new TableColumn<>("Total Tax");
-        totalTaxColumn.setCellValueFactory(new PropertyValueFactory<>("totalTax"));
-
-        TableColumn<ItemBought,Double> totalPriceColumn=new TableColumn<>("Total Price");
-        totalPriceColumn.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
-
-        table.getColumns().addAll(idColumn,nameColumn,quantityColumn,sellingPriceColumn,totalTaxColumn,totalPriceColumn);
-
-
-        return table;
-    }
-
-    public VBox getProductCartBox() {
-        return productCartBox;
-    }
-
-    public GridPane getCheckOutPane() {
-        return checkOutPane;
-    }
-
     public BorderPane getTemporaryPane() {
         return temporaryPane;
-    }
-
-    public SearchBoxPane getSearchBox() {
-        return searchBox;
-    }
-
-    public Label getTotalBillNumber() {
-        return totalBillNumber;
-    }
-
-    public Label getMoneyCollected() {
-        return moneyCollected;
-    }
-
-    public Label getTaxCollected() {
-        return taxCollected;
-    }
-
-    public Label getCustomerId() {
-        return customerId;
-    }
-
-    public Label getLoyaltyPoints() {
-        return loyaltyPoints;
-    }
-
-    public Button getClearCart() {
-        return clearCart;
     }
 
     public Label getGeneratedDateTime() {
@@ -438,12 +267,12 @@ public class BillingSystemView extends HBox implements Design{
         return customerIdTf;
     }
 
-    public Label getBillLoyalyPoints() {
-        return billLoyalyPoints;
+    public Label getLoyaltyPoints() {
+        return loyaltyPoints;
     }
 
-    public TableView getProductCartTable() {
-        return productCartTable;
+    public Label getBillLoyalyPoints() {
+        return billLoyalyPoints;
     }
 
     public RadioButton getPayCashRb() {
@@ -452,9 +281,5 @@ public class BillingSystemView extends HBox implements Design{
 
     public RadioButton getPayByCreditCardRb() {
         return payByCreditCardRb;
-    }
-
-    public Label getErrorMessage() {
-        return errorMessage;
     }
 }
