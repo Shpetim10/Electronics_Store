@@ -10,15 +10,17 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Map;
 
 public class BillingSystemController {
-    private BillingSystemView view;
+    private BillingSystemView view=new BillingSystemView();
     private Cashier cashier;
+
     public BillingSystemController(Cashier cashier){
-        //this.view=new BillingSystemView();
         this.cashier=cashier;
+        setCashButtonListener();
+        setCreditCardButtonListener();
+        setCustomerInfoButtonListener();
     }
 
     //Useful Methods
@@ -38,10 +40,8 @@ public class BillingSystemController {
         bill.setPaymentMethod(PaymentMethod.CASH);  // Will be gotten from combo box
 
         //Methods for getting items of card
-        int[] dimensions1={10, 20, 30};
-        int[] dimensions2={10, 20, 30};
-        bill.getItemBought().add(new ItemBought(new Item(101, "Laptop", SectorType.ELECTRONICS, "High-performance laptop", 1200.00, 1000.00, new Supplier(), true, 10.0, 50, false, 2.5, 0.03, dimensions1, "Silver", "TechBrand", 24, false, true, new Date(), 4.5, "laptop_image.jpg", "123456789012", 5),2));
-        bill.getItemBought().add(new ItemBought(new Item(102, "Smartphone", SectorType.ELECTRONICS, "Latest model smartphone", 800.00, 700.00, new Supplier(), false, 0.0, 100, true, 0.2, 0.001, dimensions2, "Black", "PhoneBrand", 12, false, true, new Date(), 4.8, "smartphone_image.jpg", "987654321098", 2),4));
+        bill.getItemBought().add(new ItemBought(101, "Laptop",4,2000));
+        bill.getItemBought().add(new ItemBought(102, "Phone",2,1000));
 
         //Create absolutePath of file
         File billFile=new File(createBillPath(bill));
@@ -70,12 +70,12 @@ public class BillingSystemController {
         if (bill.getItemBought() != null) {
             for (ItemBought itemBought : bill.getItemBought()) {
                 output.printf("%15d%40s%15d%20.2f%15.2f%30.2f\n",
-                        itemBought.getItem().getProductId(),
-                        itemBought.getItem().getProductName(),
+                        itemBought.getProductId(),
+                        itemBought.getProductName(),
                         itemBought.getQuantity(),
-                        itemBought.getItem().getSellingPrice(),
-                        itemBought.getTotalTaxRate(),
-                        itemBought.getTotalProductPrice());
+                        itemBought.getSellingPrice(),
+                        itemBought.getTotalTax(),
+                        itemBought.getTotalPrice());
             }
         }
         else {
@@ -121,14 +121,14 @@ public class BillingSystemController {
 
         if(!checkInventoryStockAvailable(bought,quantity)) throw new InsuffitientStockException();
 
-        bill.getItemBought().add(new ItemBought(bought,quantity));
+       // bill.getItemBought().add(new ItemBought(bought,quantity));
         bought.decrementStock(quantity);
     } //Sh
 
     public void removeProductFromCart(Bill bill,int productId){//Will get from ItemBoughtView when selected, use a for loop to check each item if selected
         for(ItemBought bought :bill.getItemBought()){
             //A condition to check checkbox can be added here
-            if(bought.getItem().getProductId()==productId){
+            if(bought.getProductId()==productId){
                 bill.getItemBought().remove(bought);
                 bought.getItem().incrementStock(bought.getQuantity());
                 break;
@@ -176,5 +176,31 @@ public class BillingSystemController {
 
     public void setView(BillingSystemView view) {
         this.view = view;
+    }
+
+    //Setting Actions
+    public void setCustomerInfoButtonListener(){
+        view.getCustomerInfoButton().setOnAction(
+                e->{
+                    view.getTemporaryPane().getChildren().clear();
+                    view.getTemporaryPane().setCenter(view.createCustomerBox());
+                }
+        );
+    }
+    public void setCreditCardButtonListener(){
+        view.getCreditCardButton().setOnAction(
+                e-> {
+                    view.getTemporaryPane().getChildren().clear();
+                    view.getTemporaryPane().setCenter(view.createCreditCardBox());
+                }
+        );
+    }
+    public void setCashButtonListener(){
+        view.getCalculateCashButton().setOnAction(
+                e-> {
+                    view.getTemporaryPane().getChildren().clear();
+                    view.getTemporaryPane().setCenter(view.createCashAndChangeBox());
+                }
+        );
     }
 }

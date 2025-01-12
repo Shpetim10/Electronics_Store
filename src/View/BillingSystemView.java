@@ -1,319 +1,431 @@
 package View;
 
+import Model.ItemBought;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 
-import java.util.ArrayList;
+//Sh
+public class BillingSystemView extends HBox implements Design{
+    private VBox productCartBox;
+    private GridPane checkOutPane;
+    private BorderPane temporaryPane=new BorderPane();
+    private final SearchBoxPane searchBox=new SearchBoxPane("Search Product...");
+    private Label totalBillNumber =createAlignedBlackLabel("0");
+    private Label moneyCollected=createAlignedBlackLabel("0");
+    private Label taxCollected=createAlignedBlackLabel("0");
+    private Label customerId=createAlignedBlackLabel("00000000");
+    private Label loyaltyPoints=createAlignedBlackLabel("0");
+    private Button clearCart=createGeneralButton("Clear Cart");
+    private Label generatedDateTime=createAlignedBlackLabel("0");
+    private Label billId=createAlignedBlackLabel("0");
+    private Label collectedMoney=createAlignedBlackLabel("0");
+    private Label changeMoney=createAlignedBlackLabel("0");
+    private Button calculateCashButton=createCustomizedButtonForVBox("/Images/cashIcon.png","Cash");
+    private Button creditCardButton=createCustomizedButtonForVBox("/Images/creditCardIcon.png","Card");
+    private Button customerInfoButton=createCustomizedButtonForVBox("/Images/clientIcon.png","Customer");
+    private Label noTaxTotal=createAlignedBlackLabel("0");
+    private Label taxAmount=createAlignedBlackLabel("0");
+    private Label totalAmount=createAlignedBlackLabel("0");
+    private Button generateBillButton=createGeneralButton("Generate Bill");
+    private Button newBillButton=createGeneralButton("New Bill");
+    private TextField collectedMoneyTf=createTextField("Collected Money...");
+    private TextField changeMoneyTf=createTextField("Give Change...");
+    private TextField creditCardName=createTextField("Full Name...");
+    private TextField creditCardNumber=createTextField("Card Number...");
+    private TextField creditCardExpDate=createTextField("Expiration day...");
+    private PasswordField creditCardCVV=createPasswordField();
+    private TextField customerIdTf=createTextField("Customer ID...");
+    private Label billLoyalyPoints=createAlignedBlackLabel("");
+    private TableView productCartTable=createTableView();
 
-public class BillingSystemView implements Design{
-    private ComboBox<String> category;
-    private ComboBox<String> products;
-    private Button addButton;
-    private Label message;
-    private ArrayList<ItemBoughtView> boughtItem;
-    private Label totalPrice;
-    private Button[] numberLog;
-    private Button clear;
-    private Button delete;
-    private Button generateBill;
-    private TextField customerCardField;
-    private ComboBox<String> paymentMethod;
-    private TextField moneyField;
-    private TextField changeField;
+    public BillingSystemView(){
+        setupView();
+    }
+    public void setupView(){
+        //Scene will be divided into 2 parts, left will be product card and right checkout
+        //Left part is ProductCart
+        setUpProductCartView();
 
-    public BillingSystemView() {
-        this.category=createComboBox("Category...");
-        this.products=createComboBox("Select Product...");
-        this.addButton=createGeneralButton("Add");
-        this.boughtItem=new ArrayList<>();
-        this.totalPrice=createAlignedGreenBoldLabel("",50);
+        //Right part for checkout
+        setUpCheckoutView();
 
-        String numberButtonStyle=
-                "-fx-background-color: white ;" +
-                        "-fx-border-radius: 40 ;" +
-                        "-fx-background-radius: 40;" +
-                        "-fx-border-color: yellowgreen;"+
-                        " -fx-border-width: 4;" +
-                        "-fx-font-family: Bahnschrift;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-font-size: 28;";
-        this.numberLog=new Button[13];  //For Designing Number log buttons
-        for(int i=0;i<10;i++){
-            this.numberLog[i]=createNumberButton(String.valueOf(i),numberButtonStyle);
+        //Arranging view
+        this.setPadding(new Insets(10,10,10,10));
+        this.setStyle("-fx-background-color: rgba(167,246,8,0.15);");
+        this.setSpacing(30);
+        this.getChildren().addAll(productCartBox,checkOutPane);
+    }
+
+    public void setUpProductCartView(){
+        //Product Cart
+        this.productCartBox=new VBox(10);
+        productCartBox.setStyle("-fx-background-color: transparent;");
+        productCartBox.prefWidthProperty().bind(this.widthProperty().divide(2));
+        productCartBox.prefHeightProperty().bind(this.heightProperty());
+
+        Label title=createAlignedGreenBoldLabel("Billing System",150);
+
+        //Total Sales Info Pane and Customer Info
+        HBox infoBox=new HBox(10);
+        Label todaySaleTitle=createAlignedGreenBoldLabel("Today's Sale");
+        infoBox.getChildren().addAll(createTodaySalesInfoPane(),createCustomerInfoPane());
+
+        //Header of product cart
+        HBox headerBox=new HBox(20);
+        Label productCartTitle=createAlignedGreenBoldLabel("Product Cart");
+        headerBox.getChildren().addAll(productCartTitle,searchBox,clearCart);
+
+        //Table for product cart
+
+        productCartBox.getChildren().addAll(title,todaySaleTitle,infoBox,headerBox,productCartTable);
+    }
+
+    public void setUpCheckoutView(){
+        checkOutPane=new GridPane();
+        checkOutPane.setHgap(20);
+        checkOutPane.setVgap(10);
+        checkOutPane.setStyle("-fx-background-color: white;" +
+                "-fx-border-radius: 10;" +
+                "-fx-background-radius: 10;" +
+                "-fx-border-color: yellowgreen;" +
+                "-fx-border-width: 1;");
+        checkOutPane.setAlignment(Pos.CENTER);
+        checkOutPane.prefWidthProperty().bind(this.widthProperty().divide(2));
+        checkOutPane.prefHeightProperty().bind(this.heightProperty());
+        checkOutPane.setPadding(new Insets(20,20,20,20));
+
+        //Titles
+        Label checkoutTitle=createAlignedGreenBoldLabel("Checkout\n");
+        Label dateTitle=createAlignedGreenBoldLabel("Date");
+        Label billIdTitle=createAlignedGreenBoldLabel("Bill Id");
+
+        //For displaying money that customer give and how much cashier will return
+        VBox collectAmountBox=createStyledVBoxForInfo("Collected Money", collectedMoney);
+        VBox changeAmountBox=createStyledVBoxForInfo("Change Money", changeMoney);
+
+        //VBox for buttons to change
+        VBox buttonBox=new VBox(0);
+        buttonBox.getChildren().addAll(calculateCashButton,creditCardButton,customerInfoButton);
+        temporaryPane.setPrefSize(350,300);
+        //Footer Part
+        Label noTaxTitle=createAlignedBlackBoldLabel("No-Tax Total");
+        Label taxesTitle=createAlignedBlackBoldLabel("Taxes");
+        Label totalTitle=createAlignedGreenBoldLabel("Total");
+
+        //Adding to checkout gridpane
+        checkOutPane.add(checkoutTitle,0,0);
+        checkOutPane.add(dateTitle,0,1);
+        checkOutPane.add(generatedDateTime,1,1);
+        checkOutPane.add(billIdTitle,0,2);
+        checkOutPane.add(billId,1,2);
+        checkOutPane.add(collectAmountBox,0,3);
+        checkOutPane.add(changeAmountBox,1,3);
+        checkOutPane.add(buttonBox,0,4);
+        checkOutPane.add(temporaryPane,1,4);
+        checkOutPane.add(noTaxTitle,0,5);
+        checkOutPane.add(noTaxTotal,1,5);
+        checkOutPane.add(taxesTitle,0,6);
+        checkOutPane.add(taxAmount,1,6);
+        checkOutPane.add(totalTitle,0,7);
+        checkOutPane.add(totalAmount,1,7);
+        checkOutPane.add(newBillButton,0,8);
+        checkOutPane.add(generateBillButton,1,8);
+    }
+
+    public GridPane createTodaySalesInfoPane(){
+        GridPane todaysaleInfo=new GridPane();
+
+        todaysaleInfo.setHgap(100);
+        todaysaleInfo.setVgap(15);
+
+        todaysaleInfo.setStyle("-fx-background-color: white;" +
+                "-fx-background-radius: 10;" +
+                "-fx-border-radius: 10;" +
+                "-fx-border-color: yellowgreen;" +
+                "-fx-border-width: 1;");
+        todaysaleInfo.setPadding(new Insets(10,10,10,10));
+        todaysaleInfo.setPrefWidth(350);
+        Label billNrTitle=createAlignedBlackBoldLabel("Total Bills");
+        Label moneyTitle=createAlignedBlackBoldLabel("Collected Money");
+        Label taxTitle=createAlignedBlackBoldLabel("Collected Tax");
+
+
+        todaysaleInfo.add(billNrTitle,0,0);
+        todaysaleInfo.add(totalBillNumber,1,0);
+        todaysaleInfo.add(moneyTitle,0,1);
+        todaysaleInfo.add(moneyCollected,1,1);
+        todaysaleInfo.add(taxTitle,0,2);
+        todaysaleInfo.add(taxCollected,1,2);
+        return todaysaleInfo;
+    }
+
+    public GridPane createCustomerInfoPane(){
+        GridPane customerInfo=new GridPane();
+        customerInfo.setHgap(100);
+        customerInfo.setVgap(15);
+
+        customerInfo.setStyle("-fx-background-color: white;" +
+                "-fx-background-radius: 10;" +
+                "-fx-border-radius: 10;" +
+                "-fx-border-color: yellowgreen;" +
+                "-fx-border-width: 1;");
+        customerInfo.setPadding(new Insets(10,10,10,10));
+        customerInfo.setPrefWidth(350);
+
+        Label customerIdTitle=createAlignedBlackBoldLabel("Customer Personal Id");
+        Label loyaltyPointsTitle=createAlignedBlackBoldLabel("Loyalty Points");
+
+        customerInfo.add(customerIdTitle,0,0);
+        customerInfo.add(customerId,0,1);
+        customerInfo.add(loyaltyPointsTitle,1,0);
+        customerInfo.add(loyaltyPoints,1,1);
+
+        return customerInfo;
         }
-        this.numberLog[10]=createNumberButton("+",numberButtonStyle+"-fx-text-fill: green;");
-        this.numberLog[11]=createNumberButton("-",numberButtonStyle+"-fx-text-fill: red;");
-        this.numberLog[12]=createNumberButton("←",numberButtonStyle+"-fx-text-fill: red;");
 
-        this.clear=createGeneralButton("Clear");
-        this.delete=createGeneralButton("Delete");
-        this.generateBill=createGeneralButton("Generate Bill");
-
-        this.customerCardField=createTextField("Customer Card...");
-        this.paymentMethod=createComboBox("Payment Method...");
-        this.moneyField=createTextField("Paid...");
-        this.changeField=createTextField("Change...");
-        this.changeField.setEditable(false);
-
-        this.message=createAlignedGreenBoldLabel("",200);
-        this.message.setTextFill(Color.RED);
-    }
-
-    public HBox addMetadata(){
-        HBox metadata=new HBox(20);
-        metadata.setStyle("-fx-font-family: Bahnschrift;" +
-                "-fx-font-weight: bold;" +
-                "-fx-font-size: 15;");
-
-        //Labels
-        Label tab= createAlignedBlackLabel("",30); //To align with x button
-        Label id = createAlignedBlackLabel("ID", 40);
-        Label name = createAlignedBlackLabel("Product", 200);
-        Label quantity = createAlignedBlackLabel("Quantity", 80);
-        Label sellingPrice = createAlignedBlackLabel("Price", 50);
-        Label totalProductPrice = createAlignedBlackLabel("Total", 50);
-        metadata.getChildren().addAll(tab,id,name,quantity,sellingPrice,totalProductPrice);
-        return metadata;
-    }
-    public HBox addRow(ItemBoughtView item){
-        HBox pane = new HBox(20);
-        pane.setStyle("-fx-font-family: Bahnschrift;" +
-                "-fx-font-size: 15;");
-        pane.getChildren().addAll(item.getSelect(), item.getId(), item.getName(),item.getQuantity(),item.getSellingPrice(),item.getTotalProductPrice());
-        return pane;
-    }
-    public GridPane createNumbersLog(){
-        GridPane pane=new GridPane();
-        pane.setHgap(5);
-        pane.setVgap(5);
-        int cnt=1;
-        //Add buttons 1-9
-        for(int i=1;i<=3;i++){ //in the 0 row will be backspace button
-            for(int j=0;j<3;j++){
-                pane.add(numberLog[cnt],j,i);
-                cnt++;
-            }
-        }
-        //0 Button
-        pane.add(numberLog[0],1,4);
-        //+ Button
-        pane.add(numberLog[10],0,4);
-        //- Button
-        pane.add(numberLog[11],2,3);
-        //Backspace button
-        pane.add(numberLog[12],2,0);
-        return pane;
-    }
-    public VBox createProductLog(){
-        VBox box=new VBox(10);
-        box.setMinHeight(400);
-        box.setMinWidth(600);
-        box.setStyle("-fx-background-color: rgba(167,246,8,0.3);" +
-                "-fx-font-family: Bahnschrift;" +
-                "-fx-border-radius: 30;"+
-                "-fx-background-radius: 30;" +
-                "-fx-padding: 10;");
-        box.setAlignment(Pos.TOP_CENTER);
-        //Head of product Log
-        Label headText=createAlignedGreenBoldLabel("Product List",150);
-        //Body of product Log
-        VBox productList=new VBox(5);
-        productList.setStyle("-fx-padding: 10;");
-        //Here is the section for products(ItemBought)
-        boughtItem.add(new ItemBoughtView(1,"MacBook",2000));
-        for(ItemBoughtView item: boughtItem){
-            productList.getChildren().add(addRow(item));
-        }
-        //Footer
-        Line line=new Line(0,0,480,0);
-        line.setStyle("-fx-stroke: green;");
-        HBox result =new HBox(25);
-        result.setStyle("-fx-font-size: 16;" +
-                "-fx-font-weight: bold;" +
-                "-fx-text-fill: green;" +
-                "-fx-spacing: 10;");
-        result.setAlignment(Pos.CENTER_RIGHT);
-
-        Label total=createAlignedGreenBoldLabel("Total:",100);
-        result.getChildren().addAll(total,this.totalPrice);
-
-        box.getChildren().addAll(headText,addMetadata(),productList,line, result);
+    public VBox createStyledVBoxForInfo(String titleText, Label content) {
+        VBox box = new VBox(5);
+        Label title = createAlignedBlackBoldLabel(titleText);
+        title.setTextFill(Color.WHITE);
+        content.setTextFill(Color.WHITE);
+        box.getChildren().addAll(title, content);
+        box.setStyle("-fx-background-color: rgba(38,141,17,0.9);" +
+                "-fx-background-radius: 10;" +
+                "-fx-border-radius: 10;");
+        box.setPrefWidth(150);
+        box.setPrefHeight(50);
+        box.setPadding(new Insets(20, 20, 20, 20));
         return box;
     }
-    public Scene createScene(){
-        //Create Grid pane for overall display
-        GridPane billingSystem= new GridPane();
-        billingSystem.setHgap(300);
-        billingSystem.setVgap(10);
-        billingSystem.setPadding(new Insets(50,100,50,100));
-        billingSystem.setStyle("-fx-background-color: rgba(167,246,8,0.15)");
 
-        //Create Search Boxes
-        HBox searchBox=new HBox(30);
-        searchBox.getChildren().addAll(category,products,addButton);
-        //Add product Log
-        VBox productLog=createProductLog();
-
-        //Add buttons clear, delete, generate bill
-        HBox buttons=new HBox(180);
-        buttons.getChildren().addAll(clear,delete,generateBill);
-
-        //Create Numbers log
-        GridPane numberLog=createNumbersLog();
-        numberLog.setPadding(new Insets(100,20,10,20)); //Top is greater to align it in center, Bottom is less
-
-        //Create A grid for Payment log
-        GridPane payment=new GridPane();
-        payment.setHgap(10);
-        payment.setVgap(10);
-        Label customerCard= createAlignedGreenBoldLabel("Customer card",150);
-        Label paymentMethod= createAlignedGreenBoldLabel("Payment Method",150);
-        Label enterMoney= createAlignedGreenBoldLabel("Enter Money:",150);
-        Label getChange= createAlignedGreenBoldLabel("Get Change:",150);
-
-        payment.add(customerCard,0,0);
-        payment.add(customerCardField,0,1);
-        payment.add(paymentMethod,1,0);
-        payment.add(this.paymentMethod,1,1);
-        payment.add(enterMoney,0,2);
-        payment.add(moneyField,1,2);
-        payment.add(getChange,0,3);
-        payment.add(changeField,1,3);
-
-        //Error Display
-        Label errorMessage= createAlignedGreenBoldLabel("",150);
-        errorMessage.setStyle("-fx-text-fill: red;" +
+    public Button createCustomizedButtonForVBox(String imagePath,String text){
+        Button button=new Button();
+        button.setPrefWidth(150);
+        button.setPrefHeight(100);
+        button.setStyle("-fx-background-color: rgba(167,246,8,0.1);" +
                 "-fx-font-weight: bold;" +
-                "-fx-font-family: Bahnschrift;" +
-                "-fx-font-size: 16;");
-
-        //Getting All together
-        billingSystem.add(searchBox,0,0);
-        billingSystem.add(errorMessage,1,0); //General error box
-        billingSystem.add(productLog,0,1);
-        billingSystem.add(buttons,0,2);
-        billingSystem.add(numberLog,1,1);
-        billingSystem.add(payment,1,2);
-
-        Scene scene=new Scene(billingSystem);
-        return scene;
-    }
-    public ComboBox<String> getCategory() {
-        return category;
+                "-fx-font-size: 15;" +
+                "-fx-font-family: Bahnschrift;");
+        ImageView icon=new ImageView(new Image(getClass().getResource(imagePath).toExternalForm()));
+        icon.setFitHeight(40);
+        icon.setFitWidth(40);
+        button.setGraphic(icon);
+        button.setText(text);
+        return button;
     }
 
-    public void setCategory(ComboBox<String> category) {
-        this.category = category;
+    public VBox createCashAndChangeBox(){
+        VBox box=new VBox(10);
+        box.setPadding(new Insets(20,20,20,20));
+        box.setAlignment(Pos.CENTER);
+
+        Label collectedMoneyTitle=createAlignedGreenBoldLabel("Collected Money");
+        Label changeMoneyTitle=createAlignedGreenBoldLabel("Give Change");
+        changeMoneyTf.setEditable(false);
+        box.getChildren().addAll(collectedMoneyTitle,collectedMoneyTf,changeMoneyTitle,changeMoneyTf);
+        return box;
     }
 
-    public ComboBox<String> getProducts() {
-        return products;
+    public GridPane createCreditCardBox(){
+        GridPane grid=new GridPane();
+        grid.setHgap(20);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(10,10,10,10));
+        grid.setAlignment(Pos.CENTER);
+
+        Label nameTitle=createAlignedGreenBoldLabel("Full Name");
+        Label cardNumberTitle=createAlignedGreenBoldLabel("Card Number");
+        Label expDateTitle=createAlignedGreenBoldLabel("Expiration Date");
+        Label cvvTitle= createAlignedGreenBoldLabel("CVV");
+
+        grid.add(nameTitle,0,0);
+        grid.add(creditCardName,1,0);
+        grid.add(cardNumberTitle,0,1);
+        grid.add(creditCardNumber,1,1);
+        grid.add(expDateTitle,0,2);
+        grid.add(cvvTitle,1,2);
+        grid.add(creditCardExpDate,0,3);
+        grid.add(creditCardCVV,1,3);
+        return grid;
     }
 
-    public void setProducts(ComboBox<String> products) {
-        this.products = products;
+    public GridPane createCustomerBox(){
+        GridPane grid=new GridPane();
+        grid.setHgap(20);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(10,10,10,10));
+        grid.setAlignment(Pos.CENTER);
+
+        Label customerIdTitle=createAlignedGreenBoldLabel("Customer Id");
+
+        grid.add(customerIdTitle,0,0);
+        grid.add(customerIdTf,1,0);
+        grid.add(createStyledVBoxForInfo("Bill points",billLoyalyPoints),0,1);
+        grid.add(createStyledVBoxForInfo("Customer Points",loyaltyPoints),1,1);
+
+        return grid;
     }
 
-    public Button getAddButton() {
-        return addButton;
+    public TableView createTableView(){
+        TableView<ItemBought> table=new TableView<>();
+        table.setStyle("-fx-background-color: white;" +
+                "-fx-border-radius: 30;" +
+                "-fx-background-radius: 30;" +
+                "-fx-border-width: 1;" +
+                "-fx-border-color: yellowgreen;");
+
+        TableColumn<ItemBought,Integer> idColumn=new TableColumn<>("Product ID");
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("productId"));
+
+
+        TableColumn<ItemBought,String> nameColumn=new TableColumn<>("Product Name");
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
+
+        TableColumn<ItemBought,Integer> quantityColumn=new TableColumn<>("Quantity");
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+
+        TableColumn<ItemBought,Double> sellingPriceColumn=new TableColumn<>("Selling Price");
+        sellingPriceColumn.setCellValueFactory(new PropertyValueFactory<>("sellingPrice"));
+
+        TableColumn<ItemBought,Double> totalTaxColumn=new TableColumn<>("Total Tax");
+        totalTaxColumn.setCellValueFactory(new PropertyValueFactory<>("totalTax"));
+
+        TableColumn<ItemBought,Double> totalPriceColumn=new TableColumn<>("Total Price");
+        totalPriceColumn.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
+
+        table.getColumns().addAll(idColumn,nameColumn,quantityColumn,sellingPriceColumn,totalTaxColumn,totalPriceColumn);
+
+
+        return table;
     }
 
-    public void setAddButton(Button addButton) {
-        this.addButton = addButton;
+    public VBox getProductCartBox() {
+        return productCartBox;
     }
 
-    public Label getMessage() {
-        return message;
+    public GridPane getCheckOutPane() {
+        return checkOutPane;
     }
 
-    public void setMessage(Label message) {
-        this.message = message;
+    public BorderPane getTemporaryPane() {
+        return temporaryPane;
     }
 
-    public ArrayList<ItemBoughtView> getBoughtItem() {
-        return boughtItem;
+    public SearchBoxPane getSearchBox() {
+        return searchBox;
     }
 
-    public void setBoughtItem(ArrayList<ItemBoughtView> boughtItem) {
-        this.boughtItem = boughtItem;
+    public Label getTotalBillNumber() {
+        return totalBillNumber;
     }
 
-    public Label getTotalPrice() {
-        return totalPrice;
+    public Label getMoneyCollected() {
+        return moneyCollected;
     }
 
-    public void setTotalPrice(Label totalPrice) {
-        this.totalPrice = totalPrice;
+    public Label getTaxCollected() {
+        return taxCollected;
     }
 
-    public Button[] getNumberLog() {
-        return numberLog;
+    public Label getCustomerId() {
+        return customerId;
     }
 
-    public void setNumberLog(Button[] numberLog) {
-        this.numberLog = numberLog;
+    public Label getLoyaltyPoints() {
+        return loyaltyPoints;
     }
 
-    public Button getClear() {
-        return clear;
+    public Button getClearCart() {
+        return clearCart;
     }
 
-    public void setClear(Button clear) {
-        this.clear = clear;
+    public Label getGeneratedDateTime() {
+        return generatedDateTime;
     }
 
-    public Button getDelete() {
-        return delete;
+    public Label getBillId() {
+        return billId;
     }
 
-    public void setDelete(Button delete) {
-        this.delete = delete;
+    public Label getCollectedMoney() {
+        return collectedMoney;
     }
 
-    public Button getGenerateBill() {
-        return generateBill;
+    public Label getChangeMoney() {
+        return changeMoney;
     }
 
-    public void setGenerateBill(Button generateBill) {
-        this.generateBill = generateBill;
+    public Button getCalculateCashButton() {
+        return calculateCashButton;
     }
 
-    public TextField getCustomerCardField() {
-        return customerCardField;
+    public Button getCreditCardButton() {
+        return creditCardButton;
     }
 
-    public void setCustomerCardField(TextField customerCardField) {
-        this.customerCardField = customerCardField;
+    public Button getCustomerInfoButton() {
+        return customerInfoButton;
     }
 
-    public ComboBox<String> getPaymentMethod() {
-        return paymentMethod;
+    public Label getNoTaxTotal() {
+        return noTaxTotal;
     }
 
-    public void setPaymentMethod(ComboBox<String> paymentMethod) {
-        this.paymentMethod = paymentMethod;
+    public Label getTaxAmount() {
+        return taxAmount;
     }
 
-    public TextField getMoneyField() {
-        return moneyField;
+    public Label getTotalAmount() {
+        return totalAmount;
     }
 
-    public void setMoneyField(TextField moneyField) {
-        this.moneyField = moneyField;
+    public Button getGenerateBillButton() {
+        return generateBillButton;
     }
 
-    public TextField getChangeField() {
-        return changeField;
+    public Button getNewBillButton() {
+        return newBillButton;
     }
 
-    public void setChangeField(TextField changeField) {
-        this.changeField = changeField;
+    public TextField getCollectedMoneyTf() {
+        return collectedMoneyTf;
+    }
+
+    public TextField getChangeMoneyTf() {
+        return changeMoneyTf;
+    }
+
+    public TextField getCreditCardName() {
+        return creditCardName;
+    }
+
+    public TextField getCreditCardNumber() {
+        return creditCardNumber;
+    }
+
+    public TextField getCreditCardExpDate() {
+        return creditCardExpDate;
+    }
+
+    public PasswordField getCreditCardCVV() {
+        return creditCardCVV;
+    }
+
+    public TextField getCustomerIdTf() {
+        return customerIdTf;
+    }
+
+    public Label getBillLoyalyPoints() {
+        return billLoyalyPoints;
+    }
+
+    public TableView getProductCartTable() {
+        return productCartTable;
     }
 }

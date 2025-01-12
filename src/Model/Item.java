@@ -265,7 +265,6 @@ public class Item {
     public void setNrOfReturns(int nrOfReturns) {
         this.nrOfReturns = nrOfReturns;
     }
-
     // To string dhe equals method
 }
 

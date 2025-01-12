@@ -53,6 +53,7 @@ public interface Design {
                 "-fx-border-width: 2;" +
                 "-fx-border-color: yellowgreen;" +
                 "-fx-text-fill: black;");
+        field.setPrefWidth(150);
         return field;
     }
     default Label createAlignedBlackLabel(String text, int width){
@@ -138,5 +139,17 @@ public interface Design {
                 "-fx-border-color: yellowgreen;");
 
         return date;
+    }
+    default PasswordField createPasswordField(){
+        PasswordField password=new PasswordField();
+        password.setPromptText("Password");
+        password.setStyle("-fx-background-radius: 10;" +
+                "-fx-background-color: white;" +
+                "-fx-border-radius: 10;" +
+                "-fx-border-width: 2;" +
+                "-fx-border-color: yellowgreen;" +
+                "-fx-text-fill: black;");
+        password.setPrefWidth(150);
+        return password;
     }
 }

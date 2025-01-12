@@ -13,6 +13,12 @@ public class Bill implements CustomerLoyalty  {
     private PaymentMethod paymentMethod;
     private int customerIdCard;
 
+    //Only if payment method is credit card
+    private String creditCardNr;
+    private String cardName;
+    private String expDate;
+    private int cvv;
+
 
         public Bill() {
             this.itemBought=new ArrayList<>();
@@ -33,7 +39,7 @@ public class Bill implements CustomerLoyalty  {
             double total=0;
 
             for(ItemBought item: itemBought){
-                total+=item.getTotalProductPrice();
+                total+=item.getTotalPrice();
             }
 
             return total;
@@ -42,7 +48,7 @@ public class Bill implements CustomerLoyalty  {
             double tax=0;
 
             for(ItemBought item: itemBought){
-                tax+=item.getTotalTaxRate();
+                tax+=item.getTotalTax();
             }
 
             return tax;
@@ -104,5 +110,37 @@ public class Bill implements CustomerLoyalty  {
         public void setCustomerIdCard(int customerIdCard) {
             this.customerIdCard = customerIdCard;
         }
-    }
+
+        public String getCreditCardNr() {
+            return creditCardNr;
+        }
+
+        public void setCreditCardNr(String creditCardNr) {
+            this.creditCardNr = creditCardNr;
+        }
+
+        public String getCardName() {
+            return cardName;
+        }
+
+        public void setCardName(String cardName) {
+            this.cardName = cardName;
+        }
+
+        public String getExpDate() {
+            return expDate;
+        }
+
+        public void setExpDate(String expDate) {
+            this.expDate = expDate;
+        }
+
+        public int getCvv() {
+            return cvv;
+        }
+
+        public void setCvv(int cvv) {
+            this.cvv = cvv;
+        }
+}
 
