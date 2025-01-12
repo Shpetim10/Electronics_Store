@@ -144,8 +144,10 @@ public interface Design {
     default TableView<String[]> createTable() {
         TableView<String[]> table = new TableView<>();
         String tableStyle =
-                "-fx-background-color: #79a324;" +
-                        "-fx-border-color: darkgreen;";
+                "-fx-background-color: rgba(167,246,8,0.15);" +
+                        "-fx-border-color: darkgreen;"+
+                        "-fx-font-size: 20;"
+                ;
         table.setStyle(tableStyle);
         table.setPrefSize(165, 500);
         return table;
@@ -154,9 +156,10 @@ public interface Design {
     default TableColumn<String[], String> createTableColumn(String string) {
         TableColumn<String[],String> tableColumn = new TableColumn<>(string);
         String tableStyle =
-                "-fx-background-color: #79a324;" +
+                "-fx-background-color: rgba(167,246,8,0.15);" +
                         "-fx-border-color: darkgreen;"+
-                        "-fx-alignment: CENTER;";
+                        "-fx-alignment: CENTER;"
+                ;
         tableColumn.setStyle(tableStyle);
         return tableColumn;
     }
