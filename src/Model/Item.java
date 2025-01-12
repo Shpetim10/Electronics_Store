@@ -1,5 +1,8 @@
 package Model;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 import java.util.Date;
 
 public class Item {
@@ -8,7 +11,7 @@ public class Item {
     private SectorType sector;
     private String description;
     private double sellingPrice;
-    private double priceBrought;
+    private double priceBought;
     private Supplier supplier;
     private boolean isDiscounted;
     private double discountRate;
@@ -28,6 +31,8 @@ public class Item {
     private String barcode;
     private int nrOfReturns;
 
+    private BooleanProperty selected = new SimpleBooleanProperty(false);
+
 
 
     public Item() {
@@ -43,7 +48,7 @@ public class Item {
         this.sector = sector;
         this.description = description;
         this.sellingPrice = sellingPrice;
-        this.priceBrought = priceBrought;
+        this.priceBought = priceBrought;
         this.supplier = supplier;
         this.isDiscounted = isDiscounted;
         this.discountRate = discountRate;
@@ -63,6 +68,16 @@ public class Item {
         this.barcode = barcode;
         this.nrOfReturns = nrOfReturns;
     }
+
+    public Item(int productId, String productName, String brand, int stockQuantity, double priceBrought, double sellingPrice) {
+        this.productId = productId;
+        this.productName = productName;
+        this.brand = brand;
+        this.stockQuantity = stockQuantity;
+        this.priceBought = priceBrought;
+        this.sellingPrice = sellingPrice;
+    }
+
     //Useful Methods
     public void incrementStock(int quantity){
         setStockQuantity(getStockQuantity()+quantity);
@@ -114,12 +129,12 @@ public class Item {
         this.sellingPrice = sellingPrice;
     }
 
-    public double getPriceBrought() {
-        return priceBrought;
+    public double getPriceBought() {
+        return priceBought;
     }
 
-    public void setPriceBrought(double priceBrought) {
-        this.priceBrought = priceBrought;
+    public void setPriceBought(double priceBought) {
+        this.priceBought = priceBought;
     }
 
     public Supplier getSupplier() {
@@ -264,6 +279,18 @@ public class Item {
 
     public void setNrOfReturns(int nrOfReturns) {
         this.nrOfReturns = nrOfReturns;
+    }
+
+    public BooleanProperty selectedProperty() {
+        return selected;
+    }
+
+    public boolean isSelected() {
+        return selected.get();
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected.set(selected);
     }
     // To string dhe equals method
 }

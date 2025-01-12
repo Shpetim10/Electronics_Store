@@ -1,5 +1,6 @@
 package View.InventoryManagementView;
 
+import Model.Item;
 import View.Design;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -22,7 +24,7 @@ public class InventoryManagementView implements Design {
     private Button delete;
     private Button clear;
     private Button add;
-    private TableView<InventoryListView> table;
+    private TableView<Item> table;
 
     public InventoryManagementView() {
         this.refresh = createGeneralButton("Refresh");
@@ -39,51 +41,72 @@ public class InventoryManagementView implements Design {
     private void initializeTableView() {
         table.setPrefHeight(600);
         table.setPrefWidth(400);
-        table.setStyle("-fx-background-color:white ;"+ "-fx-border-radius:15;" + "-fx-border-color:yellowgreen;"+"-fx-border-radius:15");
-        table
+        table.setStyle("-fx-background-color:white ;"+ "-fx-border-radius:10;" + "-fx-border-color:yellowgreen;");
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         // Product Code Column
-        TableColumn<InventoryListView, Integer> codeColumn = new TableColumn<>("Product Code");
-        codeColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        codeColumn.setMaxWidth(100);
+        TableColumn<Item, Integer> idColumn = new TableColumn<>("Product Code");
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("productId"));
+        idColumn.setMaxWidth(100);
 
         // Product Name Column
-        TableColumn<InventoryListView, String> nameColumn = new TableColumn<>("Product Name");
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        TableColumn<Item, String> nameColumn = new TableColumn<>("Product Name");
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
         nameColumn.setMaxWidth(150);
 
         // Quantity Column
-        TableColumn<InventoryListView, Integer> quantityColumn = new TableColumn<>("Quantity");
-        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        TableColumn<Item, Integer> quantityColumn = new TableColumn<>("Quantity");
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
         quantityColumn.setMaxWidth(100);
 
         // Cost Price Column
-        TableColumn<InventoryListView, Double> costPriceColumn = new TableColumn<>("Cost Price");
-        costPriceColumn.setCellValueFactory(new PropertyValueFactory<>("costPrice"));
+        TableColumn<Item, Double> costPriceColumn = new TableColumn<>("Cost Price");
+        costPriceColumn.setCellValueFactory(new PropertyValueFactory<>("priceBought"));
         costPriceColumn.setMaxWidth(100);
 
         // Selling Price Column
-        TableColumn<InventoryListView, Double> sellingPriceColumn = new TableColumn<>("Selling Price");
+        TableColumn<Item, Double> sellingPriceColumn = new TableColumn<>("Selling Price");
         sellingPriceColumn.setCellValueFactory(new PropertyValueFactory<>("sellingPrice"));
         sellingPriceColumn.setMaxWidth(100);
 
         // Brand Column
-        TableColumn<InventoryListView, String> brandColumn = new TableColumn<>("Brand");
+        TableColumn<Item, String> brandColumn = new TableColumn<>("Brand");
         brandColumn.setCellValueFactory(new PropertyValueFactory<>("brand"));
         brandColumn.setMaxWidth(100);
 
         // Select Column (CheckBox)
-        TableColumn<InventoryListView, Boolean> selectColumn = new TableColumn<>("Select");
-        selectColumn.setCellValueFactory(new PropertyValueFactory<>("selected"));  // Property for checkbox state
-        brandColumn.setMaxWidth(100);
+
+        TableColumn<Item, Boolean> selectColumn = new TableColumn<>("Select");
+        selectColumn.setCellValueFactory(cellData -> cellData.getValue().selectedProperty());
+
+        // Set a custom cell factory to use your createCheckBox method
+        selectColumn.setCellFactory(param -> new TableCell<Item, Boolean>() {
+            @Override
+            protected void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);  // No content for empty cells
+                } else {
+                    CheckBox checkBox = createCheckBox();
+                    checkBox.setSelected(item != null && item);  // Set the check state based on the item value
+                    checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                        if (getTableRow() != null && getTableRow().getItem() != null) {
+                            Item currentItem = getTableRow().getItem();
+                            currentItem.setSelected(newValue); // Update the item's selected property
+                        }
+                    });
+                    setGraphic(checkBox);  // Set the custom checkbox as the cell's graphic
+                }
+            }
+        });
 
 
         // Add columns to the table
-        table.getColumns().addAll(selectColumn, codeColumn, nameColumn, quantityColumn, costPriceColumn, sellingPriceColumn, brandColumn);
+        table.getColumns().addAll(selectColumn,idColumn, nameColumn,brandColumn, quantityColumn, costPriceColumn, sellingPriceColumn);
 
         // Sample data
-        ObservableList<InventoryListView> list = FXCollections.observableArrayList(
-                new InventoryListView(1, "Laptop", 50, 100.0, 200.0, "MacBook"),
-                new InventoryListView(2, "Phone", 75, 700.0, 860.0, "iPhone 16")
+        ObservableList<Item> list = FXCollections.observableArrayList(
+                new Item(1, "Laptop","MacBook" ,50, 100.0, 200.0 ),
+                new Item(2, "Phone", "iPhone 16",75, 700.0, 860.0 )
         );
         table.setItems(list);
     }
@@ -101,8 +124,9 @@ public class InventoryManagementView implements Design {
 
         searchBox.getChildren().addAll(search, refresh, label);
 
-        HBox buttons = new HBox(5);
+        HBox buttons = new HBox(50);
         buttons.getChildren().addAll(  delete, clear);
+
 
         HBox buttons1 = new HBox(100);
         buttons1.getChildren().addAll(add,edit);
