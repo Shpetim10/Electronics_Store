@@ -119,4 +119,27 @@ public interface Design {
 
         return date;
     }
+
+    default TableView<String[]> createTable() {
+        TableView<String[]> table = new TableView<>();
+        String tableStyle =
+                "-fx-background-color: #79a324;" +
+                        "-fx-border-color: darkgreen;";
+        table.setStyle(tableStyle);
+        table.setPrefSize(165, 500);
+        return table;
+    }
+
+    default TableColumn<String[], String> createTableColumn(String string) {
+        TableColumn<String[],String> tableColumn = new TableColumn<>(string);
+        String tableStyle =
+                "-fx-background-color: #79a324;" +
+                        "-fx-border-color: darkgreen;"+
+                        "-fx-alignment: CENTER;";
+        tableColumn.setStyle(tableStyle);
+        return tableColumn;
+    }
+
+
+
 }
