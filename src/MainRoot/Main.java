@@ -15,6 +15,6 @@ public class Main {
         cashier.getShifts().add(shift);
         BillingSystemController control=new BillingSystemController(cashier);
 
-        control.generateBill();
+        //control.generateBill();
     }
 }

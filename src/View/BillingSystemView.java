@@ -9,6 +9,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 //Sh
 public class BillingSystemView extends HBox implements Design{
@@ -43,7 +45,9 @@ public class BillingSystemView extends HBox implements Design{
     private TextField customerIdTf=createTextField("Customer ID...");
     private Label billLoyalyPoints=createAlignedBlackLabel("");
     private TableView productCartTable=createTableView();
-
+    private RadioButton payCashRb=new RadioButton("Cash");
+    private RadioButton payByCreditCardRb=new RadioButton("Credit Card");
+    private Label errorMessage=createAlignedBlackBoldLabel("");
     public BillingSystemView(){
         setupView();
     }
@@ -73,17 +77,17 @@ public class BillingSystemView extends HBox implements Design{
 
         //Total Sales Info Pane and Customer Info
         HBox infoBox=new HBox(10);
-        Label todaySaleTitle=createAlignedGreenBoldLabel("Today's Sale");
+        Label todaySaleTitle=createAlignedGreenBoldLabel("Today's Sales");
         infoBox.getChildren().addAll(createTodaySalesInfoPane(),createCustomerInfoPane());
 
         //Header of product cart
         HBox headerBox=new HBox(20);
         Label productCartTitle=createAlignedGreenBoldLabel("Product Cart");
         headerBox.getChildren().addAll(productCartTitle,searchBox,clearCart);
+        errorMessage.setTextFill(Color.RED);
+        errorMessage.setAlignment(Pos.CENTER);
 
-        //Table for product cart
-
-        productCartBox.getChildren().addAll(title,todaySaleTitle,infoBox,headerBox,productCartTable);
+        productCartBox.getChildren().addAll(title,todaySaleTitle,infoBox,headerBox,errorMessage,productCartTable);
     }
 
     public void setUpCheckoutView(){
@@ -109,6 +113,17 @@ public class BillingSystemView extends HBox implements Design{
         VBox collectAmountBox=createStyledVBoxForInfo("Collected Money", collectedMoney);
         VBox changeAmountBox=createStyledVBoxForInfo("Change Money", changeMoney);
 
+        //Toggle Group
+        ToggleGroup paymentMethod=new ToggleGroup();
+        payCashRb.setToggleGroup(paymentMethod);
+        payCashRb.setFont(Font.font("bahnschrift", FontWeight.BOLD,13));
+        payByCreditCardRb.setToggleGroup(paymentMethod);
+        payByCreditCardRb.setFont(Font.font("bahnschrift", FontWeight.BOLD,13));
+
+        Label paymentMethodTitle=createAlignedGreenBoldLabel("Payment Method");
+        HBox paymentBox=new HBox(10);
+        paymentBox.getChildren().addAll(payCashRb,payByCreditCardRb);
+
         //VBox for buttons to change
         VBox buttonBox=new VBox(0);
         buttonBox.getChildren().addAll(calculateCashButton,creditCardButton,customerInfoButton);
@@ -126,16 +141,18 @@ public class BillingSystemView extends HBox implements Design{
         checkOutPane.add(billId,1,2);
         checkOutPane.add(collectAmountBox,0,3);
         checkOutPane.add(changeAmountBox,1,3);
-        checkOutPane.add(buttonBox,0,4);
-        checkOutPane.add(temporaryPane,1,4);
-        checkOutPane.add(noTaxTitle,0,5);
-        checkOutPane.add(noTaxTotal,1,5);
-        checkOutPane.add(taxesTitle,0,6);
-        checkOutPane.add(taxAmount,1,6);
-        checkOutPane.add(totalTitle,0,7);
-        checkOutPane.add(totalAmount,1,7);
-        checkOutPane.add(newBillButton,0,8);
-        checkOutPane.add(generateBillButton,1,8);
+        checkOutPane.add(paymentMethodTitle,0,4);
+        checkOutPane.add(paymentBox,1,4);
+        checkOutPane.add(buttonBox,0,5);
+        checkOutPane.add(temporaryPane,1,5);
+        checkOutPane.add(noTaxTitle,0,6);
+        checkOutPane.add(noTaxTotal,1,6);
+        checkOutPane.add(taxesTitle,0,7);
+        checkOutPane.add(taxAmount,1,7);
+        checkOutPane.add(totalTitle,0,8);
+        checkOutPane.add(totalAmount,1,8);
+        checkOutPane.add(newBillButton,0,9);
+        checkOutPane.add(generateBillButton,1,9);
     }
 
     public GridPane createTodaySalesInfoPane(){
@@ -427,5 +444,17 @@ public class BillingSystemView extends HBox implements Design{
 
     public TableView getProductCartTable() {
         return productCartTable;
+    }
+
+    public RadioButton getPayCashRb() {
+        return payCashRb;
+    }
+
+    public RadioButton getPayByCreditCardRb() {
+        return payByCreditCardRb;
+    }
+
+    public Label getErrorMessage() {
+        return errorMessage;
     }
 }

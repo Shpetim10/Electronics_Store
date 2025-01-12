@@ -1,12 +1,16 @@
 package Model;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Bill implements CustomerLoyalty  {
     private long billId;
-    private int cashierId;
+    private Cashier cashier;
     private LocalDate dateGenerated;
     private LocalTime timeGenerated;
     private ArrayList<ItemBought> itemBought;
@@ -24,16 +28,99 @@ public class Bill implements CustomerLoyalty  {
             this.itemBought=new ArrayList<>();
         }//No Argument constructor
 
-        public Bill(long billId, int cashierId, LocalDate dateGenerated, LocalTime timeGenerated,
+        public Bill(long billId, Cashier cashier, LocalDate dateGenerated, LocalTime timeGenerated,
                     ArrayList<ItemBought> itemBought, PaymentMethod paymentMethod, int customerIdCard) {
             this.billId = billId;
-            this.cashierId = cashierId;
+            this.cashier = cashier;
             this.dateGenerated = dateGenerated;
             this.timeGenerated = timeGenerated;
             this.itemBought = itemBought;
             this.paymentMethod = paymentMethod;
             this.customerIdCard = customerIdCard;
         }
+
+        //Useful Methods
+        public File generateBill(){
+            if(cashier.getActiveShift()==null){
+                //view.getMessage().setText("There is no active shift to save the bill! Please contact administrator.");
+                System.exit(1);  //Will clear page
+            }
+
+            //Consider Adding a radio Button
+            //bill.setPaymentMethod(PaymentMethod.CASH);  // Will be gotten from combo box
+
+            //Methods for getting items of card
+            this.getItemBought().add(new ItemBought(101, "Laptop",4,2000));
+            this.getItemBought().add(new ItemBought(102, "Phone",2,1000));
+
+            //Create absolutePath of file
+            File billFile=new File(createBillPath());
+
+            try(PrintWriter output=new PrintWriter(new FileOutputStream(billFile,false))){
+                writeBill(output);
+            }
+            catch(FileNotFoundException ex){
+                //view.getMessage().setText("File could not be generated! Please Report to Administrator.");
+            }
+            return billFile;
+        }  //Sh
+        public void writeBill(PrintWriter output){
+        output.printf("%70s\n","Electronics Store");
+        output.println("-".repeat(140)+"\n");
+        output.println("Address:\t\tTirana, Albania\n");
+        output.println("Date:\t\t"+ this.getDateGenerated());
+        output.println("Time:\t\t"+ this.getTimeGenerated()+"\n\n");
+        output.println("CashierId:\t\t"+ this.getCashierId());
+        output.println("Customer Id:\t\t"+"\n\n");    //Update customer card id
+        output.println("Customer Card Id:\t\t");      //Update
+        output.printf("\n\n%70s\n\n","Fiscal Bill");
+        output.printf("%15s%40s%15s%20s%15s%30s\n","Id","Product Name","Quantity","Price","Total Tax","Total Price");
+        output.println("-".repeat(140)+"\n");
+
+        if (this.getItemBought() != null) {
+            for (ItemBought itemBought : this.getItemBought()) {
+                output.printf("%15d%40s%15d%20.2f%15.2f%30.2f\n",
+                        itemBought.getProductId(),
+                        itemBought.getProductName(),
+                        itemBought.getQuantity(),
+                        itemBought.getSellingPrice(),
+                        itemBought.getTotalTax(),
+                        itemBought.getTotalPrice());
+            }
+        }
+        else {
+            output.println("No items purchased.\n");
+        }
+
+        output.println("-".repeat(140)+"\n\n");
+        output.printf("%80s\t\t%20f\n","Total of Bill:",this.getTotalOfBill());
+        output.printf("%80s\t\t%20f\n","Tax of Bill:",this.getTotalTaxOfBill());
+
+        output.println("Payment Method:\t\t"+this.getPaymentMethod());
+        if(this.getPaymentMethod().equals(PaymentMethod.CASH)){
+            output.println("Money given:\t\t");  //Update
+            output.println("Change:\t\t");   //Update
+        }
+        else if(this.getPaymentMethod().equals(PaymentMethod.CARD)){
+            output.println("Full Name:\t\t");
+            output.println("Card Number:\t\t"); //Update
+        }
+        output.printf("%70s\n","Thank You for shopping with us!");
+        output.println("-".repeat(140));
+        }   //Sh
+        public String createBillPath(){
+        String absolutePath="C:\\Users\\Shpëtim Shabanaj\\OneDrive\\Desktop\\OOP Project\\ElectronicsStore_ShpëtimShabanaj\\Electronics_Store\\src\\Files\\Bills\\";
+        absolutePath+="Cashier"+cashier.getId(); //Add to folder of the current cashier
+        absolutePath+="\\Shift"+cashier.getActiveShift().getShiftId()+"\\";
+        File directory=new File(absolutePath);
+
+        if (!directory.exists()) {
+            directory.mkdirs(); // Create directories if they do not exist
+        }
+
+        absolutePath+="Bill"+this.getBillId()+"_"+this.getDateGenerated().getDayOfMonth()+"_"+this.getDateGenerated().getMonth()+"_"+this.getDateGenerated().getYear()+".txt";
+        return absolutePath;
+    }  //Sh
 
         public double getTotalOfBill(){
             double total=0;
@@ -44,6 +131,7 @@ public class Bill implements CustomerLoyalty  {
 
             return total;
         }
+
         public double getTotalTaxOfBill(){
             double tax=0;
 
@@ -63,12 +151,12 @@ public class Bill implements CustomerLoyalty  {
             this.billId = billId;
         }
 
-        public int getCashierId() {
-            return this.cashierId;
+        public Cashier getCashierId() {
+            return this.cashier;
         }
 
-        public void setCashierId(int cashierId) {
-            this.cashierId = cashierId;
+        public void setCashier(Cashier cashierId) {
+            this.cashier = cashier;
         }
 
         public LocalDate getDateGenerated() {
