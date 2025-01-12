@@ -68,8 +68,8 @@ public class Shift {
             double totalSales=0,totalTax=0;
             for(Bill bill : bills){
                 for(ItemBought item: bill.getItemBought()){
-                    totalSales+=item.getTotalProductPrice();
-                    totalTax+=item.getTotalTaxRate();
+                    totalSales+=item.getTotalPrice();
+                    totalTax+=item.getTotalTax();
                 }
             }
             output.println("\n\nTotal sales:\t\t"+totalSales);

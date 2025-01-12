@@ -12,7 +12,7 @@ public class Item {
     private Supplier supplier;
     private boolean isDiscounted;
     private double discountRate;
-    private int stockQuality;
+    private int stockQuantity;
     private boolean isLowStock;
     private double weight;
     private double volume;
@@ -34,7 +34,7 @@ public class Item {
     }
 
     public Item(int productId, String productName, SectorType sector, String description, double sellingPrice,
-                double priceBrought, Supplier supplier, boolean isDiscounted, double discountRate, int stockQuality,
+                double priceBrought, Supplier supplier, boolean isDiscounted, double discountRate, int stockQuantity,
                 boolean isLowStock, double weight, double volume, int[] dimensions, String color, String brand,
                 int warrantyPeriod, boolean isDiscontinued, boolean isAvailable, Date lastRestockDate,
                 double averageRating, String image, String barcode, int nrOfReturns) {
@@ -47,7 +47,7 @@ public class Item {
         this.supplier = supplier;
         this.isDiscounted = isDiscounted;
         this.discountRate = discountRate;
-        this.stockQuality = stockQuality;
+        this.stockQuantity = stockQuantity;
         this.isLowStock = isLowStock;
         this.weight = weight;
         this.volume = volume;
@@ -63,6 +63,15 @@ public class Item {
         this.barcode = barcode;
         this.nrOfReturns = nrOfReturns;
     }
+    //Useful Methods
+    public void incrementStock(int quantity){
+        setStockQuantity(getStockQuantity()+quantity);
+    } //Sh
+
+    public void decrementStock(int quantity){
+        setStockQuantity(getStockQuantity()-quantity);
+    } //Sh
+
 
     // Getters and Setters
     public int getProductId() {
@@ -137,12 +146,12 @@ public class Item {
         this.discountRate = discountRate;
     }
 
-    public int getStockQuality() {
-        return stockQuality;
+    public int getStockQuantity() {
+        return stockQuantity;
     }
 
-    public void setStockQuality(int stockQuality) {
-        this.stockQuality = stockQuality;
+    public void setStockQuantity(int stockQuality) {
+        this.stockQuantity = stockQuality;
     }
 
     public boolean isLowStock() {
@@ -256,7 +265,6 @@ public class Item {
     public void setNrOfReturns(int nrOfReturns) {
         this.nrOfReturns = nrOfReturns;
     }
-
     // To string dhe equals method
 }
 

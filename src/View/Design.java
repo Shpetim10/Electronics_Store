@@ -53,6 +53,7 @@ public interface Design {
                 "-fx-border-width: 2;" +
                 "-fx-border-color: yellowgreen;" +
                 "-fx-text-fill: black;");
+        field.setPrefWidth(150);
         return field;
     }
     default Label createAlignedBlackLabel(String text, int width){
@@ -61,9 +62,29 @@ public interface Design {
         label.setAlignment(Pos.CENTER_LEFT);
         return label;
     }
+    default Label createAlignedBlackLabel(String text){
+        Label label=new Label(text);
+        label.setAlignment(Pos.CENTER_LEFT);
+        return label;
+    }
+    default Label createAlignedBlackBoldLabel(String text){
+        Label label=new Label(text);
+        label.setFont(Font.font("Bahnschrift",FontWeight.BOLD,13));
+        label.setAlignment(Pos.CENTER_LEFT);
+        return label;
+    }
     default Label createAlignedGreenBoldLabel(String text, int width){
         Label label=new Label(text);
         label.setPrefWidth(width);
+        label.setAlignment(Pos.CENTER_LEFT);
+        label.setStyle("-fx-text-fill: green;" +
+                "-fx-font-family: Bahnschrift;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-size: 18;");
+        return label;
+    }
+    default Label createAlignedGreenBoldLabel(String text){
+        Label label=new Label(text);
         label.setAlignment(Pos.CENTER_LEFT);
         label.setStyle("-fx-text-fill: green;" +
                 "-fx-font-family: Bahnschrift;" +
@@ -142,4 +163,16 @@ public interface Design {
 
 
 
+    default PasswordField createPasswordField(){
+        PasswordField password=new PasswordField();
+        password.setPromptText("Password");
+        password.setStyle("-fx-background-radius: 10;" +
+                "-fx-background-color: white;" +
+                "-fx-border-radius: 10;" +
+                "-fx-border-width: 2;" +
+                "-fx-border-color: yellowgreen;" +
+                "-fx-text-fill: black;");
+        password.setPrefWidth(150);
+        return password;
+    }
 }

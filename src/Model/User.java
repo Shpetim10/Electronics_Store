@@ -30,8 +30,7 @@ public abstract class User {
     //Constructor without photo
 
     public User(int id, String firstName, String lastName, String username, String password, String email,
-                String phoneNumber, Date dateEmployed, EmployeeRole role, ArrayList<Permission> permissions, boolean isActive
-                ) {
+                String phoneNumber, Date dateEmployed, EmployeeRole role, ArrayList<Permission> permissions, boolean isActive) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -47,6 +46,7 @@ public abstract class User {
                 "\nWe hope we have a strong collaboration and get customers' experience even better! " +
                 "\nIf any concern arises, feel free to notify your assigned sector's manager. " +
                 "\n\nGreetings from stores' Management board! ";
+        this.notifications=new ArrayList<>();
         notifications.add(new Notification(NotificationType.OTHER ,message));
     }
 
