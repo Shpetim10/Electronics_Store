@@ -109,6 +109,9 @@ public class InventoryManagementView implements Design {
                 new Item(2, "Phone", "iPhone 16",75, 700.0, 860.0 )
         );
         table.setItems(list);
+
+
+
     }
 
 

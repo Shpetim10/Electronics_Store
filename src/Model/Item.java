@@ -2,6 +2,7 @@ package Model;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 
 import java.util.Date;
 
@@ -291,6 +292,18 @@ public class Item {
 
     public void setSelected(boolean selected) {
         this.selected.set(selected);
+    }
+
+    public ObservableValue<Boolean> isDiscountedProperty() {
+    return selected;
+    }
+
+    public ObservableValue<Boolean> isDiscontinuedProperty() {
+        return selected;
+    }
+
+    public ObservableValue<Boolean> isAvailableProperty() {
+        return selected;
     }
     // To string dhe equals method
 }

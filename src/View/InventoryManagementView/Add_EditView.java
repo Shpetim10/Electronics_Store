@@ -1,18 +1,30 @@
 package View.InventoryManagementView;
 
+import Model.Item;
+import Model.SectorType;
+import Model.Supplier;
 import View.Design;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
 import java.util.ArrayList;
+import java.util.Date;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class Add_EditView implements Design {
+    private final ComboBox<String> search;
     private CheckBox select;
     private TextField productCode;
     private TextField productName;
@@ -33,9 +45,10 @@ public class Add_EditView implements Design {
     private TextField lastRestockDate;
     private TextField barcode;
     private TextField nrOfReturns;
-    private ArrayList<AddList> list;
     private Button add;
     private Button edit;
+    private TableView<Item> table;
+
 
     public Add_EditView() {
         this.select=createCheckBox();
@@ -60,204 +73,254 @@ public class Add_EditView implements Design {
         this.nrOfReturns = createTextField("Number of Returns");
         this.add=createGeneralButton("Add Product");
         this.edit=createGeneralButton("Edit Product");
+        this.search = createComboBox("Select");
 
-        this.list = new ArrayList<>();
+
+        this.table = new TableView<>();
+        initializeTableView();
     }
-    public HBox addMetadata() {
-        HBox metadata = new HBox(20);
-        metadata.setStyle("-fx-font-family: Bahnschrift;" +
-                "-fx-font-weight: bold;" +
-                "-fx-font-size: 15;");
-        metadata.setAlignment(Pos.TOP_LEFT);
+    private void initializeTableView() {
+        table.setPrefHeight(300);
+        table.setPrefWidth(3000);
+        table.setStyle("-fx-background-color:white ;"+ "-fx-border-radius:10;" + "-fx-border-color:yellowgreen;");
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        // Product Code Column
+        TableColumn<Item, Integer> idColumn = new TableColumn<>("Product Code");
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("productId"));
+        idColumn.setMaxWidth(100);
 
-        Label space=createAlignedBlackLabel("",60);
-        Label sellingPrice = createAlignedBlackLabel("Selling Price", 150);
-        Label productCode = createAlignedBlackLabel("Product Code", 150);
-        Label productName = createAlignedBlackLabel("Product Name", 150);
-        Label sector = createAlignedBlackLabel("Sector", 150);
-        Label description = createAlignedBlackLabel("Description", 250);
-        Label priceBought = createAlignedBlackLabel("Price Bought", 150);
-        Label supplier = createAlignedBlackLabel("Supplier", 150);
-        Label discountRate = createAlignedBlackLabel("Discount Rate", 150);
-        Label stockQuantity = createAlignedBlackLabel("Quantity", 150);
-        Label weight = createAlignedBlackLabel("Weight", 150);
-        Label volume = createAlignedBlackLabel("Volume", 150);
-        Label color = createAlignedBlackLabel("Color", 150);
-        Label brand = createAlignedBlackLabel("Brand", 150);
-        Label lastRestockDate = createAlignedBlackLabel("Last Restock Date", 200);
-        Label barcode = createAlignedBlackLabel("Barcode", 150);
-        Label nrOfReturns = createAlignedBlackLabel("Number of Returns", 150);
+        // Product Name Column
+        TableColumn<Item, String> nameColumn = new TableColumn<>("Product Name");
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        nameColumn.setMaxWidth(100);
 
-        Label isDiscounted = createAlignedBlackLabel("Is Discounted", 150); // Reduced from 180
-        Label isDiscontinued = createAlignedBlackLabel("Is Discontinued", 150); // Reduced from 180
-        Label isAvailable = createAlignedBlackLabel("Is Available", 150);
+        TableColumn<Item, String> sectorColumn = new TableColumn<>("Sector");
+        sectorColumn.setCellValueFactory(new PropertyValueFactory<>("sector"));
+        sectorColumn.setMaxWidth(80);
 
-        metadata.getChildren().addAll(
-                space,
-                barcode,
-                productCode,
-                productName,
-                brand,
-                sector,
-                supplier,
-                priceBought,
-                sellingPrice,
-                discountRate,
-                description,
-                weight,
-                volume,
-                color,
-                stockQuantity,
-                lastRestockDate,
-                nrOfReturns,
-                isDiscounted,
-                isDiscontinued,
-                isAvailable
+
+
+        TableColumn<Item, Double> sellingPriceColumn = new TableColumn<>("Selling Price");
+        sellingPriceColumn.setCellValueFactory(new PropertyValueFactory<>("sellingPrice"));
+        sellingPriceColumn.setMaxWidth(100);
+
+        TableColumn<Item, Double> costPriceColumn = new TableColumn<>("Cost Price");
+        costPriceColumn.setCellValueFactory(new PropertyValueFactory<>("priceBought"));
+        costPriceColumn.setMaxWidth(100);
+
+        TableColumn<Item, String> supplierColumn = new TableColumn<>("Supplier");
+        supplierColumn.setCellValueFactory(new PropertyValueFactory<>("supplier"));
+        supplierColumn.setMaxWidth(80);
+
+
+
+        TableColumn<Item, String> discountColumn = new TableColumn<>("Discount Rate");
+        discountColumn.setCellValueFactory(new PropertyValueFactory<>("discountRate"));
+        discountColumn.setMaxWidth(100);
+
+        // Quantity Column
+        TableColumn<Item, Integer> quantityColumn = new TableColumn<>("Quantity");
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
+        quantityColumn.setMaxWidth(80);
+
+
+
+
+        TableColumn<Item, String> brandColumn = new TableColumn<>("Brand");
+        brandColumn.setCellValueFactory(new PropertyValueFactory<>("brand"));
+        brandColumn.setMaxWidth(80);
+
+        // Column for 'Is Discounted'
+        TableColumn<Item, Boolean> discountedColumn = new TableColumn<>("Is Discounted");
+        discountedColumn.setCellValueFactory(cellData -> cellData.getValue().isDiscountedProperty());
+        discountedColumn.setMaxWidth(80);
+        discountedColumn.setCellFactory(param -> new TableCell<Item, Boolean>() {
+            @Override
+            protected void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);  // No content for empty cells
+                } else {
+                    CheckBox checkBox = createCheckBox();
+                    checkBox.setSelected(item != null && item);  // Set the check state based on the item value
+                    checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                        if (getTableRow() != null && getTableRow().getItem() != null) {
+                            Item currentItem = getTableRow().getItem();
+                            currentItem.setDiscounted(newValue); // Update the 'isDiscounted' property
+                        }
+                    });
+                    setGraphic(checkBox);  // Set the custom checkbox as the cell's graphic
+                }
+            }
+        });
+
+// Column for 'Is Discontinued'
+        TableColumn<Item, Boolean> discontinuedColumn = new TableColumn<>("Is Discontinued");
+        discontinuedColumn.setCellValueFactory(cellData -> cellData.getValue().isDiscontinuedProperty());
+        discontinuedColumn.setMaxWidth(80);
+        discontinuedColumn.setCellFactory(param -> new TableCell<Item, Boolean>() {
+            @Override
+            protected void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);  // No content for empty cells
+                } else {
+                    CheckBox checkBox = createCheckBox();
+                    checkBox.setSelected(item != null && item);  // Set the check state based on the item value
+                    checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                        if (getTableRow() != null && getTableRow().getItem() != null) {
+                            Item currentItem = getTableRow().getItem();
+                            currentItem.setDiscontinued(newValue); // Update the 'isDiscontinued' property
+                        }
+                    });
+                    setGraphic(checkBox);  // Set the custom checkbox as the cell's graphic
+                }
+            }
+        });
+
+// Column for 'Is Available'
+        TableColumn<Item, Boolean> availableColumn = new TableColumn<>("Is Available");
+        availableColumn.setCellValueFactory(cellData -> cellData.getValue().isAvailableProperty());
+        availableColumn.setMaxWidth(80);
+        availableColumn.setCellFactory(param -> new TableCell<Item, Boolean>() {
+            @Override
+            protected void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);  // No content for empty cells
+                } else {
+                    CheckBox checkBox = createCheckBox();
+                    checkBox.setSelected(item != null && item);  // Set the check state based on the item value
+                    checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                        if (getTableRow() != null && getTableRow().getItem() != null) {
+                            Item currentItem = getTableRow().getItem();
+                            currentItem.setAvailable(newValue); // Update the 'isAvailable' property
+                        }
+                    });
+                    setGraphic(checkBox);  // Set the custom checkbox as the cell's graphic
+                }
+            }
+        });
+
+
+        TableColumn<Item, String> restockColumn = new TableColumn<>("Last_Restock_Date");
+        restockColumn.setCellValueFactory(new PropertyValueFactory<>("lastRestockDate"));
+        restockColumn.setMaxWidth(100);
+
+        TableColumn<Item, String> barcodeColumn = new TableColumn<>("Barcode");
+        barcodeColumn.setCellValueFactory(new PropertyValueFactory<>("barcode"));
+        barcodeColumn.setMaxWidth(80);
+
+
+
+//        TableColumn<Item, Boolean> selectColumn = new TableColumn<>("Select");
+//        selectColumn.setCellValueFactory(cellData -> cellData.getValue().selectedProperty());
+//
+//        // Set a custom cell factory to use your createCheckBox method
+//        selectColumn.setCellFactory(param -> new TableCell<Item, Boolean>() {
+//            @Override
+//            protected void updateItem(Boolean item, boolean empty) {
+//                super.updateItem(item, empty);
+//                if (empty) {
+//                    setGraphic(null);  // No content for empty cells
+//                } else {
+//                    CheckBox checkBox = createCheckBox();
+//                    checkBox.setSelected(item != null && item);  // Set the check state based on the item value
+//                    checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+//                        if (getTableRow() != null && getTableRow().getItem() != null) {
+//                            Item currentItem = getTableRow().getItem();
+//                            currentItem.setSelected(newValue); // Update the item's selected property
+//                        }
+//                    });
+//                    setGraphic(checkBox);  // Set the custom checkbox as the cell's graphic
+//                }
+//            }
+//        });
+
+
+        // Add columns to the table
+        table.getColumns().addAll(barcodeColumn,idColumn, nameColumn,brandColumn,sectorColumn,supplierColumn,costPriceColumn,sellingPriceColumn,quantityColumn,restockColumn,discountedColumn,discountColumn,discontinuedColumn,availableColumn );
+
+        // Sample data
+        ObservableList<Item> items = FXCollections.observableArrayList(
+
+                new Item(2, "Phone", SectorType.ELECTRONICS, " iPhone", 1000.0, 800.0,
+                        new Supplier("Apple"), false, 5.0, 75, false, 0.3, 0.1,
+                        new int[]{6, 3, 4}, "Black", "Apple", 1, true, true,
+                        new Date(), 4.8, "image-phone.jpg", "0987654321", 1)
         );
 
-        return metadata;
+// Set items to TableView
+        table.setItems(items);
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
     }
 
-    public HBox addRow(AddList item) {
-        HBox pane = new HBox(20);
-        pane.setStyle("-fx-font-family: Bahnschrift;" +
-                "-fx-font-size: 15;");
-        pane.setAlignment(Pos.CENTER_LEFT);
-        pane.getChildren().addAll(
-                item.getSelect(),
-                item.getBarcode(),
-                item.getProductCode(),
-                item.getProductName(),
-                item.getBrand(),
-                item.getSector(),
-                item.getSupplier(),
-                item.getPriceBought(),
-                item.getSellingPrice(),
-                item.getDiscountRate(),
-                item.getDescription(),
-                item.getWeight(),
-                item.getVolume(),
-                item.getColor(),
-                item.getStockQuantity(),
-                item.getLastRestockDate(),
-                item.getNrOfReturns(),
-                item.getIsDiscounted(),
-                item.getIsDiscontinued(),
-                item.getIsAvailable()
-        );
-        return pane;
-    }
-
-
-    public ScrollPane createProductLog() {
-        ScrollPane scroll = new ScrollPane();
-        scroll.setPrefHeight(350);
-        scroll.setPrefWidth(5000);
-        scroll.setStyle("-fx-background-color: rgba(167,246,8,0.3);" +
-                "-fx-font-family: Bahnschrift;" +
-               "-fx-border-radius: 30;" +
-                "-fx-background-radius: 30;" +
-                "-fx-padding: 10;");
-        scroll.setFitToWidth(true);
-        scroll.setPannable(true);
-
-        VBox box = new VBox(5);
-        box.setMinHeight(600);
-        box.setMinWidth(3000);
-        box.setStyle("-fx-background-color: rgba(167,246,8,0.3);" +
-                "-fx-font-family: Bahnschrift;" +
-                "-fx-padding: 10;");
-        box.setAlignment(Pos.TOP_CENTER);
-
-        Label headText = createAlignedGreenBoldLabel("Products Full Info", 150);
-
-        VBox listing = new VBox(10);
-        listing.setStyle("-fx-padding: 10;");
-
-        list.add(new AddList(
-                200.0,
-                "MacBook",
-                "PROD12345",
-                "Apple MacBook Pro",
-                "Electronics",
-                "High-performance laptop",
-                95.0,
-                "Apple Inc.",
-                true,
-                10.0,
-                50,
-                2.3,
-                0.025,
-                "Space Gray",
-                false,
-                true,
-                "2025-01-01",
-                "123456789012",
-                5
-        ));
-
-
-
-        for (AddList item : list) {
-            listing.getChildren().add(addRow(item));
-        }
-        box.getChildren().addAll(headText, addMetadata(),listing);
-        scroll.setContent(box);
-        return scroll;
-    }
     public Scene createScene() {
         GridPane inventory = new GridPane();
         inventory.setHgap(20);
         inventory.setVgap(10);
         inventory.setPadding(new Insets(50, 100, 50, 100));
         inventory.setStyle("-fx-background-color: rgba(167,246,8,0.15)");
+
         HBox buttons=new HBox(30);
         buttons.getChildren().addAll(add,edit);
-/*
-        FlowPane control=new FlowPane();
-        control.setVgap(15);
-        control.setHgap(10);
-        control.setPrefWrapLength(300);
-        control.getChildren().addAll(barcode,productCode,productName,description,brand,sector,weight,volume,color,supplier,priceBought,sellingPrice,stockQuantity,isDiscounted,discountRate,lastRestockDate,nrOfReturns,isDiscontinued,isAvailable,buttons);
+
+       GridPane grid=new GridPane();
+       grid.setVgap(20);
+      grid.setHgap(20);
 
 
- */
-        GridPane grid=new GridPane();
-        grid.setVgap(20);
-        grid.setHgap(20);
-        grid.add(barcode,0,0);//kte mdk se e kemi lene qe te behet autogenerated
-        grid.add(productCode,1,0);
-        grid.add(productName,2,0);
-        grid.add(description,3,0);
-        grid.add(brand,0,1);
-        grid.add(sector,1,1);
-        grid.add(weight,2,1);
-        grid.add(volume,3,1);
-        grid.add(color,0,2);
-        grid.add(supplier,1,2);
-        grid.add(priceBought,2,2);
-        grid.add(sellingPrice,3,2);
-        grid.add(stockQuantity,0,3);
-        grid.add(lastRestockDate,1,3);
-        grid.add(nrOfReturns,2,3);
-        grid.add(createAlignedGreenBoldLabel("Is Discounted",80),0,4);
-        grid.add(isDiscounted,1,4);
-        grid.add(discountRate,2,4);
-        grid.add(createAlignedGreenBoldLabel("Is Available: ",100),0,5);
-        grid.add(isAvailable,1,5);
-        grid.add(createAlignedGreenBoldLabel("Is Discontinued ",100),0,6);
-        grid.add(isDiscontinued,1,6);
-        grid.add(add,1,7);
-        grid.add(edit,2,7);
+        grid.add(createAlignedGreenBoldLabel("Barcode: ", 100), 0, 0);
+        grid.add(barcode, 1, 0);
+        grid.add(createAlignedGreenBoldLabel("Product Code: ", 150), 2, 0);
+        grid.add(productCode, 3, 0);
+        grid.add(createAlignedGreenBoldLabel("Product Name: ", 150), 4, 0);
+        grid.add(productName, 5, 0);
+
+        grid.add(createAlignedGreenBoldLabel("Brand: ", 100), 0, 1);
+        grid.add(brand, 1, 1);
+        grid.add(createAlignedGreenBoldLabel("Sector: ", 100), 2, 1);
+        grid.add(sector, 3, 1);
+        grid.add(createAlignedGreenBoldLabel("Supplier: ", 100), 4, 1);
+        grid.add(supplier, 5, 1);
+
+        grid.add(createAlignedGreenBoldLabel("Price Bought: ", 150), 0, 2);
+        grid.add(priceBought, 1, 2);
+        grid.add(createAlignedGreenBoldLabel("Selling Price: ", 150), 2, 2);
+        grid.add(sellingPrice, 3, 2);
+        grid.add(createAlignedGreenBoldLabel(" Quantity: ", 100), 4, 2);
+        grid.add(stockQuantity, 5, 2);
+
+        grid.add(createAlignedGreenBoldLabel("Last Restock Date: ", 200), 0, 3);
+        grid.add(lastRestockDate, 1, 3);
+        grid.add(createAlignedGreenBoldLabel("Is Discounted: ", 150), 2, 3);
+        grid.add(isDiscounted, 3, 3);
+        grid.add(createAlignedGreenBoldLabel("Discount Rate: ", 150), 4, 3);
+        grid.add(discountRate, 5, 3);
+
+      grid.add(add, 4, 4);
+       grid.add(edit, 5, 4);
+
+
+
         Label label=createAlignedGreenBoldLabel("Products Management",200);
+        HBox searchBox = new HBox(100);
 
-        ScrollPane productLog=createProductLog();
-        productLog.setMinHeight(300);
 
-        inventory.add(label,1,0);
-        inventory.add(productLog,1,1);
-        inventory.add(grid,1,2);
-       // inventory.add(buttons,2,3);
+
+            Image image = new Image("file:C:/Users/user/Downloads/logo.jpg");
+            ImageView imageView = new ImageView(image);
+            imageView.setFitHeight(60);
+            imageView.setFitWidth(60);
+
+
+        searchBox.getChildren().addAll( label,search);
+       inventory.add(imageView,2,0);
+        inventory.add(searchBox,1,0);
+        inventory.add(table,1,1);
+       inventory.add(grid,1,2);
+
 
         Scene scene = new Scene(inventory);
         return scene;
