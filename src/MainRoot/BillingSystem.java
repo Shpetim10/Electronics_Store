@@ -7,6 +7,8 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -29,6 +31,9 @@ public class BillingSystem extends Application implements Design {
         ArrayList<Permission> permissions = new ArrayList<>();
         boolean isActive = true;
         Cashier cashier = new Cashier(id, firstName, lastName, username, password, email, phoneNumber, dateEmployed, role, permissions, isActive);
+        Shift shift=new Shift(1,cashier, LocalDate.now(), LocalTime.now(),LocalTime.now());
+        shift.startShift();
+        cashier.getShifts().add(shift);
 
         BillingSystemController controller=new BillingSystemController(cashier);
         primaryStage.setTitle("Billing System");

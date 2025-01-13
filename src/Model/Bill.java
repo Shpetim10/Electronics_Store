@@ -27,9 +27,13 @@ public class Bill implements CustomerLoyalty  {
     private String cardName;
     private String expDate;
     private int cvv;
-
+    //Only if payment is cash
+    private int moneyCollected;
+    private int change;
 
         public Bill() {
+            this.dateGenerated=LocalDate.now();
+            this.timeGenerated=LocalTime.now();
             this.itemBought=new ArrayList<>();
         }//No Argument constructor
 
@@ -69,6 +73,7 @@ public class Bill implements CustomerLoyalty  {
             }
             return billFile;
         }  //Sh
+
         public void writeBill(PrintWriter output){
             output.printf("%70s\n", "Electronics Store");
             output.println("-".repeat(140) + "\n");
@@ -76,8 +81,8 @@ public class Bill implements CustomerLoyalty  {
             output.println("Date:\t\t" + this.getDateGenerated());
             output.println("Time:\t\t" + this.getTimeGenerated() + "\n\n");
             output.println("CashierId:\t\t" + this.getCashierId());
-            output.println("Customer Id:\t\t" + "\n\n");    //Update customer card id
-            output.println("Customer Card Id:\t\t");      //Update
+            output.println("\n\nCustomer Id:\t\t" + customerIdCard);
+            output.println("Customer points:\t\t"+loyaltyPoints.get(customers.indexOf(customerIdCard)));
             output.printf("\n\n%70s\n\n", "Fiscal Bill");
             output.printf("%15s%40s%15s%20s%15s%30s\n", "Id", "Product Name", "Quantity", "Price", "Total Tax", "Total Price");
             output.println("-".repeat(140) + "\n");
@@ -102,15 +107,16 @@ public class Bill implements CustomerLoyalty  {
 
             output.println("Payment Method:\t\t" + this.getPaymentMethod());
             if (this.getPaymentMethod().equals(PaymentMethod.CASH)) {
-                output.println("Money given:\t\t");  //Update
-                output.println("Change:\t\t");   //Update
+                output.println("Money given:\t\t"+moneyCollected);
+                output.println("Change:\t\t"+change);
             } else if (this.getPaymentMethod().equals(PaymentMethod.CARD)) {
-                output.println("Full Name:\t\t");
-                output.println("Card Number:\t\t"); //Update
+                output.println("Full Name:\t\t"+cardName);
+                output.println("Card Number:\t\t"+creditCardNr);
             }
             output.printf("%70s\n", "Thank You for shopping with us!");
             output.println("-".repeat(140));
         }   //Sh
+
         public String createBillPath(){
             String path = "src/Files/Bills/";
             path += "Cashier" + cashier.getId(); //Add to folder of the current cashier
@@ -133,7 +139,7 @@ public class Bill implements CustomerLoyalty  {
             }
 
             return total;
-        }
+        } //Sh
 
         public double getTotalTaxOfBill(){
             double tax=0;
@@ -143,9 +149,13 @@ public class Bill implements CustomerLoyalty  {
             }
 
             return tax;
+        } //Sh
+
+        public double getNoTaxTotal(){
+            return getTotalOfBill()-getTotalTaxOfBill();
         }
 
-        public void addProductToCart(String productName) throws ItemNotFoundException, OutOfStockException, InsuffitientStockException {
+        public ItemBought addProductToCart(String productName) throws ItemNotFoundException, OutOfStockException {
             Item bought = null;
             for (Item item : cashier.items) {
                 if (productName.equals(item.getProductName())) {
@@ -156,13 +166,8 @@ public class Bill implements CustomerLoyalty  {
             if (bought == null) throw new ItemNotFoundException(productName);
             if (bought.getStockQuantity() == 0) throw new OutOfStockException();
 
-            int quantity = 0;
-            //Get Quantity from view and validate
-
-            if (!checkInventoryStockAvailable(bought, quantity)) throw new InsuffitientStockException();
-
-            // bill.getItemBought().add(new ItemBought(bought,quantity));
-            bought.decrementStock(quantity);
+            this.getItemBought().add(new ItemBought(bought));
+            return new ItemBought(bought);
         } //Sh
 
         public void removeProductFromCart(int productId){//Will get from ItemBoughtView when selected, use a for loop to check each item if selected
@@ -193,19 +198,12 @@ public class Bill implements CustomerLoyalty  {
         } //Sh
 
         public boolean checkInventoryStockAvailable(Item product, int quantity){
-        return product.getStockQuantity()-quantity>0;
-    }//Sh
+            return product.getStockQuantity()-quantity>0;
+        }//Sh
 
-        public boolean validateGiftCardExistance(Bill bill,String code){
-        for(Map.Entry<String,Double> card: bill.giftCards.entrySet()){
-            if(card.getKey().equals(code)) return true;
-        }
-        return false;
-    } //Sh
-
-        public boolean validateCustomerExistance(Bill bill,int code){
-        for(Map.Entry<Integer,Integer> customer : bill.customers.entrySet()){
-            if(customer.getKey()==code) return true;
+        public boolean validateCustomerExistance(String code){
+        for(String customer : this.customers){
+            if(customer.equals(code)) return true;
         }
         return false;
     } //Sh

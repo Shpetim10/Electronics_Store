@@ -12,7 +12,8 @@ public class ItemBought  implements InventoryManagement{
     private double totalPrice;
 
     //Used for Inventory Management
-    private Item item;
+    private Item itemBought;
+
     public ItemBought(int productId, String productName, int quantity, double sellingPrice) {
         this.productId = productId;
         this.productName = productName;
@@ -22,7 +23,10 @@ public class ItemBought  implements InventoryManagement{
         setTotalTax();
         setItem();
     }
+    public ItemBought(Item itemBought){
+        this(itemBought.getProductId(),itemBought.getProductName(),0,itemBought.getSellingPrice());
 
+    }
     public int getProductId() {
         return productId;
     }
@@ -74,11 +78,11 @@ public class ItemBought  implements InventoryManagement{
     public void setItem(){
         for(Item item:items){
             if(item.getProductId()==this.productId){
-                this.item=item;
+                this.itemBought=item;
             }
         }
     }
     public Item getItem(){
-        return this.item;
+        return this.itemBought;
     }
 }

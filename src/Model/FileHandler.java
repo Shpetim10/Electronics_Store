@@ -57,7 +57,7 @@ public class FileHandler {
 
     public static ArrayList<Bill> getBillsByCashierAndShft(Cashier cashier, Shift shift){
         ArrayList<Bill> bills=new ArrayList<>();
-        File BILLS_FILE=new File(BILLS_DIRECTORY+"/Cashier"+cashier.getId()+"/Shift"+shift.getShiftDate().getDay()+"_"+shift.getShiftDate().getMonth()+"_"+shift.getShiftDate().getYear()+"_Bills.dat");
+        File BILLS_FILE=new File(BILLS_DIRECTORY+"/Cashier"+cashier.getId()+"/Shift"+shift.getShiftDate().getDayOfMonth()+"_"+shift.getShiftDate().getMonth()+"_"+shift.getShiftDate().getYear()+"_Bills.dat");
         try(ObjectInputStream reader=new ObjectInputStream(new FileInputStream(BILLS_FILE))){
             Bill bill;
             while(true){
@@ -78,7 +78,7 @@ public class FileHandler {
         return bills;
     }
     public static boolean writeBillToFile(Cashier cashier,Shift shift,Bill bill){
-        File BILLS_FILE=new File(BILLS_DIRECTORY+"/Cashier"+cashier.getId()+"/Shift"+shift.getShiftDate().getDay()+"_"+shift.getShiftDate().getMonth()+"_"+shift.getShiftDate().getYear()+"_Bills.dat");
+        File BILLS_FILE=new File(BILLS_DIRECTORY+"/Cashier"+cashier.getId()+"/Shift"+shift.getShiftDate().getDayOfMonth()+"_"+shift.getShiftDate().getMonth()+"_"+shift.getShiftDate().getYear()+"_Bills.dat");
         try(FileOutputStream outputStream=new FileOutputStream(BILLS_FILE,true)){
             ObjectOutputStream writer;
             if(BILLS_FILE.length()>0){

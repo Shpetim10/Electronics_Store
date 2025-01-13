@@ -24,7 +24,7 @@ public interface Design {
                         " -fx-border-width: 2;" +
                         "-fx-font-family: Bahnschrift;" +
                         "-fx-font-weight: bold;" +
-                        "-fx-font-size: 15;";
+                        "-fx-font-size: 13;";
         Button button=new Button(text);
         button.setStyle(buttonStyle);
         button.setPrefHeight(25);
@@ -80,7 +80,7 @@ public interface Design {
         label.setStyle("-fx-text-fill: green;" +
                 "-fx-font-family: Bahnschrift;" +
                 "-fx-font-weight: bold;" +
-                "-fx-font-size: 18;");
+                "-fx-font-size: 15;");
         return label;
     }
     default Label createAlignedGreenBoldLabel(String text){

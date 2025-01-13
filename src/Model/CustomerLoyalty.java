@@ -3,6 +3,6 @@ package Model;
 import java.util.*;
 
 public interface CustomerLoyalty {
-     Map<Integer,Integer> customers = new HashMap<>(); //Code and Money
-     Map<String,Double> giftCards= new HashMap<>(); //Code and money
+     ArrayList<String> customers = new ArrayList<>();
+     ArrayList<Integer> loyaltyPoints= new ArrayList<>(); //Code and money
 }

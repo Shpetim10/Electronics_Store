@@ -31,6 +31,7 @@ public class ProductCardView extends VBox implements Design {
     public ProductCardView() {
         setUpView();
     }
+
     public void setUpView(){
         //Product Cart
         this.setSpacing(10);
@@ -46,12 +47,14 @@ public class ProductCardView extends VBox implements Design {
         //Header of product cart
         HBox headerBox=new HBox(20);
         Label productCartTitle=createAlignedGreenBoldLabel("Product Cart");
+        searchBox.getSearchButton().setText("Add");
         headerBox.getChildren().addAll(productCartTitle,searchBox,clearCart);
         errorMessage.setTextFill(Color.RED);
         errorMessage.setAlignment(Pos.CENTER);
 
         this.getChildren().addAll(title,todaySaleTitle,infoBox,headerBox,errorMessage,productCartTable);
     }
+
     public GridPane createTodaySalesInfoPane(){
         GridPane todaysaleInfo=new GridPane();
 
@@ -102,6 +105,7 @@ public class ProductCardView extends VBox implements Design {
 
         return customerInfo;
     }
+
     public TableView createTableView(){
         TableView<ItemBought> table = new TableView<>();
         table.setStyle("-fx-background-color: white;" +
@@ -110,14 +114,6 @@ public class ProductCardView extends VBox implements Design {
                 "-fx-border-width: 1;" +
                 "-fx-border-color: yellowgreen;");
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-        // Create data source
-        ObservableList<ItemBought> itemBought= FXCollections.observableArrayList(
-                new ItemBought(1, "Product A", 2, 10.5),
-                new ItemBought(2, "Product B", 1, 20.0)
-        );
-
-        table.setItems(itemBought);
 
         // Create columns of product cart
         TableColumn<ItemBought, Integer> idColumn = new TableColumn<>("Product ID");
@@ -184,6 +180,7 @@ public class ProductCardView extends VBox implements Design {
 
         return table;
     }
+
     public Button createDeleteRowButton(){
         Button button=new Button();
 
@@ -198,6 +195,7 @@ public class ProductCardView extends VBox implements Design {
 
         return button;
     }
+
     public SearchBoxPane getSearchBox() {
         return searchBox;
     }
@@ -228,5 +226,9 @@ public class ProductCardView extends VBox implements Design {
 
     public Label getErrorMessage() {
         return errorMessage;
+    }
+
+    public TableView getProductCartTable() {
+        return productCartTable;
     }
 }

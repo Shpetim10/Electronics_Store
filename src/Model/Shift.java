@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,13 +16,13 @@ public class Shift {
     private int nrOfItemsSold;
     private int nrOfRefunds;
     private int nrOfReturns;
-    private Date shiftDate;
+    private LocalDate shiftDate;
     private LocalTime startHour;
     private LocalTime endHour;
     private File report;
     private ShiftStatus shiftStatus;
 
-    public Shift(int shiftId, Cashier cashier, Date shiftDate, LocalTime startHour, LocalTime endHour) {
+    public Shift(int shiftId, Cashier cashier, LocalDate shiftDate, LocalTime startHour, LocalTime endHour) {
         this.shiftId = shiftId;
         this.cashier = cashier;
         this.shiftDate = shiftDate;
@@ -33,6 +34,20 @@ public class Shift {
         this.shiftStatus=ShiftStatus.PLANNED;
     }
 
+    public double getTotalMoneyCollected(){
+        double result=0;
+        for(Bill bill: bills){
+            result+=bill.getTotalOfBill();
+        }
+        return result;
+    }
+    public double getTotalTaxCollected(){
+        double result=0;
+        for(Bill bill: bills){
+            result+=bill.getTotalTaxOfBill();
+        }
+        return result;
+    }
     public void startShift(){
         if(getShiftStatus().equals(ShiftStatus.PLANNED)){
             this.setShiftStatus(ShiftStatus.ACTIVE);
@@ -51,8 +66,8 @@ public class Shift {
     //Will be generated automaticaly when the shift is completed
     public void generateShiftReport(){
         File report=null;
-        String reportName="C:\\Users\\Shpëtim Shabanaj\\OneDrive\\Desktop\\OOP Project\\ElectronicsStore_ShpëtimShabanaj\\Electronics_Store\\src\\Files\\Reports\\"+
-                shiftId+"_"+shiftDate.getDay()+"_"+shiftDate.getMonth()+"_"+shiftDate.getYear()+"txt";
+        String reportName="src/Files/Reports/Cashier"+cashier.getId()+"/Shift"+
+                shiftId+"_"+shiftDate.getDayOfMonth()+"_"+shiftDate.getMonth()+"_"+shiftDate.getYear()+"txt";
         report=new File(reportName);
         try(PrintWriter output=new PrintWriter(new FileOutputStream(report))){
             output.println("\t\t\t\t\tShift Report\n");
@@ -134,11 +149,11 @@ public class Shift {
         this.nrOfReturns = nrOfReturns;
     }
 
-    public Date getShiftDate() {
+    public LocalDate getShiftDate() {
         return shiftDate;
     }
 
-    public void setShiftDate(Date shiftDate) {
+    public void setShiftDate(LocalDate shiftDate) {
         this.shiftDate = shiftDate;
     }
 
