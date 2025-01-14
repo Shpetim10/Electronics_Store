@@ -6,7 +6,7 @@ import java.util.Date;
 public class Administrator extends User implements InventoryManagement{
     private ArrayList<User> employees;
 
-    //Constructor with no argument
+    //Constructor with custom argument
     public Administrator(int id,String firstName, String lastName, String username, String password, String email,
                          String phoneNumber, Date dateEmployed,EmployeeRole role,ArrayList<Permission> permissions,
                          boolean isActive){

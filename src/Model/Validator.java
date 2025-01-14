@@ -1,5 +1,6 @@
 package Model;
 
+import java.time.LocalDate;
 import java.util.regex.Pattern;
 
 public class Validator {
@@ -19,9 +20,14 @@ public class Validator {
         // format 01/2025
         //Year greater or equal to 2025
         //2 regex->One for months 10,11,12 ond one for other
-        String year=date.substring(3,6);
-        return (Pattern.matches("^0[1-9]/[2-9][0-9]{3}$",date) || Pattern.matches("^1[0-2]/[2-9][0-9]{3}$",date))
-                && date.length()==7 && Integer.parseInt(year)>=2025;
+        if (date == null || date.length() != 7)
+        {
+            return false;
+        }
+        String yearPart = date.substring(3);
+        boolean validFormat = Pattern.matches("^0[1-9]/[2-9][0-9]{3}$", date) || Pattern.matches("^1[0-2]/[2-9][0-9]{3}$", date);
+
+        return validFormat && Integer.parseInt(yearPart)>=LocalDate.now().getYear();
     } //Sh
     public static boolean validateCreditCardCvv(String cvv){
         //3 digits
@@ -34,7 +40,7 @@ public class Validator {
     public static void main(String[] args) {
 
         System.out.println(validateExpirationDateFormat("00/2025"));
-        System.out.println(validateExpirationDateFormat("01/1995"));
+        System.out.println(validateExpirationDateFormat("01/2025"));
         System.out.println(validateExpirationDateFormat("05/2026"));
     }
 }

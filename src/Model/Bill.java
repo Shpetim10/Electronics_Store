@@ -19,6 +19,7 @@ public class Bill implements CustomerLoyalty  {
     private ArrayList<ItemBought> itemBought;
     private PaymentMethod paymentMethod;
     private String customerIdCard; //Personal Id
+    private File billFile;
 
     //Only if payment method is credit card
     private String creditCardNr;
@@ -47,24 +48,24 @@ public class Bill implements CustomerLoyalty  {
     }
 
     //Useful Methods
-    public File generateBill() {
+    public void generateBill() throws FileNotFoundException {
         //Create absolutePath of file
         File billFile = new File(createBillPath());
 
         try (PrintWriter output = new PrintWriter(new FileOutputStream(billFile, false))) {
             writeBill(output);
         } catch (FileNotFoundException ex) {
-            //view.getMessage().setText("File could not be generated! Please Report to Administrator.");
+            throw new FileNotFoundException();
         }
-        return billFile;
+        this.billFile=billFile;
     }  //Sh
 
     public void writeBill(PrintWriter output) {
         output.printf("%70s\n", "Electronics Store");
         output.println("-".repeat(140) + "\n");
         output.println("Address:\t\tTirana, Albania\n");
-        output.println("Date:\t\t" + this.getDateGenerated());
-        output.println("Time:\t\t" + this.getTimeGenerated() + "\n\n");
+        output.println("Date:\t\t" + this.getDateGenerated().getDayOfMonth()+":"+this.getDateGenerated().getMonth()+":"+this.getDateGenerated().getYear());
+        output.println("Time:\t\t" + this.getTimeGenerated().getHour()+":"+this.getTimeGenerated().getMinute() + "\n\n");
         output.println("CashierId:\t\t" + this.cashier.getId());
 
         if(customerIdCard!=null){
@@ -91,8 +92,8 @@ public class Bill implements CustomerLoyalty  {
         }
 
         output.println("-".repeat(140) + "\n\n");
-        output.printf("%80s\t\t%20f\n", "Total of Bill:", this.getTotalOfBill());
-        output.printf("%80s\t\t%20f\n", "Tax of Bill:", this.getTotalTaxOfBill());
+        output.printf("%80s\t\t%20.2f\n", "Total of Bill:", this.getTotalOfBill());
+        output.printf("%80s\t\t%20.2f\n", "Tax of Bill:", this.getTotalTaxOfBill());
 
         output.println("Payment Method:\t\t" + this.getPaymentMethod());
         if(this.getPaymentMethod()==PaymentMethod.CASH) {
@@ -301,6 +302,14 @@ public class Bill implements CustomerLoyalty  {
 
     public void setChange(double change) {
         this.change = change;
+    }
+
+    public File getBillFile() {
+        return billFile;
+    }
+
+    public void setBillFile(File billFile) {
+        this.billFile = billFile;
     }
 }
 

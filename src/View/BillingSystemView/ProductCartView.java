@@ -7,12 +7,14 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.util.converter.IntegerStringConverter;
 
 public class ProductCartView extends VBox implements Design {
     private final SearchBoxPane searchBox=new SearchBoxPane("Search Product...");
@@ -111,6 +113,7 @@ public class ProductCartView extends VBox implements Design {
                 "-fx-border-width: 1;" +
                 "-fx-border-color: yellowgreen;");
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        table.setPlaceholder(new Label("No products added to cart!"));
         // Create columns of product cart
         TableColumn<ItemBought, Integer> idColumn = new TableColumn<>("Product ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("productId"));
@@ -125,6 +128,13 @@ public class ProductCartView extends VBox implements Design {
         TableColumn<ItemBought, Integer> quantityColumn = new TableColumn<>("Quantity");
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         quantityColumn.setMaxWidth(80);
+
+// Use TextFieldTableCell with IntegerStringConverter
+        quantityColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        quantityColumn.setCellFactory(TextFieldTableCell.<ItemBought, Integer>forTableColumn(new IntegerStringConverter()));
+        quantityColumn.setEditable(true);
+
 
         // Selling Price column
         TableColumn<ItemBought, Double> sellingPriceColumn = new TableColumn<>("Selling Price");
@@ -143,31 +153,27 @@ public class ProductCartView extends VBox implements Design {
 
         // Action Button column
         TableColumn<ItemBought, Void> deleteColumn = new TableColumn<>("");
-        deleteColumn.setCellFactory(param -> new TableCell<ItemBought, Void>() {
-            private final Button deleteButton = createDeleteRowButton();
-            {
-
-                deleteButton.setOnAction(event -> {
-                    // Get the item for this row
-                    ItemBought item = getTableView().getItems().get(getIndex());
-
-                    // Remove the item from the table's data source
-                    getTableView().getItems().remove(item);
-                });
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-
-                // If the row is not empty, show the button
-                if (empty) {
-                    setGraphic(null); // No button for empty rows
-                } else {
-                    setGraphic(deleteButton); // Add the delete button for this row
-                }
-            }
-        });
+//        deleteColumn.setCellFactory(e -> new TableCell<ItemBought, Void>() {
+//            private final Button deleteButton = createDeleteRowButton();
+////            {
+////                deleteButton.setOnAction(e -> {
+////                    ItemBought item = getTableView().getItems().get(getIndex());
+////                    getTableView().getItems().remove(item);
+////                });
+////            }
+//
+//            @Override
+//            protected void updateItem(Void item, boolean empty) {
+//                super.updateItem(item, empty);
+//
+//                // If the row is not empty, show the button
+//                if (empty) {
+//                    setGraphic(null); // No button for empty rows
+//                } else {
+//                    setGraphic(deleteButton); // Add the delete button for this row
+//                }
+//            }
+//        });
 
 
         // Add all columns to the table
@@ -226,5 +232,12 @@ public class ProductCartView extends VBox implements Design {
 
     public TableView getProductCartTable() {
         return productCartTable;
+    }
+
+    public TableColumn<ItemBought,Integer> getQuantityColum(){
+        return (TableColumn<ItemBought,Integer>) productCartTable.getColumns().get(2);
+    }
+    public TableColumn<ItemBought, Void> getButtonColumn(){
+        return (TableColumn<ItemBought, Void>) productCartTable.getColumns().getLast();
     }
 }
