@@ -5,50 +5,30 @@ import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 
-public class ProductInformationView implements Design {
+public class ProductInformationView extends GridPane implements Design {
 
-    private Label photo;
-    private Label name;
-    private Label productId;
-    private Label quantity;
-    private Label price;
-    private Label sector;
-    private Label description;
-    private Label supplier;
-    private Label brand;
-    private Label lastRestock;
-    private Label sellingPrice;
-    private Label weight;
-    private CheckBox isAvailable;
-    private CheckBox isDiscontinued;
-    private Label priceBought;
+    private ImageView photo=new ImageView();
+    private Label name=createAlignedBlackLabel("");
+    private Label productId=createAlignedBlackLabel("");
+    private Label quantity=createAlignedBlackLabel("");
+    private Label price=createAlignedBlackLabel("");
+    private Label sector=createAlignedBlackLabel("");
+    private Label description=createAlignedBlackLabel("");
+    private Label supplier=createAlignedBlackLabel("");
+    private Label brand=createAlignedBlackLabel("");
+    private Label lastRestock=createAlignedBlackLabel("");
+    private Label sellingPrice=createAlignedBlackLabel("");
+    private Label weight=createAlignedBlackLabel("");
+    private CheckBox isAvailable=createCheckBox();
+    private CheckBox isDiscontinued=createCheckBox();
+    private Label priceBought=createAlignedBlackLabel("");
 
-    public ProductInformationView() {
-
-        this.photo=createAlignedBlackLabel("",100);
-        this.isAvailable=createCheckBox();
-        this.isDiscontinued=createCheckBox();
-
-        this.productId=createAlignedBlackLabel(String.valueOf(productId),40);
-        this.name=createAlignedBlackLabel(String.valueOf(name),200);
-
-        this.quantity=createAlignedBlackLabel(String.valueOf(quantity),50);
-
-        this.price=createAlignedBlackLabel(String.valueOf(price),50);
-        this.sector=createAlignedBlackLabel(String.valueOf(sector),300);
-        this.description=createAlignedBlackLabel(String.valueOf(description),400);
-        this.supplier=createAlignedBlackLabel(String.valueOf(supplier),300);
-        this.brand=createAlignedBlackLabel(String.valueOf(brand),300);
-        this.lastRestock=createAlignedBlackLabel(String.valueOf(lastRestock),300);
-        this.sellingPrice=createAlignedBlackLabel(String.valueOf(sellingPrice),200);
-        this.weight=createAlignedGreenBoldLabel(String.valueOf(weight),200);
-        this.priceBought=createAlignedBlackLabel(String.valueOf(priceBought),200);
-
-    }
-    public Label getPhoto() {return photo;}
+    public ImageView getPhoto() {return photo;}
 
     public CheckBox getIsAvailable() {return isAvailable;}
 
@@ -94,11 +74,11 @@ public class ProductInformationView implements Design {
     // Adding elements to GridPane
     public Scene createScene()
     {
-        GridPane productInfo=new GridPane();
-        productInfo.setHgap(100);
-        productInfo.setVgap(30);
-        productInfo.setPadding(new Insets(50,230,50,200));
-        productInfo.setStyle("-fx-background-color: rgba(167,246,8,0.15)");
+
+        this.setHgap(100);
+        this.setVgap(30);
+        this.setPadding(new Insets(50,230,50,200));
+       this.setStyle("-fx-background-color: rgba(167,246,8,0.15)");
 
         Label photoLabel = new Label(" Photo");
         photoLabel.setStyle("-fx-font-size: 12;  -fx-text-fill: darkgreen;");
@@ -172,43 +152,53 @@ public class ProductInformationView implements Design {
         CheckBox isDiscontinuedCheckbox = new CheckBox("Discontinued");
         isDiscontinuedCheckbox.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
 
-        productInfo.add(photoLabel, 0, 0);
+        this.add(photoLabel, 0, 0);
 
-        productInfo.add(productIdLabel, 1, 1);
-        productInfo.add(productIdField, 2, 1);
-        productInfo.add(nameLabel, 2, 0);
-        productInfo.add(nameField, 3, 0);
-        productInfo.add(sectorLabel, 1, 2);
-        productInfo.add(sectorField, 2, 2);
-        productInfo.add(quantityLabel, 1, 3);
-        productInfo.add(quantityField, 2, 3);
+        this.add(productIdLabel, 1, 1);
+        this.add(productIdField, 2, 1);
+        this.add(nameLabel, 2, 0);
+        this.add(nameField, 3, 0);
+        this.add(sectorLabel, 1, 2);
+        this.add(sectorField, 2, 2);
+        this.add(quantityLabel, 1, 3);
+        this.add(quantityField, 2, 3);
 
-        productInfo.add(descriptionLabel, 1, 4);
-        productInfo.add(descriptionField, 2, 4, 2, 1);
+        this.add(descriptionLabel, 1, 4);
+        this.add(descriptionField, 2, 4, 2, 1);
 
-        productInfo.add(supplierLabel, 1, 5);
-        productInfo.add(supplierField, 2, 5);
-        productInfo.add(brandLabel, 1, 6);
-        productInfo.add(brandField, 2, 6);
-        productInfo.add(lastRestockLabel, 1, 7);
-        productInfo.add(lastRestockPicker, 2, 7);
+        this.add(supplierLabel, 1, 5);
+        this.add(supplierField, 2, 5);
+        this.add(brandLabel, 1, 6);
+        this.add(brandField, 2, 6);
+        this.add(lastRestockLabel, 1, 7);
+        this.add(lastRestockPicker, 2, 7);
 
-        productInfo.add(priceLabel, 1, 8);
-        productInfo.add(priceField, 2, 8);
+        this.add(priceLabel, 1, 8);
+        this.add(priceField, 2, 8);
 
-        productInfo.add(weightLabel, 1, 9);
-        productInfo.add(weightField, 2, 9);
+        this.add(weightLabel, 1, 9);
+        this.add(weightField, 2, 9);
 
-        productInfo.add(sellingPriceLabel, 3, 2);
-        productInfo.add(sellingPriceField, 4, 2);
+   this.add(sellingPriceLabel, 3, 2);
+       this.add(sellingPriceField, 4, 2);
 
-        productInfo.add(priceBoughtLabel, 3, 1);
-        productInfo.add(priceBoughtField, 4, 1);
+        this.add(priceBoughtLabel, 3, 1);
+        this.add(priceBoughtField, 4, 1);
 
-        productInfo.add(isAvailableCheckbox, 3, 5);
-        productInfo.add(isDiscontinuedCheckbox, 3, 6);
+        this.add(isAvailableCheckbox, 3, 5);
+        this.add(isDiscontinuedCheckbox, 3, 6);
 
-        Scene scene=new Scene(productInfo);
+        Scene scene=new Scene(this);
 
         return scene; }
+public void setUpView(){
+
+}
+    /*public void setUpView(){
+
+    ic e kam bere un tek ajo e imja
+    do ta heqesh kte qe ben return scene
+    ok
+    Tek te kuqet be this
+     */
 }
