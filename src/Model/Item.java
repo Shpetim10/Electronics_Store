@@ -1,5 +1,9 @@
 package Model;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
+
 import java.util.Date;
 
 public class Item {
@@ -8,11 +12,11 @@ public class Item {
     private SectorType sector;
     private String description;
     private double sellingPrice;
-    private double priceBrought;
+    private double priceBought;
     private Supplier supplier;
     private boolean isDiscounted;
     private double discountRate;
-    private int stockQuality;
+    private int stockQuantity;
     private boolean isLowStock;
     private double weight;
     private double volume;
@@ -28,13 +32,15 @@ public class Item {
     private String barcode;
     private int nrOfReturns;
 
+    private BooleanProperty selected = new SimpleBooleanProperty(false);
+
 
 
     public Item() {
     }
 
     public Item(int productId, String productName, SectorType sector, String description, double sellingPrice,
-                double priceBrought, Supplier supplier, boolean isDiscounted, double discountRate, int stockQuality,
+                double priceBrought, Supplier supplier, boolean isDiscounted, double discountRate, int stockQuantity,
                 boolean isLowStock, double weight, double volume, int[] dimensions, String color, String brand,
                 int warrantyPeriod, boolean isDiscontinued, boolean isAvailable, Date lastRestockDate,
                 double averageRating, String image, String barcode, int nrOfReturns) {
@@ -43,11 +49,11 @@ public class Item {
         this.sector = sector;
         this.description = description;
         this.sellingPrice = sellingPrice;
-        this.priceBrought = priceBrought;
+        this.priceBought = priceBrought;
         this.supplier = supplier;
         this.isDiscounted = isDiscounted;
         this.discountRate = discountRate;
-        this.stockQuality = stockQuality;
+        this.stockQuantity = stockQuantity;
         this.isLowStock = isLowStock;
         this.weight = weight;
         this.volume = volume;
@@ -63,6 +69,25 @@ public class Item {
         this.barcode = barcode;
         this.nrOfReturns = nrOfReturns;
     }
+
+    public Item(int productId, String productName, String brand, int stockQuantity, double priceBrought, double sellingPrice) {
+        this.productId = productId;
+        this.productName = productName;
+        this.brand = brand;
+        this.stockQuantity = stockQuantity;
+        this.priceBought = priceBrought;
+        this.sellingPrice = sellingPrice;
+    }
+
+    //Useful Methods
+    public void incrementStock(int quantity){
+        setStockQuantity(getStockQuantity()+quantity);
+    } //Sh
+
+    public void decrementStock(int quantity){
+        setStockQuantity(getStockQuantity()-quantity);
+    } //Sh
+
 
     // Getters and Setters
     public int getProductId() {
@@ -105,12 +130,12 @@ public class Item {
         this.sellingPrice = sellingPrice;
     }
 
-    public double getPriceBrought() {
-        return priceBrought;
+    public double getPriceBought() {
+        return priceBought;
     }
 
-    public void setPriceBrought(double priceBrought) {
-        this.priceBrought = priceBrought;
+    public void setPriceBought(double priceBought) {
+        this.priceBought = priceBought;
     }
 
     public Supplier getSupplier() {
@@ -137,12 +162,12 @@ public class Item {
         this.discountRate = discountRate;
     }
 
-    public int getStockQuality() {
-        return stockQuality;
+    public int getStockQuantity() {
+        return stockQuantity;
     }
 
-    public void setStockQuality(int stockQuality) {
-        this.stockQuality = stockQuality;
+    public void setStockQuantity(int stockQuality) {
+        this.stockQuantity = stockQuality;
     }
 
     public boolean isLowStock() {
@@ -257,6 +282,29 @@ public class Item {
         this.nrOfReturns = nrOfReturns;
     }
 
+    public BooleanProperty selectedProperty() {
+        return selected;
+    }
+
+    public boolean isSelected() {
+        return selected.get();
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected.set(selected);
+    }
+
+    public ObservableValue<Boolean> isDiscountedProperty() {
+    return selected;
+    }
+
+    public ObservableValue<Boolean> isDiscontinuedProperty() {
+        return selected;
+    }
+
+    public ObservableValue<Boolean> isAvailableProperty() {
+        return selected;
+    }
     // To string dhe equals method
 }
 

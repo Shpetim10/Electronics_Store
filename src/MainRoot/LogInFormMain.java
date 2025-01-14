@@ -13,7 +13,7 @@ public class LogInFormMain extends Application {
     public void start(Stage primaryStage){
         LogInView view=new LogInView();
         primaryStage.setTitle("Log in");
-        primaryStage.setScene(view.createScene());
+       // primaryStage.setScene(view.createScene());
         primaryStage.setMaximized(true);
         primaryStage.show();
     }

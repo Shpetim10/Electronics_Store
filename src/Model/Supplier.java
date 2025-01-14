@@ -14,6 +14,8 @@ public class Supplier {
 
     public Supplier() {
     }
+    public Supplier(String companyName) {
+    }
 
     public Supplier(int supplierId, String companyName, String contactName, String email, long phoneNumber, String address,
                     String paymentDetailsIBAN, ArrayList<Item> productList, int minimumOrderQuantity) {
