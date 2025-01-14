@@ -17,6 +17,6 @@ public class Main {
         System.out.println(cashier.getActiveShift());
         BillingSystemController control=new BillingSystemController(cashier);
 
-        //control.generateBill();
+
     }
 }

@@ -1,24 +1,12 @@
 package View.BillingSystemView;
 
-import Model.ItemBought;
 import View.Design;
-import View.SearchBoxPane;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 
 //Sh
 public class BillingSystemView extends HBox implements Design {
-    private ProductCardView productCartBox=new ProductCardView();
+    private ProductCartView productCartBox=new ProductCartView();
     private CheckoutView checkOutPane=new CheckoutView();
 //    private BorderPane temporaryPane=new BorderPane();
 //    private final SearchBoxPane searchBox=new SearchBoxPane("Search Product..."); //
@@ -393,7 +381,7 @@ public class BillingSystemView extends HBox implements Design {
 //        return button;
 //    }
 //
-    public ProductCardView getProductCartBox() {
+    public ProductCartView getProductCartBox() {
         return productCartBox;
     }
 

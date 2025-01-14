@@ -3,8 +3,6 @@ package View.BillingSystemView;
 import Model.ItemBought;
 import View.Design;
 import View.SearchBoxPane;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -15,9 +13,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import View.SearchBoxPane;
 
-public class ProductCardView extends VBox implements Design {
+public class ProductCartView extends VBox implements Design {
     private final SearchBoxPane searchBox=new SearchBoxPane("Search Product...");
     private Label totalBillNumber =createAlignedBlackLabel("0");
     private Label moneyCollected=createAlignedBlackLabel("0");
@@ -28,7 +25,7 @@ public class ProductCardView extends VBox implements Design {
     private Label errorMessage=createAlignedBlackBoldLabel("");
     private TableView productCartTable=createTableView();
 
-    public ProductCardView() {
+    public ProductCartView() {
         setUpView();
     }
 
@@ -114,7 +111,6 @@ public class ProductCardView extends VBox implements Design {
                 "-fx-border-width: 1;" +
                 "-fx-border-color: yellowgreen;");
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
         // Create columns of product cart
         TableColumn<ItemBought, Integer> idColumn = new TableColumn<>("Product ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("productId"));

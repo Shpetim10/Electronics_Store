@@ -34,6 +34,7 @@ public class CheckoutView extends GridPane implements Design {
     private TextField creditCardNumber=createTextField("Card Number...");
     private TextField creditCardExpDate=createTextField("Expiration day...");
     private PasswordField creditCardCVV=createPasswordField();
+    private Button saveCreditCard=createGeneralButton("Save");
     private TextField customerIdTf=createTextField("Customer ID...");
     private Label loyaltyPoints=createAlignedBlackLabel("0");
     private Label billLoyalyPoints=createAlignedBlackLabel("");
@@ -159,6 +160,8 @@ public class CheckoutView extends GridPane implements Design {
         Label expDateTitle=createAlignedGreenBoldLabel("Expiration Date");
         Label cvvTitle= createAlignedGreenBoldLabel("CVV");
 
+        creditCardCVV.setPromptText("CVV...");
+
         grid.add(nameTitle,0,0);
         grid.add(creditCardName,1,0);
         grid.add(cardNumberTitle,0,1);
@@ -167,6 +170,7 @@ public class CheckoutView extends GridPane implements Design {
         grid.add(cvvTitle,1,2);
         grid.add(creditCardExpDate,0,3);
         grid.add(creditCardCVV,1,3);
+        grid.add(saveCreditCard,0,4);
         return grid;
     }
 
@@ -189,6 +193,10 @@ public class CheckoutView extends GridPane implements Design {
 
     public BorderPane getTemporaryPane() {
         return temporaryPane;
+    }
+
+    public void setTemporaryPane(BorderPane temporaryPane) {
+        this.temporaryPane = temporaryPane;
     }
 
     public Label getGeneratedDateTime() {
@@ -263,6 +271,10 @@ public class CheckoutView extends GridPane implements Design {
         return creditCardCVV;
     }
 
+    public Button getSaveCreditCard() {
+        return saveCreditCard;
+    }
+
     public TextField getCustomerIdTf() {
         return customerIdTf;
     }
@@ -282,4 +294,5 @@ public class CheckoutView extends GridPane implements Design {
     public RadioButton getPayByCreditCardRb() {
         return payByCreditCardRb;
     }
+
 }

@@ -2,15 +2,12 @@ package Control;
 
 import Exceptions.InvalidPaymentArgumentsException;
 import Exceptions.ItemNotFoundException;
-import Exceptions.InsuffitientStockException;
 import Exceptions.OutOfStockException;
 import Model.*;
 import View.BillingSystemView.BillingSystemView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
-import java.util.Map;
 
 public class BillingSystemController {
     private BillingSystemView view=new BillingSystemView();
@@ -22,15 +19,18 @@ public class BillingSystemController {
         try{
             this.cashier=cashier;
             setUpGeneralData();
-            setCashButtonListener();
-            setCreditCardButtonListener();
-            setCustomerInfoButtonListener();
+            setCashButtonListener(); //Displays pane
+            setCreditCardButtonListener(); //Displays Pane
+            setCustomerInfoButtonListener(); //Displays pane
             setPayByCreditCardRbListener();
             setPayCashRbListener();
             setNewBillButtonListener();
             setAddButtonListener();
             setCollectedCashListener();
-
+            setCreditCardSaveListener();
+            setCustomerInfoListener();
+            setClearCartButtonListener();
+            setGenerateBillButtonListener();
         }
         catch (NullPointerException ex){
             view.getProductCartBox().getErrorMessage().setText("There is no planned shift for you!\nPlease contact Administrator to activate your shift!");
@@ -50,9 +50,7 @@ public class BillingSystemController {
 
         //Set Labels
         view.getProductCartBox().getErrorMessage().setText("");
-        view.getProductCartBox().getTotalBillNumber().setText(String.valueOf(cashier.getActiveShift().getBills().size()));
-        view.getProductCartBox().getMoneyCollected().setText(String.valueOf(cashier.getActiveShift().getTotalMoneyCollected()));
-        view.getProductCartBox().getTaxCollected().setText(String.valueOf(cashier.getActiveShift().getTotalTaxCollected()));
+        setUpTodaySales();
         view.getCheckOutPane().getGeneratedDateTime().setText(
                 bill.getDateGenerated().getDayOfMonth()+" "+
                         bill.getDateGenerated().getMonth()+" "+
@@ -63,12 +61,10 @@ public class BillingSystemController {
         view.getCheckOutPane().getBillId().setText(String.valueOf(bill.getBillId()));
     }
 
-    public void setNewBillButtonListener(){
-        view.getCheckOutPane().getNewBillButton().setOnAction(
-                e->{
-                    setUpGeneralData();
-                }
-        );
+    public void setUpTodaySales(){
+        view.getProductCartBox().getTotalBillNumber().setText(String.valueOf(cashier.getActiveShift().getBills().size()));
+        view.getProductCartBox().getMoneyCollected().setText(String.valueOf(cashier.getActiveShift().getTotalMoneyCollected()));
+        view.getProductCartBox().getTaxCollected().setText(String.valueOf(cashier.getActiveShift().getTotalTaxCollected()));
     }
 
     public void setUpBillPricingData(){
@@ -80,11 +76,31 @@ public class BillingSystemController {
     public void clearMessageLabel(){
         view.getProductCartBox().getErrorMessage().setText("");
     }
-    public void displayMessage(){
 
+    public void displayMessage(String message){
+        view.getProductCartBox().getErrorMessage().setText(message);
     }
-    public void clearAllFields(){
 
+    public void clearAllFields(){
+        view.getProductCartBox().getProductCartTable().getItems().clear();
+        view.getCheckOutPane().getCollectedMoney().setText("");
+        view.getCheckOutPane().getChangeMoney().setText("");
+        view.getCheckOutPane().getCollectedMoneyTf().clear();
+        view.getCheckOutPane().getChangeMoneyTf().clear();
+        view.getCheckOutPane().getCustomerIdTf().clear();
+        view.getCheckOutPane().getLoyaltyPoints().setText("");
+        view.getCheckOutPane().getBillLoyalyPoints().setText("");
+        view.getCheckOutPane().getCreditCardNumber().clear();
+        view.getCheckOutPane().getCreditCardName().clear();
+        view.getCheckOutPane().getCreditCardExpDate().clear();
+        view.getCheckOutPane().getCreditCardCVV().clear();
+        view.getProductCartBox().getCustomerId().setText("");
+        view.getProductCartBox().getLoyaltyPoints().setText("");
+        view.getCheckOutPane().getPayCashRb().setSelected(false);
+        view.getCheckOutPane().getPayByCreditCardRb().setSelected(false);
+
+        setUpGeneralData();
+        setUpBillPricingData();
     }
     //Setting Actions
     public void setCustomerInfoButtonListener(){
@@ -96,6 +112,7 @@ public class BillingSystemController {
                 }
         );
     }
+
     public void setCreditCardButtonListener(){
 
             view.getCheckOutPane().getCreditCardButton().setOnAction(
@@ -111,6 +128,7 @@ public class BillingSystemController {
                     }
             );
     }
+
     public void setCashButtonListener(){
             view.getCheckOutPane().getCalculateCashButton().setOnAction(
                     e-> {
@@ -125,11 +143,13 @@ public class BillingSystemController {
                     }
             );
         }
+
     public void setPayCashRbListener(){
         view.getCheckOutPane().getPayCashRb().setOnAction(
                 e->{
                     clearMessageLabel();
                     view.getCheckOutPane().getPayCashRb().setSelected(true);
+                    this.bill.setPaymentMethod(PaymentMethod.CASH);
                 }
         );
     }
@@ -139,6 +159,7 @@ public class BillingSystemController {
                 e->{
                     clearMessageLabel();
                     view.getCheckOutPane().getPayByCreditCardRb().setSelected(true);
+                    this.bill.setPaymentMethod(PaymentMethod.CARD);
                 }
         );
     }
@@ -147,19 +168,30 @@ public class BillingSystemController {
         view.getProductCartBox().getSearchBox().getSearchButton().setOnAction(
                 e->{
                     clearMessageLabel();
-                    try{
-                        ItemBought itemBought=bill.addProductToCart(view.getProductCartBox().getSearchBox().getSearchField().getText());
-                        if(!itemsBought.contains(itemBought)){
-                            view.getProductCartBox().getProductCartTable().setItems(itemsBought);
-                        }
-                        else{
-                            view.getProductCartBox().getErrorMessage().setText("This item is already added to cart!");
-                        }
-                    } catch (OutOfStockException ex) {
-                        view.getProductCartBox().getErrorMessage().setText(ex.getMessage());
-                    } catch (ItemNotFoundException ex) {
-                        view.getProductCartBox().getErrorMessage().setText(ex.getMessage());
-                    }
+//                    try{
+//                        ItemBought itemBought=bill.addProductToCart(view.getProductCartBox().getSearchBox().getSearchField().getText());
+//                        if(!itemsBought.contains(itemBought)){
+//                            view.getProductCartBox().getProductCartTable().setItems(itemsBought);
+//                              this.bill.getItemBought().add(itemBought);
+//                              setUpBillPricingData();
+//                        }
+//                        else{
+//                            view.getProductCartBox().getErrorMessage().setText("This item is already added to cart!");
+//                        }
+//                    } catch (OutOfStockException ex) {
+//                        view.getProductCartBox().getErrorMessage().setText(ex.getMessage());
+//                    } catch (ItemNotFoundException ex) {
+//                        view.getProductCartBox().getErrorMessage().setText(ex.getMessage());
+//                    }
+                    ItemBought item1=new ItemBought(1,"MacBook",1,2500);
+                    ItemBought item2=new ItemBought(2,"Scuter",2,3000);
+                    ItemBought item3=new ItemBought(3,"Fridge",3,1325);
+                    itemsBought.addAll(item1,item2,item3);
+                    this.bill.getItemBought().add(item1);
+                    this.bill.getItemBought().add(item2);
+                    this.bill.getItemBought().add(item3);
+                    view.getProductCartBox().getProductCartTable().setItems(itemsBought);
+                    setUpBillPricingData();
                 }
         );
     }
@@ -179,18 +211,122 @@ public class BillingSystemController {
                             view.getCheckOutPane().getCollectedMoney().setText(String.valueOf(moneyCollected));
                             view.getCheckOutPane().getChangeMoneyTf().setText(String.valueOf(moneyCollected- bill.getTotalOfBill()));
                             view.getCheckOutPane().getChangeMoney().setText(String.valueOf(moneyCollected- bill.getTotalOfBill()));
+
+                            //Set bill data fields
+                            this.bill.setMoneyCollected(Double.parseDouble(view.getCheckOutPane().getCollectedMoneyTf().getText()));
+                            this.bill.setChange(Double.parseDouble(view.getCheckOutPane().getChangeMoney().getText()));
                         }
                         catch(InvalidPaymentArgumentsException ex){
                             view.getProductCartBox().getErrorMessage().setText(ex.getMessage());
                         }
                         catch(NumberFormatException ex){
-                            view.getProductCartBox().getErrorMessage().setText("Please provide neccesary data for getting forward with process!");
+                            view.getProductCartBox().getErrorMessage().setText("Invalid input entered in cash field!");
                         }
                     }
         );
     }
 
+    public void setCreditCardSaveListener(){
+        view.getCheckOutPane().getSaveCreditCard().setOnAction(
+                e->{
+                    clearMessageLabel();
+                    String temp;
+                    if(Validator.validateCreditCardName(temp=view.getCheckOutPane().getCreditCardName().getText())){ //Asign first text to temp
+                        this.bill.setCardName(temp);
+                        if(Validator.validateCreditCardNumber(temp=view.getCheckOutPane().getCreditCardNumber().getText())){
+                            this.bill.setCreditCardNr(temp);
+                            if(Validator.validateExpirationDateFormat(temp=view.getCheckOutPane().getCreditCardExpDate().getText())){
+                                this.bill.setExpDate(temp);
+                                if(Validator.validateCreditCardCvv(temp=view.getCheckOutPane().getCreditCardCVV().getText())){
+                                    this.bill.setCvv(temp);
+                                }
+                                else{
+                                    displayMessage("Credit card cvv does not conform its format!");
+                                }
+                                displayMessage("Credit Card data saved successfully!");
+                            }
+                            else{
+                                displayMessage("Credit card expiration date is set incorrectly!");
+                            }
+                        }
+                        else{
+                            displayMessage("Credit card number is set incorrectly!");
+                        }
+                    }
+                    else{
+                        displayMessage("Credit card name is set incorrectly!");
+                    }
 
+    }
+    //Nested ifs to not overwrite error messages in case of multiple errors
+        );
+    }
+
+    public void setCustomerInfoListener(){
+        view.getCheckOutPane().getCustomerIdTf().setOnAction(
+                e->{
+                    clearMessageLabel();
+                    String customerId=view.getCheckOutPane().getCustomerIdTf().getText();
+                    if(Validator.validateCustomerId(customerId)){
+                        this.bill.setCustomerIdCard(customerId);
+                        int index=this.bill.validateCustomerExistance(customerId);
+                        if(index==-1){ //Value returned for non existent
+                            this.bill.customers.add(customerId);
+                            this.bill.loyaltyPoints.add(0);
+                            index=this.bill.customers.size()-1;
+                            displayMessage("A new customer was registered to customer loyalty program!\nHe will get his first loyalty points after bill is generated.");
+                        }
+                        view.getProductCartBox().getCustomerId().setText(customerId);
+                        view.getProductCartBox().getLoyaltyPoints().setText(String.valueOf(this.bill.loyaltyPoints.get(index)));
+                        view.getCheckOutPane().getLoyaltyPoints().setText(String.valueOf(this.bill.loyaltyPoints.get(index)));
+                        view.getCheckOutPane().getBillLoyalyPoints().setText(String.valueOf(this.bill.calulateLoyaltyPoints()));
+                    }
+                    else{
+                        displayMessage("The customer id povided is incorrect! ");
+                    }
+                }
+        );
+    }
+
+    public void setClearCartButtonListener(){
+        view.getProductCartBox().getClearCart().setOnAction(
+                e->{
+                    itemsBought.clear();
+                    this.bill.clearCart();
+                    view.getProductCartBox().getProductCartTable().getItems().clear();
+                }
+        );
+    }
+
+    public void setNewBillButtonListener(){
+        view.getCheckOutPane().getNewBillButton().setOnAction(
+                e->{
+                    clearAllFields();
+                    this.bill=new Bill();
+                    setUpGeneralData();
+                    setUpBillPricingData();
+                }
+        );
+    }
+
+    public void setGenerateBillButtonListener(){
+        view.getCheckOutPane().getGenerateBillButton().setOnAction(
+                e->{
+//                    for(ItemBought itemBought: this.bill.getItemBought()){
+//                        itemBought.getItem().decrementStock(itemBought.getQuantity());
+//                    }
+                    if(!itemsBought.isEmpty()) {
+                        this.bill.generateBill();
+                        this.cashier.getActiveShift().getBills().add(this.bill);
+                        setUpTodaySales();
+                        displayMessage("Bill Generated succesfully!");
+                    }
+                    else{
+                        displayMessage("Product card is empty!");
+                    }
+                }
+        );
+    }
     //Getters Setters
     public BillingSystemView getView() {
         return view;
