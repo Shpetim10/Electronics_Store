@@ -1,5 +1,7 @@
 package View;
 
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.*;
@@ -37,7 +39,7 @@ private Label priceBought;
 
     this.price=createAlignedBlackLabel(String.valueOf(price),50);
     this.sector=createAlignedBlackLabel(String.valueOf(sector),300);
-    this.description=createAlignedBlackLabel(String.valueOf(description),500);
+    this.description=createAlignedBlackLabel(String.valueOf(description),400);
     this.supplier=createAlignedBlackLabel(String.valueOf(supplier),300);
     this.brand=createAlignedBlackLabel(String.valueOf(brand),300);
     this.lastRestock=createAlignedBlackLabel(String.valueOf(lastRestock),300);
@@ -46,7 +48,6 @@ private Label priceBought;
     this.priceBought=createAlignedBlackLabel(String.valueOf(priceBought),200);
 
 }
-
     public Label getPhoto() {return photo;}
 
     public CheckBox getIsAvailable() {return isAvailable;}
@@ -77,106 +78,137 @@ private Label priceBought;
 
     public Label getPriceBought() {return priceBought;}
 
+ public HBox topSection() {
+     HBox topSection = new HBox(10);
+     topSection.setPadding(new Insets(10));
 
-    HBox topSection = new HBox(10);
-        topSection.setPadding(new Insets(10));
+     Button refreshButton = new Button("Refresh");
+     topSection.getChildren().addAll(refreshButton);
 
-    Button refreshButton = new Button("Refresh");
-        topSection.getChildren().addAll(categoryComboBox, productComboBox, refreshButton);
+     BorderPane mainLayout = new BorderPane();
+     mainLayout.setTop(topSection);
+     //mainLayout.setCenter(detailsGrid);
 
-    // Center Section: Product Details
-    GridPane detailsGrid = new GridPane();
-        detailsGrid.setPadding(new Insets(10));
-        detailsGrid.setHgap(10);
-        detailsGrid.setVgap(10);
-
-    // Photo Placeholder
-    Label photoLabel = new Label("Photo");
-        photoLabel.setPrefSize(100, 100);
-        photoLabel.setStyle("-fx-border-color: black; -fx-alignment: left;");
-
-    // Product Info Fields
-    Label productIdLabel = new Label("Barcode:");
-    TextField productIdField = new TextField();
-
-    Label nameLabel = new Label("Name:");
-    TextField nameField = new TextField();
-
-    Label sectorLabel = new Label("Sector:");
-    TextField sectorField = new TextField();
-
-    Label quantityLabel = new Label("Quantity:");
-    TextField quantityField = new TextField();
-
-    Label priceLabel = new Label("Price:");
-    TextField priceField = new TextField();
-
-    Label descriptionLabel = new Label("Description:");
-    TextArea descriptionField = new TextArea();
-        descriptionField.setPrefRowCount(3);
-
-    Label supplierLabel = new Label("Supplier:");
-    TextField supplierField = new TextField();
-
-    Label brandLabel = new Label("Brand:");
-    TextField brandField = new TextField();
-
-    Label lastRestockLabel = new Label("Last Restock:");
-    DatePicker lastRestockPicker = new DatePicker();
-
-    Label weightLabel = new Label("Weight:");
-    TextField weightField = new TextField();
-
-    Label sellingPriceLabel = new Label("Selling Price:");
-    TextField sellingPriceField = new TextField();
-
-    Label priceBoughtLabel = new Label("Price Bought:");
-    TextField priceBoughtField = new TextField();
-
-    CheckBox isAvailableCheckbox = new CheckBox("Is Available");
-    CheckBox isDiscontinuedCheckbox = new CheckBox("Is Discontinued");
+ return  topSection;}
 
     // Adding elements to GridPane
-        detailsGrid.add(photoLabel, 0, 0, 1, 4);
+    public Scene createScene()
+    {
+        GridPane productInfo=new GridPane();
+        productInfo.setHgap(100);
+        productInfo.setVgap(30);
+        productInfo.setPadding(new Insets(50,230,50,200));
+        productInfo.setStyle("-fx-background-color: rgba(167,246,8,0.15)");
 
-        detailsGrid.add(productIdLabel, 1, 0);
-        detailsGrid.add(productIdField, 2, 0);
-        detailsGrid.add(nameLabel, 1, 1);
-        detailsGrid.add(nameField, 2, 1);
-        detailsGrid.add(sectorLabel, 1, 2);
-        detailsGrid.add(sectorField, 2, 2);
-        detailsGrid.add(quantityLabel, 1, 3);
-        detailsGrid.add(quantityField, 3, 3);
+        Label photoLabel = new Label(" Photo");
+        photoLabel.setStyle("-fx-font-size: 12;  -fx-text-fill: darkgreen;");
+        photoLabel.setPrefSize(150, 200);
+        photoLabel.setStyle("-fx-border-color: black;-fx-border-width:3 ; -fx-alignment: center;");
 
-        detailsGrid.add(descriptionLabel, 1, 4);
-        detailsGrid.add(descriptionField, 2, 3, 2, 1);//Check here
+        // Product Info Fields
+        Label productIdLabel = new Label("Barcode:");
+        productIdLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
+        Label productIdField = new Label("");
+        productIdField.setStyle("-fx-pref-width: 200;-fx-background-color: white;-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
 
-        detailsGrid.add(supplierLabel, 1, 5);
-        detailsGrid.add(supplierField, 2, 5);
-        detailsGrid.add(brandLabel, 1, 6);
-        detailsGrid.add(brandField, 2, 6);
-        detailsGrid.add(lastRestockLabel, 1, 7);
-        detailsGrid.add(lastRestockPicker, 2,7);
+        Label nameLabel = new Label("Name:");
+        nameLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
+        TextField nameField = new TextField();
+        nameField.setStyle("-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
 
-        detailsGrid.add(priceLabel, 1, 8);
-        detailsGrid.add(priceField, 2, 8);
-        detailsGrid.add(volumeLabel, 1, 9);
-        detailsGrid.add(volumeField, 2, 9);
-        detailsGrid.add(weightLabel, 1, 10);
-        detailsGrid.add(weightField, 2, 10);
+        Label sectorLabel = new Label("Sector:");
+        sectorLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
+        TextField sectorField = new TextField();
+        sectorField.setStyle("-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
 
-        detailsGrid.add(sellingPriceLabel, 3, 0);
-        detailsGrid.add(sellingPriceField, 4, 0);
+        Label quantityLabel = new Label("Quantity:");
+        quantityLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
+        TextField quantityField = new TextField();
+        quantityField.setStyle("-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
 
-        detailsGrid.add(priceBoughtLabel, 3, 1);
-        detailsGrid.add(priceBoughtField, 4, 1);
+        Label priceLabel = new Label("Price:");
+        priceLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
+        TextField priceField = new TextField();
+        priceField.setStyle("-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
 
-        detailsGrid.add(isAvailableCheckbox, 3, 3);
-        detailsGrid.add(isDiscontinuedCheckbox, 4, 3);
+        Label descriptionLabel = new Label("Description:");
+        descriptionLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
+        TextArea descriptionField = new TextArea();
+        descriptionField.setStyle("-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
+        descriptionField.setPrefRowCount(0);
 
-    // Main Layout
-    BorderPane mainLayout = new BorderPane();
-        mainLayout.setTop(topSection);
-        mainLayout.setCenter(detailsGrid);
+        Label supplierLabel = new Label("Supplier:");
+        supplierLabel.setStyle(" -fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
+        TextField supplierField = new TextField();
+        supplierField.setStyle("-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
 
+        Label brandLabel = new Label("Brand:");
+        brandLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
+        TextField brandField = new TextField();
+        brandField.setStyle("-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
+
+        Label lastRestockLabel = new Label("Last Restock:");
+        lastRestockLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
+        DatePicker lastRestockPicker = new DatePicker();
+        lastRestockPicker.setStyle("-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
+
+        Label weightLabel = new Label("Weight:");
+        weightLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
+        TextField weightField = new TextField();
+        weightField.setStyle("-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
+
+        Label sellingPriceLabel = new Label("Selling Price:");
+        sellingPriceLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
+        TextField sellingPriceField = new TextField();
+        sellingPriceField.setStyle("-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
+
+        Label priceBoughtLabel = new Label("Price Bought:");
+        priceBoughtLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
+        TextField priceBoughtField = new TextField();
+        priceBoughtField.setStyle("-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
+
+        CheckBox isAvailableCheckbox = new CheckBox("Available");
+        isAvailableCheckbox.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
+        CheckBox isDiscontinuedCheckbox = new CheckBox("Discontinued");
+        isDiscontinuedCheckbox.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
+
+        productInfo.add(photoLabel, 0, 0);
+
+        productInfo.add(productIdLabel, 1, 1);
+        productInfo.add(productIdField, 2, 1);
+        productInfo.add(nameLabel, 2, 0);
+        productInfo.add(nameField, 3, 0);
+        productInfo.add(sectorLabel, 1, 2);
+        productInfo.add(sectorField, 2, 2);
+        productInfo.add(quantityLabel, 1, 3);
+        productInfo.add(quantityField, 2, 3);
+
+        productInfo.add(descriptionLabel, 1, 4);
+        productInfo.add(descriptionField, 2, 4, 2, 1);
+
+        productInfo.add(supplierLabel, 1, 5);
+        productInfo.add(supplierField, 2, 5);
+        productInfo.add(brandLabel, 1, 6);
+        productInfo.add(brandField, 2, 6);
+        productInfo.add(lastRestockLabel, 1, 7);
+        productInfo.add(lastRestockPicker, 2, 7);
+
+        productInfo.add(priceLabel, 1, 8);
+        productInfo.add(priceField, 2, 8);
+
+        productInfo.add(weightLabel, 1, 9);
+        productInfo.add(weightField, 2, 9);
+
+        productInfo.add(sellingPriceLabel, 3, 2);
+        productInfo.add(sellingPriceField, 4, 2);
+
+        productInfo.add(priceBoughtLabel, 3, 1);
+        productInfo.add(priceBoughtField, 4, 1);
+
+        productInfo.add(isAvailableCheckbox, 3, 5);
+        productInfo.add(isDiscontinuedCheckbox, 3, 6);
+
+        Scene scene=new Scene(productInfo);
+
+    return scene; }
 }

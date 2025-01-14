@@ -41,9 +41,9 @@ public class LogInView implements Design {
             String username = usernameField.getText();
             String password = passwordField.getText();
             if (validateLogin(username, password)) {
-                showAlert("Login Successful", "Welcome " + username + "!");
+                //showAlert("Login Successful", "Welcome " + username + "!");
             } else {
-                showAlert("Login Failed", "Invalid username or password.");
+                //showAlert("Login Failed", "Invalid username or password.");
             }
         });
 
