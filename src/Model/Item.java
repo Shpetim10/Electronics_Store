@@ -38,6 +38,25 @@ public class Item {
 
     public Item() {
     }
+    public Item(int productCode, String productName, SectorType sector,
+                double sellingPrice, double priceBought, Supplier supplier,
+                String isDiscounted, double discountRate, int stockQuantity,
+                String brand, Date lastRestockDate,
+                String barcode) {
+        this.productId = productCode;
+        this.productName = productName;
+        this.sector = sector;
+        this.sellingPrice = sellingPrice;
+        this.priceBought = priceBought;
+        this.supplier = supplier;
+        this.isDiscounted = isDiscounted;
+        this.discountRate = discountRate;
+        this.stockQuantity = stockQuantity;
+        this.brand = brand;
+
+        this.lastRestockDate = lastRestockDate;
+        this.barcode = barcode;
+    }
 
     public Item(int productId, String productName, SectorType sector, String description, double sellingPrice,
                 double priceBrought, Supplier supplier, String isDiscounted, double discountRate, int stockQuantity,

@@ -28,19 +28,17 @@ public class AddController {
             int productCodeValue = Integer.parseInt(view.getProductCode().getText());
             String productNameValue = view.getProductName().getText();
             SectorType sectorValue = SectorType.valueOf(view.getSector().getText().toUpperCase());
-            String descriptionValue = view.getDescription().getText();
+
             double sellingPriceValue = Double.parseDouble(view.getSellingPrice().getText());
             double priceBoughtValue = Double.parseDouble(view.getPriceBought().getText());
             Supplier supplierValue = new Supplier(view.getSupplier().getText());
             String isDiscountedValue = String.valueOf(view.getIsDiscounted().getValue().equalsIgnoreCase("Yes"));
             double discountRateValue = (isDiscountedValue.equals("false"))? 0.0 : Double.parseDouble(view.getDiscountRate().getText());
             int stockQuantityValue = Integer.parseInt(view.getStockQuantity().getText());
-            double weightValue = Double.parseDouble(view.getWeight().getText());
-            double volumeValue = Double.parseDouble(view.getVolume().getText());
-            String colorValue = view.getColor().getText();
+
+
             String brandValue = view.getBrand().getText();
-            String isDiscontinuedValue = String.valueOf(view.getIsDiscontinued().getValue().equalsIgnoreCase("Yes"));
-            String isAvailableValue = String.valueOf(view.getIsAvailable().getValue().equalsIgnoreCase("Yes"));
+
             Date lastRestockDateValue = parseDate(view.getLastRestockDate().getText());
             String barcodeValue = view.getBarcode().getText();
             int nrOfReturnsValue = Integer.parseInt(view.getNrOfReturns().getText());
@@ -50,27 +48,15 @@ public class AddController {
                     productCodeValue,
                     productNameValue,
                     sectorValue,
-                    descriptionValue,
                     sellingPriceValue,
                     priceBoughtValue,
                     supplierValue,
                     isDiscountedValue,
                     discountRateValue,
                     stockQuantityValue,
-                    stockQuantityValue < 10, // Determine low stock based on stock quantity
-                    weightValue,
-                    volumeValue,
-                    new int[]{}, // Replace with actual dimensions if available
-                    colorValue,
                     brandValue,
-                    12, // Replace with the appropriate warranty period if needed
-                    isDiscontinuedValue,
-                    isAvailableValue,
                     lastRestockDateValue,
-                    0.0, // Placeholder for average rating
-                    "placeholder.jpg", // Placeholder for image
-                    barcodeValue,
-                    nrOfReturnsValue
+                    barcodeValue
             );
 
 
