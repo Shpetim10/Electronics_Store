@@ -1,6 +1,7 @@
 package Model;
 
 import Exceptions.ItemNotFoundException;
+import Exceptions.LowStockException;
 import Exceptions.OutOfStockException;
 
 import java.io.File;
@@ -154,6 +155,7 @@ public class Bill implements CustomerLoyalty  {
         }
         return null;
     }
+
     public ItemBought getItemSearched(String productName) throws ItemNotFoundException, OutOfStockException {
         Item bought = searchItemByName(productName);
 
@@ -191,9 +193,6 @@ public class Bill implements CustomerLoyalty  {
         this.getItemBought().clear();
     } //Sh
 
-    public boolean checkInventoryStockAvailable(Item product, int quantity) {
-        return product.getStockQuantity() - quantity > 0;
-    }//Sh
 
     public int calulateLoyaltyPoints(){
         return (int)Math.ceil(getTotalOfBill()*0.1);
