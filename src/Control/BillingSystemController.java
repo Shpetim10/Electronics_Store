@@ -7,9 +7,7 @@ import Model.*;
 import View.BillingSystemView.BillingSystemView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
+
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -20,7 +18,7 @@ public class BillingSystemController {
     private Cashier cashier;
     private Bill bill;
     private ObservableList<ItemBought> itemsBought=FXCollections.observableArrayList();
-    private ArrayList<Button> deleteRowButtons=new ArrayList<>();
+
 
     public BillingSystemController(Cashier cashier){
         try{
@@ -192,13 +190,15 @@ public class BillingSystemController {
 //                    } catch (ItemNotFoundException ex) {
 //                        view.getProductCartBox().getErrorMessage().setText(ex.getMessage());
 //                    }
-                    ItemBought item1 = new ItemBought(1, "MacBook", 1, 2500);
-                    ItemBought item2 = new ItemBought(2, "Scuter", 2, 3000);
-                    ItemBought item3 = new ItemBought(3, "Fridge", 3, 1325);
-                    itemsBought.addAll(item1, item2, item3);
-                    this.bill.getItemBought().add(item1);
-                    this.bill.getItemBought().add(item2);
-                    this.bill.getItemBought().add(item3);
+                    for(int i=0;i<10;i++){
+                        ItemBought item1 = new ItemBought(1, "MacBook", 1, 2500);
+                        ItemBought item2 = new ItemBought(2, "Scuter", 2, 3000);
+                        ItemBought item3 = new ItemBought(3, "Fridge", 3, 1325);
+                        itemsBought.addAll(item1, item2, item3);
+                        this.bill.getItemBought().add(item1);
+                        this.bill.getItemBought().add(item2);
+                        this.bill.getItemBought().add(item3);
+                    }
                     view.getProductCartBox().getProductCartTable().setItems(itemsBought);
                     setUpBillPricingData();
                 }
@@ -306,19 +306,37 @@ public class BillingSystemController {
     }
 
     public void setEditQuantityListener() {
-            this.view.getProductCartBox().getQuantityColum().setOnEditCommit(e -> {
-            ItemBought item = e.getRowValue();
-            item.setQuantity(e.getNewValue());
-            setUpBillPricingData();
-        });
+        view.getProductCartBox().getQuantityColumn().setOnEditCommit(
+                e->{
+                    int index=e.getTablePosition().getRow();
+                    int newQuantity = e.getNewValue();
+                    itemsBought.get(index).setQuantity(newQuantity);
+                    bill.getItemBought().get(index).setQuantity(newQuantity);
+                    setUpBillPricingData();
+                }
+        );
     }
 
+    public void setDeleteRowButtonListener(){
+        view.getProductCartBox().getRemoveItemButton().setOnAction(
+                e->{
+                    ObservableList<ItemBought> selected=view.getProductCartBox().getProductCartTable()
+                            .getSelectionModel().getSelectedItems();
+                    if(selected.size()!=0){
+                        itemsBought.removeAll(selected);
+                        this.bill.getItemBought().removeAll(selected);
+                        setUpBillPricingData();
+                    }
+                }
+        );
+    }
     public void setClearCartButtonListener(){
         view.getProductCartBox().getClearCart().setOnAction(
                 e->{
                     itemsBought.clear();
                     this.bill.clearCart();
                     view.getProductCartBox().getProductCartTable().getItems().clear();
+                    setUpBillPricingData();
                 }
         );
     }
@@ -338,7 +356,7 @@ public class BillingSystemController {
         view.getCheckOutPane().getGenerateBillButton().setOnAction(
                 e->{
 //                    for(ItemBought itemBought: this.bill.getItemBought()){
-//                        itemBought.getItem().decrementStock(itemBought.getQuantity());
+//                        itemBought.getItem().decrementStock(itemBought.getQuantityValue());
 //                    }
                     if(!itemsBought.isEmpty()) {
                         //Check if payment method is empty
@@ -386,30 +404,6 @@ public class BillingSystemController {
                     }
                 }
         );
-    }
-
-    public void setDeleteRowButtonListener() {
-        TableColumn<ItemBought, Void> buttonColumn = view.getProductCartBox().getButtonColumn();
-
-        buttonColumn.setCellFactory(e -> {
-            TableCell<ItemBought, Void> cell = new TableCell<>() {
-                private final Button deleteButton = view.getProductCartBox().createDeleteRowButton();
-                {
-                    deleteButton.setOnAction(event -> {
-                        int index = getIndex();
-                        getTableView().getItems().remove(index);
-                        bill.getItemBought().remove(index);
-                        setUpBillPricingData();
-                    });
-                }
-                @Override
-                protected void updateItem(Void item, boolean empty) {
-                    super.updateItem(item, empty);
-                   setGraphic(empty ? null : deleteButton);
-                }
-            };
-            return cell;
-        });
     }
 
     //Getters Setters
