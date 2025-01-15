@@ -1,4 +1,4 @@
-package View.InventoryManagementView;
+package View.InventoryManagementView2;
 
 import View.Design;
 import javafx.scene.control.CheckBox;

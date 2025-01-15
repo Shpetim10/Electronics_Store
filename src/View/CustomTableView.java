@@ -26,7 +26,7 @@ public class CustomTableView {
     }
 
     private void initializeTableView() {
-        table.setPrefHeight(300);
+        table.setPrefHeight(1000);
         table.setPrefWidth(3000);
         table.setStyle("-fx-background-color:white ;" +
                 "-fx-border-radius:10;" +

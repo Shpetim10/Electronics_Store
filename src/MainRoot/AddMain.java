@@ -1,7 +1,7 @@
 package MainRoot;
 
-import View.InventoryManagementView.Add_EditView;
-import View.InventoryManagementView.InventoryManagementView;
+import Control.AddController;
+import View.InventoryManagementView2.Add_EditView;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -14,6 +14,7 @@ public class AddMain extends Application {
     public void start(Stage primaryStage){
         Add_EditView view=new Add_EditView();
         primaryStage.setTitle("Add/Edit");
+        AddController addController = new AddController(view);
         primaryStage.setScene(view.createScene());
         primaryStage.setMaximized(true);
         primaryStage.show();

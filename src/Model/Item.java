@@ -14,7 +14,7 @@ public class Item {
     private double sellingPrice;
     private double priceBought;
     private Supplier supplier;
-    private boolean isDiscounted;
+    private String isDiscounted;
     private double discountRate;
     private int stockQuantity;
     private boolean isLowStock;
@@ -24,8 +24,8 @@ public class Item {
     private String color;
     private String brand;
     private int warrantyPeriod;
-    private boolean isDiscontinued;
-    private boolean isAvailable;
+   private String isDiscontinued;
+    private  String available;
     private Date lastRestockDate;
     private double averageRating;
     private String image;
@@ -40,9 +40,9 @@ public class Item {
     }
 
     public Item(int productId, String productName, SectorType sector, String description, double sellingPrice,
-                double priceBrought, Supplier supplier, boolean isDiscounted, double discountRate, int stockQuantity,
+                double priceBrought, Supplier supplier, String isDiscounted, double discountRate, int stockQuantity,
                 boolean isLowStock, double weight, double volume, int[] dimensions, String color, String brand,
-                int warrantyPeriod, boolean isDiscontinued, boolean isAvailable, Date lastRestockDate,
+                int warrantyPeriod, String isDiscontinued, String isAvailable, Date lastRestockDate,
                 double averageRating, String image, String barcode, int nrOfReturns) {
         this.productId = productId;
         this.productName = productName;
@@ -51,7 +51,7 @@ public class Item {
         this.sellingPrice = sellingPrice;
         this.priceBought = priceBrought;
         this.supplier = supplier;
-        this.isDiscounted = isDiscounted;
+      this.isDiscontinued=isDiscontinued;
         this.discountRate = discountRate;
         this.stockQuantity = stockQuantity;
         this.isLowStock = isLowStock;
@@ -61,8 +61,6 @@ public class Item {
         this.color = color;
         this.brand = brand;
         this.warrantyPeriod = warrantyPeriod;
-        this.isDiscontinued = isDiscontinued;
-        this.isAvailable = isAvailable;
         this.lastRestockDate = lastRestockDate;
         this.averageRating = averageRating;
         this.image = image;
@@ -146,12 +144,12 @@ public class Item {
         this.supplier = supplier;
     }
 
-    public boolean isDiscounted() {
+    public String isDiscounted() {
         return isDiscounted;
     }
 
-    public void setDiscounted(boolean discounted) {
-        isDiscounted = discounted;
+    public void setDiscounted(String discounted) {
+        this.isDiscounted = discounted;
     }
 
     public double getDiscountRate() {
@@ -226,21 +224,24 @@ public class Item {
         this.warrantyPeriod = warrantyPeriod;
     }
 
-    public boolean isDiscontinued() {
+    public String getIsDiscontinued() {
         return isDiscontinued;
     }
 
-    public void setDiscontinued(boolean discontinued) {
-        isDiscontinued = discontinued;
+    public void setIsDiscontinueded(String discontinueded) {
+        this.isDiscontinued = discontinueded;
+    }
+    public String isAvailable() {
+        return available;
     }
 
-    public boolean isAvailable() {
-        return isAvailable;
+    public void setAvailable(String available) {
+        this.available = available;
     }
 
-    public void setAvailable(boolean available) {
-        isAvailable = available;
-    }
+
+
+
 
     public Date getLastRestockDate() {
         return lastRestockDate;
