@@ -1,5 +1,6 @@
 package View;
 
+import Model.SectorType;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -24,7 +25,7 @@ public interface Design {
                         " -fx-border-width: 2;" +
                         "-fx-font-family: Bahnschrift;" +
                         "-fx-font-weight: bold;" +
-                        "-fx-font-size: 15;";
+                        "-fx-font-size: 13;";
         Button button=new Button(text);
         button.setStyle(buttonStyle);
         button.setPrefHeight(25);
@@ -33,7 +34,6 @@ public interface Design {
     }
     default ComboBox<String> createComboBox(String prompt){
         ComboBox<String> box=new ComboBox<>();
-        box.setEditable(true);
         box.setPromptText(prompt);
         box.setStyle("-fx-background-color: white;" +
                 "-fx-background-radius: 10;" +
@@ -80,7 +80,7 @@ public interface Design {
         label.setStyle("-fx-text-fill: green;" +
                 "-fx-font-family: Bahnschrift;" +
                 "-fx-font-weight: bold;" +
-                "-fx-font-size: 18;");
+                "-fx-font-size: 15;");
         return label;
     }
     default Label createAlignedGreenBoldLabel(String text){
@@ -127,11 +127,9 @@ public interface Design {
         button.prefHeightProperty().bind(new SimpleDoubleProperty(100));
         return button;
     }
-    default DatePicker createDatePicker(Pane pane){
+    default DatePicker createDatePicker(String prompt){
         DatePicker date=new DatePicker();
-        date.prefHeightProperty().bind(pane.heightProperty());
-        date.prefWidthProperty().bind(pane.widthProperty());
-
+        date.setPromptText(prompt);
         date.setStyle("-fx-background-color: white;" +
                 "-fx-background-radius: 10;" +
                 "-fx-border-radius: 10;" +
@@ -139,6 +137,18 @@ public interface Design {
                 "-fx-border-color: yellowgreen;");
 
         return date;
+    }
+    default ListView createListview(){
+        ListView<SectorType> list=new ListView<>();
+
+        list.setStyle("-fx-background-color: white;" +
+                "-fx-background-radius: 10;" +
+                "-fx-text-fill: black;" +
+                "-fx-border-radius: 10;" +
+                "-fx-border-color: yellowgreen;" +
+                "-fx-border-width: 2;");
+
+        return list;
     }
 
     default TableView<String[]> createTable() {

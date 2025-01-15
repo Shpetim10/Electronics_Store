@@ -8,7 +8,7 @@ import javafx.scene.layout.HBox;
 public class SearchBoxPane extends HBox implements Design {
     private ImageView icon=new ImageView(new Image("Images/searchIcon.png"));;
     private String promptText;
-    private final TextField searchBox= createSearchTextField();;
+    private final TextField searchField= createSearchTextField();;
     private final Button searchButton= createGeneralButton("Search");
 
     public SearchBoxPane() {
@@ -37,16 +37,16 @@ public class SearchBoxPane extends HBox implements Design {
         this.setSpacing(10);
         icon.setFitWidth(40);
         icon.setFitHeight(40);
-        this.getChildren().addAll(this.icon, this.searchBox, this.searchButton);
+        this.getChildren().addAll(this.icon, this.searchField, this.searchButton);
     }
 
     public void setPromptText(String promptText) {
         this.promptText = promptText;
-        this.searchBox.setPromptText(promptText);
+        this.searchField.setPromptText(promptText);
     }
 
-    public TextField getSearchBox() {
-        return searchBox;
+    public TextField getSearchField() {
+        return searchField;
     }
 
     public Button getSearchButton() {
