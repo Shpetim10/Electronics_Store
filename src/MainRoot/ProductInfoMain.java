@@ -14,7 +14,7 @@ public class ProductInfoMain extends Application implements Design {
         @Override
         public void start(Stage primaryStage){
             ProductInformationView view=new ProductInformationView();
-            primaryStage.setTitle("Product Information");
+            primaryStage.setTitle("Files.Product Information");
             primaryStage.setScene(view.createScene());
             primaryStage.setMaximized(true);
             primaryStage.show();

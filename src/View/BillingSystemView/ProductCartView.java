@@ -18,7 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.util.converter.IntegerStringConverter;
 
 public class ProductCartView extends VBox implements Design {
-    private final SearchBoxPane searchBox=new SearchBoxPane("Search Product...");
+    private final SearchBoxPane searchBox=new SearchBoxPane("Search Files.Product...");
     private Label totalBillNumber =createAlignedBlackLabel("0");
     private Label moneyCollected=createAlignedBlackLabel("0");
     private Label taxCollected=createAlignedBlackLabel("0");
@@ -35,7 +35,7 @@ public class ProductCartView extends VBox implements Design {
     }
 
     public void setUpView(){
-        //Product Cart
+        //Files.Product Cart
         this.setSpacing(10);
         this.setStyle("-fx-background-color: transparent;");
 
@@ -49,7 +49,7 @@ public class ProductCartView extends VBox implements Design {
 
         //Header of product cart
         HBox headerBox=new HBox(20);
-        Label productCartTitle=createAlignedGreenBoldLabel("Product Cart");
+        Label productCartTitle=createAlignedGreenBoldLabel("Files.Product Cart");
         searchBox.getSearchButton().setText("Add");
         headerBox.getChildren().addAll(productCartTitle,searchBox,clearCart);
         errorMessage.setTextFill(Color.RED);
@@ -122,12 +122,12 @@ public class ProductCartView extends VBox implements Design {
         table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         table.setEditable(true);
         // Create columns of product cart
-        TableColumn<ItemBought, Integer> idColumn = new TableColumn<>("Product ID");
+        TableColumn<ItemBought, Integer> idColumn = new TableColumn<>("Files.Product ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("productId"));
         idColumn.setMaxWidth(100);
 
-        // Product Name column
-        TableColumn<ItemBought, String> nameColumn = new TableColumn<>("Product Name");
+        // Files.Product Name column
+        TableColumn<ItemBought, String> nameColumn = new TableColumn<>("Files.Product Name");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
         nameColumn.setMinWidth(150);
 

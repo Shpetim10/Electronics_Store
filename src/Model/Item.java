@@ -4,18 +4,24 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 
+import java.io.Serial;
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
-public class Item {
+public class Item implements Serializable {
+
+
+    @Serial
+    private static final long serialVersionUID = -183069447224098725L;
     private int productId;
     private String productName;
     private SectorType sector;
     private String description;
     private double sellingPrice;
     private double priceBought;
-    private Supplier supplier;
+    private String supplierName;
     private String isDiscounted;
-    private double discountRate;
     private int stockQuantity;
     private boolean isLowStock;
     private double weight;
@@ -23,45 +29,40 @@ public class Item {
     private int[] dimensions=new int[3];
     private String color;
     private String brand;
-    private int warrantyPeriod;
-   private String isDiscontinued;
+    private String isDiscontinued;
     private  String available;
-    private Date lastRestockDate;
+    private LocalDate lastRestockDate;
     private double averageRating;
     private String image;
     private String barcode;
     private int nrOfReturns;
-
-    private BooleanProperty selected = new SimpleBooleanProperty(false);
-
-
+    
 
     public Item() {
     }
     public Item(int productCode, String productName, SectorType sector,
-                double sellingPrice, double priceBought, Supplier supplier,
-                String isDiscounted, double discountRate, int stockQuantity,
-                String brand, Date lastRestockDate,
-                String barcode) {
+                double sellingPrice, double priceBought, String supplierName,
+                 int stockQuantity,
+                String brand, LocalDate lastRestockDate,
+                String barcode,String image) {
         this.productId = productCode;
         this.productName = productName;
         this.sector = sector;
         this.sellingPrice = sellingPrice;
         this.priceBought = priceBought;
-        this.supplier = supplier;
-        this.isDiscounted = isDiscounted;
-        this.discountRate = discountRate;
+        this.supplierName = supplierName;
+
         this.stockQuantity = stockQuantity;
         this.brand = brand;
-
+    this.image=image;
         this.lastRestockDate = lastRestockDate;
         this.barcode = barcode;
     }
 
     public Item(int productId, String productName, SectorType sector, String description, double sellingPrice,
-                double priceBrought, Supplier supplier, String isDiscounted, double discountRate, int stockQuantity,
+                double priceBrought, String supplierName, String isDiscounted, double discountRate, int stockQuantity,
                 boolean isLowStock, double weight, double volume, int[] dimensions, String color, String brand,
-                int warrantyPeriod, String isDiscontinued, String isAvailable, Date lastRestockDate,
+                int warrantyPeriod, String isDiscontinued, String isAvailable, LocalDate lastRestockDate,
                 double averageRating, String image, String barcode, int nrOfReturns) {
         this.productId = productId;
         this.productName = productName;
@@ -69,9 +70,8 @@ public class Item {
         this.description = description;
         this.sellingPrice = sellingPrice;
         this.priceBought = priceBrought;
-        this.supplier = supplier;
+        this.supplierName = supplierName;
       this.isDiscontinued=isDiscontinued;
-        this.discountRate = discountRate;
         this.stockQuantity = stockQuantity;
         this.isLowStock = isLowStock;
         this.weight = weight;
@@ -79,7 +79,6 @@ public class Item {
         this.dimensions = dimensions;
         this.color = color;
         this.brand = brand;
-        this.warrantyPeriod = warrantyPeriod;
         this.lastRestockDate = lastRestockDate;
         this.averageRating = averageRating;
         this.image = image;
@@ -155,12 +154,12 @@ public class Item {
         this.priceBought = priceBought;
     }
 
-    public Supplier getSupplier() {
-        return supplier;
+    public String getSupplier() {
+        return supplierName;
     }
 
-    public void setSupplier(Supplier supplier) {
-        this.supplier = supplier;
+    public void setSupplier(String supplier) {
+        this.supplierName = supplier;
     }
 
     public String isDiscounted() {
@@ -171,13 +170,7 @@ public class Item {
         this.isDiscounted = discounted;
     }
 
-    public double getDiscountRate() {
-        return discountRate;
-    }
 
-    public void setDiscountRate(double discountRate) {
-        this.discountRate = discountRate;
-    }
 
     public int getStockQuantity() {
         return stockQuantity;
@@ -235,13 +228,6 @@ public class Item {
         this.brand = brand;
     }
 
-    public int getWarrantyPeriod() {
-        return warrantyPeriod;
-    }
-
-    public void setWarrantyPeriod(int warrantyPeriod) {
-        this.warrantyPeriod = warrantyPeriod;
-    }
 
     public String getIsDiscontinued() {
         return isDiscontinued;
@@ -262,11 +248,11 @@ public class Item {
 
 
 
-    public Date getLastRestockDate() {
+    public LocalDate getLastRestockDate() {
         return lastRestockDate;
     }
 
-    public void setLastRestockDate(Date lastRestockDate) {
+    public void setLastRestockDate(LocalDate lastRestockDate) {
         this.lastRestockDate = lastRestockDate;
     }
 
@@ -302,30 +288,6 @@ public class Item {
         this.nrOfReturns = nrOfReturns;
     }
 
-    public BooleanProperty selectedProperty() {
-        return selected;
-    }
-
-    public boolean isSelected() {
-        return selected.get();
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected.set(selected);
-    }
-
-    public ObservableValue<Boolean> isDiscountedProperty() {
-    return selected;
-    }
-
-    public ObservableValue<Boolean> isDiscontinuedProperty() {
-        return selected;
-    }
-
-    public ObservableValue<Boolean> isAvailableProperty() {
-        return selected;
-    }
-    // To string dhe equals method
 }
 
 

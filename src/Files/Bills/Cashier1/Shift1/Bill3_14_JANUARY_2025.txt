@@ -12,7 +12,7 @@ CashierId:		1
 
                                                            Fiscal Bill
 
-             Id                            Product Name       Quantity               Price      Total Tax                   Total Price
+             Id                            Files.Product Name       Quantity               Price      Total Tax                   Total Price
 --------------------------------------------------------------------------------------------------------------------------------------------
 
             104                                  Cheese              3                3.00           1.80                          9.00

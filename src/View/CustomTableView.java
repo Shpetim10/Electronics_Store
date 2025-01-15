@@ -34,8 +34,8 @@ public class CustomTableView {
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         // Define columns
-        addColumn("Product Code", "productId", 100);
-        addColumn("Product Name", "productName", 100);
+        addColumn("Files.Product Code", "productId", 100);
+        addColumn("Files.Product Name", "productName", 100);
         addColumn("Sector", "sector", 80);
         addColumn("Selling Price", "sellingPrice", 100);
         addColumn("Cost Price", "priceBought", 100);

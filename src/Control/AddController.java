@@ -3,11 +3,16 @@ package Control;
 import Model.Item;
 import Model.SectorType;
 import Model.Supplier;
+import Model.Validator;
 import View.InventoryManagementView2.Add_EditView;
 import javafx.scene.control.Alert;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.Random;
+
+import static Model.FileHandler.writeProductToFile;
 
 public class AddController {
     private final Add_EditView view;
@@ -24,54 +29,59 @@ public class AddController {
 
     public void handleAddProduct() {
         try {
-
             int productCodeValue = Integer.parseInt(view.getProductCode().getText());
-            String productNameValue = view.getProductName().getText();
-            SectorType sectorValue = SectorType.valueOf(view.getSector().getText().toUpperCase());
+            String productNameValue="";
+            if(Validator.validateProductName(view.getProductName().getText())){
+                productNameValue = view.getProductName().getText();
+            }
+            else{
+                showAlert(Alert.AlertType.WARNING,"Invalid Input","Files.Product name does not conform format!\n Must start with capital leter and all letters!");
+            }
 
+            SectorType sectorValue = SectorType.valueOf(view.getSector().getText().toUpperCase());
             double sellingPriceValue = Double.parseDouble(view.getSellingPrice().getText());
             double priceBoughtValue = Double.parseDouble(view.getPriceBought().getText());
-            Supplier supplierValue = new Supplier(view.getSupplier().getText());
-            String isDiscountedValue = String.valueOf(view.getIsDiscounted().getValue().equalsIgnoreCase("Yes"));
-            double discountRateValue = (isDiscountedValue.equals("false"))? 0.0 : Double.parseDouble(view.getDiscountRate().getText());
+            String supplier = view.getSupplier().getText();
+            String image=view.getImage().getText();
+//            String isDiscountedValue = String.valueOf(view.getIsDiscounted().getValue().equalsIgnoreCase("Yes"));
+//            double discountRateValue = (isDiscountedValue.equals("false"))? 0.0 : Double.parseDouble(view.getDiscountRate().getText());
             int stockQuantityValue = Integer.parseInt(view.getStockQuantity().getText());
-
-
             String brandValue = view.getBrand().getText();
-
-            Date lastRestockDateValue = parseDate(view.getLastRestockDate().getText());
+            LocalDate lastRestockDateValue = view.getLastRestockDate().getValue();
             String barcodeValue = view.getBarcode().getText();
-            int nrOfReturnsValue = Integer.parseInt(view.getNrOfReturns().getText());
 
-            // Create a new Item object
             Item newItem = new Item(
                     productCodeValue,
                     productNameValue,
                     sectorValue,
                     sellingPriceValue,
                     priceBoughtValue,
-                    supplierValue,
-                    isDiscountedValue,
-                    discountRateValue,
+                    supplier,
                     stockQuantityValue,
                     brandValue,
                     lastRestockDateValue,
-                    barcodeValue
+                    barcodeValue,
+                    image
+
             );
 
 
             view.getTable().getItems().add(newItem);
+            writeProductToFile(newItem);
 
             // Clear input fields in the view
             clearInputFields();
 
             // Show success message
-            showAlert(Alert.AlertType.INFORMATION, "Product Added", "The product was successfully added!");
+            showAlert(Alert.AlertType.INFORMATION, "Files.Product Added", "The product was successfully added!");
         } catch (NumberFormatException ex) {
+            ex.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Invalid Input", "Please ensure all numeric fields are correctly filled.");
         } catch (IllegalArgumentException ex) {
+            ex.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Invalid Input", "Please check the values for fields like Sector or Supplier.");
         } catch (Exception ex) {
+            System.out.println(ex.getMessage());
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to add product. Please check your input values.");
         }
     }
@@ -80,28 +90,29 @@ public class AddController {
         view.getProductCode().clear();
         view.getProductName().clear();
         view.getSector().clear();
-        view.getDescription().clear();
+//        view.getDescription().clear();
         view.getSellingPrice().clear();
         view.getPriceBought().clear();
         view.getSupplier().clear();
-        view.getIsDiscounted().setValue("No");
-        view.getDiscountRate().clear();
+//        view.getIsDiscounted().setValue("No");
+//        view.getDiscountRate().clear();
         view.getStockQuantity().clear();
-        view.getWeight().clear();
-        view.getVolume().clear();
-        view.getColor().clear();
+//        view.getWeight().clear();
+//        view.getVolume().clear();
+//        view.getColor().clear();
         view.getBrand().clear();
-        view.getIsDiscontinued().setValue("No");
-        view.getIsAvailable().setValue("Yes");
-        view.getLastRestockDate().clear();
+//        view.getIsDiscontinued().setValue("No");
+//        view.getIsAvailable().setValue("Yes");
+//        //
         view.getBarcode().clear();
         view.getNrOfReturns().clear();
+        //Shtoi dhe ne file
     }
 
-    public Date parseDate(String dateString) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        return formatter.parse(dateString);
-    }
+//    public Date parseDate(String dateString) throws ParseException {
+//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//        return formatter.parse(dateString);
+//    }
 
     public void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
@@ -110,4 +121,6 @@ public class AddController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
 }
+

@@ -28,55 +28,57 @@ public class Add_EditView implements Design {
     private TextField productCode;
     private TextField productName;
     private TextField sector;
-    private TextField description;
+   // private TextField description;
     private TextField sellingPrice;
     private TextField priceBought;
     private TextField supplier;
-    private ComboBox<String> isDiscounted;
-    private TextField discountRate;
+   // private ComboBox<String> isDiscounted;
+   // private TextField discountRate;
     private TextField stockQuantity;
-    private TextField weight;
-    private TextField volume;
-    private TextField color;
+//    private TextField weight;
+//    private TextField volume;
+//    private TextField color;
     private TextField brand;
-    private ComboBox<String> isDiscontinued;
-    private ComboBox<String> isAvailable;
-    private TextField lastRestockDate;
+//    private ComboBox<String> isDiscontinued;
+//    private ComboBox<String> isAvailable;
+    private DatePicker lastRestockDate=createDatePicker("Restock date...");
     private TextField barcode;
     private TextField nrOfReturns;
     private Button add;
     private Button edit;
     private TableView<Item> table;
+    private TextField image;
 
 
     public Add_EditView() {
         this.select=createCheckBox();
-        this.productCode = createTextField("Product Code");
-        this.productName = createTextField("Product Name");
+        this.productCode = createTextField("Files.Product Code");
+        this.productName = createTextField("Files.Product Name");
         this.sector = createTextField("Sector");
-        this.description = createTextField("Description");
+        //this.description = createTextField("Description");
         this.sellingPrice = createTextField("Selling Price");
         this.priceBought = createTextField("Price Bought");
         this.supplier = createTextField("Supplier");
-        this.isDiscounted = createComboBox("Is Discounted");
-        isDiscounted.getItems().addAll("Yes","No");
-        this.discountRate = createTextField("Discount Rate");
+//        this.isDiscounted = createComboBox("Is Discounted");
+//        isDiscounted.getItems().addAll("Yes","No");
+//        this.discountRate = createTextField("Discount Rate");
         this.stockQuantity = createTextField("Quantity");
-        this.weight = createTextField("Weight");
-        this.volume = createTextField("Volume");
-        this.color = createTextField("Color");
+//        this.weight = createTextField("Weight");
+//        this.volume = createTextField("Volume");
+//        this.color = createTextField("Color");
         this.brand = createTextField("Brand");
-        this.isDiscontinued = createComboBox("Is Discontinued");
-        isDiscontinued.getItems().addAll("Yes","No");
-        this.isAvailable = createComboBox("Is Available");
-        isAvailable.getItems().addAll("Yes","No");
-        this.lastRestockDate = createTextField("Last Restock Date");
+//        this.isDiscontinued = createComboBox("Is Discontinued");
+//        isDiscontinued.getItems().addAll("Yes","No");
+//        this.isAvailable = createComboBox("Is Available");
+//        isAvailable.getItems().addAll("Yes","No");
+        //this.lastRestockDate = createTextField("Last Restock Date");
         this.barcode = createTextField("Barcode");
         this.nrOfReturns = createTextField("Number of Returns");
-        this.add=createGeneralButton("Add Product");
-        this.edit=createGeneralButton("Edit Product");
+        this.add=createGeneralButton("Add Files.Product");
+        this.edit=createGeneralButton("Edit Files.Product");
 
         this.table = new TableView<>();
+        this.image=createTextField("Image URL");
 
     }
 
@@ -92,16 +94,16 @@ public class Add_EditView implements Design {
         buttons.getChildren().addAll(add,edit);
 
        GridPane grid=new GridPane();
-       grid.setVgap(30);
-      grid.setHgap(30);
+       grid.setVgap(25);
+      grid.setHgap(25);
 
 
 
         grid.add(createAlignedGreenBoldLabel("Barcode: ", 100), 0, 0);
         grid.add(barcode, 1, 0);
-        grid.add(createAlignedGreenBoldLabel("Product Code: ", 150), 2, 0);
+        grid.add(createAlignedGreenBoldLabel("Files.Product Code: ", 150), 2, 0);
         grid.add(productCode, 3, 0);
-        grid.add(createAlignedGreenBoldLabel("Product Name: ", 150), 4, 0);
+        grid.add(createAlignedGreenBoldLabel("Files.Product Name: ", 150), 4, 0);
         grid.add(productName, 5, 0);
 
         grid.add(createAlignedGreenBoldLabel("Brand: ", 100), 0, 1);
@@ -120,10 +122,11 @@ public class Add_EditView implements Design {
 
         grid.add(createAlignedGreenBoldLabel("Last Restock Date: ", 200), 0, 3);
         grid.add(lastRestockDate, 1, 3);
-        grid.add(createAlignedGreenBoldLabel("Is Discounted: ", 150), 2, 3);
-        grid.add(isDiscounted, 3, 3);
-        grid.add(createAlignedGreenBoldLabel("Discount Rate: ", 150), 4, 3);
-        grid.add(discountRate, 5, 3);
+        grid.add(createAlignedGreenBoldLabel("Image URL ", 150), 2, 3);
+       grid.add(image, 3, 3);
+
+//        grid.add(createAlignedGreenBoldLabel("Discount Rate: ", 150), 4, 3);
+//        grid.add(discountRate, 5, 3);
 
       //grid.add(add, 4, 4);
        grid.add(add, 5, 7);
@@ -131,15 +134,17 @@ public class Add_EditView implements Design {
 
 
         Label label=createAlignedGreenBoldLabel("Products Management",200);
+        label.setPrefSize(200,100);
+
         HBox searchBox = new HBox(100);
 
             Image image = new Image("file:C:/Users/user/Downloads/logo.jpg");
             ImageView imageView = new ImageView(image);
-            imageView.setFitHeight(100);
-            imageView.setFitWidth(100);
+            imageView.setFitHeight(80);
+            imageView.setFitWidth(80);
 
 
-        searchBox.getChildren().addAll( label,search);
+        searchBox.getChildren().addAll( label);
        inventory.add(imageView,2,0);
         inventory.add(searchBox,1,0);
         //inventory.add(table,1,1);
@@ -182,13 +187,13 @@ public class Add_EditView implements Design {
         this.sector = sector;
     }
 
-    public TextField getDescription() {
-        return description;
-    }
-
-    public void setDescription(TextField description) {
-        this.description = description;
-    }
+//    public TextField getDescription() {
+//        return description;
+//    }
+//
+//    public void setDescription(TextField description) {
+//        this.description = description;
+//    }
 
     public TextField getSellingPrice() {
         return sellingPrice;
@@ -214,21 +219,21 @@ public class Add_EditView implements Design {
         this.supplier = supplier;
     }
 
-    public ComboBox<String> getIsDiscounted() {
-        return isDiscounted;
-    }
+//    public ComboBox<String> getIsDiscounted() {
+//        return isDiscounted;
+//    }
 
-    public void setIsDiscounted(ComboBox<String> isDiscounted) {
-        this.isDiscounted = isDiscounted;
-    }
-
-    public TextField getDiscountRate() {
-        return discountRate;
-    }
-
-    public void setDiscountRate(TextField discountRate) {
-        this.discountRate = discountRate;
-    }
+//    public void setIsDiscounted(ComboBox<String> isDiscounted) {
+//        this.isDiscounted = isDiscounted;
+//    }
+//
+//    public TextField getDiscountRate() {
+//        return discountRate;
+//    }
+//
+//    public void setDiscountRate(TextField discountRate) {
+//        this.discountRate = discountRate;
+//    }
 
     public TextField getStockQuantity() {
         return stockQuantity;
@@ -238,29 +243,29 @@ public class Add_EditView implements Design {
         this.stockQuantity = stockQuantity;
     }
 
-    public TextField getWeight() {
-        return weight;
-    }
-
-    public void setWeight(TextField weight) {
-        this.weight = weight;
-    }
-
-    public TextField getVolume() {
-        return volume;
-    }
-
-    public void setVolume(TextField volume) {
-        this.volume = volume;
-    }
-
-    public TextField getColor() {
-        return color;
-    }
-
-    public void setColor(TextField color) {
-        this.color = color;
-    }
+//    public TextField getWeight() {
+//        return weight;
+//    }
+//
+//    public void setWeight(TextField weight) {
+//        this.weight = weight;
+//    }
+//
+//    public TextField getVolume() {
+//        return volume;
+//    }
+//
+//    public void setVolume(TextField volume) {
+//        this.volume = volume;
+//    }
+//
+//    public TextField getColor() {
+//        return color;
+//    }
+//
+//    public void setColor(TextField color) {
+//        this.color = color;
+//    }
 
     public TextField getBrand() {
         return brand;
@@ -270,27 +275,27 @@ public class Add_EditView implements Design {
         this.brand = brand;
     }
 
-    public ComboBox<String> getIsDiscontinued() {
-        return isDiscontinued;
-    }
+//    public ComboBox<String> getIsDiscontinued() {
+//        return isDiscontinued;
+//    }
+//
+//    public void setIsDiscontinued(ComboBox<String> isDiscontinued) {
+//        this.isDiscontinued = isDiscontinued;
+//    }
+//
+//    public ComboBox<String> getIsAvailable() {
+//        return isAvailable;
+//    }
+//
+//    public void setIsAvailable(ComboBox<String> isAvailable) {
+//        this.isAvailable = isAvailable;
+//    }
 
-    public void setIsDiscontinued(ComboBox<String> isDiscontinued) {
-        this.isDiscontinued = isDiscontinued;
-    }
-
-    public ComboBox<String> getIsAvailable() {
-        return isAvailable;
-    }
-
-    public void setIsAvailable(ComboBox<String> isAvailable) {
-        this.isAvailable = isAvailable;
-    }
-
-    public TextField getLastRestockDate() {
+    public DatePicker getLastRestockDate() {
         return lastRestockDate;
     }
 
-    public void setLastRestockDate(TextField lastRestockDate) {
+    public void setLastRestockDate(DatePicker lastRestockDate) {
         this.lastRestockDate = lastRestockDate;
     }
 
@@ -332,6 +337,9 @@ public class Add_EditView implements Design {
 
     public void setTable(TableView<Item> table) {
         this.table = table;
+    }
+    public TextField getImage(){
+        return image;
     }
 
 

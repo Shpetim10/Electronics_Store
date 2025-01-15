@@ -74,7 +74,7 @@ public class Bill implements CustomerLoyalty  {
         }
 
         output.printf("\n\n%70s\n\n", "Fiscal Bill");
-        output.printf("%15s%40s%15s%20s%15s%30s\n", "Id", "Product Name", "Quantity", "Price", "Total Tax", "Total Price");
+        output.printf("%15s%40s%15s%20s%15s%30s\n", "Id", "Files.Product Name", "Quantity", "Price", "Total Tax", "Total Price");
         output.println("-".repeat(140) + "\n");
 
         if (this.getItemBought() != null) {

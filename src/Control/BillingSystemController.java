@@ -400,7 +400,7 @@ public class BillingSystemController {
 
                     }
                     else{
-                        displayMessage("Product card is empty!");
+                        displayMessage("Files.Product card is empty!");
                     }
                 }
         );

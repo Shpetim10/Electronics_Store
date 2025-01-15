@@ -7,12 +7,15 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class FileHandler {
-    private final static File ITEMS_FILE=new File("src/Files/Data/items.dat");
+    private final static File PRODUCT_FILE=new File("src/Files/Data/items.dat");
     private final static File SUPPLIERS_FILE=new File("src/Files/Data/suppliers.dat");
     private final static File USERS_FILE=new File("src/Files/Data/users.dat");
     private final static File SHIFTS_FILE=new File("src/Files/Data/shifts.dat");
     private final static File CUSTOMERS_FILE=new File("src/Files/Data/customers.dat");
     private final static String BILLS_DIRECTORY=new String("src/Files/Data/Bills");
+
+
+
     public FileHandler(){
 
     }
@@ -65,6 +68,7 @@ public class FileHandler {
                 bills.add(bill);
             }
         }
+
         catch(EOFException ex){
             System.out.println("EOF reached");
         }
@@ -95,4 +99,42 @@ public class FileHandler {
         }
         return false;
     }
+
+    public static boolean writeProductToFile(Item item) {
+        try (FileOutputStream outputStream = new FileOutputStream(PRODUCT_FILE, true)) {
+            ObjectOutputStream writer;
+            if (PRODUCT_FILE.length() > 0) {
+                writer = new HeaderlessObjectOutputStream(outputStream);
+            } else {
+                writer = new ObjectOutputStream(outputStream);
+            }
+            writer.writeObject(item);
+            writer.close();
+            return true;
+        } catch (IOException ex) {
+            System.out.println("Error writing product to file: " + ex.getLocalizedMessage());
+        }
+        return false;
+    }
+
+    public static ArrayList<Item> getItemsOfInventory(){
+    ArrayList<Item> inventory=new ArrayList<>();
+        try(ObjectInputStream reader=new ObjectInputStream(new FileInputStream(PRODUCT_FILE))){
+        Item item;
+        while(true){
+            item=(Item)reader.readObject();
+            inventory.add(item);
+        }
+    }
+        catch(EOFException ex1){
+        System.out.println("Reached end of file!");
+    }
+        catch(ClassNotFoundException ex){
+        ex.printStackTrace();
+    }
+        catch(IOException ex){
+        ex.printStackTrace();
+    }
+        return inventory;
+}
 }

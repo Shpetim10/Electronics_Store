@@ -53,7 +53,7 @@ public class InventoryManagementView extends GridPane implements Design {
 //        this.refresh = createGeneralButton("Refresh");
 //        this.restock = createGeneralButton("Restock");
 //        this.edit = createGeneralButton("Edit");
-//        this.add = createGeneralButton("Add Product");
+//        this.add = createGeneralButton("Add Files.Product");
 //        this.delete = createGeneralButton("Delete");
 //        this.clear = createGeneralButton("Clear");
 //        this.search = createComboBox("Select");
@@ -66,13 +66,13 @@ public class InventoryManagementView extends GridPane implements Design {
 //        table.setPrefWidth(400);
 //        table.setStyle("-fx-background-color:white ;"+ "-fx-border-radius:10;" + "-fx-border-color:yellowgreen;");
 //        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-//        // Product Code Column
-//        TableColumn<Item, Integer> idColumn = new TableColumn<>("Product Code");
+//        // Files.Product Code Column
+//        TableColumn<Item, Integer> idColumn = new TableColumn<>("Files.Product Code");
 //        idColumn.setCellValueFactory(new PropertyValueFactory<>("productId"));
 //        idColumn.setMaxWidth(100);
 //
-//        // Product Name Column
-//        TableColumn<Item, String> nameColumn = new TableColumn<>("Product Name");
+//        // Files.Product Name Column
+//        TableColumn<Item, String> nameColumn = new TableColumn<>("Files.Product Name");
 //        nameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
 //        nameColumn.setMaxWidth(150);
 //

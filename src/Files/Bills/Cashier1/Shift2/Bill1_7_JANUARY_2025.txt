@@ -16,7 +16,7 @@ Customer Card Id:
 
                                                            Fiscal Bill
 
-             Id                            Product Name       Quantity               Price      Total Tax                   Total Price
+             Id                            Files.Product Name       Quantity               Price      Total Tax                   Total Price
 --------------------------------------------------------------------------------------------------------------------------------------------
 
             101                                  Laptop              2             1200.00         480.00                       2400.00

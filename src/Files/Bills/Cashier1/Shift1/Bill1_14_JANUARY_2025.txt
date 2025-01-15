@@ -12,7 +12,7 @@ CashierId:		1
 
                                                            Fiscal Bill
 
-             Id                            Product Name       Quantity               Price      Total Tax                   Total Price
+             Id                            Files.Product Name       Quantity               Price      Total Tax                   Total Price
 --------------------------------------------------------------------------------------------------------------------------------------------
 
             101                                    Milk              2                1.50           0.60                          3.00
