@@ -1,11 +1,12 @@
 package Model;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Manager extends User{
     private ArrayList<SectorType> sectors=new ArrayList<>();
-
+    private ArrayList<File> reportsGenerated=new ArrayList<>();
 
     public Manager(int id, String firstName, String lastName, String username, String password, String email, String phoneNumber,
                          Date dateEmployed, String photo, EmployeeRole role, ArrayList<Permission> permissions, Boolean isActive,

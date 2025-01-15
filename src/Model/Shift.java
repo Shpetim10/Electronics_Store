@@ -99,7 +99,7 @@ public class Shift {
         }
 
         this.report=report;
-    }
+    }//Sh
 
     public int getShiftId() {
         return shiftId;
