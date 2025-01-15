@@ -1,5 +1,6 @@
 package Model;
 
+import Exceptions.OutOfStockException;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
@@ -86,6 +87,11 @@ public class Item {
         setStockQuantity(getStockQuantity()-quantity);
     } //Sh
 
+    public void checkInventoryStockAvailable() throws OutOfStockException {
+        if(this.getStockQuantity()==0){
+            throw new OutOfStockException();
+        }
+    }//Sh
 
     // Getters and Setters
     public int getProductId() {

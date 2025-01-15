@@ -1,6 +1,7 @@
 package View.BillingSystemView;
 
 import Model.ItemBought;
+import View.CustomTableView;
 import View.Design;
 import View.SearchBoxPane;
 import javafx.geometry.Insets;
@@ -10,10 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.converter.IntegerStringConverter;
 
@@ -29,6 +27,8 @@ public class ProductCartView extends VBox implements Design {
     private TableView productCartTable=createTableView();
     private Button removeItemButton=createGeneralButton("Remove Item");
     private TableColumn<ItemBought,Integer> quantityColumn;
+    private CustomTableView inventoryTable=new CustomTableView();
+    private StackPane tablePane=new StackPane();
 
     public ProductCartView() {
         setUpView();
@@ -55,8 +55,12 @@ public class ProductCartView extends VBox implements Design {
         errorMessage.setTextFill(Color.RED);
         errorMessage.setAlignment(Pos.CENTER);
 
+        //Table Pane for swiching between two tables
+        tablePane.getChildren().add(productCartTable);
+        inventoryTable.getTable().getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
         removeItemButton.setBorder(Border.stroke(Color.RED));
-        this.getChildren().addAll(title,todaySaleTitle,infoBox,headerBox,errorMessage,productCartTable,removeItemButton);
+        this.getChildren().addAll(title,todaySaleTitle,infoBox,headerBox,errorMessage,tablePane,removeItemButton);
     }
 
     public GridPane createTodaySalesInfoPane(){
@@ -201,5 +205,13 @@ public class ProductCartView extends VBox implements Design {
 
     public TableColumn<ItemBought, Integer> getQuantityColumn() {
         return quantityColumn;
+    }
+
+    public CustomTableView getInventoryTable() {
+        return inventoryTable;
+    }
+
+    public StackPane getTablePane() {
+        return tablePane;
     }
 }
