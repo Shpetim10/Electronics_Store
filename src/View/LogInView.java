@@ -4,55 +4,91 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class LogInView implements Design {
 
-    public Scene createScene() {
-        // Create elements
-        Label userLabel = new Label("Username:");
-        TextField usernameField = new TextField();
+        public Scene createScene() {
+            // Main layout
+            VBox mainLayout = new VBox(15);
+            mainLayout.setAlignment(Pos.CENTER);
+            mainLayout.setStyle("-fx-background-color: rgba(167,246,8,0.15);");
 
-        Label passLabel = new Label("Password:");
-        PasswordField passwordField = new PasswordField();
+            // Profile icon
+            Label profileIcon = new Label();
+            profileIcon.setStyle("-fx-background-color: green; -fx-border-radius: 50; -fx-background-radius: 50;");
+            profileIcon.setPrefSize(100, 100);
+            profileIcon.setAlignment(Pos.CENTER);
 
-        Button loginButton = new Button("Log In");
+            Label profileSymbol = new Label("👤");
+            profileSymbol.setFont(new Font("Arial", 32));
+            profileSymbol.setTextFill(Color.WHITE);
+            StackPane profileIconStack = new StackPane(profileIcon, profileSymbol);
 
-        // Set font and style for labels and buttons
-        userLabel.setFont(new Font("Arial", 14));
-        passLabel.setFont(new Font("Arial", 14));
-        loginButton.setFont(new Font("Arial", 14));
+            // Email field
+            TextField emailField = new TextField();
+            emailField.setPromptText("Email ID");
+            emailField.setPrefWidth(250);
+            emailField.setStyle("-fx-background-radius: 5; -fx-border-color: lightgray; -fx-padding: 5;");
 
-        // Create GridPane for layout
-        GridPane grid = new GridPane();
-        grid.setVgap(10);
-        grid.setHgap(10);
-        grid.setAlignment(Pos.CENTER);
+            // Password field
+            PasswordField passwordField = new PasswordField();
+            passwordField.setPromptText("Password");
+            passwordField.setPrefWidth(250);
+            passwordField.setStyle("-fx-background-radius: 5; -fx-border-color: lightgray; -fx-padding: 5;");
 
-        // Add elements to the grid
-        grid.add(userLabel, 0, 0);
-        grid.add(usernameField, 1, 0);
-        grid.add(passLabel, 0, 1);
-        grid.add(passwordField, 1, 1);
-        grid.add(loginButton, 1, 2);
+            // Remember me and Forgot Password
+            CheckBox rememberMeCheckBox = new CheckBox("Remember me");
+            Hyperlink forgotPasswordLink = new Hyperlink("Forgot Password?");
+            forgotPasswordLink.setStyle("-fx-text-fill: gray; -fx-font-size: 12;");
 
-        // Handle login button click
-        loginButton.setOnAction(e -> {
-            String username = usernameField.getText();
-            String password = passwordField.getText();
-            if (validateLogin(username, password)) {
-                //showAlert("Login Successful", "Welcome " + username + "!");
-            } else {
-                //showAlert("Login Failed", "Invalid username or password.");
-            }
-        });
+            HBox optionsLayout = new HBox(10, rememberMeCheckBox, forgotPasswordLink);
+            optionsLayout.setAlignment(Pos.CENTER_RIGHT);
+            optionsLayout.setPrefWidth(250);
 
-        // Create and return the scene
-        return new Scene(grid, 400, 300);
+            // Login button
+            Button loginButton = new Button("LOGIN");
+            loginButton.setPrefWidth(250);
+            loginButton.setStyle(
+                    "-fx-background-color: green; -fx-text-fill: white; -fx-font-size: 14; -fx-background-radius: 5;");
+
+
+            // Button action
+            loginButton.setOnAction(event -> {
+                String email = emailField.getText();
+                String password = passwordField.getText();
+
+                if (validateLogin(email, password)) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Login Successful");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Welcome!");
+                    alert.showAndWait();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Login Failed");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Invalid credentials. Please try again.");
+                    alert.showAndWait();
+                }
+            });
+
+            // Assemble the layout
+            mainLayout.getChildren().addAll(profileIconStack, emailField, passwordField, optionsLayout, loginButton);
+            mainLayout.setFillWidth(false);
+
+            return new Scene(mainLayout);
+        }
+
+        // Validate login credentials
+        private boolean validateLogin(String username, String password) {
+            // Replace with actual validation logic
+            return "user".equals(username) && "password".equals(password);
+        }
     }
 
-    // Validate login credentials
-    private boolean validateLogin(String username, String password) {
-        return "user".equals(username) && "password".equals(password);
-    }
-}
+
