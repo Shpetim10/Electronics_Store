@@ -2,36 +2,34 @@ package View.PerformanceReportView;
 
 import View.Design;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
-public class ViewAllBills implements Design {
-    private ComboBox<String> cashierName;
-    private ArrayList<Button> bills;
+public class ViewAllBills extends HBox implements Design {
+    private VBox buttonBox=new VBox(20);
+    private TextArea displayBill=new TextArea();
+    private Label errorMessage=createAlignedBlackBoldLabel("");
 
     public ViewAllBills(){
-        cashierName=createComboBox("Select Cashier...");
-        bills=new ArrayList<>();
-        for(int i=0;i<100;i++)
-            bills.add(createLargeButton("Bill "+i));
+        setUpView();
     }
 
-    public Scene createScene(){
-        StackPane pane=new StackPane();
-        pane.setStyle("-fx-background-color: rgba(167,246,8,0.15);");
-        pane.setPadding(new Insets(50,50,50,50));
+    public void setUpView(){
+        this.setStyle("-fx-background-color: rgba(167,246,8,0.15);");
+        this.setPadding(new Insets(50,50,50,50));
+        this.setSpacing(30);
+
 
         ScrollPane scrollPane=new ScrollPane();
-        scrollPane.prefWidthProperty().bind(pane.widthProperty());
-        scrollPane.prefHeightProperty().bind(pane.heightProperty());
+        scrollPane.prefWidthProperty().bind(this.widthProperty());
+        scrollPane.prefHeightProperty().bind(this.heightProperty());
         scrollPane.setFitToWidth(true);
         scrollPane.setStyle("-fx-background-color: rgba(167,246,8,0.3);" +
                 "-fx-background-radius: 40;" +
@@ -39,43 +37,56 @@ public class ViewAllBills implements Design {
                 "-fx-border-width: 2;" +
                 "-fx-border-color: yellowgreen;");
 
-        VBox box=new VBox(25);
-        box.setPrefWidth(500);
-        box.setPrefHeight(400);
-        box.setAlignment(Pos.TOP_CENTER);
-        box.setPadding(new Insets(30,30,30,30));
-        box.setStyle("-fx-background-color: rgba(167,246,8,0.3);");
-        box.prefHeightProperty().bind(pane.heightProperty());
-        box.prefWidthProperty().bind(pane.widthProperty());
+        createBillsButtonBox();
 
-        box.getChildren().add(createAlignedGreenBoldLabel("All Generated Bills",100));
-        box.getChildren().add(cashierName);
-        for(Button bill: bills){
-            bill.prefHeightProperty().bind(pane.heightProperty());
-            bill.prefWidthProperty().bind(pane.widthProperty());
-            box.getChildren().add(bill);
-        }
+        scrollPane.setContent(buttonBox);
+        scrollPane.setStyle("-fx-alignment: center;");
 
-        scrollPane.setContent(box);
-        pane.getChildren().add(scrollPane);
+        displayBill.setStyle("-fx-alignment: center;" +
+                "-fx-background-color: transparent;");
+        displayBill.setPrefWidth(140);
+        displayBill.prefHeightProperty().bind(this.heightProperty());
+        displayBill.prefWidthProperty().bind(this.widthProperty());
 
-        Scene scene=new Scene(pane);
-        return scene;
+
+        this.getChildren().addAll(scrollPane,displayBill);
     }
 
-    public ComboBox<String> getCashierName() {
-        return cashierName;
+    public void createBillsButtonBox(){
+        buttonBox.setPrefWidth(500);
+        buttonBox.setPrefHeight(400);
+        buttonBox.setAlignment(Pos.TOP_CENTER);
+        buttonBox.setPadding(new Insets(30,30,30,30));
+        buttonBox.setStyle("-fx-background-color: rgba(167,246,8,0.3);");
+        buttonBox.prefHeightProperty().bind(this.heightProperty());
+        buttonBox.prefWidthProperty().bind(this.widthProperty());
+
+        this.errorMessage.setTextFill(Color.RED);
+
+        buttonBox.getChildren().addAll(createAlignedGreenBoldLabel("All Generated Bills"),this.errorMessage);
     }
 
-    public void setCashierName(ComboBox<String> cashierName) {
-        this.cashierName = cashierName;
+    public VBox getButtonBox() {
+        return buttonBox;
     }
 
-    public ArrayList<Button> getBills() {
-        return bills;
+    public void setButtonBox(VBox buttonBox) {
+        this.buttonBox = buttonBox;
     }
 
-    public void setBills(ArrayList<Button> bills) {
-        this.bills = bills;
+    public TextArea getDisplayBill() {
+        return displayBill;
+    }
+
+    public void setDisplayBill(TextArea displayBill) {
+        this.displayBill = displayBill;
+    }
+
+    public Label getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(Label errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }

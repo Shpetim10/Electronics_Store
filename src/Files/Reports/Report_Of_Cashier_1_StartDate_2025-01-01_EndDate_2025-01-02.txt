@@ -1,0 +1,46 @@
+					Cashier Report
+
+----------------------------------------
+Cashier ID:		1
+Cashier Full Name:		John Doe
+Number of Shifts:		2
+----------------------------------------
+
+Shift ID:		1
+Shift Date:		2025-01-01
+Start Hour:		09:00
+End Hour:		17:00
+
+Shift Sales:		8600.0
+Shift Tax Paid:		1720.0
+Shift No-Tax Earnings:		6880.0
+Items Sold:		5
+Items Returned:		1
+Items Refunded:		0
+----------------------------------------
+
+Shift ID:		2
+Shift Date:		2025-01-02
+Start Hour:		08:30
+End Hour:		16:30
+
+Shift Sales:		16000.0
+Shift Tax Paid:		3200.0
+Shift No-Tax Earnings:		12800.0
+Items Sold:		6
+Items Returned:		0
+Items Refunded:		1
+----------------------------------------
+
+			Overall Summary
+
+----------------------------------------
+Total Sales:		24600.0
+Total Tax Paid:		4920.0
+Shift No-Tax Earnings:		19680.0
+Total Items Sold:		11
+Total Returns:		1
+Total Refunds:		1
+
+
+
