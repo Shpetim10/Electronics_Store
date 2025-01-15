@@ -12,51 +12,81 @@ import javafx.scene.layout.*;
 
 public class ProductInformationView extends GridPane implements Design {
 
-    private ImageView photo=new ImageView();
-    private Label name=createAlignedBlackLabel("");
-    private Label productId=createAlignedBlackLabel("");
-    private Label quantity=createAlignedBlackLabel("");
-    private Label price=createAlignedBlackLabel("");
-    private Label sector=createAlignedBlackLabel("");
-    private Label description=createAlignedBlackLabel("");
-    private Label supplier=createAlignedBlackLabel("");
-    private Label brand=createAlignedBlackLabel("");
-    private Label lastRestock=createAlignedBlackLabel("");
-    private Label sellingPrice=createAlignedBlackLabel("");
-    private Label weight=createAlignedBlackLabel("");
-    private CheckBox isAvailable=createCheckBox();
-    private CheckBox isDiscontinued=createCheckBox();
-    private Label priceBought=createAlignedBlackLabel("");
+    private ImageView photo = new ImageView();
+    private Label name = createAlignedBlackLabel("");
+    private Label productId = createAlignedBlackLabel("");
+    private Label quantity = createAlignedBlackLabel("");
+    private Label price = createAlignedBlackLabel("");
+    private Label sector = createAlignedBlackLabel("");
+    private Label description = createAlignedBlackLabel("");
+    private Label supplier = createAlignedBlackLabel("");
+    private Label brand = createAlignedBlackLabel("");
+    private Label lastRestock = createAlignedBlackLabel("");
+    private Label sellingPrice = createAlignedBlackLabel("");
+    private Label weight = createAlignedBlackLabel("");
+    private CheckBox isAvailable = createCheckBox();
+    private CheckBox isDiscontinued = createCheckBox();
+    private Label priceBought = createAlignedBlackLabel("");
 
-    public ImageView getPhoto() {return photo;}
+    public ImageView getPhoto() {
+        return photo;
+    }
 
-    public CheckBox getIsAvailable() {return isAvailable;}
+    public CheckBox getIsAvailable() {
+        return isAvailable;
+    }
 
-    public CheckBox getIsDiscontinued() {return isDiscontinued;}
+    public CheckBox getIsDiscontinued() {
+        return isDiscontinued;
+    }
 
-    public Label getProductId() {return productId;}
+    public Label getProductId() {
+        return productId;
+    }
 
-    public Label getName() {return name;}
+    public Label getName() {
+        return name;
+    }
 
-    public Label getQuantity() {return quantity;}
+    public Label getQuantity() {
+        return quantity;
+    }
 
-    public Label getPrice() {return price;}
+    public Label getPrice() {
+        return price;
+    }
 
-    public Label getSector() {return sector;}
+    public Label getSector() {
+        return sector;
+    }
 
-    public Label getDescription() {return description;}
+    public Label getDescription() {
+        return description;
+    }
 
-    public Label getSupplier() {return supplier;}
+    public Label getSupplier() {
+        return supplier;
+    }
 
-    public Label getBrand() {return brand;}
+    public Label getBrand() {
+        return brand;
+    }
 
-    public Label getLastRestock() {return lastRestock;}
+    public Label getLastRestock() {
+        return lastRestock;
+    }
 
-    public Label getSellingPrice() {return sellingPrice;}
+    public Label getSellingPrice() {
+        return sellingPrice;
+    }
 
-    public Label getWeight() {return weight;}
+    public Label getWeight() {
+        return weight;
+    }
 
-    public Label getPriceBought() {return priceBought;}
+    public Label getPriceBought() {
+        return priceBought;
+    }
 
     public HBox topSection() {
         HBox topSection = new HBox(10);
@@ -67,89 +97,85 @@ public class ProductInformationView extends GridPane implements Design {
 
         BorderPane mainLayout = new BorderPane();
         mainLayout.setTop(topSection);
-        //mainLayout.setCenter(detailsGrid);
 
-        return  topSection;}
+        return topSection;
+    }
 
     // Adding elements to GridPane
-    public Scene createScene()
-    {
+    public ProductInformationView() {
 
-        this.setHgap(100);
-        this.setVgap(30);
-        this.setPadding(new Insets(50,230,50,200));
-       this.setStyle("-fx-background-color: rgba(167,246,8,0.15)");
+        setUpView();
 
         Label photoLabel = new Label(" Photo");
         photoLabel.setStyle("-fx-font-size: 12;  -fx-text-fill: darkgreen;");
-        photoLabel.setPrefSize(150, 200);
-        photoLabel.setStyle("-fx-border-color: black;-fx-border-width:3 ; -fx-alignment: center;");
+        photoLabel.setPrefSize(150, 150);
+        photoLabel.setStyle("-fx-border-color: black;-fx-border-width:3 ; -fx-alignment: center; -fx-background-radius: 40; -fx-border-radius: 40; -fx-border-width: 2; -fx-border-color: yellowgreen;");
 
         // Product Info Fields
         Label productIdLabel = new Label("Barcode:");
         productIdLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
         Label productIdField = new Label("");
-        productIdField.setStyle("-fx-pref-width: 200;-fx-background-color: white;-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
+        productIdField.setStyle("-fx-pref-width: 200;-fx-background-color: white;-fx-border-width:3 ; -fx-alignment: center; -fx-background-radius: 40; -fx-border-radius: 40; -fx-border-width: 2; -fx-border-color: yellowgreen;");
 
         Label nameLabel = new Label("Name:");
         nameLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
-        TextField nameField = new TextField();
-        nameField.setStyle("-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
+        Label nameField = new Label();
+        nameField.setStyle("-fx-pref-width: 200;-fx-background-color: white;-fx-border-width:3 ; -fx-alignment: center; -fx-background-radius: 40; -fx-border-radius: 40; -fx-border-width: 2; -fx-border-color: yellowgreen;");
 
         Label sectorLabel = new Label("Sector:");
         sectorLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
-        TextField sectorField = new TextField();
-        sectorField.setStyle("-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
+        Label sectorField = new Label();
+        sectorField.setStyle("-fx-pref-width: 200;-fx-background-color: white;-fx-border-width:3 ; -fx-alignment: center; -fx-background-radius: 40; -fx-border-radius: 40; -fx-border-width: 2; -fx-border-color: yellowgreen;");
 
         Label quantityLabel = new Label("Quantity:");
         quantityLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
-        TextField quantityField = new TextField();
-        quantityField.setStyle("-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
+        Label quantityField = new Label();
+        quantityField.setStyle("-fx-pref-width: 200;-fx-background-color: white;-fx-border-width:3 ; -fx-alignment: center; -fx-background-radius: 40; -fx-border-radius: 40; -fx-border-width: 2; -fx-border-color: yellowgreen;");
 
         Label priceLabel = new Label("Price:");
         priceLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
-        TextField priceField = new TextField();
-        priceField.setStyle("-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
+        Label priceField = new Label();
+        priceField.setStyle("-fx-pref-width: 200;-fx-background-color: white;-fx-border-width:3 ; -fx-alignment: center; -fx-background-radius: 40; -fx-border-radius: 40; -fx-border-width: 2; -fx-border-color: yellowgreen;");
 
         Label descriptionLabel = new Label("Description:");
         descriptionLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
-        TextArea descriptionField = new TextArea();
-        descriptionField.setStyle("-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
-        descriptionField.setPrefRowCount(0);
+        Label descriptionField = new Label();
+        descriptionField.setStyle("-fx-pref-width: 300;-fx-background-color: white;-fx-border-width:3 ; -fx-alignment: center; -fx-background-radius: 40; -fx-border-radius: 40; -fx-border-width: 2; -fx-border-color: yellowgreen;");
+
 
         Label supplierLabel = new Label("Supplier:");
         supplierLabel.setStyle(" -fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
-        TextField supplierField = new TextField();
-        supplierField.setStyle("-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
+        Label supplierField = new Label();
+        supplierField.setStyle("-fx-pref-width: 200;-fx-background-color: white;-fx-border-width:3 ; -fx-alignment: center; -fx-background-radius: 40; -fx-border-radius: 40; -fx-border-width: 2; -fx-border-color: yellowgreen;");
 
         Label brandLabel = new Label("Brand:");
         brandLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
-        TextField brandField = new TextField();
-        brandField.setStyle("-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
+        Label brandField = new Label();
+        brandField.setStyle("-fx-pref-width: 200;-fx-background-color: white;-fx-border-width:3 ; -fx-alignment: center; -fx-background-radius: 40; -fx-border-radius: 40; -fx-border-width: 2; -fx-border-color: yellowgreen;");
 
         Label lastRestockLabel = new Label("Last Restock:");
         lastRestockLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
-        DatePicker lastRestockPicker = new DatePicker();
-        lastRestockPicker.setStyle("-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
+        Label lastRestockPicker = new Label();
+        lastRestockPicker.setStyle("-fx-pref-width: 200;-fx-background-color: white;-fx-border-width:3 ; -fx-alignment: center; -fx-background-radius: 40; -fx-border-radius: 40; -fx-border-width: 2; -fx-border-color: yellowgreen;");
 
         Label weightLabel = new Label("Weight:");
         weightLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
-        TextField weightField = new TextField();
-        weightField.setStyle("-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
+        Label weightField = new Label();
+        weightField.setStyle("-fx-pref-width: 200;-fx-background-color: white;-fx-border-width:3 ; -fx-alignment: center; -fx-background-radius: 40; -fx-border-radius: 40; -fx-border-width: 2; -fx-border-color: yellowgreen;");
 
         Label sellingPriceLabel = new Label("Selling Price:");
         sellingPriceLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
-        TextField sellingPriceField = new TextField();
-        sellingPriceField.setStyle("-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
+        Label sellingPriceField = new Label();
+        sellingPriceField.setStyle("-fx-pref-width: 200;-fx-background-color: white;-fx-border-width:3 ; -fx-alignment: center; -fx-background-radius: 40; -fx-border-radius: 40; -fx-border-width: 2; -fx-border-color: yellowgreen;");
 
         Label priceBoughtLabel = new Label("Price Bought:");
         priceBoughtLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
-        TextField priceBoughtField = new TextField();
-        priceBoughtField.setStyle("-fx-padding: 3px;-fx-border-color: lightgreen; -fx-border-width: 2px");
+        Label priceBoughtField = new Label();
+        priceBoughtField.setStyle("-fx-pref-width: 200;-fx-background-color: white;-fx-border-width:3 ; -fx-alignment: center; -fx-background-radius: 40; -fx-border-radius: 40; -fx-border-width: 2; -fx-border-color: yellowgreen;");
 
-        CheckBox isAvailableCheckbox = new CheckBox("Available");
+        CheckBox isAvailableCheckbox = new CheckBox("Is Available?");
         isAvailableCheckbox.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
-        CheckBox isDiscontinuedCheckbox = new CheckBox("Discontinued");
+        CheckBox isDiscontinuedCheckbox = new CheckBox("Is Discontinued?");
         isDiscontinuedCheckbox.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
 
         this.add(photoLabel, 0, 0);
@@ -179,8 +205,8 @@ public class ProductInformationView extends GridPane implements Design {
         this.add(weightLabel, 1, 9);
         this.add(weightField, 2, 9);
 
-   this.add(sellingPriceLabel, 3, 2);
-       this.add(sellingPriceField, 4, 2);
+        this.add(sellingPriceLabel, 3, 2);
+        this.add(sellingPriceField, 4, 2);
 
         this.add(priceBoughtLabel, 3, 1);
         this.add(priceBoughtField, 4, 1);
@@ -188,17 +214,13 @@ public class ProductInformationView extends GridPane implements Design {
         this.add(isAvailableCheckbox, 3, 5);
         this.add(isDiscontinuedCheckbox, 3, 6);
 
-        Scene scene=new Scene(this);
 
-        return scene; }
-public void setUpView(){
+    }
+    public void setUpView() {
+        this.setHgap(100);
+        this.setVgap(30);
+        this.setPadding(new Insets(50, 150, 50, 150));
+        this.setStyle("-fx-background-color: rgba(167,246,8,0.15)");
 
-}
-    /*public void setUpView(){
-
-    ic e kam bere un tek ajo e imja
-    do ta heqesh kte qe ben return scene
-    ok
-    Tek te kuqet be this
-     */
+    }
 }
