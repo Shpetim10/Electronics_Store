@@ -52,8 +52,8 @@ public class Add_EditView implements Design {
 
     public Add_EditView() {
         this.select=createCheckBox();
-        this.productCode = createTextField("Files.Product Code");
-        this.productName = createTextField("Files.Product Name");
+        this.productCode = createTextField("Product Id");
+        this.productName = createTextField("Product Name");
         this.sector = createTextField("Sector");
         //this.description = createTextField("Description");
         this.sellingPrice = createTextField("Selling Price");
@@ -74,8 +74,8 @@ public class Add_EditView implements Design {
         //this.lastRestockDate = createTextField("Last Restock Date");
         this.barcode = createTextField("Barcode");
         this.nrOfReturns = createTextField("Number of Returns");
-        this.add=createGeneralButton("Add Files.Product");
-        this.edit=createGeneralButton("Edit Files.Product");
+        this.add=createGeneralButton("Add Product");
+        this.edit=createGeneralButton("Edit Product");
 
         this.table = new TableView<>();
         this.image=createTextField("Image URL");
@@ -95,15 +95,14 @@ public class Add_EditView implements Design {
 
        GridPane grid=new GridPane();
        grid.setVgap(25);
-      grid.setHgap(25);
-
+       grid.setHgap(25);
 
 
         grid.add(createAlignedGreenBoldLabel("Barcode: ", 100), 0, 0);
         grid.add(barcode, 1, 0);
-        grid.add(createAlignedGreenBoldLabel("Files.Product Code: ", 150), 2, 0);
+        grid.add(createAlignedGreenBoldLabel("Product Code: ", 150), 2, 0);
         grid.add(productCode, 3, 0);
-        grid.add(createAlignedGreenBoldLabel("Files.Product Name: ", 150), 4, 0);
+        grid.add(createAlignedGreenBoldLabel("Product Name: ", 150), 4, 0);
         grid.add(productName, 5, 0);
 
         grid.add(createAlignedGreenBoldLabel("Brand: ", 100), 0, 1);
@@ -117,7 +116,7 @@ public class Add_EditView implements Design {
         grid.add(priceBought, 1, 2);
         grid.add(createAlignedGreenBoldLabel("Selling Price: ", 150), 2, 2);
         grid.add(sellingPrice, 3, 2);
-        grid.add(createAlignedGreenBoldLabel(" Quantity: ", 100), 4, 2);
+        grid.add(createAlignedGreenBoldLabel("Quantity: ", 100), 4, 2);
         grid.add(stockQuantity, 5, 2);
 
         grid.add(createAlignedGreenBoldLabel("Last Restock Date: ", 200), 0, 3);

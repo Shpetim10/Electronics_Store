@@ -12,9 +12,8 @@ import java.util.Date;
 
 public class Item implements Serializable {
 
-
     @Serial
-    private static final long serialVersionUID = -183069447224098725L;
+    private static final long serialVersionUID = 2212128058847503492L;
     private int productId;
     private String productName;
     private SectorType sector;
@@ -72,7 +71,7 @@ public class Item implements Serializable {
         this.sellingPrice = sellingPrice;
         this.priceBought = priceBrought;
         this.supplierName = supplierName;
-      this.isDiscontinued=isDiscontinued;
+        this.isDiscontinued=isDiscontinued;
         this.stockQuantity = stockQuantity;
         this.isLowStock = isLowStock;
         this.weight = weight;

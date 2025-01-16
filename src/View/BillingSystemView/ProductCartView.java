@@ -9,14 +9,12 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.converter.IntegerStringConverter;
 
 public class ProductCartView extends VBox implements Design {
-    private final SearchBoxPane searchBox=new SearchBoxPane("Search Files.Product...");
+    private final SearchBoxPane searchBox=new SearchBoxPane("Search Product...");
     private Label totalBillNumber =createAlignedBlackLabel("0");
     private Label moneyCollected=createAlignedBlackLabel("0");
     private Label taxCollected=createAlignedBlackLabel("0");
@@ -49,7 +47,7 @@ public class ProductCartView extends VBox implements Design {
 
         //Header of product cart
         HBox headerBox=new HBox(20);
-        Label productCartTitle=createAlignedGreenBoldLabel("Files.Product Cart");
+        Label productCartTitle=createAlignedGreenBoldLabel("Product Cart");
         searchBox.getSearchButton().setText("Add");
         headerBox.getChildren().addAll(productCartTitle,searchBox,clearCart);
         errorMessage.setTextFill(Color.RED);
@@ -58,7 +56,7 @@ public class ProductCartView extends VBox implements Design {
         //Table Pane for swiching between two tables
         tablePane.getChildren().add(productCartTable);
         inventoryTable.getTable().getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
+        inventoryTable.getTable().getColumns().remove(4);
         removeItemButton.setBorder(Border.stroke(Color.RED));
         this.getChildren().addAll(title,todaySaleTitle,infoBox,headerBox,errorMessage,tablePane,removeItemButton);
     }
@@ -126,12 +124,12 @@ public class ProductCartView extends VBox implements Design {
         table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         table.setEditable(true);
         // Create columns of product cart
-        TableColumn<ItemBought, Integer> idColumn = new TableColumn<>("Files.Product ID");
+        TableColumn<ItemBought, Integer> idColumn = new TableColumn<>("Product ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("productId"));
         idColumn.setMaxWidth(100);
 
         // Files.Product Name column
-        TableColumn<ItemBought, String> nameColumn = new TableColumn<>("Files.Product Name");
+        TableColumn<ItemBought, String> nameColumn = new TableColumn<>("Product Name");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
         nameColumn.setMinWidth(150);
 

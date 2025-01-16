@@ -1,8 +1,7 @@
 package Control;
 
-import Exceptions.InsuffitientStockException;
+import Exceptions.InsufficientStockException;
 import Exceptions.InvalidPaymentArgumentsException;
-import Exceptions.ItemNotFoundException;
 import Exceptions.OutOfStockException;
 import Model.*;
 import View.BillingSystemView.BillingSystemView;
@@ -11,7 +10,6 @@ import javafx.collections.ObservableList;
 
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 
 public class BillingSystemController {
@@ -19,7 +17,7 @@ public class BillingSystemController {
     private Cashier cashier;
     private Bill bill;
     private ObservableList<ItemBought> itemsBought = FXCollections.observableArrayList();
-
+    private ObservableList<Item> inventory=view.getProductCartBox().getInventoryTable().getTable().getItems();
 
     public BillingSystemController(Cashier cashier) {
         try {
@@ -172,50 +170,47 @@ public class BillingSystemController {
 
     public void setAddButtonListener() {
         // Get the search button
-        view.getProductCartBox().getSearchBox().getSearchButton().setOnAction(event -> {
+        view.getProductCartBox().getSearchBox().getSearchButton().setOnAction(e -> {
             clearMessageLabel();
-
             try {
-                // Get selected item from the inventory table
                 Item selectedItem = view.getProductCartBox().getInventoryTable().getTable().getSelectionModel().getSelectedItem();
-
-                // Check if an item is selected
                 if (selectedItem == null) {
                     throw new NullPointerException("No item selected!");
                 }
 
-                // Create a new ItemBought instance
                 ItemBought itemBought = new ItemBought(selectedItem);
 
-                // Check if the item is already in the cart
-                if (!itemsBought.contains(itemBought)) {
-                    // Check inventory stock
+                if (!checkCartForProductPresence(itemBought)) {
+                    // Check inventory stock if there is any in inventory
                     itemBought.getItem().checkInventoryStockAvailable();
 
-                    // Update the cart table and bill
+                    // Update cart table and bill
                     itemsBought.add(itemBought);
                     view.getProductCartBox().getProductCartTable().setItems(itemsBought);
                     this.bill.getItemBought().add(itemBought);
                     setUpBillPricingData();
 
-                    // Update the UI to display the updated cart table
+                    // Update the table view to display the updated cart table
                     view.getProductCartBox().getTablePane().getChildren().clear();
                     view.getProductCartBox().getTablePane().getChildren().add(view.getProductCartBox().getProductCartTable());
                 } else {
-                    // Show error message if the item is already in the cart
                     view.getProductCartBox().getErrorMessage().setText("This item is already added to the cart!");
                 }
             } catch (OutOfStockException ex) {
-                // Handle out-of-stock exception
                 view.getProductCartBox().getErrorMessage().setText(ex.getMessage());
             } catch (NullPointerException ex) {
-                // Handle no item selected exception
                 view.getProductCartBox().getErrorMessage().setText(ex.getMessage());
             }
         });
     }
-
-
+    public boolean checkCartForProductPresence(ItemBought itemBought){
+        for(ItemBought item:bill.getItemBought()){
+            if(item.getProductId()==itemBought.getProductId()){
+                return true;
+            }
+        }
+        return false;
+    }
     public void setCollectedCashListener() {
         view.getCheckOutPane().getCollectedMoneyTf().setOnAction(
                 e -> {
@@ -313,48 +308,46 @@ public class BillingSystemController {
     }
 
     public void setEditQuantityListener() {
-        view.getProductCartBox().getQuantityColumn().setOnEditCommit(event -> {
-            int rowIndex = event.getTablePosition().getRow();
-            int newQuantity = event.getNewValue();
+        view.getProductCartBox().getQuantityColumn().setOnEditCommit(e -> {
+            int rowIndex = e.getTablePosition().getRow();
+            int newQuantity = e.getNewValue();
 
             try {
                 ItemBought itemBought = itemsBought.get(rowIndex);
                 Item item = itemBought.getItem();
-                // Validate the new quantity
+                //Check new quanity entered
                 if (newQuantity <= 0) {
                     throw new IllegalArgumentException("Quantity must be greater than zero.");
                 }
                 if (newQuantity > item.getStockQuantity()) {
-                    throw new InsuffitientStockException();
+                    throw new InsufficientStockException();
                 }
-                // Update the quantity in the cart and bill
+                // Update the quantities
                 int oldQuantity = itemBought.getQuantity();
-                itemBought.setQuantity(newQuantity);
+                itemBought.setQuantity(newQuantity); //ItemBought object
                 bill.getItemBought().get(rowIndex).setQuantity(newQuantity);
-
-                // Update the inventory stock
-                int quantityDifference = newQuantity - oldQuantity;
-                item.decrementStock(quantityDifference);
+                item.decrementStock(newQuantity - oldQuantity);
 
                 // Update the table view
-                view.getProductCartBox().getProductCartTable().refresh();
+                view.getProductCartBox().getProductCartTable().setItems(itemsBought);
 
                 // Update pricing data
+                view.getProductCartBox().getProductCartTable().refresh();
+                view.getProductCartBox().getInventoryTable().getTable().refresh();
                 setUpBillPricingData();
 
             } catch (IllegalArgumentException ex) {
-                // Display error message for invalid input
-                view.getProductCartBox().getErrorMessage().setText(ex.getMessage());
-            } catch (InsuffitientStockException e) {
-                throw new RuntimeException(e);
+                displayMessage(ex.getMessage());
+            } catch (InsufficientStockException ex) {
+                displayMessage("Insufficient stock for required quantity!");
             }
         }
         );
     }
 
     public void setDeleteRowButtonListener() {
-        // Get the remove button
-        view.getProductCartBox().getRemoveItemButton().setOnAction(event -> {
+        view.getProductCartBox().getRemoveItemButton().setOnAction(e -> {
+            clearMessageLabel();
             // Get the selected items from the product cart table
             ObservableList<ItemBought> selectedItems = view.getProductCartBox()
                     .getProductCartTable()
@@ -362,30 +355,27 @@ public class BillingSystemController {
                     .getSelectedItems();
 
             if (selectedItems.isEmpty()) {
-                // Show an error message if no item is selected
                 view.getProductCartBox().getErrorMessage().setText("No item selected for removal.");
                 return;
             }
-
             // Update stock and remove selected items
             for (ItemBought itemBought : selectedItems) {
                 itemBought.getItem().incrementStock(itemBought.getQuantity());
+                bill.getItemBought().remove(itemBought);
             }
-
-            // Remove selected items from the cart and bill
+            // Remove selected items from the cart
             itemsBought.removeAll(selectedItems);
-            bill.getItemBought().removeAll(selectedItems);
 
-            // Update the table view and pricing data
             view.getProductCartBox().getProductCartTable().refresh();
+            view.getProductCartBox().getInventoryTable().getTable().refresh();
             setUpBillPricingData();
         });
     }
 
-
     public void setClearCartButtonListener(){
         view.getProductCartBox().getClearCart().setOnAction(
                 e->{
+                    clearMessageLabel();
                     itemsBought.clear();
                     this.bill.clearCart();
                     view.getProductCartBox().getProductCartTable().getItems().clear();
@@ -408,9 +398,7 @@ public class BillingSystemController {
     public void setGenerateBillButtonListener(){
         view.getCheckOutPane().getGenerateBillButton().setOnAction(
                 e->{
-//                    for(ItemBought itemBought: this.bill.getItemBought()){
-//                        itemBought.getItem().decrementStock(itemBought.getQuantityValue());
-//                    }
+                    clearMessageLabel();
                     if(!itemsBought.isEmpty()) {
                         //Check if payment method is empty
                         if(
@@ -462,6 +450,7 @@ public class BillingSystemController {
     public void searchBoxListener(){
         view.getProductCartBox().getSearchBox().getSearchField().setOnAction(
                 e->{
+
                     String searchQuery=this.view.getProductCartBox().getSearchBox().getSearchField().getText().toLowerCase();
                     ObservableList<Item> filteredItems=FXCollections.observableArrayList();
                     for(Item item: view.getProductCartBox().getInventoryTable().getTable().getItems()){
@@ -477,6 +466,7 @@ public class BillingSystemController {
     public void setSwitchTableListener(){
         view.getProductCartBox().getSearchBox().getSearchField().setOnMouseClicked(
                 e->{
+                    view.getProductCartBox().getInventoryTable().getTable().setItems(inventory);
                     view.getProductCartBox().getTablePane().getChildren().clear();
                     view.getProductCartBox().getTablePane().getChildren().add(view.getProductCartBox().getInventoryTable().getTable());
                     searchBoxListener();
@@ -484,6 +474,7 @@ public class BillingSystemController {
         );
         view.getProductCartBox().setOnMouseClicked(
                 e->{
+                    view.getProductCartBox().getInventoryTable().getTable().setItems(inventory);
                     view.getProductCartBox().getTablePane().getChildren().clear();
                     view.getProductCartBox().getTablePane().getChildren().add(view.getProductCartBox().getProductCartTable());
                 }

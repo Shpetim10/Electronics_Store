@@ -36,83 +36,7 @@ public class Cashier extends User implements InventoryManagement{
 
     }
 
-    public void generateCashierReport(LocalDate startDate, LocalDate endDate){
-        File reportFile=new File(createCashierReportFilePath(startDate,endDate));
 
-    }
-    public void writeReport(File reportFile,LocalDate startDate, LocalDate endDate) throws IOException {
-        try(PrintWriter output=new PrintWriter(reportFile)){
-            output.println("\t\t\t\t\tCashier Report\n");
-            output.println("-".repeat(40));
-            output.println("Cashier ID:\t\t" + this.getId());
-            output.println("Cashier Full Name:\t\t" + this.getFirstName() + " " + this.getLastName());
-            output.println("Number of Shifts:\t\t" + shifts.size());
-            output.println("-".repeat(40));
-            output.println("");
-
-            double totalSales = 0, totalTax = 0;
-            int totalItemsSold = 0, totalReturns = 0, totalRefunds = 0;
-
-            for(Shift shift: shifts) {
-                if ((shift.getShiftDate().isAfter(startDate) && shift.getShiftDate().isBefore(endDate))
-                        || shift.getShiftDate().isEqual(startDate)
-                        || shift.getShiftDate().isEqual(endDate)) {
-                    output.println("Shift ID:\t\t" + shift.getShiftId());
-                    output.println("Shift Date:\t\t" + shift.getShiftDate());
-                    output.println("Start Hour:\t\t" + shift.getStartHour());
-                    output.println("End Hour:\t\t" + shift.getEndHour());
-                    output.println("");
-
-                    double shiftSales = 0, shiftTax = 0;
-                    for (Bill bill : shift.getBills()) {
-                        for (ItemBought item : bill.getItemBought()) {
-                            shiftSales += item.getTotalPrice();
-                            shiftTax += item.getTotalTax();
-                        }
-                    }
-
-                    totalSales += shiftSales;
-                    totalTax += shiftTax;
-                    totalItemsSold += shift.getNrOfItemsSold();
-                    totalReturns += shift.getNrOfReturns();
-                    totalRefunds += shift.getNrOfRefunds();
-
-                    output.println("Shift Sales:\t\t" + shiftSales);
-                    output.println("Shift Tax Paid:\t\t" + shiftTax);
-                    output.println("Shift No-Tax Earnings:\t\t" + (shiftSales-shiftTax));
-                    output.println("Items Sold:\t\t" + shift.getNrOfItemsSold());
-                    output.println("Items Returned:\t\t" + shift.getNrOfReturns());
-                    output.println("Items Refunded:\t\t" + shift.getNrOfRefunds());
-                    output.println("-".repeat(40));
-                    output.println("");
-                }
-            }
-
-                output.println("\t\t\tOverall Summary\n");
-                output.println("-".repeat(40));
-                output.println("Total Sales:\t\t" + totalSales);
-                output.println("Total Tax Paid:\t\t" + totalTax);
-                output.println("Shift No-Tax Earnings:\t\t" + (totalSales-totalTax));
-                output.println("Total Items Sold:\t\t" + totalItemsSold);
-                output.println("Total Returns:\t\t" + totalReturns);
-                output.println("Total Refunds:\t\t" + totalRefunds);
-                output.println("\n\n");
-
-            } catch (FileNotFoundException ex) {
-                throw new FileNotFoundException();
-            } catch (IOException ex) {
-                throw new IOException();
-            }
-    }
-    public String createCashierReportFilePath(LocalDate startDate, LocalDate endDate){
-        String path = "src/Files/Reports/";
-        path +=getReportName(startDate,endDate).replace(" ","_")+".txt";
-        return path;
-    }
-
-    public String getReportName(LocalDate startDate, LocalDate endDate){
-        return "Report Of Cashier "+this.getId()+" StartDate "+startDate.toString()+" EndDate "+endDate.toString();
-    }
     public SectorType getSector() {
         return sector;
     }
@@ -169,9 +93,9 @@ public class Cashier extends User implements InventoryManagement{
 
         // Generate the report
         try {
-            String reportPath= cashier.createCashierReportFilePath(LocalDate.of(2025, 1, 1), LocalDate.of(2025, 1, 2));
+            String reportPath= ReportGenerator.createCashierReportFilePath(cashier,LocalDate.of(2025, 1, 1), LocalDate.of(2025, 1, 2));
             File reportFile = new File(reportPath);
-            cashier.writeReport(reportFile, LocalDate.of(2025, 1, 1), LocalDate.of(2025, 1, 2));
+            ReportGenerator.generateCashierReport(reportFile, cashier,LocalDate.of(2025, 1, 1), LocalDate.of(2025, 1, 2));
             System.out.println("Report generated: " + reportFile.getAbsolutePath());
         } catch (IOException ex) {
             System.out.println("Failed to generate report: " + ex.getMessage());
