@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import View.SearchBoxPane;
 
 
 public class ProductInformationView extends GridPane implements Design {
@@ -27,6 +28,8 @@ public class ProductInformationView extends GridPane implements Design {
     private CheckBox isAvailable = createCheckBox();
     private CheckBox isDiscontinued = createCheckBox();
     private Label priceBought = createAlignedBlackLabel("");
+    private final SearchBoxPane searchBox=new SearchBoxPane("Search Product...");
+
 
     public ImageView getPhoto() {
         return photo;
@@ -108,7 +111,7 @@ public class ProductInformationView extends GridPane implements Design {
 
         Label photoLabel = new Label(" Photo");
         photoLabel.setStyle("-fx-font-size: 12;  -fx-text-fill: darkgreen;");
-        photoLabel.setPrefSize(150, 150);
+        photoLabel.setPrefSize(180, 180);
         photoLabel.setStyle("-fx-border-color: black;-fx-border-width:3 ; -fx-alignment: center; -fx-background-radius: 40; -fx-border-radius: 40; -fx-border-width: 2; -fx-border-color: yellowgreen;");
 
         // Files.Product Info Fields
@@ -178,14 +181,19 @@ public class ProductInformationView extends GridPane implements Design {
         CheckBox isDiscontinuedCheckbox = new CheckBox("Is Discontinued?");
         isDiscontinuedCheckbox.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
 
+
         this.add(photoLabel, 0, 0);
+
+        this.add(searchBox,2,0);
 
         this.add(productIdLabel, 1, 1);
         this.add(productIdField, 2, 1);
-        this.add(nameLabel, 2, 0);
-        this.add(nameField, 3, 0);
-        this.add(sectorLabel, 1, 2);
-        this.add(sectorField, 2, 2);
+        this.add(nameLabel, 1, 2);
+        this.add(nameField, 2, 2);
+
+        this.add(sectorLabel, 1, 10);
+        this.add(sectorField, 2, 10);
+
         this.add(quantityLabel, 1, 3);
         this.add(quantityField, 2, 3);
 
@@ -215,11 +223,12 @@ public class ProductInformationView extends GridPane implements Design {
         this.add(isDiscontinuedCheckbox, 3, 6);
 
 
+
     }
     public void setUpView() {
-        this.setHgap(100);
+        this.setHgap(50);
         this.setVgap(30);
-        this.setPadding(new Insets(50, 150, 50, 150));
+        this.setPadding(new Insets(50, 50, 50, 50));
         this.setStyle("-fx-background-color: rgba(167,246,8,0.15)");
 
     }
