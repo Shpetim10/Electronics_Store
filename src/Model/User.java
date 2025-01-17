@@ -158,12 +158,12 @@ public abstract class User {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User user)) return false;
-        return getId() == user.getId() && ((User)o).getFirstName().equals(this.getFirstName())
+        if (!(o instanceof User)) return false;
+        return getId() == ((User )o).getId() && ((User)o).getFirstName().equals(this.getFirstName())
                 && ((User)o).getLastName().equals(this.getLastName()) && ((User)o).getUsername().equals(this.getUsername())
                 && ((User)o).getPassword().equals(this.getPassword()) && ((User)o).getEmail().equals(this.getEmail())
-                && ((User)o).getPhoneNumber().equals(this.getPhoneNumber()) && Objects.equals(getDateEmployed(), user.getDateEmployed())
-                && Objects.equals(getRole(), user.getRole());
+                && ((User)o).getPhoneNumber().equals(this.getPhoneNumber()) && Objects.equals(getDateEmployed(), ((User )o).getDateEmployed())
+                && Objects.equals(getRole(), ((User )o).getRole());
     }
 
     @Override
