@@ -1,7 +1,5 @@
 package Model;
 
-import org.w3c.dom.ls.LSOutput;
-
 import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -13,13 +11,8 @@ public class FileHandler {
     private final static File SHIFTS_FILE=new File("src/Files/Data/shifts.dat");
     private final static File CUSTOMERS_FILE=new File("src/Files/Data/customers.dat");
     private final static String BILLS_DIRECTORY=new String("src/Files/Data/Bills");
-
-
-
-    public FileHandler(){
-
-    }
-
+    private final static File LOYALTY_POINTS=new File("src/Files/Data/loyaltyPoints.dat");
+    private final static File CASHIERS_FILE=new File("src/Files/Data/cashiers.dat");
     public static ArrayList<Shift> getCompletedShifts(){
         ArrayList<Shift> shifts=new ArrayList<>();
         try(ObjectInputStream reader=new ObjectInputStream(new FileInputStream(SHIFTS_FILE))){
@@ -58,7 +51,7 @@ public class FileHandler {
         return false;
     }
 
-    public static ArrayList<Bill> getBillsByCashierAndShft(Cashier cashier, Shift shift){
+    public static ArrayList<Bill> getBillsByCashierAndShift(Cashier cashier, Shift shift){
         ArrayList<Bill> bills=new ArrayList<>();
         File BILLS_FILE=new File(BILLS_DIRECTORY+"/Cashier"+cashier.getId()+"/Shift"+shift.getShiftDate().getDayOfMonth()+"_"+shift.getShiftDate().getMonth()+"_"+shift.getShiftDate().getYear()+"_Bills.dat");
         try(ObjectInputStream reader=new ObjectInputStream(new FileInputStream(BILLS_FILE))){
@@ -137,4 +130,148 @@ public class FileHandler {
     }
         return inventory;
 }
+
+    public static ArrayList<String> getCustomers() {
+        ArrayList<String> customers=new ArrayList<>();
+        try(ObjectInputStream reader=new ObjectInputStream(new FileInputStream(CUSTOMERS_FILE))){
+            customers=(ArrayList<String>) reader.readObject();
+        }
+        catch(EOFException ex1){
+            System.out.println("Reached end of file!");
+        }
+        catch(ClassNotFoundException ex){
+            ex.printStackTrace();
+        }
+        catch(IOException ex){
+            ex.printStackTrace();
+        }
+        return customers;
+    }
+
+    public static ArrayList<User> getUsers() {
+        ArrayList<User> users=new ArrayList<>();
+        try(ObjectInputStream reader=new ObjectInputStream(new FileInputStream(USERS_FILE))){
+            User user;
+            Object o;
+            while(true){
+                o=reader.readObject();
+                if(o instanceof Cashier){
+                    user=(Cashier)o;
+                }
+                else if(o instanceof Manager){
+                    user=(Manager)o;
+                }
+                else{
+                    user=(Administrator)o;
+                }
+
+                users.add(user);
+            }
+        }
+        catch(EOFException ex1){
+            System.out.println("Reached end of file!");
+        }
+        catch(ClassNotFoundException ex){
+            ex.printStackTrace();
+        }
+        catch(IOException ex){
+            ex.printStackTrace();
+        }
+        return users;
+    }
+
+    public static boolean writeUserToFile(User user){
+        try(FileOutputStream outputStream=new FileOutputStream(USERS_FILE,true)){
+            ObjectOutputStream writer;
+            if(USERS_FILE.length()>0){
+                writer=new HeaderlessObjectOutputStream(outputStream);
+            }
+            else{
+                writer=new ObjectOutputStream(outputStream);
+            }
+            writer.writeObject(user);
+            return true;
+        }
+        catch(IOException ex){
+            System.out.println(ex.getLocalizedMessage());
+        }
+        return false;
+    }
+
+    public static ArrayList<Cashier> getCashiers() {
+        ArrayList<Cashier> cashiers=new ArrayList<>();
+        try(ObjectInputStream reader=new ObjectInputStream(new FileInputStream(CASHIERS_FILE))){
+            Cashier cashier;
+            while(true){
+                cashier=(Cashier)reader.readObject();
+                cashiers.add(cashier);
+            }
+        }
+        catch(EOFException ex1){
+            System.out.println("Reached end of file!");
+        }
+        catch(ClassNotFoundException ex){
+            ex.printStackTrace();
+        }
+        catch(IOException ex){
+            ex.printStackTrace();
+        }
+        return cashiers;
+    }
+
+    public static boolean writeCashierToFile(Cashier cashier){
+        try(FileOutputStream outputStream=new FileOutputStream(CASHIERS_FILE,true)){
+            ObjectOutputStream writer;
+            if(CASHIERS_FILE.length()>0){
+                writer=new HeaderlessObjectOutputStream(outputStream);
+            }
+            else{
+                writer=new ObjectOutputStream(outputStream);
+            }
+            writer.writeObject(cashier);
+            return true;
+        }
+        catch(IOException ex){
+            System.out.println(ex.getLocalizedMessage());
+        }
+        return false;
+    }
+    public boolean writeCustomersToFile(ArrayList<String> customers){
+        try (FileOutputStream outputStream = new FileOutputStream(CUSTOMERS_FILE, false)) {
+            ObjectOutputStream writer=new ObjectOutputStream(outputStream);
+            writer.writeObject(customers);
+            writer.close();
+            return true;
+        } catch (IOException ex) {
+            System.out.println("Error writing product to file: " + ex.getLocalizedMessage());
+        }
+        return false;
+    }
+    public static ArrayList<Integer> getLoyaltyPoints() {
+        ArrayList<Integer> loyaltyPoints=new ArrayList<>();
+        try(ObjectInputStream reader=new ObjectInputStream(new FileInputStream(LOYALTY_POINTS))){
+            loyaltyPoints=(ArrayList<Integer>) reader.readObject();
+        }
+        catch(EOFException ex1){
+            System.out.println("Reached end of file!");
+        }
+        catch(ClassNotFoundException ex){
+            ex.printStackTrace();
+        }
+        catch(IOException ex){
+            ex.printStackTrace();
+        }
+        return loyaltyPoints;
+    }
+    public boolean writeLoyaltyPointsToFile(ArrayList<String> points){
+        try (FileOutputStream outputStream = new FileOutputStream(LOYALTY_POINTS, false)) {
+            ObjectOutputStream writer=new ObjectOutputStream(outputStream);
+            writer.writeObject(points);
+            writer.close();
+            return true;
+        } catch (IOException ex) {
+            System.out.println("Error writing product to file: " + ex.getLocalizedMessage());
+        }
+        return false;
+    }
 }

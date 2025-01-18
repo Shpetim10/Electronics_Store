@@ -1,17 +1,17 @@
 package Model;
 
 import Exceptions.ItemNotFoundException;
+import Exceptions.LowStockException;
 import Exceptions.OutOfStockException;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class Bill implements CustomerLoyalty  {
+public class Bill implements CustomerLoyalty, Serializable {
+    @Serial
+    private static final long serialVersionUID = -4644282291690387264L;
     private long billId;
     private Cashier cashier;
     private LocalDate dateGenerated;
@@ -154,6 +154,7 @@ public class Bill implements CustomerLoyalty  {
         }
         return null;
     }
+
     public ItemBought getItemSearched(String productName) throws ItemNotFoundException, OutOfStockException {
         Item bought = searchItemByName(productName);
 
@@ -191,9 +192,6 @@ public class Bill implements CustomerLoyalty  {
         this.getItemBought().clear();
     } //Sh
 
-    public boolean checkInventoryStockAvailable(Item product, int quantity) {
-        return product.getStockQuantity() - quantity > 0;
-    }//Sh
 
     public int calulateLoyaltyPoints(){
         return (int)Math.ceil(getTotalOfBill()*0.1);

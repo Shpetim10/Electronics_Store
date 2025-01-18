@@ -1,6 +1,8 @@
 package Model;
 
-public enum ShiftStatus {
+import java.io.Serializable;
+
+public enum ShiftStatus implements Serializable {
     ACTIVE,
     COMPLETED,
     PLANNED;

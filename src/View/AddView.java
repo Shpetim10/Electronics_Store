@@ -1,19 +1,27 @@
-package View;
+package View.InventoryManagementView2;
 
 import Model.Item;
+import Model.SectorType;
+import Model.Supplier;
+import View.Design;
+import View.SearchBoxPane;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
+import java.util.Date;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class AddView implements Design {
+public class Add_EditView implements Design {
     SearchBoxPane search=new SearchBoxPane();
 
     private CheckBox select;
@@ -42,9 +50,9 @@ public class AddView implements Design {
     private TextField image;
 
 
-    public AddView() {
+    public Add_EditView() {
         this.select=createCheckBox();
-        this.productCode = createTextField("Product Code");
+        this.productCode = createTextField("Product Id");
         this.productName = createTextField("Product Name");
         this.sector = createTextField("Sector");
         //this.description = createTextField("Description");
@@ -87,15 +95,14 @@ public class AddView implements Design {
 
        GridPane grid=new GridPane();
        grid.setVgap(25);
-      grid.setHgap(25);
-
+       grid.setHgap(25);
 
 
         grid.add(createAlignedGreenBoldLabel("Barcode: ", 100), 0, 0);
         grid.add(barcode, 1, 0);
-        grid.add(createAlignedGreenBoldLabel("Files.Product Code: ", 150), 2, 0);
+        grid.add(createAlignedGreenBoldLabel("Product Code: ", 150), 2, 0);
         grid.add(productCode, 3, 0);
-        grid.add(createAlignedGreenBoldLabel("Files.Product Name: ", 150), 4, 0);
+        grid.add(createAlignedGreenBoldLabel("Product Name: ", 150), 4, 0);
         grid.add(productName, 5, 0);
 
         grid.add(createAlignedGreenBoldLabel("Brand: ", 100), 0, 1);
@@ -109,7 +116,7 @@ public class AddView implements Design {
         grid.add(priceBought, 1, 2);
         grid.add(createAlignedGreenBoldLabel("Selling Price: ", 150), 2, 2);
         grid.add(sellingPrice, 3, 2);
-        grid.add(createAlignedGreenBoldLabel(" Quantity: ", 100), 4, 2);
+        grid.add(createAlignedGreenBoldLabel("Quantity: ", 100), 4, 2);
         grid.add(stockQuantity, 5, 2);
 
         grid.add(createAlignedGreenBoldLabel("Last Restock Date: ", 200), 0, 3);

@@ -123,8 +123,6 @@ public interface Design {
         button.setMinHeight(100);
         button.setMinWidth(400);
         button.setFont(Font.font("Bahnschrift", FontWeight.BOLD,20));
-        button.prefWidthProperty().bind(new SimpleDoubleProperty(400));
-        button.prefHeightProperty().bind(new SimpleDoubleProperty(100));
         return button;
     }
     default DatePicker createDatePicker(String prompt){

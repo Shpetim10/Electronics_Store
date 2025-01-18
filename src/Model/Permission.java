@@ -1,6 +1,8 @@
 package Model;
 
-public enum Permission {
+import java.io.Serializable;
+
+public enum Permission implements Serializable {
     BILLING_SYSTEM,
     RETURN_AND_REFUND,
     PRODUCT_INFORMATION,
@@ -9,5 +11,6 @@ public enum Permission {
     INVENTORY_MANAGEMENT,
     PERMISSION_GRANTING,
     USER_MANAGEMENT,
-    PERFORMANCE_VIEW;
+    REPORT_GENERATOR,
+    VIEW_ALL_BILLS;
 }

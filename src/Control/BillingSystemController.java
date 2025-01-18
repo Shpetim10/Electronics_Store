@@ -1,7 +1,7 @@
 package Control;
 
+import Exceptions.InsufficientStockException;
 import Exceptions.InvalidPaymentArgumentsException;
-import Exceptions.ItemNotFoundException;
 import Exceptions.OutOfStockException;
 import Model.*;
 import View.BillingSystemView.BillingSystemView;
@@ -10,19 +10,18 @@ import javafx.collections.ObservableList;
 
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 
 public class BillingSystemController {
-    private BillingSystemView view=new BillingSystemView();
+    private BillingSystemView view = new BillingSystemView();
     private Cashier cashier;
     private Bill bill;
-    private ObservableList<ItemBought> itemsBought=FXCollections.observableArrayList();
+    private ObservableList<ItemBought> itemsBought = FXCollections.observableArrayList();
+    private ObservableList<Item> inventory=view.getProductCartBox().getInventoryTable().getTable().getItems();
 
-
-    public BillingSystemController(Cashier cashier){
-        try{
-            this.cashier=cashier;
+    public BillingSystemController(Cashier cashier) {
+        try {
+            this.cashier = cashier;
             setUpGeneralData();
             setCashButtonListener(); //Displays pane
             setCreditCardButtonListener(); //Displays Pane
@@ -38,20 +37,19 @@ public class BillingSystemController {
             setGenerateBillButtonListener();
             setEditQuantityListener();
             setDeleteRowButtonListener();
-        }
-        catch (NullPointerException ex){
+            setSwitchTableListener();
+        } catch (NullPointerException ex) {
             view.getProductCartBox().getErrorMessage().setText("There is no planned shift for you!\nPlease contact Administrator to activate your shift!");
         }
     }
 
     //Useful No-Action Methods
-    public void setUpGeneralData(){
-        try{
-            bill=new Bill();
-            bill.setBillId(this.cashier.getActiveShift().getBills().size()+1);
+    public void setUpGeneralData() {
+        try {
+            bill = new Bill();
+            bill.setBillId(this.cashier.getActiveShift().getBills().size() + 1);
             bill.setCashier(this.cashier);
-        }
-        catch(NullPointerException ex){
+        } catch (NullPointerException ex) {
             throw new NullPointerException();
         }
 
@@ -59,36 +57,36 @@ public class BillingSystemController {
         view.getProductCartBox().getErrorMessage().setText("");
         setUpTodaySales();
         view.getCheckOutPane().getGeneratedDateTime().setText(
-                bill.getDateGenerated().getDayOfMonth()+" "+
-                        bill.getDateGenerated().getMonth()+" "+
-                        bill.getDateGenerated().getYear()+"\t"+
-                        bill.getTimeGenerated().getHour()+":"+
+                bill.getDateGenerated().getDayOfMonth() + " " +
+                        bill.getDateGenerated().getMonth() + " " +
+                        bill.getDateGenerated().getYear() + "\t" +
+                        bill.getTimeGenerated().getHour() + ":" +
                         bill.getTimeGenerated().getMinute()
         );
         view.getCheckOutPane().getBillId().setText(String.valueOf(bill.getBillId()));
     }
 
-    public void setUpTodaySales(){
+    public void setUpTodaySales() {
         view.getProductCartBox().getTotalBillNumber().setText(String.valueOf(cashier.getActiveShift().getBills().size()));
         view.getProductCartBox().getMoneyCollected().setText(String.valueOf(cashier.getActiveShift().getTotalMoneyCollected()));
         view.getProductCartBox().getTaxCollected().setText(String.valueOf(cashier.getActiveShift().getTotalTaxCollected()));
     }
 
-    public void setUpBillPricingData(){
+    public void setUpBillPricingData() {
         view.getCheckOutPane().getTotalAmount().setText(String.valueOf(bill.getTotalOfBill()));
         view.getCheckOutPane().getTaxAmount().setText(String.valueOf(bill.getTotalTaxOfBill()));
         view.getCheckOutPane().getNoTaxTotal().setText(String.valueOf(bill.getNoTaxTotal()));
     }
 
-    public void clearMessageLabel(){
+    public void clearMessageLabel() {
         view.getProductCartBox().getErrorMessage().setText("");
     }
 
-    public void displayMessage(String message){
+    public void displayMessage(String message) {
         view.getProductCartBox().getErrorMessage().setText(message);
     }
 
-    public void clearAllFields(){
+    public void clearAllFields() {
         view.getProductCartBox().getProductCartTable().getItems().clear();
         view.getCheckOutPane().getCollectedMoney().setText("");
         view.getCheckOutPane().getChangeMoney().setText("");
@@ -109,10 +107,11 @@ public class BillingSystemController {
         setUpGeneralData();
         setUpBillPricingData();
     }
+
     //Setting Actions
-    public void setCustomerInfoButtonListener(){
+    public void setCustomerInfoButtonListener() {
         view.getCheckOutPane().getCustomerInfoButton().setOnAction(
-                e->{
+                e -> {
                     clearMessageLabel();
                     view.getCheckOutPane().getTemporaryPane().getChildren().clear();
                     view.getCheckOutPane().getTemporaryPane().setCenter(view.getCheckOutPane().createCustomerBox());
@@ -120,40 +119,38 @@ public class BillingSystemController {
         );
     }
 
-    public void setCreditCardButtonListener(){
+    public void setCreditCardButtonListener() {
 
-            view.getCheckOutPane().getCreditCardButton().setOnAction(
-                    e -> {
-                        if(view.getCheckOutPane().getPayByCreditCardRb().isSelected()){
-                            clearMessageLabel();
-                            view.getCheckOutPane().getTemporaryPane().getChildren().clear();
-                            view.getCheckOutPane().getTemporaryPane().setCenter(view.getCheckOutPane().createCreditCardBox());
-                        }
-                        else{
-                            view.getProductCartBox().getErrorMessage().setText("Please select Credit Card as payment method!");
-                        }
+        view.getCheckOutPane().getCreditCardButton().setOnAction(
+                e -> {
+                    if (view.getCheckOutPane().getPayByCreditCardRb().isSelected()) {
+                        clearMessageLabel();
+                        view.getCheckOutPane().getTemporaryPane().getChildren().clear();
+                        view.getCheckOutPane().getTemporaryPane().setCenter(view.getCheckOutPane().createCreditCardBox());
+                    } else {
+                        view.getProductCartBox().getErrorMessage().setText("Please select Credit Card as payment method!");
                     }
-            );
+                }
+        );
     }
 
-    public void setCashButtonListener(){
-            view.getCheckOutPane().getCalculateCashButton().setOnAction(
-                    e-> {
-                        if(view.getCheckOutPane().getPayCashRb().isSelected()){
-                            clearMessageLabel();
-                            view.getCheckOutPane().getTemporaryPane().getChildren().clear();
-                            view.getCheckOutPane().getTemporaryPane().setCenter(view.getCheckOutPane().createCashAndChangeBox());
-                        }
-                        else{
-                            view.getProductCartBox().getErrorMessage().setText("Please select pay cash as payment method!");
-                        }
+    public void setCashButtonListener() {
+        view.getCheckOutPane().getCalculateCashButton().setOnAction(
+                e -> {
+                    if (view.getCheckOutPane().getPayCashRb().isSelected()) {
+                        clearMessageLabel();
+                        view.getCheckOutPane().getTemporaryPane().getChildren().clear();
+                        view.getCheckOutPane().getTemporaryPane().setCenter(view.getCheckOutPane().createCashAndChangeBox());
+                    } else {
+                        view.getProductCartBox().getErrorMessage().setText("Please select pay cash as payment method!");
                     }
-            );
-        }
+                }
+        );
+    }
 
-    public void setPayCashRbListener(){
+    public void setPayCashRbListener() {
         view.getCheckOutPane().getPayCashRb().setOnAction(
-                e->{
+                e -> {
                     clearMessageLabel();
                     view.getCheckOutPane().getPayCashRb().setSelected(true);
                     this.bill.setPaymentMethod(PaymentMethod.CASH);
@@ -161,9 +158,9 @@ public class BillingSystemController {
         );
     }
 
-    public void setPayByCreditCardRbListener(){
+    public void setPayByCreditCardRbListener() {
         view.getCheckOutPane().getPayByCreditCardRb().setOnAction(
-                e->{
+                e -> {
                     clearMessageLabel();
                     view.getCheckOutPane().getPayByCreditCardRb().setSelected(true);
                     this.bill.setPaymentMethod(PaymentMethod.CARD);
@@ -172,72 +169,78 @@ public class BillingSystemController {
     }
 
     public void setAddButtonListener() {
-        view.getProductCartBox().getSearchBox().getSearchButton().setOnAction(
+        // Get the search button
+        view.getProductCartBox().getSearchBox().getSearchButton().setOnAction(e -> {
+            clearMessageLabel();
+            try {
+                Item selectedItem = view.getProductCartBox().getInventoryTable().getTable().getSelectionModel().getSelectedItem();
+                if (selectedItem == null) {
+                    throw new NullPointerException("No item selected!");
+                }
+
+                ItemBought itemBought = new ItemBought(selectedItem);
+
+                if (!checkCartForProductPresence(itemBought)) {
+                    // Check inventory stock if there is any in inventory
+                    itemBought.getItem().checkInventoryStockAvailable();
+
+                    // Update cart table and bill
+                    itemsBought.add(itemBought);
+                    view.getProductCartBox().getProductCartTable().setItems(itemsBought);
+                    this.bill.getItemBought().add(itemBought);
+                    setUpBillPricingData();
+
+                    // Update the table view to display the updated cart table
+                    view.getProductCartBox().getTablePane().getChildren().clear();
+                    view.getProductCartBox().getTablePane().getChildren().add(view.getProductCartBox().getProductCartTable());
+                } else {
+                    view.getProductCartBox().getErrorMessage().setText("This item is already added to the cart!");
+                }
+            } catch (OutOfStockException ex) {
+                view.getProductCartBox().getErrorMessage().setText(ex.getMessage());
+            } catch (NullPointerException ex) {
+                view.getProductCartBox().getErrorMessage().setText(ex.getMessage());
+            }
+        });
+    }
+    public boolean checkCartForProductPresence(ItemBought itemBought){
+        for(ItemBought item:bill.getItemBought()){
+            if(item.getProductId()==itemBought.getProductId()){
+                return true;
+            }
+        }
+        return false;
+    }
+    public void setCollectedCashListener() {
+        view.getCheckOutPane().getCollectedMoneyTf().setOnAction(
                 e -> {
                     clearMessageLabel();
-//                    try{
-//                        ItemBought itemBought=bill.addProductToCart(view.getProductCartBox().getSearchBox().getSearchField().getText());
-//                        if(!itemsBought.contains(itemBought)){
-//                            view.getProductCartBox().getProductCartTable().setItems(itemsBought);
-//                              this.bill.getItemBought().add(itemBought);
-//                              setUpBillPricingData();
-//                        }
-//                        else{
-//                            view.getProductCartBox().getErrorMessage().setText("This item is already added to cart!");
-//                        }
-//                    } catch (OutOfStockException ex) {
-//                        view.getProductCartBox().getErrorMessage().setText(ex.getMessage());
-//                    } catch (ItemNotFoundException ex) {
-//                        view.getProductCartBox().getErrorMessage().setText(ex.getMessage());
-//                    }
-                    for(int i=0;i<10;i++){
-                        ItemBought item1 = new ItemBought(1, "MacBook", 1, 2500);
-                        ItemBought item2 = new ItemBought(2, "Scuter", 2, 3000);
-                        ItemBought item3 = new ItemBought(3, "Fridge", 3, 1325);
-                        itemsBought.addAll(item1, item2, item3);
-                        this.bill.getItemBought().add(item1);
-                        this.bill.getItemBought().add(item2);
-                        this.bill.getItemBought().add(item3);
+                    try {
+                        double moneyCollected = Double.parseDouble(view.getCheckOutPane().getCollectedMoneyTf().getText());
+                        if (moneyCollected < 0) {
+                            throw new InvalidPaymentArgumentsException();
+                        } else if (moneyCollected < bill.getTotalOfBill()) {
+                            throw new InvalidPaymentArgumentsException(moneyCollected);
+                        }
+                        view.getCheckOutPane().getCollectedMoney().setText(String.valueOf(moneyCollected));
+                        view.getCheckOutPane().getChangeMoneyTf().setText(String.valueOf(moneyCollected - bill.getTotalOfBill()));
+                        view.getCheckOutPane().getChangeMoney().setText(String.valueOf(moneyCollected - bill.getTotalOfBill()));
+
+                        //Set bill data fields
+                        this.bill.setMoneyCollected(Double.parseDouble(view.getCheckOutPane().getCollectedMoneyTf().getText()));
+                        this.bill.setChange(Double.parseDouble(view.getCheckOutPane().getChangeMoney().getText()));
+                    } catch (InvalidPaymentArgumentsException ex) {
+                        view.getProductCartBox().getErrorMessage().setText(ex.getMessage());
+                    } catch (NumberFormatException ex) {
+                        view.getProductCartBox().getErrorMessage().setText("Invalid input entered in cash field!");
                     }
-                    view.getProductCartBox().getProductCartTable().setItems(itemsBought);
-                    setUpBillPricingData();
                 }
         );
     }
 
-    public void setCollectedCashListener(){
-            view.getCheckOutPane().getCollectedMoneyTf().setOnAction(
-                    e->{
-                        clearMessageLabel();
-                        try{
-                            double moneyCollected=Double.parseDouble(view.getCheckOutPane().getCollectedMoneyTf().getText());
-                            if (moneyCollected<0){
-                                throw new InvalidPaymentArgumentsException();
-                            }
-                            else if (moneyCollected<bill.getTotalOfBill()) {
-                                throw  new InvalidPaymentArgumentsException(moneyCollected);
-                            }
-                            view.getCheckOutPane().getCollectedMoney().setText(String.valueOf(moneyCollected));
-                            view.getCheckOutPane().getChangeMoneyTf().setText(String.valueOf(moneyCollected- bill.getTotalOfBill()));
-                            view.getCheckOutPane().getChangeMoney().setText(String.valueOf(moneyCollected- bill.getTotalOfBill()));
-
-                            //Set bill data fields
-                            this.bill.setMoneyCollected(Double.parseDouble(view.getCheckOutPane().getCollectedMoneyTf().getText()));
-                            this.bill.setChange(Double.parseDouble(view.getCheckOutPane().getChangeMoney().getText()));
-                        }
-                        catch(InvalidPaymentArgumentsException ex){
-                            view.getProductCartBox().getErrorMessage().setText(ex.getMessage());
-                        }
-                        catch(NumberFormatException ex){
-                            view.getProductCartBox().getErrorMessage().setText("Invalid input entered in cash field!");
-                        }
-                    }
-        );
-    }
-
-    public void setCreditCardSaveListener(){
+    public void setCreditCardSaveListener() {
         view.getCheckOutPane().getSaveCreditCard().setOnAction(
-                e->{
+                e -> {
                     clearMessageLabel();
                     String temp;
                     boolean allValid = true;
@@ -275,30 +278,29 @@ public class BillingSystemController {
                     }
 
                 }
-    //Nested ifs to not overwrite error messages in case of multiple errors
+                //Nested ifs to not overwrite error messages in case of multiple errors
         );
     }
 
-    public void setCustomerInfoListener(){
+    public void setCustomerInfoListener() {
         view.getCheckOutPane().getCustomerIdTf().setOnAction(
-                e->{
+                e -> {
                     clearMessageLabel();
-                    String customerId=view.getCheckOutPane().getCustomerIdTf().getText();
-                    if(Validator.validateCustomerId(customerId)){
+                    String customerId = view.getCheckOutPane().getCustomerIdTf().getText();
+                    if (Validator.validateCustomerId(customerId)) {
                         this.bill.setCustomerIdCard(customerId);
-                        int index=this.bill.validateCustomerExistance(customerId);
-                        if(index==-1){ //Value returned for non existent
+                        int index = this.bill.validateCustomerExistance(customerId);
+                        if (index == -1) { //Value returned for non existent
                             this.bill.customers.add(customerId);
                             this.bill.loyaltyPoints.add(0);
-                            index=this.bill.customers.size()-1;
+                            index = this.bill.customers.size() - 1;
                             displayMessage("A new customer was registered to customer loyalty program!\nHe will get his first loyalty points after bill is generated.");
                         }
                         view.getProductCartBox().getCustomerId().setText(customerId);
                         view.getProductCartBox().getLoyaltyPoints().setText(String.valueOf(this.bill.loyaltyPoints.get(index)));
                         view.getCheckOutPane().getLoyaltyPoints().setText(String.valueOf(this.bill.loyaltyPoints.get(index)));
                         view.getCheckOutPane().getBillLoyalyPoints().setText(String.valueOf(this.bill.calulateLoyaltyPoints()));
-                    }
-                    else{
+                    } else {
                         displayMessage("The customer id povided is incorrect! ");
                     }
                 }
@@ -306,33 +308,74 @@ public class BillingSystemController {
     }
 
     public void setEditQuantityListener() {
-        view.getProductCartBox().getQuantityColumn().setOnEditCommit(
-                e->{
-                    int index=e.getTablePosition().getRow();
-                    int newQuantity = e.getNewValue();
-                    itemsBought.get(index).setQuantity(newQuantity);
-                    bill.getItemBought().get(index).setQuantity(newQuantity);
-                    setUpBillPricingData();
+        view.getProductCartBox().getQuantityColumn().setOnEditCommit(e -> {
+            int rowIndex = e.getTablePosition().getRow();
+            int newQuantity = e.getNewValue();
+
+            try {
+                ItemBought itemBought = itemsBought.get(rowIndex);
+                Item item = itemBought.getItem();
+                //Check new quanity entered
+                if (newQuantity <= 0) {
+                    throw new IllegalArgumentException("Quantity must be greater than zero.");
                 }
+                if (newQuantity > item.getStockQuantity()) {
+                    throw new InsufficientStockException();
+                }
+                // Update the quantities
+                int oldQuantity = itemBought.getQuantity();
+                itemBought.setQuantity(newQuantity); //ItemBought object
+                bill.getItemBought().get(rowIndex).setQuantity(newQuantity);
+                item.decrementStock(newQuantity - oldQuantity);
+
+                // Update the table view
+                view.getProductCartBox().getProductCartTable().setItems(itemsBought);
+
+                // Update pricing data
+                view.getProductCartBox().getProductCartTable().refresh();
+                view.getProductCartBox().getInventoryTable().getTable().refresh();
+                setUpBillPricingData();
+
+            } catch (IllegalArgumentException ex) {
+                displayMessage(ex.getMessage());
+            } catch (InsufficientStockException ex) {
+                displayMessage("Insufficient stock for required quantity!");
+            }
+        }
         );
     }
 
-    public void setDeleteRowButtonListener(){
-        view.getProductCartBox().getRemoveItemButton().setOnAction(
-                e->{
-                    ObservableList<ItemBought> selected=view.getProductCartBox().getProductCartTable()
-                            .getSelectionModel().getSelectedItems();
-                    if(selected.size()!=0){
-                        itemsBought.removeAll(selected);
-                        this.bill.getItemBought().removeAll(selected);
-                        setUpBillPricingData();
-                    }
-                }
-        );
+    public void setDeleteRowButtonListener() {
+        view.getProductCartBox().getRemoveItemButton().setOnAction(e -> {
+            clearMessageLabel();
+            // Get the selected items from the product cart table
+            ObservableList<ItemBought> selectedItems = view.getProductCartBox()
+                    .getProductCartTable()
+                    .getSelectionModel()
+                    .getSelectedItems();
+
+            if (selectedItems.isEmpty()) {
+                view.getProductCartBox().getErrorMessage().setText("No item selected for removal.");
+                return;
+            }
+            // Update stock and remove selected items
+            for (ItemBought itemBought : selectedItems) {
+                itemBought.getItem().incrementStock(itemBought.getQuantity());
+                bill.getItemBought().remove(itemBought);
+            }
+            // Remove selected items from the cart
+            itemsBought.removeAll(selectedItems);
+
+            view.getProductCartBox().getProductCartTable().refresh();
+            view.getProductCartBox().getInventoryTable().getTable().refresh();
+            setUpBillPricingData();
+        });
     }
+
     public void setClearCartButtonListener(){
         view.getProductCartBox().getClearCart().setOnAction(
                 e->{
+                    clearMessageLabel();
                     itemsBought.clear();
                     this.bill.clearCart();
                     view.getProductCartBox().getProductCartTable().getItems().clear();
@@ -355,9 +398,7 @@ public class BillingSystemController {
     public void setGenerateBillButtonListener(){
         view.getCheckOutPane().getGenerateBillButton().setOnAction(
                 e->{
-//                    for(ItemBought itemBought: this.bill.getItemBought()){
-//                        itemBought.getItem().decrementStock(itemBought.getQuantityValue());
-//                    }
+                    clearMessageLabel();
                     if(!itemsBought.isEmpty()) {
                         //Check if payment method is empty
                         if(
@@ -402,6 +443,40 @@ public class BillingSystemController {
                     else{
                         displayMessage("Files.Product card is empty!");
                     }
+                }
+        );
+    }
+
+    public void searchBoxListener(){
+        view.getProductCartBox().getSearchBox().getSearchField().setOnAction(
+                e->{
+
+                    String searchQuery=this.view.getProductCartBox().getSearchBox().getSearchField().getText().toLowerCase();
+                    ObservableList<Item> filteredItems=FXCollections.observableArrayList();
+                    for(Item item: view.getProductCartBox().getInventoryTable().getTable().getItems()){
+                        if(item.getProductName().toLowerCase().contains(searchQuery)){
+                            filteredItems.add(item);
+                        }
+                    }
+                    this.view.getProductCartBox().getInventoryTable().getTable().setItems(filteredItems);
+                }
+        );
+    }
+
+    public void setSwitchTableListener(){
+        view.getProductCartBox().getSearchBox().getSearchField().setOnMouseClicked(
+                e->{
+                    view.getProductCartBox().getInventoryTable().getTable().setItems(inventory);
+                    view.getProductCartBox().getTablePane().getChildren().clear();
+                    view.getProductCartBox().getTablePane().getChildren().add(view.getProductCartBox().getInventoryTable().getTable());
+                    searchBoxListener();
+                }
+        );
+        view.getProductCartBox().setOnMouseClicked(
+                e->{
+                    view.getProductCartBox().getInventoryTable().getTable().setItems(inventory);
+                    view.getProductCartBox().getTablePane().getChildren().clear();
+                    view.getProductCartBox().getTablePane().getChildren().add(view.getProductCartBox().getProductCartTable());
                 }
         );
     }

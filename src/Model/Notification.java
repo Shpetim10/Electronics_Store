@@ -1,8 +1,12 @@
 package Model;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Date;
 
-public class Notification  {
+public class Notification implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 2029610921586220545L;
     private String message;
     private Date dateCreated;
     private boolean isRead;

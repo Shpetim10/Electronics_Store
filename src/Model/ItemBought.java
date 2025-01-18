@@ -2,14 +2,20 @@ package Model;
 
 import javafx.beans.property.*;
 
-public class ItemBought  implements InventoryManagement{
+import java.io.Serial;
+import java.io.Serializable;
+
+public class ItemBought  implements InventoryManagement, Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -7709318516852293766L;
     //Are separated for creating table view
-    private SimpleIntegerProperty productId;
-    private SimpleStringProperty productName;
-    private SimpleIntegerProperty quantity;
-    private SimpleDoubleProperty sellingPrice;
-    private SimpleDoubleProperty totalTax;
-    private SimpleDoubleProperty totalPrice;
+    private transient SimpleIntegerProperty productId;
+    private transient SimpleStringProperty productName;
+    private transient SimpleIntegerProperty quantity;
+    private transient SimpleDoubleProperty sellingPrice;
+    private transient SimpleDoubleProperty totalTax;
+    private transient SimpleDoubleProperty totalPrice;
 
     //Used for Inventory Management
     private Item itemBought;
@@ -93,7 +99,7 @@ public class ItemBought  implements InventoryManagement{
         this.totalPrice=new SimpleDoubleProperty(getSellingPrice()*getQuantity());
     }
     public void setItem(){
-        for(Item item:items){
+        for(Item item:Database.getDatabase().getInventory()){
             if(item.getProductId()==getProductId()){
                 this.itemBought=item;
             }

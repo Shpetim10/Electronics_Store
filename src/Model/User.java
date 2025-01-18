@@ -1,10 +1,14 @@
 package Model;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
-public abstract class User {
+public abstract class User implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -4865159324924847611L;
     private int id;
     private String firstName;
     private String lastName;
