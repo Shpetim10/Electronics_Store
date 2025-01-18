@@ -1,43 +1,264 @@
 package View;
 
+import Model.Item;
+import Model.SectorType;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.GridPane;
-import View.CustomTableView;
 import javafx.scene.layout.HBox;
+import javafx.util.converter.DoubleStringConverter;
+import javafx.util.converter.IntegerStringConverter;
+import javafx.util.converter.LocalDateStringConverter;
+
+import java.time.LocalDate;
 
 public class InventoryManagementView extends GridPane implements Design {
-        private CustomTableView table=new CustomTableView();
-        private Button restock;
+    private final TableView<Item> table = new TableView<>();
+
+    private final TableColumn<Item, Integer> productId;
+    private final TableColumn<Item, String> productName;
+    private final TableColumn<Item, String> sector;
+    private final TableColumn<Item, Double> costPrice;
+    private final TableColumn<Item, Double> sellingPrice;
+    private final TableColumn<Item, String> supplier;
+    private final TableColumn<Item, Integer> quantity;
+    private final TableColumn<Item, String> brand;
+    private final TableColumn<Item, LocalDate> lastrestockDate;
+    private final TableColumn<Item, Integer> barcode;
+    private final Button delete;
+
+    SearchBoxPane search=new SearchBoxPane();
+    Label label=createAlignedGreenBoldLabel("Inventory Management",200);
 
     public InventoryManagementView(){
+        table.setEditable(true);
+        table.setPrefHeight(800);
+        table.setPrefWidth(3000);
+        table.setStyle("-fx-background-color:white ;" +
+                "-fx-border-radius:10;" +
+                "-fx-border-color:yellowgreen;");
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
+        barcode = new TableColumn<>("Barcode");
+        barcode.setMinWidth(100);
+        barcode.setCellValueFactory(new PropertyValueFactory<>("barcode"));
+        barcode.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+
+        productId = new TableColumn<>("Product ID");
+        productId.setMinWidth(100);
+        productId.setCellValueFactory(new PropertyValueFactory<>("productId"));
+        productId.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+
+        productName = new TableColumn<>("Product Name");
+        productName.setMinWidth(100);
+        productName.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        productName.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        sector = new TableColumn<>(" Sector");
+        sector.setMinWidth(100);
+        sector.setCellValueFactory(new PropertyValueFactory<>("sector"));
+        sector.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        costPrice = new TableColumn<>(" Price Bought");
+        costPrice.setMinWidth(100);
+        costPrice.setCellValueFactory(new PropertyValueFactory<>("priceBought"));
+        costPrice.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+
+        sellingPrice = new TableColumn<>("Selling Price");
+        sellingPrice.setMinWidth(100);
+        sellingPrice.setCellValueFactory(new PropertyValueFactory<>("sellingPrice"));
+        sellingPrice.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+
+        supplier = new TableColumn<>("Supplier");
+        supplier.setMinWidth(100);
+        supplier.setCellValueFactory(new PropertyValueFactory<>("supplier"));
+        supplier.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        quantity = new TableColumn<>("Quantity");
+        quantity.setMinWidth(100);
+        quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        quantity.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+
+        brand = new TableColumn<>("Brand");
+        brand.setMinWidth(100);
+        brand.setCellValueFactory(new PropertyValueFactory<>("brand"));
+        brand.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        lastrestockDate = new TableColumn<>("Last Restock Date");
+        lastrestockDate.setMinWidth(100);
+        lastrestockDate.setCellValueFactory(new PropertyValueFactory<>("lastRestockDate"));
+        lastrestockDate.setCellFactory(TextFieldTableCell.forTableColumn(new LocalDateStringConverter()));
+
+        delete=createGeneralButton("Delete");
+
+        table.getColumns().addAll(barcode,productId, productName, sector, costPrice,sellingPrice,supplier,quantity,brand,lastrestockDate);
+
+        table.setItems(getSampleData());
         setUpView();
+
     }
+    private ObservableList<Item> getSampleData() {
+        return FXCollections.observableArrayList(
+                 new Item(1, "Laptop", SectorType.ELECTRONICS, 1200.00, 800.00, "TechSupplier", 10, "Dell",
+                        LocalDate.of(2024, 1, 10), 123456))
+                 ;
 
-    Label label=createAlignedGreenBoldLabel("Inventory Management",200);
-    SearchBoxPane search=new SearchBoxPane();
-    HBox box=new HBox(10);
-
+    }
 
     public void setUpView(){
         this.setPadding(new Insets(10,10,10,10));
         this.setStyle("-fx-background-color: rgba(167,246,8,0.15);");
         HBox box=new HBox(10);
         box.getChildren().addAll(label,search);
-        this.restock = createGeneralButton("Restock");
-
         this.setHgap(20);
         this.setVgap(10);
-       // this.add(label,0,0);
+
         this.add(box,0,0);
 
-        this.add(table.getTable(),0,3);
+        this.add(table,0,3);
+        this.add(delete,0,4);
+    }
+
+    public Button getDelete() {
+        return delete;
+    }
+
+    public TableColumn<Item, Integer> getProductId() {
+        return productId;
+    }
+
+    public TableColumn<Item, String> getProductName() {
+        return productName;
+    }
+
+    public TableColumn<Item, String> getSector() {
+        return sector;
+    }
+
+    public TableColumn<Item, Double> getCostPrice() {
+        return costPrice;
+    }
+
+    public TableColumn<Item, Double> getSellingPrice() {
+        return sellingPrice;
+    }
+
+    public TableColumn<Item, String> getSupplier() {
+        return supplier;
+    }
+
+    public TableColumn<Item, Integer> getQuantity() {
+        return quantity;
+    }
+
+    public TableColumn<Item, String> getBrand() {
+        return brand;
+    }
+
+    public TableColumn<Item, LocalDate> getLastrestockDate() {
+        return lastrestockDate;
+    }
+
+    public TableColumn<Item, Integer> getBarcode() {
+        return barcode;
     }
 
 
+
+    public TableView<Item> getTable() {
+        return table;
+    }
+
+    //    private void initializeTableView() {
+//        table.setPrefHeight(600);
+//        table.setPrefWidth(400);
+//        table.setStyle("-fx-background-color:white ;"+ "-fx-border-radius:10;" + "-fx-border-color:yellowgreen;");
+//        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+//        // Files.Product Code Column
+//        TableColumn<Item, Integer> idColumn = new TableColumn<>("Files.Product Code");
+//        idColumn.setCellValueFactory(new PropertyValueFactory<>("productId"));
+//        idColumn.setMaxWidth(100);
+//
+//        // Files.Product Name Column
+//        TableColumn<Item, String> nameColumn = new TableColumn<>("Files.Product Name");
+//        nameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
+//        nameColumn.setMaxWidth(150);
+//
+//        // Quantity Column
+//        TableColumn<Item, Integer> quantityColumn = new TableColumn<>("Quantity");
+//        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
+//        quantityColumn.setMaxWidth(100);
+//
+//        // Cost Price Column
+//        TableColumn<Item, Double> costPriceColumn = new TableColumn<>("Cost Price");
+//        costPriceColumn.setCellValueFactory(new PropertyValueFactory<>("priceBought"));
+//        costPriceColumn.setMaxWidth(100);
+//
+//        // Selling Price Column
+//        TableColumn<Item, Double> sellingPriceColumn = new TableColumn<>("Selling Price");
+//        sellingPriceColumn.setCellValueFactory(new PropertyValueFactory<>("sellingPrice"));
+//        sellingPriceColumn.setMaxWidth(100);
+//
+//        // Brand Column
+//        TableColumn<Item, String> brandColumn = new TableColumn<>("Brand");
+//        brandColumn.setCellValueFactory(new PropertyValueFactory<>("brand"));
+//        brandColumn.setMaxWidth(100);
+
+
+
+
+//    public void setTable(CustomTableView table) {
+//        this.table = table;
+//    }
+//    public TableColumn<Item, Integer> getProductIdColumn() {
+//        return table.getProductIdColumn();
+//    }
+//
+//    public TableColumn<Item,String> getProductNameColumn() {
+//        return table.getProductNameColumn();
+//    }
+//
+//    public TableColumn<Item, String> getSectorColumn() {
+//        return table.getSectorColumn();
+//    }
+//
+//    public TableColumn<Item, Double> getSellingPriceColumn() {
+//        return table.getSellingPriceColumn();
+//    }
+//
+//    public TableColumn<Item, Double> getCostPriceColumn() {
+//        return table.getCostPriceColumn();
+//    }
+//
+//    public TableColumn<Item, String> getSupplierColumn() {
+//        return table.getSupplierColumn();
+//    }
+//
+//
+//    public TableColumn<Item, Integer> getStockQuantityColumn() {
+//        return table.getStockQuantityColumn();
+//    }
+//
+//    public TableColumn<Item, String> getBrandColumn() {
+//        return table.getBrandColumn();
+//    }
+//
+//    public TableColumn<Item, LocalDate> getLastRestockDateColumn() {
+//        return table.getLastRestockDateColumn();
+//    }
+//
+//    public TableColumn<Item, String> getBarcodeColumn() {
+//        return table.getBarcodeColumn();
+//    }
+
+    // Method to get the table itself//i paskam gati harrova ok mbarje kte pasaj ti bejm merge
 
 
     //    private ComboBox<String> search;
@@ -97,7 +318,7 @@ public class InventoryManagementView extends GridPane implements Design {
 //        brandColumn.setMaxWidth(100);
 //
 //        // Select Column (CheckBox)
-//
+
 //        TableColumn<Item, Boolean> selectColumn = new TableColumn<>("Select");
 //        selectColumn.setCellValueFactory(cellData -> cellData.getValue().selectedProperty());
 //

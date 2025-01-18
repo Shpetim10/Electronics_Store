@@ -2,6 +2,7 @@ package View;
 
 
 
+import Model.FileHandler;
 import Model.Item;
 import Model.SectorType;
 import javafx.beans.property.BooleanProperty;
@@ -14,6 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.function.Function;
 
@@ -34,31 +36,18 @@ public class CustomTableView {
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         // Define columns
-        addColumn("Files.Product Code", "productId", 100);
-        addColumn("Files.Product Name", "productName", 100);
+        addColumn("Id", "productId", 100);
+        addColumn("Barcode", "barcode", 80);
+        addColumn("Name", "productName", 100);
         addColumn("Sector", "sector", 80);
         addColumn("Selling Price", "sellingPrice", 100);
         addColumn("Cost Price", "priceBought", 100);
         addColumn("Supplier", "supplier", 80);
-        addColumn("Discount Rate", "discountRate", 100);
         addColumn("Quantity", "stockQuantity", 80);
         addColumn("Brand", "brand", 80);
         addColumn("Last Restock Date", "lastRestockDate", 100);
-        addColumn("Barcode", "barcode", 80);
 
-        // Add boolean columns with checkboxes
-        addColumn("Is Discounted", "isDiscounted", 80);
-
-        addColumn("Is Discontinued", "isDiscontinued", 80);
-        addColumn("Is Available", "isAvailable", 80);
-
-        // Sample data
-        ObservableList<Item> items = FXCollections.observableArrayList(
-                new Item(1, "Laptop", SectorType.ELECTRONICS, "Dell Inspiron", 1200.0, 1000.0,
-                        null, "Yes", 10.0, 50, false, 1.5, 0.5,
-                        null, "Black", "Dell", 1, "yes", "true",
-                        null, 5.0, "laptop-image.jpg", "1234567890", 2)
-        );
+        ObservableList<Item> items = FXCollections.observableArrayList(FileHandler.getItemsOfInventory());
         table.setItems(items);
     }
 
@@ -68,7 +57,6 @@ public class CustomTableView {
         column.setMaxWidth(width);
         table.getColumns().add(column);
     }
-
 
 
     public TableView<Item> getTable() {

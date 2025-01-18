@@ -1,27 +1,19 @@
-package View.InventoryManagementView2;
+package View;
 
 import Model.Item;
-import Model.SectorType;
-import Model.Supplier;
-import View.Design;
-import View.SearchBoxPane;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
-import java.util.Date;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Add_EditView implements Design {
+public class AddView implements Design {
     SearchBoxPane search=new SearchBoxPane();
 
     private CheckBox select;
@@ -50,10 +42,10 @@ public class Add_EditView implements Design {
     private TextField image;
 
 
-    public Add_EditView() {
+    public AddView() {
         this.select=createCheckBox();
-        this.productCode = createTextField("Files.Product Code");
-        this.productName = createTextField("Files.Product Name");
+        this.productCode = createTextField("Product Code");
+        this.productName = createTextField("Product Name");
         this.sector = createTextField("Sector");
         //this.description = createTextField("Description");
         this.sellingPrice = createTextField("Selling Price");
@@ -74,8 +66,8 @@ public class Add_EditView implements Design {
         //this.lastRestockDate = createTextField("Last Restock Date");
         this.barcode = createTextField("Barcode");
         this.nrOfReturns = createTextField("Number of Returns");
-        this.add=createGeneralButton("Add Files.Product");
-        this.edit=createGeneralButton("Edit Files.Product");
+        this.add=createGeneralButton("Add Product");
+        this.edit=createGeneralButton("Edit Product");
 
         this.table = new TableView<>();
         this.image=createTextField("Image URL");
