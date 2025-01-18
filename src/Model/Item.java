@@ -1,101 +1,58 @@
 package Model;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Item implements Serializable {
 
 
     @Serial
-    private static final long serialVersionUID = -183069447224098725L;
-    private int productId;
-    private String productName;
+    private static final long serialVersionUID = 6910665039320934429L;
+    private SimpleIntegerProperty productId;
+    private SimpleStringProperty productName;
     private SectorType sector;
+    private SimpleStringProperty sectorType;
     private String description;
-    private double sellingPrice;
-    private double priceBought;
-    private String supplierName;
-    private String isDiscounted;
-    private int stockQuantity;
-    private boolean isLowStock;
-    private double weight;
-    private double volume;
-    private int[] dimensions=new int[3];
-    private String color;
+    private SimpleDoubleProperty sellingPrice;
+    private SimpleDoubleProperty priceBought;
+    private SimpleStringProperty supplierName;
+
+    private IntegerProperty stockQuantity;
+//    private boolean isLowStock;
+
     private String brand;
-    private String isDiscontinued;
-    private  String available;
+    //private String isDiscontinued;
     private LocalDate lastRestockDate;
-    private double averageRating;
-    private String image;
-    private String barcode;
-    private int nrOfReturns;
+  private SimpleStringProperty image;
+    private SimpleIntegerProperty barcode;
+    //private int nrOfReturns;
     
 
     public Item() {
     }
-    public Item(int productCode, String productName, SectorType sector,
-                double sellingPrice, double priceBought, String supplierName,
-                 int stockQuantity,
-                String brand, LocalDate lastRestockDate,
-                String barcode,String image) {
-        this.productId = productCode;
-        this.productName = productName;
-        this.sector = sector;
-        this.sellingPrice = sellingPrice;
-        this.priceBought = priceBought;
-        this.supplierName = supplierName;
 
-        this.stockQuantity = stockQuantity;
-        this.brand = brand;
-    this.image=image;
-        this.lastRestockDate = lastRestockDate;
-        this.barcode = barcode;
-    }
-
-    public Item(int productId, String productName, SectorType sector, String description, double sellingPrice,
-                double priceBrought, String supplierName, String isDiscounted, double discountRate, int stockQuantity,
-                boolean isLowStock, double weight, double volume, int[] dimensions, String color, String brand,
-                int warrantyPeriod, String isDiscontinued, String isAvailable, LocalDate lastRestockDate,
-                double averageRating, String image, String barcode, int nrOfReturns) {
-        this.productId = productId;
-        this.productName = productName;
-        this.sector = sector;
-        this.description = description;
-        this.sellingPrice = sellingPrice;
-        this.priceBought = priceBrought;
-        this.supplierName = supplierName;
-      this.isDiscontinued=isDiscontinued;
-        this.stockQuantity = stockQuantity;
-        this.isLowStock = isLowStock;
-        this.weight = weight;
-        this.volume = volume;
-        this.dimensions = dimensions;
-        this.color = color;
+    public Item(int productId, String productName, SectorType sector,  double sellingPrice, double priceBought, String supplierName, int stockQuantity, String brand, LocalDate lastRestockDate,  int barcode) {
+        this.setProductId(productId);
+        this.setProductName(productName);
+        this.sector=sector;
+        this.setSellingPrice(sellingPrice);
+        this.setPriceBought(priceBought);
+        this.setSupplier(supplierName);
+        this.setStockQuantity(stockQuantity);
         this.brand = brand;
         this.lastRestockDate = lastRestockDate;
-        this.averageRating = averageRating;
-        this.image = image;
-        this.barcode = barcode;
-        this.nrOfReturns = nrOfReturns;
+        this.setBrand(brand);
+        this.setBarcode(barcode);
     }
 
-    public Item(int productId, String productName, String brand, int stockQuantity, double priceBrought, double sellingPrice) {
-        this.productId = productId;
-        this.productName = productName;
-        this.brand = brand;
-        this.stockQuantity = stockQuantity;
-        this.priceBought = priceBrought;
-        this.sellingPrice = sellingPrice;
-    }
 
-    //Useful Methods
+
     public void incrementStock(int quantity){
         setStockQuantity(getStockQuantity()+quantity);
     } //Sh
@@ -105,24 +62,26 @@ public class Item implements Serializable {
     } //Sh
 
 
-    // Getters and Setters
-    public int getProductId() {
-        return productId;
-    }
-
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
 
     public String getProductName() {
-        return productName;
+        return productName.getValue();
     }
 
     public void setProductName(String productName) {
-        this.productName = productName;
+        this.productName=new SimpleStringProperty(productName);
+
+    }
+    public int getProductId() {
+        return productId.getValue();
     }
 
-    public SectorType getSector() {
+    public void setProductId(int productid) {
+        this.productId = new SimpleIntegerProperty(productid);
+    }
+
+
+
+    public SectorType getSectorType() {
         return sector;
     }
 
@@ -130,95 +89,77 @@ public class Item implements Serializable {
         this.sector = sector;
     }
 
-    public String getDescription() {
-        return description;
+    public String getSector(){
+        return sectorType.getValue();
+    }
+    public void setSector(String sector){
+        this.sectorType=new SimpleStringProperty(sector);
+
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public double getSellingPrice() {
-        return sellingPrice;
+        return sellingPrice.getValue();
     }
 
     public void setSellingPrice(double sellingPrice) {
-        this.sellingPrice = sellingPrice;
+        this.sellingPrice =new  SimpleDoubleProperty(sellingPrice);
     }
 
     public double getPriceBought() {
-        return priceBought;
+        return priceBought.getValue();
     }
 
     public void setPriceBought(double priceBought) {
-        this.priceBought = priceBought;
+        this.priceBought = new  SimpleDoubleProperty(priceBought);
     }
 
     public String getSupplier() {
-        return supplierName;
+        return supplierName.getValue();
     }
 
     public void setSupplier(String supplier) {
-        this.supplierName = supplier;
+        this.supplierName = new  SimpleStringProperty(supplier);
     }
 
-    public String isDiscounted() {
-        return isDiscounted;
-    }
-
-    public void setDiscounted(String discounted) {
-        this.isDiscounted = discounted;
-    }
+//    public String isDiscounted() {
+//        return isDiscounted;
+//    }
+//
+//    public void setIsDiscounted(String isDiscounted) {
+//        this.isDiscounted=isDiscounted;
+//    }
+//    public void setIsAvailable(String available) {
+//        this.isAvailable=available;
+//    }
+//
+//
+//    public void setDiscounted(String discounted) {
+//        this.isDiscounted = discounted;
+//    }
+//    public void setDiscountRate(Double discount){
+//        this.discountRate=discount;
+//    }
 
 
 
     public int getStockQuantity() {
-        return stockQuantity;
+        return stockQuantity.getValue();
     }
 
-    public void setStockQuantity(int stockQuality) {
-        this.stockQuantity = stockQuality;
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = new  SimpleIntegerProperty(stockQuantity);
     }
 
-    public boolean isLowStock() {
-        return isLowStock;
-    }
+//    public boolean isLowStock() {
+//        return isLowStock;
+//    }
+//
+//    public void setLowStock(boolean lowStock) {
+//        isLowStock = lowStock;
+//    }
 
-    public void setLowStock(boolean lowStock) {
-        isLowStock = lowStock;
-    }
 
-    public double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
-
-    public double getVolume() {
-        return volume;
-    }
-
-    public void setVolume(double volume) {
-        this.volume = volume;
-    }
-
-    public int[] getDimensions() {
-        return dimensions;
-    }
-
-    public void setDimensions(int[] dimensions) {
-        this.dimensions = dimensions;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
 
     public String getBrand() {
         return brand;
@@ -229,20 +170,16 @@ public class Item implements Serializable {
     }
 
 
-    public String getIsDiscontinued() {
-        return isDiscontinued;
-    }
 
-    public void setIsDiscontinueded(String discontinueded) {
-        this.isDiscontinued = discontinueded;
-    }
-    public String isAvailable() {
-        return available;
-    }
 
-    public void setAvailable(String available) {
-        this.available = available;
-    }
+//
+//    public String isAvailable() {
+//        return available;
+//    }
+//
+//    public void setAvailable(String available) {
+//        this.available = available;
+//    }
 
 
 
@@ -256,39 +193,25 @@ public class Item implements Serializable {
         this.lastRestockDate = lastRestockDate;
     }
 
-    public double getAverageRating() {
-        return averageRating;
+
+
+//    public String getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(String image) {
+//        this.image = image;
+//    }
+
+    public int getBarcode(Integer newValue) {
+        return barcode.getValue();
     }
 
-    public void setAverageRating(double averageRating) {
-        this.averageRating = averageRating;
+    public void setBarcode(Integer barcode) {
+        this.barcode = new SimpleIntegerProperty(barcode);}
     }
 
-    public String getImage() {
-        return image;
-    }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getBarcode() {
-        return barcode;
-    }
-
-    public void setBarcode(String barcode) {
-        this.barcode = barcode;
-    }
-
-    public int getNrOfReturns() {
-        return nrOfReturns;
-    }
-
-    public void setNrOfReturns(int nrOfReturns) {
-        this.nrOfReturns = nrOfReturns;
-    }
-
-}
 
 
 

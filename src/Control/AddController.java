@@ -2,22 +2,18 @@ package Control;
 
 import Model.Item;
 import Model.SectorType;
-import Model.Supplier;
 import Model.Validator;
-import View.InventoryManagementView2.Add_EditView;
+import View.AddView;
 import javafx.scene.control.Alert;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.Random;
 
 import static Model.FileHandler.writeProductToFile;
 
 public class AddController {
-    private final Add_EditView view;
+    private final AddView view;
 
-    public AddController(Add_EditView view) {
+    public AddController(AddView view) {
         this.view = view;
         initialize();
     }
@@ -48,7 +44,7 @@ public class AddController {
             int stockQuantityValue = Integer.parseInt(view.getStockQuantity().getText());
             String brandValue = view.getBrand().getText();
             LocalDate lastRestockDateValue = view.getLastRestockDate().getValue();
-            String barcodeValue = view.getBarcode().getText();
+            int barcodeValue = Integer.parseInt(view.getBarcode().getText());
 
             Item newItem = new Item(
                     productCodeValue,
@@ -60,8 +56,8 @@ public class AddController {
                     stockQuantityValue,
                     brandValue,
                     lastRestockDateValue,
-                    barcodeValue,
-                    image
+                    barcodeValue
+
 
             );
 

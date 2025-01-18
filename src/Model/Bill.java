@@ -178,7 +178,7 @@ public class Bill implements CustomerLoyalty  {
     public ArrayList<String> getProductNamesByCategory(SectorType type) throws ItemNotFoundException {
         ArrayList<String> result = new ArrayList<>();
         for (Item item : cashier.items) {
-            if (item.getSector() == type) {
+            if (item.getSectorType() == type) {
                 result.add(item.getProductName());
             }
         }

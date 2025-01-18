@@ -1,13 +1,16 @@
 package Model;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 import java.util.*;
 
 public class Supplier {
-    private int supplierId;
-    private String companyName;
-    private String contactName;
-    private String email;
-    private long phoneNumber;
-    private String address;
+    private SimpleIntegerProperty supplierId;
+    private SimpleStringProperty companyName;
+    private SimpleStringProperty contactName;
+    private SimpleStringProperty email;
+    private SimpleStringProperty phoneNumber;
+    private SimpleStringProperty address;
     private String paymentDetailsIBAN;
     private ArrayList<Item> productList;
     private int minimumOrderQuantity;
@@ -17,65 +20,70 @@ public class Supplier {
     public Supplier(String companyName) {
     }
 
-    public Supplier(int supplierId, String companyName, String contactName, String email, long phoneNumber, String address,
-                    String paymentDetailsIBAN, ArrayList<Item> productList, int minimumOrderQuantity) {
-        this.supplierId = supplierId;
-        this.companyName = companyName;
-        this.contactName = contactName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        this.paymentDetailsIBAN = paymentDetailsIBAN;
-        this.productList = productList;
-        this.minimumOrderQuantity = minimumOrderQuantity;
+    public Supplier(int supplierId, String companyName, String email, String phoneNumber, String address) {
+        this.setSupplierId(supplierId);
+        this.setCompanyName(companyName);
+        this.setEmail(email);
+        this.setPhoneNumber(phoneNumber);
+        this.setAddress(address);
     }
 
+
     public int getSupplierId() {
-        return supplierId;
+        return supplierId.getValue();
     }
 
     public void setSupplierId(int supplierId) {
-        this.supplierId = supplierId;
+        this.supplierId = new SimpleIntegerProperty(supplierId);
     }
 
     public String getCompanyName() {
-        return companyName;
+        return companyName.getValue();
     }
 
     public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+        this.companyName= new SimpleStringProperty(companyName);;
     }
 
     public String getContactName() {
+        return contactName.get();
+    }
+
+    public SimpleStringProperty contactNameProperty() {
         return contactName;
     }
 
     public void setContactName(String contactName) {
-        this.contactName = contactName;
+        this.contactName.set(contactName);
     }
 
     public String getEmail() {
-        return email;
+        return email.getValue();
     }
+
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email= new SimpleStringProperty(email);;
     }
 
-    public long getPhoneNumber() {
-        return phoneNumber;
+    public String getPhoneNumber() {
+        return phoneNumber.getValue();
     }
 
-    public void setPhoneNumber(long phoneNumber) {
-        this.phoneNumber = phoneNumber;
+
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber= new SimpleStringProperty(phoneNumber);;
     }
 
     public String getAddress() {
-        return address;
+        return address.getValue();
     }
 
+
+
     public void setAddress(String address) {
-        this.address = address;
+        this.address= new SimpleStringProperty(address);;
     }
 
     public String getPaymentDetailsIBAN() {
