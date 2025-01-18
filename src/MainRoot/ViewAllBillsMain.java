@@ -33,20 +33,20 @@ public class ViewAllBillsMain extends Application {
 
                 // Create items bought
                 ArrayList<ItemBought> items1 = new ArrayList<>();
-                items1.add(new ItemBought(101, "Milk", 2, 1.50));
-                items1.add(new ItemBought(102, "Bread", 1, 1.00));
+                items1.add(new ItemBought(101, "MacBook", 12, 1600));
+                items1.add(new ItemBought(102, "Iphone 16", 1, 1200));
 
                 ArrayList<ItemBought> items2 = new ArrayList<>();
-                items2.add(new ItemBought(103, "Butter", 1, 2.50));
+                items2.add(new ItemBought(103, "Fridge", 1, 1800));
 
                 ArrayList<ItemBought> items3 = new ArrayList<>();
-                items3.add(new ItemBought(104, "Cheese", 3, 3.00));
+                items3.add(new ItemBought(104, "Scouter", 3, 3000));
 
                 ArrayList<ItemBought> items4 = new ArrayList<>();
-                items4.add(new ItemBought(105, "Apples", 5, 0.60));
+                items4.add(new ItemBought(105, "Headphones", 5, 120));
 
                 ArrayList<ItemBought> items5 = new ArrayList<>();
-                items5.add(new ItemBought(106, "Bananas", 6, 0.50));
+                items5.add(new ItemBought(106, "Charger", 6, 30));
 
                 // Create bills
                 Bill bill1 = new Bill();
@@ -84,11 +84,12 @@ public class ViewAllBillsMain extends Application {
                 activeShift.getBills().add(bill4);
                 activeShift.getBills().add(bill5);
 
-        AdminManagerViewBillController control=new AdminManagerViewBillController(admin);
+
+        ViewAllBillsController control=new ViewAllBillsController(cashier);
 
 
         primaryStage.setTitle("View All Bills");
-        primaryStage.setScene(new Scene(control.getMainView()));
+        primaryStage.setScene(new Scene(control.getView()));
         primaryStage.setMaximized(true);
         primaryStage.show();
     }

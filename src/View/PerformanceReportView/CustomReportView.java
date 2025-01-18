@@ -13,7 +13,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 
 public class CustomReportView extends StackPane implements Design {
-    private TextField cashier=createTextField("Enter cashier's name...");
+    private TextField cashier=createTextField("Enter cashier's id...");
     private ComboBox<String> sector=createComboBox("Select Sector...");;
     private DatePicker startDate=createDatePicker("Start Date...");
     private DatePicker endDate=createDatePicker("End Date...");

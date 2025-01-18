@@ -5,10 +5,13 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 
-public class Cashier extends User implements InventoryManagement{
+public class Cashier extends User implements InventoryManagement,Serializable{
+
+    @Serial
+    private static final long serialVersionUID = 7954358941797462900L;
     private SectorType sector;
     private ArrayList<Shift> shifts;
-    private ArrayList<File> reportsGenerated=new ArrayList<>();
+    //private ArrayList<File> reportsGenerated=new ArrayList<>();
 
     public Cashier(int id, String firstName, String lastName, String username, String password, String email, String phoneNumber,
                    Date dateEmployed, String photo, EmployeeRole role, ArrayList<Permission> permissions, Boolean isActive,
@@ -95,7 +98,7 @@ public class Cashier extends User implements InventoryManagement{
         try {
             String reportPath= ReportGenerator.createCashierReportFilePath(cashier,LocalDate.of(2025, 1, 1), LocalDate.of(2025, 1, 2));
             File reportFile = new File(reportPath);
-            ReportGenerator.generateCashierReport(reportFile, cashier,LocalDate.of(2025, 1, 1), LocalDate.of(2025, 1, 2));
+            ReportGenerator.generateCashierReport(cashier,LocalDate.of(2025, 1, 1), LocalDate.of(2025, 1, 2));
             System.out.println("Report generated: " + reportFile.getAbsolutePath());
         } catch (IOException ex) {
             System.out.println("Failed to generate report: " + ex.getMessage());

@@ -1,12 +1,16 @@
 package Model;
 
 import java.io.File;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Manager extends User{
+public class Manager extends User implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 6803966091603793532L;
     private ArrayList<SectorType> sectors=new ArrayList<>();
-    private ArrayList<File> reportsGenerated=new ArrayList<>();
+    private ArrayList<File> reportsGenerated = new ArrayList<>();
 
     public Manager(int id, String firstName, String lastName, String username, String password, String email, String phoneNumber,
                          Date dateEmployed, String photo, EmployeeRole role, ArrayList<Permission> permissions, Boolean isActive,

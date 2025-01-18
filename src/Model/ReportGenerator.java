@@ -9,7 +9,9 @@ import java.util.ArrayList;
 
 
 public class ReportGenerator {
-    public static void writeSectorReport(File reportFile, LocalDate startDate, LocalDate endDate, ArrayList<Cashier> cashiers) throws IOException {
+    public static void writeSectorReport(SectorType sector,LocalDate startDate, LocalDate endDate) throws IOException {
+        File reportFile=new File(createSectorReportFilePath(sector,startDate,endDate));
+        ArrayList<Cashier> cashiers=Database.getDatabase().getCashiers();
         try (PrintWriter output = new PrintWriter(reportFile)) {
             output.println("\t\t\t\t\tSector Report\n");
             output.println("-".repeat(50));
@@ -109,7 +111,8 @@ public class ReportGenerator {
         return "Report Of Sector "+sector.toString() +" StartDate "+startDate.toString()+" EndDate "+endDate.toString();
     }
 
-    public static void generateCashierReport(File reportFile,Cashier cashier,LocalDate startDate, LocalDate endDate) throws IOException {
+    public static void generateCashierReport(Cashier cashier,LocalDate startDate, LocalDate endDate) throws IOException {
+        File reportFile=new File(createCashierReportFilePath(cashier,startDate,endDate));
         try(PrintWriter output=new PrintWriter(reportFile)){
             output.println("\t\t\t\t\tCashier Report\n");
             output.println("-".repeat(40));
@@ -184,7 +187,10 @@ public class ReportGenerator {
     }
 
     //Overall Report
-    public void writeOverallReport(File reportFile,  ArrayList<SectorType> sectors, ArrayList<Cashier> cashiers ,LocalDate startDate, LocalDate endDate) throws IOException {
+    public static void writeOverallReport(LocalDate startDate, LocalDate endDate) throws IOException {
+        File reportFile=new File(createOverallReportFilePath(startDate,endDate));
+        ArrayList<SectorType> sectors=Database.getDatabase().getSectors();
+        ArrayList<User> cashiers=Database.getDatabase().getUsers();
         try (PrintWriter output = new PrintWriter(reportFile)) {
             output.println("\t\t\t\t\tOverall Business Report\n");
             output.println("-".repeat(60));
@@ -286,20 +292,22 @@ public class ReportGenerator {
         }
     }
 
-    public static ArrayList<Cashier> getSectorCashiers(SectorType sectorType, ArrayList<Cashier> cashiers){
+    public static ArrayList<Cashier> getSectorCashiers(SectorType sectorType, ArrayList<User> cashiers){
         ArrayList<Cashier> result=new ArrayList<>();
-        for(Cashier cashier: cashiers){
-            if(cashier.getSector()==sectorType) result.add(cashier);
+        for(User user: cashiers){
+            if(user instanceof Cashier){
+                if(((Cashier)user).getSector()==sectorType) result.add((Cashier)user);
+            }
+
         }
         return result;
     }
 
-    public static String createOverallReportFilePath(Cashier cashier, LocalDate startDate, LocalDate endDate){
+    public static String createOverallReportFilePath(LocalDate startDate, LocalDate endDate){
         String path = "src/Files/Reports/";
         path += getOverallReportName(startDate,endDate).replace(" ","_")+".txt";
         return path;
     }
-
     public static String getOverallReportName(LocalDate startDate, LocalDate endDate){
         return "Overall report StartDate "+startDate.toString()+" EndDate "+endDate.toString();
     }

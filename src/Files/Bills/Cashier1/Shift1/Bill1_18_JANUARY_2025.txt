@@ -3,8 +3,8 @@
 
 Address:		Tirana, Albania
 
-Date:		16:JANUARY:2025
-Time:		21:57
+Date:		18:JANUARY:2025
+Time:		13:26
 
 
 CashierId:		1

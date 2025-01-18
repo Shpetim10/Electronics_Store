@@ -1,7 +1,11 @@
 package Model;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
 
-public class Supplier {
+public class Supplier implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1179658357637525922L;
     private int supplierId;
     private String companyName;
     private String contactName;

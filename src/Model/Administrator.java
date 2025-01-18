@@ -1,9 +1,13 @@
 package Model;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Administrator extends User implements InventoryManagement{
+public class Administrator extends User implements InventoryManagement, Serializable {
+    @Serial
+    private static final long serialVersionUID = 7443029647372729361L;
     private ArrayList<User> employees;
 
     //Constructor with custom argument

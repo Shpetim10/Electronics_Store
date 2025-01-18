@@ -1,14 +1,13 @@
 package Model;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class Shift {
+public class Shift implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -3400514395325144506L;
     private int shiftId;
     private Cashier cashier;
     private ArrayList<Bill> bills;

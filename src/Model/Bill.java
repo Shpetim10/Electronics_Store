@@ -4,15 +4,14 @@ import Exceptions.ItemNotFoundException;
 import Exceptions.LowStockException;
 import Exceptions.OutOfStockException;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class Bill implements CustomerLoyalty  {
+public class Bill implements CustomerLoyalty, Serializable {
+    @Serial
+    private static final long serialVersionUID = -4644282291690387264L;
     private long billId;
     private Cashier cashier;
     private LocalDate dateGenerated;

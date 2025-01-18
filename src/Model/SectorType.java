@@ -1,6 +1,8 @@
 package Model;
 
-public enum SectorType {
+import java.io.Serializable;
+
+public enum SectorType implements Serializable{
     HOME_APPLIANCES,
     ELECTRONICS,
     COMPUTERS,
