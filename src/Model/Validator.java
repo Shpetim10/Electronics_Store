@@ -40,7 +40,7 @@ public class Validator {
 
     //For products
     public static boolean validateProductName(String productName){
-        return Pattern.matches("^[A-Z][a-z]+$",productName);
+        return Pattern.matches("^[[A-Z][a-z][0-9]]+$",productName);
     }
     public static void main(String[] args) {
 

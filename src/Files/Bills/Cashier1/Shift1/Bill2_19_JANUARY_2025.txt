@@ -3,11 +3,15 @@
 
 Address:		Tirana, Albania
 
-Date:		18:JANUARY:2025
-Time:		23:40
+Date:		19:JANUARY:2025
+Time:		2:40
 
 
 CashierId:		1
+
+
+Customer Id:		K30303030D
+Customer points:		300
 
 
                                                            Fiscal Bill
@@ -21,6 +25,8 @@ CashierId:		1
 
                                                                   Total of Bill:		             1800.00
                                                                     Tax of Bill:		              360.00
-Payment Method:		null
+Payment Method:		CASH
+Money given:		2000.0
+Change:		200.0
                                        Thank You for shopping with us!
 --------------------------------------------------------------------------------------------------------------------------------------------

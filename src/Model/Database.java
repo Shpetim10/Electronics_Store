@@ -13,12 +13,28 @@ public class Database {
     private ArrayList<Cashier> cashiers;
     private Database(){
         this.inventory=FileHandler.getItemsOfInventory();
-        this.completedShifts=FileHandler.getCompletedShifts();
+        //this.completedShifts=FileHandler.getCompletedShifts();
         this.customers=FileHandler.getCustomers();
         this.loyaltyPoints=FileHandler.getLoyaltyPoints();
         this.cashiers=FileHandler.getCashiers();
         setSectors();
     }
+    public void updateInventory(ArrayList<Item> inventory){
+        FileHandler.updateInventory(inventory);
+    }
+
+    public void updateCashiers(ArrayList<Cashier> cashiers){
+        FileHandler.updateCashiers(cashiers);
+    }
+
+    public void updateCustomers(ArrayList<String> customers){
+        FileHandler.writeCustomersToFile(customers);
+    }
+
+    public void updateLoyaltyPoints(ArrayList<Integer> loyaltyPoints){
+        FileHandler.writeLoyaltyPointsToFile(loyaltyPoints);
+    }
+
     public static Database getDatabase(){
         return Database.database;
     }

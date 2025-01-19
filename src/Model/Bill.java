@@ -70,7 +70,7 @@ public class Bill implements CustomerLoyalty, Serializable {
 
         if(customerIdCard!=null){
             output.println("\n\nCustomer Id:\t\t" + customerIdCard);
-            output.println("Customer points:\t\t" + loyaltyPoints.get(customers.indexOf(customerIdCard)));
+            output.println("Customer points:\t\t" + Database.getDatabase().getLoyaltyPoints().get(Database.getDatabase().getCustomers().indexOf(customerIdCard)));
         }
 
         output.printf("\n\n%70s\n\n", "Fiscal Bill");

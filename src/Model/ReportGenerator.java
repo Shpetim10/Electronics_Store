@@ -190,7 +190,7 @@ public class ReportGenerator {
     public static void writeOverallReport(LocalDate startDate, LocalDate endDate) throws IOException {
         File reportFile=new File(createOverallReportFilePath(startDate,endDate));
         ArrayList<SectorType> sectors=Database.getDatabase().getSectors();
-        ArrayList<User> cashiers=Database.getDatabase().getUsers();
+        ArrayList<Cashier> cashiers=Database.getDatabase().getCashiers();
         try (PrintWriter output = new PrintWriter(reportFile)) {
             output.println("\t\t\t\t\tOverall Business Report\n");
             output.println("-".repeat(60));
@@ -292,13 +292,11 @@ public class ReportGenerator {
         }
     }
 
-    public static ArrayList<Cashier> getSectorCashiers(SectorType sectorType, ArrayList<User> cashiers){
+    public static ArrayList<Cashier> getSectorCashiers(SectorType sectorType, ArrayList<Cashier> cashiers){
         ArrayList<Cashier> result=new ArrayList<>();
-        for(User user: cashiers){
-            if(user instanceof Cashier){
-                if(((Cashier)user).getSector()==sectorType) result.add((Cashier)user);
-            }
-
+        for(Cashier cashier: cashiers){
+            if(cashier.getSector()==sectorType)
+                result.add(cashier);
         }
         return result;
     }

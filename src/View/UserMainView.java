@@ -12,10 +12,9 @@ import javafx.scene.layout.*;
 public class UserMainView extends VBox implements Design{
     private final StackPane displayPane=new StackPane();
     //HomePage fields
-    private final BorderPane homePage=createHomePage();
+    private BorderPane homePage=createHomePage();
     private Button startShift=createLargeButton("Start Shift");
     private Button endShift=createLargeButton("End Shift");
-    private Button logOut=createLargeButton("Log Out");
     private final Menu mainMenu=new Menu("Main Menu");
     private Label welcomeMessage=createAlignedGreenBoldLabel("");
 
@@ -26,12 +25,12 @@ public class UserMainView extends VBox implements Design{
     private final MenuItem inventoryManagementItem=createMenuItem("Generate Report","Images/generateReportIcon.png");
     private final MenuItem supplierManagementItem=createMenuItem("View Bills", "Images/viewAllBillsIcon.png");
     private final MenuItem permissionGrantingItem=createMenuItem("Permission Granting","Images/billingSystemIcon.png");
-
+    private final MenuItem viewAllReportsItem=createMenuItem("View Reports","Images/viewReportsIcon.png");
 
     private final ImageView profileLogo=new ImageView(new Image("Images/yourProfileIcon.png"));
     private final ImageView storeLogo=new ImageView(new Image("Images/electronicsStoreIcon.png"));
     private final ImageView notificationLogo=new ImageView(new Image("Images/notificationIcon.png"));
-
+    private final ImageView logOutIcon=new ImageView(new Image("Images/logOutIcon.png"));
     public UserMainView(){
         setUpView();
     }
@@ -60,7 +59,9 @@ public class UserMainView extends VBox implements Design{
         notificationLogo.setFitWidth(30);
         profileLogo.setFitHeight(30);
         profileLogo.setFitWidth(30);
-        profileBox.getChildren().addAll(notificationLogo,profileLogo);
+        logOutIcon.setFitHeight(30);
+        logOutIcon.setFitWidth(30);
+        profileBox.getChildren().addAll(notificationLogo,profileLogo,logOutIcon);
 
 
         menuHeader.getChildren().addAll(createMenuView(),storeLogo,profileBox);
@@ -119,10 +120,7 @@ public class UserMainView extends VBox implements Design{
         if (endShift == null){
             endShift = createLargeButton("End Shift");
         }
-        if (logOut == null) {
-            logOut = createLargeButton("Log Out");
-        }
-        buttonsBox.getChildren().addAll(startShift,endShift,logOut);
+        buttonsBox.getChildren().addAll(startShift,endShift);
 
         ImageView storeIconClone=new ImageView(new Image("Images/electronicsStoreIcon.png"));
 
@@ -172,10 +170,6 @@ public class UserMainView extends VBox implements Design{
         return endShift;
     }
 
-    public Button getLogOut() {
-        return logOut;
-    }
-
     public MenuItem getGenerateReportItem() {
         return generateReportItem;
     }
@@ -200,7 +194,20 @@ public class UserMainView extends VBox implements Design{
         return permissionGrantingItem;
     }
 
+    public ImageView getLogOutIcon() {
+        return logOutIcon;
+    }
+
+    public MenuItem getViewAllReportsItem() {
+        return viewAllReportsItem;
+    }
+
     public Label getWelcomeMessage() {
         return welcomeMessage;
     }
+
+    public void setHomePage(BorderPane homePage) {
+        this.homePage = homePage;
+    }
 }
+

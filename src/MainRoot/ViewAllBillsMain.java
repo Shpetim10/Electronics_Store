@@ -2,7 +2,6 @@ package MainRoot;
 
 import Control.AdminManagerViewBillController;
 import Control.ViewAllBillsController;
-import View.PerformanceReportView.ViewAllBills;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -21,9 +20,9 @@ public class ViewAllBillsMain extends Application {
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
                 Administrator admin=new Administrator(1, "John", "Doe", "johndoe", "password123", "johndoe@example.com",
-                        "123-456-7890",new Date(), EmployeeRole.ADMINISTRATOR, new ArrayList<>(), true);
+                        "123-456-7890",LocalDate.now(), EmployeeRole.ADMINISTRATOR, new ArrayList<>(), true);
                 Cashier cashier = new Cashier(1, "John", "Doe", "johndoe", "password123", "johndoe@example.com",
-                        "123-456-7890",new Date(), EmployeeRole.CASHIER, new ArrayList<>(), true);
+                        "123-456-7890",LocalDate.now(), EmployeeRole.CASHIER, new ArrayList<>(), true);
 
                 admin.getEmployees().add(cashier);
                 // Create an active shift for the cashier

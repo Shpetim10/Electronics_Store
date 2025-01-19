@@ -7,6 +7,7 @@ import java.util.*;
 
 public class Cashier extends User implements InventoryManagement,Serializable{
 
+
     @Serial
     private static final long serialVersionUID = 7954358941797462900L;
     private SectorType sector;
@@ -14,14 +15,14 @@ public class Cashier extends User implements InventoryManagement,Serializable{
     //private ArrayList<File> reportsGenerated=new ArrayList<>();
 
     public Cashier(int id, String firstName, String lastName, String username, String password, String email, String phoneNumber,
-                   Date dateEmployed, String photo, EmployeeRole role, ArrayList<Permission> permissions, Boolean isActive,
+                   LocalDate dateEmployed, String photo, EmployeeRole role, ArrayList<Permission> permissions, Boolean isActive,
                    ArrayList<Notification> notifications, SectorType sector, ArrayList<Shift> shifts){
         super(id, firstName, lastName,username,password, email, phoneNumber,dateEmployed, photo, role, permissions, isActive, notifications);
         this.sector = sector;
         this.shifts = shifts;
     }
 
-    public Cashier(int id, String firstName, String lastName, String username, String password, String email, String phoneNumber, Date dateEmployed, EmployeeRole role, ArrayList<Permission> permissions, boolean isActive){
+    public Cashier(int id, String firstName, String lastName, String username, String password, String email, String phoneNumber, LocalDate dateEmployed, EmployeeRole role, ArrayList<Permission> permissions, boolean isActive){
         super(id,firstName,lastName,username,password,email,phoneNumber,dateEmployed,role,permissions,isActive);
         this.shifts=new ArrayList<>();
     }
@@ -68,7 +69,7 @@ public class Cashier extends User implements InventoryManagement,Serializable{
 
         // Create some Bills
         Cashier cashier = new Cashier(1, "John", "Doe", "johndoe", "password123", "johndoe@example.com",
-                "123-456-7890",new Date(), EmployeeRole.CASHIER, new ArrayList<>(), true);
+                "123-456-7890",LocalDate.now(), EmployeeRole.CASHIER, new ArrayList<>(), true);
         Bill bill1 = new Bill(1001, cashier, LocalDate.of(2025, 1, 1), LocalTime.of(10, 30), items1, PaymentMethod.CASH, "12345");
         Bill bill2 = new Bill(1002, cashier, LocalDate.of(2025, 1, 2), LocalTime.of(15, 45), items2, PaymentMethod.CARD, "54321");
 

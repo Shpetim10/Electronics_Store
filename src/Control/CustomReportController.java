@@ -14,13 +14,23 @@ public class CustomReportController implements Alertable{
     private ArrayList<Cashier> cashiers=Database.getDatabase().getCashiers();
     public CustomReportController(){
         setUpGenerateReportButtonListener();
+        setUpClearButtonListener();
     }
 
+    public void setUpClearButtonListener(){
+        view.getClear().setOnAction(
+                e->{
+                    view.getCashier().clear();
+                    view.getSector().getSelectionModel().clearSelection();
+                    view.getStartDate().getEditor().clear();
+                    view.getEndDate().getEditor().clear();
+                }
+        );
+    }
     public void setUpGenerateReportButtonListener(){
         view.getGenerate().setOnAction(
                 e->{
                     try{
-                        //selectReportTypeAndGenerate();
                         generateReport();
                     }
                     catch(IOException ex){
@@ -28,54 +38,6 @@ public class CustomReportController implements Alertable{
                     }
                 }
         );
-    }
-
-    public void selectReportTypeAndGenerate() throws IOException {
-        // Retrieve input values from the view
-        String cashierText = view.getCashier().getText();
-        Cashier cashier = validateCashierExistence(cashierText);
-        String sector = view.getSector().getSelectionModel().getSelectedItem();
-        LocalDate startDate = view.getStartDate().getValue();
-        LocalDate endDate = view.getEndDate().getValue();
-
-        // Date Validation
-        if (startDate == null || endDate == null || !isValidDateRange(startDate, endDate)) {
-            showAlert(Alert.AlertType.WARNING, "Invalid Date Range",
-                    "Start date must be before end date and not in the future!");
-            return;
-        }
-
-        // Cashier Validation
-        if (cashierText.isBlank()) {
-            showAlert(Alert.AlertType.WARNING, "Cashier Field Blank",
-                    "Please enter a valid cashier.");
-            return;
-        }
-
-        if (cashier != null && sector == null) {
-            if (cashier.getSector() != null) {
-                sector = cashier.getSector().toString();
-            } else {
-                showAlert(Alert.AlertType.WARNING, "Cashier Sector Missing",
-                        "The selected cashier does not have a sector assigned.");
-                return;
-            }
-        }
-
-        // Choose between 3 methods
-        // Generate report for a specific cashier
-        if (cashier != null) {
-            if (sector != null && sector.equals(cashier.getSector().toString())) {
-                ReportGenerator.generateCashierReport(cashier, startDate, endDate);
-            } else {
-                showAlert(Alert.AlertType.WARNING, "Cashier Sector Mismatch",
-                        "The selected sector does not match the cashier's sector.\n"
-                                + "The report will be generated for the selected cashier.");
-            }
-        } else {
-            // Case: Generate overall or sector-specific report
-            handleSectorOrOverallReport(sector, startDate, endDate);
-        }
     }
 
     public void generateReport() throws IOException{
@@ -98,8 +60,29 @@ public class CustomReportController implements Alertable{
                 showAlert(Alert.AlertType.ERROR,"Incorret cashier selected!","The cashier you selected does not exist!");
                 return;
             }
+        } else if(!cashierText.isBlank() && sector!=null && startDate!=null && endDate!=null) {
+            Cashier cashier=validateCashierExistence(cashierText);
+            if(cashier!=null && sector.toString().equals(cashier.getSector().toString()) && isValidDateRange(startDate,endDate)){
+                ReportGenerator.generateCashierReport(cashier,startDate,endDate);
+            }
+            else{
+                showAlert(Alert.AlertType.WARNING,"Sector Mismatch!","The selected cashier is not part of selected sector!");
+            }
         }
-
+        else if(cashierText.length()==0 && sector!=null && startDate!=null && endDate!=null){
+            if(sector.equalsIgnoreCase("Overall report(All cashiers selected)")){
+                ReportGenerator.writeOverallReport(startDate,endDate);
+            }
+            else{
+                SectorType sectorType=getSectorType(sector.toString());
+                ReportGenerator.writeSectorReport(sectorType,startDate,endDate);
+            }
+        }
+        else{
+            showAlert(Alert.AlertType.WARNING,"Wrong input!","You provided wrong Input!");
+            return;
+        }
+        showAlert(Alert.AlertType.INFORMATION,"Information!","Report generated successfully!");
     }
 
     //Date Validation
@@ -107,33 +90,9 @@ public class CustomReportController implements Alertable{
         return startDate.isBefore(endDate) && !startDate.isAfter(LocalDate.now());
     }
 
-    //Choose between sector or overall
-    private void handleSectorOrOverallReport(String sector, LocalDate startDate, LocalDate endDate) throws IOException {
-        if (sector == null || sector.isBlank()) {
-            showAlert(Alert.AlertType.WARNING, "Sector Not Selected",
-                    "Please select a valid sector or 'Overall Report' option.");
-            return;
-        }
-
-        if (sector.equalsIgnoreCase("Overall report(All cashiers selected)")) {
-            //Generate overall report
-            ReportGenerator.writeOverallReport(startDate, endDate);
-        } else {
-            //Generate sector-specific report
-            SectorType sectorType = getSectorType(sector);
-            if (sectorType != null) {
-                ReportGenerator.writeSectorReport(sectorType, startDate, endDate);
-            } else {
-                showAlert(Alert.AlertType.ERROR, "Error",
-                        "Invalid sector selection. Please try again.");
-            }
-        }
-    }
-
-
 
     public Cashier validateCashierExistence(String id){
-        for(Cashier cashier: cashiers){
+        for(Cashier cashier: Database.getDatabase().getCashiers()){
                 if (cashier.getId() == Integer.parseInt(id)) {
                     return cashier;
             }

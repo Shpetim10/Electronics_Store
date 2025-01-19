@@ -2,13 +2,14 @@ package Model;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Objects;
 
 public abstract class User implements Serializable {
+
     @Serial
-    private static final long serialVersionUID = -4865159324924847611L;
+    private static final long serialVersionUID = -2196552268759347081L;
     private int id;
     private String firstName;
     private String lastName;
@@ -16,7 +17,7 @@ public abstract class User implements Serializable {
     private String password;
     private String email;
     private String phoneNumber; //String because it can have chars such as +,-, etc
-    private Date dateEmployed;
+    private LocalDate dateEmployed;
     private String photo; // reference(address) to photo
     private EmployeeRole role;
     private ArrayList<Permission> permissions;
@@ -25,7 +26,7 @@ public abstract class User implements Serializable {
 
     //All-Argument Constructor
     protected User(int id, String firstName, String lastName, String username,
-                String password, String email, String phoneNumber, Date dateEmployed, String photo,
+                String password, String email, String phoneNumber, LocalDate dateEmployed, String photo,
                 EmployeeRole role, ArrayList<Permission> permissions, boolean isActive, ArrayList<Notification> notifications) {
         this(id,firstName,lastName,username,password,email,phoneNumber,dateEmployed,role,permissions, isActive);
         this.photo = photo;
@@ -34,7 +35,7 @@ public abstract class User implements Serializable {
     //Constructor without photo
 
     public User(int id, String firstName, String lastName, String username, String password, String email,
-                String phoneNumber, Date dateEmployed, EmployeeRole role, ArrayList<Permission> permissions, boolean isActive) {
+                String phoneNumber, LocalDate dateEmployed, EmployeeRole role, ArrayList<Permission> permissions, boolean isActive) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -111,11 +112,11 @@ public abstract class User implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public Date getDateEmployed() {
+    public LocalDate getDateEmployed() {
         return dateEmployed;
     }
 
-    public void setDateEmployed(Date dateEmployed) {
+    public void setDateEmployed(LocalDate dateEmployed) {
         this.dateEmployed = dateEmployed;
     }
 

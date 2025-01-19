@@ -17,7 +17,7 @@ public class CustomReportView extends StackPane implements Design {
     private ComboBox<String> sector=createComboBox("Select Sector...");;
     private DatePicker startDate=createDatePicker("Start Date...");
     private DatePicker endDate=createDatePicker("End Date...");
-    private Button cancel=createGeneralButton("Clear");
+    private Button clear=createGeneralButton("Clear");
     private Button generate=createGeneralButton("Generate Report");
     private Label error=createAlignedGreenBoldLabel("");
     private Label note=createAlignedBlackLabel("");
@@ -81,7 +81,7 @@ public class CustomReportView extends StackPane implements Design {
         grid.add(startDate,0,4);
         grid.add(selectEndDate,1,3);
         grid.add(endDate,1,4);
-        grid.add(cancel,0,5);
+        grid.add(clear,0,5);
         grid.add(generate,1,5);
         grid.add(error,0,6);
         grid.add(note,1,6);
@@ -104,12 +104,12 @@ public class CustomReportView extends StackPane implements Design {
         this.generate = generate;
     }
 
-    public Button getCancel() {
-        return cancel;
+    public Button getClear() {
+        return clear;
     }
 
-    public void setCancel(Button cancel) {
-        this.cancel = cancel;
+    public void setClear(Button clear) {
+        this.clear = clear;
     }
 
     public DatePicker getEndDate() {

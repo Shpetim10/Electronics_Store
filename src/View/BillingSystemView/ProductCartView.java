@@ -21,7 +21,6 @@ public class ProductCartView extends VBox implements Design {
     private Label customerId=createAlignedBlackLabel("00000000");
     private Label loyaltyPoints=createAlignedBlackLabel("0");
     private Button clearCart=createGeneralButton("Clear Cart");
-    private Label errorMessage=createAlignedBlackBoldLabel("");
     private TableView productCartTable=createTableView();
     private Button removeItemButton=createGeneralButton("Remove Item");
     private TableColumn<ItemBought,Integer> quantityColumn;
@@ -50,15 +49,13 @@ public class ProductCartView extends VBox implements Design {
         Label productCartTitle=createAlignedGreenBoldLabel("Product Cart");
         searchBox.getSearchButton().setText("Add");
         headerBox.getChildren().addAll(productCartTitle,searchBox,clearCart);
-        errorMessage.setTextFill(Color.RED);
-        errorMessage.setAlignment(Pos.CENTER);
 
         //Table Pane for swiching between two tables
         tablePane.getChildren().add(productCartTable);
         inventoryTable.getTable().getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         inventoryTable.getTable().getColumns().remove(4);
         removeItemButton.setBorder(Border.stroke(Color.RED));
-        this.getChildren().addAll(title,todaySaleTitle,infoBox,headerBox,errorMessage,tablePane,removeItemButton);
+        this.getChildren().addAll(title,todaySaleTitle,infoBox,headerBox,tablePane,removeItemButton);
     }
 
     public GridPane createTodaySalesInfoPane(){
@@ -187,10 +184,6 @@ public class ProductCartView extends VBox implements Design {
 
     public Button getClearCart() {
         return clearCart;
-    }
-
-    public Label getErrorMessage() {
-        return errorMessage;
     }
 
     public TableView getProductCartTable() {
