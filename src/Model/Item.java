@@ -203,7 +203,7 @@ public class Item implements Serializable {
 //        this.image = image;
 //    }
 
-    public int getBarcode(Integer newValue) {
+    public int getBarcode() {
         return barcode.getValue();
     }
 

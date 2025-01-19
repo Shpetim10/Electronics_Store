@@ -2,6 +2,7 @@ package View;
 
 import Model.Item;
 import Model.SectorType;
+import static Model.FileHandler.getItemsOfInventory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -18,6 +19,7 @@ import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.LocalDateStringConverter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class InventoryManagementView extends GridPane implements Design {
     private final TableView<Item> table = new TableView<>();
@@ -105,12 +107,10 @@ public class InventoryManagementView extends GridPane implements Design {
 
     }
     private ObservableList<Item> getSampleData() {
-        return FXCollections.observableArrayList(
-                 new Item(1, "Laptop", SectorType.ELECTRONICS, 1200.00, 800.00, "TechSupplier", 10, "Dell",
-                        LocalDate.of(2024, 1, 10), 123456))
-                 ;
-
+        ArrayList<Item> inventory = getItemsOfInventory(); // Load from file
+        return FXCollections.observableArrayList(inventory); // Convert to ObservableList
     }
+
 
     public void setUpView(){
         this.setPadding(new Insets(10,10,10,10));

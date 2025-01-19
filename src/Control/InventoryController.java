@@ -1,6 +1,9 @@
 package Control;
 
 import Model.FileHandler;
+
+
+import static Model.FileHandler.deleteFromFile;
 import Model.SectorType;
 import View.InventoryManagementView;
 import Model.Item;
@@ -65,18 +68,22 @@ public class InventoryController {
         this.view.getQuantity().setOnEditCommit(e -> {
             Item item = e.getRowValue();
             item.setStockQuantity(e.getNewValue());
+            updateFile(item);
         });
         this.view.getLastrestockDate().setOnEditCommit(e -> {
             Item item = e.getRowValue();
             item.setLastRestockDate(e.getNewValue());
+            updateFile(item);
         });
         this.view.getBarcode().setOnEditCommit(e -> {
             Item item = e.getRowValue();
-            item.getBarcode(e.getNewValue());
+            item.setBarcode(e.getNewValue());
+            updateFile(item);
         });
         this.view.getSupplier().setOnEditCommit(e -> {
             Item item = e.getRowValue();
             item.setSupplier(e.getNewValue());
+            updateFile(item);
         });
 
         }
@@ -97,12 +104,15 @@ public class InventoryController {
         }
 
         this.view.getTable().getItems().removeAll(selectedItems);
-        // Call a method to delete from the file (if applicable)
-        //deleteFromFile(selectedItems);
+
+        deleteFromFile(selectedItems);
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Deleted successfully.");
         alert.setTitle("Delete Result");
         alert.show();
+    }
+    private void updateFile(Item updatedItem) {
+        FileHandler.updateItemInFile(updatedItem);  // Call to update the inventory file
     }
 
 

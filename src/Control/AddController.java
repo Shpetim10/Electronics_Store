@@ -25,26 +25,96 @@ public class AddController {
 
     public void handleAddProduct() {
         try {
-            int productCodeValue = Integer.parseInt(view.getProductCode().getText());
-            String productNameValue="";
-            if(Validator.validateProductName(view.getProductName().getText())){
-                productNameValue = view.getProductName().getText();
+            String productCodeText = view.getProductCode().getText();
+            if (!Validator.validatePositiveInteger(productCodeText)) {
+                showAlert(Alert.AlertType.WARNING, "Invalid Input", "Product Code must be a positive integer.");
+                return;
             }
-            else{
-                showAlert(Alert.AlertType.WARNING,"Invalid Input","Files.Product name does not conform format!\n Must start with capital leter and all letters!");
+            String barcodeText = view.getBarcode().getText();
+            if (!Validator.validatePositiveInteger(barcodeText)) {
+                showAlert(Alert.AlertType.WARNING, "Invalid Input", "Barcode must be a positive integer.");
+                return;
+            }
+            int barcodeValue = Integer.parseInt(barcodeText);
+            //Checking existing products
+            int productCodeValue = Integer.parseInt(productCodeText);
+            if (productExists(productCodeValue, barcodeValue)) {
+                showAlert(Alert.AlertType.WARNING, "Duplicate Product", "A product with this Product Code or Barcode already exists!");
+                return;
             }
 
-            SectorType sectorValue = SectorType.valueOf(view.getSector().getText().toUpperCase());
-            double sellingPriceValue = Double.parseDouble(view.getSellingPrice().getText());
-            double priceBoughtValue = Double.parseDouble(view.getPriceBought().getText());
+
+
+            String productNameValue = view.getProductName().getText();
+            if (!Validator.validateProductName(productNameValue)) {
+                showAlert(Alert.AlertType.WARNING, "Invalid Input", "Product Name must start with a capital letter and contain only letters.");
+                return;
+            }
+
+            if (view.getSector().getSelectionModel().getSelectedItem() == null) {
+                showAlert(Alert.AlertType.WARNING, "Invalid Input", "Please select a Sector.");
+                return;
+            }
+
+            if (view.getSector().getSelectionModel().getSelectedItem() == null) {
+                showAlert(Alert.AlertType.WARNING, "Invalid Input", "Please select a Sector.");
+                return;
+            }
+            SectorType sectorValue = SectorType.valueOf(view.getSector().getSelectionModel().getSelectedItem());
+
+
+            String sellingPriceText = view.getSellingPrice().getText();
+            if (!Validator.validatePositiveDouble(sellingPriceText)) {
+                showAlert(Alert.AlertType.WARNING, "Invalid Input", "Selling Price must be a positive number.");
+                return;
+            }
+            double sellingPriceValue = Double.parseDouble(sellingPriceText);
+
+
+            String priceBoughtText = view.getPriceBought().getText();
+            if (!Validator.validatePositiveDouble(priceBoughtText)) {
+                showAlert(Alert.AlertType.WARNING, "Invalid Input", "Price Bought must be a positive number.");
+                return;
+            }
+            double priceBoughtValue = Double.parseDouble(priceBoughtText);
+
             String supplier = view.getSupplier().getText();
-            String image=view.getImage().getText();
-//            String isDiscountedValue = String.valueOf(view.getIsDiscounted().getValue().equalsIgnoreCase("Yes"));
-//            double discountRateValue = (isDiscountedValue.equals("false"))? 0.0 : Double.parseDouble(view.getDiscountRate().getText());
-            int stockQuantityValue = Integer.parseInt(view.getStockQuantity().getText());
+            if (!Validator.validateSupplierName(supplier)) {
+                showAlert(Alert.AlertType.WARNING, "Invalid Input", "Supplier field cannot be empty.");
+                return;
+            }
+
+
+            String imagePath = view.getImage().getText();
+            if (!Validator.validateImageFile(imagePath)) {
+                showAlert(Alert.AlertType.WARNING, "Invalid Input", "Image must be a valid file (jpg, jpeg, png) and exist on disk.");
+                return;
+            }
+
+
+
+
+            String stockQuantityText = view.getStockQuantity().getText();
+            if (!Validator.validatePositiveInteger(stockQuantityText)) {
+                showAlert(Alert.AlertType.WARNING, "Invalid Input", "Stock Quantity must be a non-negative integer.");
+                return;
+            }
+
+            int stockQuantityValue = Integer.parseInt(stockQuantityText);
+
             String brandValue = view.getBrand().getText();
+            if (!Validator.validateSupplierName(brandValue)) {
+                showAlert(Alert.AlertType.WARNING, "Invalid Input", "Brand field cannot be empty.");
+                return;
+            }
+
             LocalDate lastRestockDateValue = view.getLastRestockDate().getValue();
-            int barcodeValue = Integer.parseInt(view.getBarcode().getText());
+            if (!Validator.validateLastRestockDate(lastRestockDateValue)) {
+                showAlert(Alert.AlertType.WARNING, "Invalid Input", "Last Restock Date cannot be in the future.");
+                return;
+            }
+
+
 
             Item newItem = new Item(
                     productCodeValue,
@@ -58,14 +128,13 @@ public class AddController {
                     lastRestockDateValue,
                     barcodeValue
 
-
             );
 
 
             view.getTable().getItems().add(newItem);
             writeProductToFile(newItem);
 
-            // Clear input fields in the view
+
             clearInputFields();
 
             // Show success message
@@ -85,30 +154,16 @@ public class AddController {
     public void clearInputFields() {
         view.getProductCode().clear();
         view.getProductName().clear();
-        view.getSector().clear();
-//        view.getDescription().clear();
+
         view.getSellingPrice().clear();
         view.getPriceBought().clear();
         view.getSupplier().clear();
-//        view.getIsDiscounted().setValue("No");
-//        view.getDiscountRate().clear();
         view.getStockQuantity().clear();
-//        view.getWeight().clear();
-//        view.getVolume().clear();
-//        view.getColor().clear();
         view.getBrand().clear();
-//        view.getIsDiscontinued().setValue("No");
-//        view.getIsAvailable().setValue("Yes");
-//        //
         view.getBarcode().clear();
         view.getNrOfReturns().clear();
-        //Shtoi dhe ne file
-    }
 
-//    public Date parseDate(String dateString) throws ParseException {
-//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-//        return formatter.parse(dateString);
-//    }
+    }
 
     public void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
@@ -116,6 +171,14 @@ public class AddController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    private boolean productExists(int productCode, int barcode) {
+        for (Item item : view.getTable().getItems()) {
+            if (item.getProductId() == productCode || item.getBarcode() == barcode) {
+                return true; // Product already exists
+            }
+        }
+        return false;
     }
 
 }

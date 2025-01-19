@@ -1,6 +1,8 @@
 package View;
 
 import Model.Item;
+import Model.SectorType;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -19,7 +21,7 @@ public class AddView implements Design {
     private CheckBox select;
     private TextField productCode;
     private TextField productName;
-    private TextField sector;
+    private ComboBox<String> sector;
    // private TextField description;
     private TextField sellingPrice;
     private TextField priceBought;
@@ -27,9 +29,7 @@ public class AddView implements Design {
    // private ComboBox<String> isDiscounted;
    // private TextField discountRate;
     private TextField stockQuantity;
-//    private TextField weight;
-//    private TextField volume;
-//    private TextField color;
+
     private TextField brand;
 //    private ComboBox<String> isDiscontinued;
 //    private ComboBox<String> isAvailable;
@@ -46,7 +46,18 @@ public class AddView implements Design {
         this.select=createCheckBox();
         this.productCode = createTextField("Product Code");
         this.productName = createTextField("Product Name");
-        this.sector = createTextField("Sector");
+        this.sector = createComboBox("Sector");
+        this.sector.setItems(FXCollections.observableArrayList(
+                SectorType.ELECTRONICS.toString(),
+                SectorType.ACCESSORIES.toString(),
+                SectorType.HOME_APPLIANCES.toString(),
+                SectorType.MOBILE_DEVICES.toString(),
+                SectorType.CAMERAS.toString(),
+                SectorType.COMPUTERS.toString(),
+                SectorType.GAMING.toString(),
+                SectorType.KITCHEN_ELECTRONICS.toString(),
+                SectorType.SMART_HOME.toString()
+        ));
         //this.description = createTextField("Description");
         this.sellingPrice = createTextField("Selling Price");
         this.priceBought = createTextField("Price Bought");
@@ -171,11 +182,11 @@ public class AddView implements Design {
         this.productName = productName;
     }
 
-    public TextField getSector() {
+    public ComboBox<String> getSector() {
         return sector;
     }
 
-    public void setSector(TextField sector) {
+    public void setSector(ComboBox<String> sector) {
         this.sector = sector;
     }
 
