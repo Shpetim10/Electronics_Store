@@ -15,41 +15,37 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class MainUser extends Application {
-    public static Stage primaryStage;
     public static void main(String[] args) {
         Application.launch();
     }
 
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
-        this.primaryStage=primaryStage;
-        int id = 1;
-        String firstName = "John";
-        String lastName = "Doe";
-        String username = "jdoe";
-        String password = "password123";
-        String email = "jdoe@example.com";
-        String phoneNumber = "123-456-7890";
-        LocalDate dateEmployed = LocalDate.now();
-        EmployeeRole role = EmployeeRole.CASHIER;
-        ArrayList<Permission> permissions = new ArrayList<>();
-        boolean isActive = true;
-        Cashier cashier = new Cashier(id, firstName, lastName, username, password, email, phoneNumber, dateEmployed, role, permissions, isActive);
-        cashier.setSector(SectorType.ELECTRONICS);
-
-        Shift activeShift = new Shift(1, cashier, LocalDate.now(), LocalTime.of(9, 0), LocalTime.of(17, 0));
-        cashier.getShifts().add(activeShift);
-        activeShift.startShift();
-
-        cashier.getPermissions().add(Permission.BILLING_SYSTEM);
-        cashier.getPermissions().add(Permission.REPORT_GENERATOR);
-        cashier.getPermissions().add(Permission.VIEW_ALL_BILLS);
-        cashier.getPermissions().add(Permission.VIEW_ALL_REPORTS);
-        FileHandler.writeCashierToFile(cashier);
-        System.out.println(cashier);
-        System.out.println(cashier.getShifts().size());
-        System.out.println(cashier.getActiveShift());
-
+//        this.primaryStage=primaryStage;
+//        int id = 1;
+//        String firstName = "Shpetim";
+//        String lastName = "Shabanaj";
+//        String username = "Shpetim10";
+//        String password = "password123";
+//        String email = "shabanajshpetim@gmail.com";
+//        String phoneNumber = "0675466333";
+//        LocalDate dateEmployed = LocalDate.now();
+//        EmployeeRole role = EmployeeRole.CASHIER;
+//        ArrayList<Permission> permissions = new ArrayList<>();
+//        boolean isActive = true;
+//        Cashier cashier = new Cashier(id, firstName, lastName, username, password, email, phoneNumber, dateEmployed, role, permissions, isActive);
+//        cashier.setSector(SectorType.ELECTRONICS);
+//
+//        Shift activeShift = new Shift(1, cashier, LocalDate.now(), LocalTime.of(9, 0), LocalTime.of(17, 0));
+//        cashier.getShifts().add(activeShift);
+//        activeShift.startShift();
+//
+//        cashier.getPermissions().add(Permission.BILLING_SYSTEM);
+//        cashier.getPermissions().add(Permission.REPORT_GENERATOR);
+//        cashier.getPermissions().add(Permission.VIEW_ALL_BILLS);
+        //cashier.getPermissions().add(Permission.VIEW_ALL_REPORTS);
+        //FileHandler.writeCashierToFile(cashier);
+        Cashier cashier=Database.getDatabase().getCashiers().getFirst();
         UserMainController controller=new UserMainController(cashier);
         Scene scene=new Scene(controller.getView());
 
@@ -59,7 +55,4 @@ public class MainUser extends Application {
         primaryStage.show();
     }
 
-    public static void changeScene(Scene scene){
-        primaryStage.setScene(scene);
-    }
 }

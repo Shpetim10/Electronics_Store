@@ -7,6 +7,7 @@ import Model.*;
 import View.BillingSystemView.BillingSystemView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
 
 
@@ -18,7 +19,7 @@ public class BillingSystemController implements Alertable{
     private Cashier cashier;
     private Bill bill;
     private ObservableList<ItemBought> itemsBought = FXCollections.observableArrayList();
-    private ObservableList<Item> inventory=view.getProductCartBox().getInventoryTable().getTable().getItems();
+    private ObservableList<Item> inventory=FXCollections.observableArrayList(Database.getDatabase().getInventory());
 
     public BillingSystemController(Cashier cashier) {
         try {
@@ -55,7 +56,6 @@ public class BillingSystemController implements Alertable{
         }
 
         //Set Labels
-        view.getProductCartBox().getErrorMessage().setText("");
         setUpTodaySales();
         view.getCheckOutPane().getGeneratedDateTime().setText(
                 bill.getDateGenerated().getDayOfMonth() + " " +
@@ -77,14 +77,6 @@ public class BillingSystemController implements Alertable{
         view.getCheckOutPane().getTotalAmount().setText(String.valueOf(bill.getTotalOfBill()));
         view.getCheckOutPane().getTaxAmount().setText(String.valueOf(bill.getTotalTaxOfBill()));
         view.getCheckOutPane().getNoTaxTotal().setText(String.valueOf(bill.getNoTaxTotal()));
-    }
-
-    public void clearMessageLabel() {
-        view.getProductCartBox().getErrorMessage().setText("");
-    }
-
-    public void displayMessage(String message) {
-        view.getProductCartBox().getErrorMessage().setText(message);
     }
 
     public void clearAllFields() {
@@ -113,7 +105,6 @@ public class BillingSystemController implements Alertable{
     public void setCustomerInfoButtonListener() {
         view.getCheckOutPane().getCustomerInfoButton().setOnAction(
                 e -> {
-                    clearMessageLabel();
                     view.getCheckOutPane().getTemporaryPane().getChildren().clear();
                     view.getCheckOutPane().getTemporaryPane().setCenter(view.getCheckOutPane().createCustomerBox());
                 }
@@ -125,11 +116,10 @@ public class BillingSystemController implements Alertable{
         view.getCheckOutPane().getCreditCardButton().setOnAction(
                 e -> {
                     if (view.getCheckOutPane().getPayByCreditCardRb().isSelected()) {
-                        clearMessageLabel();
                         view.getCheckOutPane().getTemporaryPane().getChildren().clear();
                         view.getCheckOutPane().getTemporaryPane().setCenter(view.getCheckOutPane().createCreditCardBox());
                     } else {
-                        view.getProductCartBox().getErrorMessage().setText("Please select Credit Card as payment method!");
+                        showAlert(Alert.AlertType.WARNING,"Wrong Payment Method!","Please select Credit Card as payment method!");
                     }
                 }
         );
@@ -139,11 +129,10 @@ public class BillingSystemController implements Alertable{
         view.getCheckOutPane().getCalculateCashButton().setOnAction(
                 e -> {
                     if (view.getCheckOutPane().getPayCashRb().isSelected()) {
-                        clearMessageLabel();
                         view.getCheckOutPane().getTemporaryPane().getChildren().clear();
                         view.getCheckOutPane().getTemporaryPane().setCenter(view.getCheckOutPane().createCashAndChangeBox());
                     } else {
-                        view.getProductCartBox().getErrorMessage().setText("Please select pay cash as payment method!");
+                        showAlert(Alert.AlertType.WARNING,"Wrong Payment Method!","Please select pay cash as payment method!");
                     }
                 }
         );
@@ -152,7 +141,6 @@ public class BillingSystemController implements Alertable{
     public void setPayCashRbListener() {
         view.getCheckOutPane().getPayCashRb().setOnAction(
                 e -> {
-                    clearMessageLabel();
                     view.getCheckOutPane().getPayCashRb().setSelected(true);
                     this.bill.setPaymentMethod(PaymentMethod.CASH);
                 }
@@ -162,7 +150,6 @@ public class BillingSystemController implements Alertable{
     public void setPayByCreditCardRbListener() {
         view.getCheckOutPane().getPayByCreditCardRb().setOnAction(
                 e -> {
-                    clearMessageLabel();
                     view.getCheckOutPane().getPayByCreditCardRb().setSelected(true);
                     this.bill.setPaymentMethod(PaymentMethod.CARD);
                 }
@@ -172,7 +159,6 @@ public class BillingSystemController implements Alertable{
     public void setAddButtonListener() {
         // Get the search button
         view.getProductCartBox().getSearchBox().getSearchButton().setOnAction(e -> {
-            clearMessageLabel();
             try {
                 Item selectedItem = view.getProductCartBox().getInventoryTable().getTable().getSelectionModel().getSelectedItem();
                 if (selectedItem == null) {
@@ -195,12 +181,12 @@ public class BillingSystemController implements Alertable{
                     view.getProductCartBox().getTablePane().getChildren().clear();
                     view.getProductCartBox().getTablePane().getChildren().add(view.getProductCartBox().getProductCartTable());
                 } else {
-                    view.getProductCartBox().getErrorMessage().setText("This item is already added to the cart!");
+                    showAlert(Alert.AlertType.WARNING,"Wrong Payment Method!","This item is already added to the cart!");
                 }
             } catch (OutOfStockException ex) {
-                view.getProductCartBox().getErrorMessage().setText(ex.getMessage());
+                showAlert(Alert.AlertType.WARNING,"Inventory Alert!",ex.getMessage());
             } catch (NullPointerException ex) {
-                view.getProductCartBox().getErrorMessage().setText(ex.getMessage());
+                showAlert(Alert.AlertType.WARNING,"Error!","Something wrong happened!");
             }
         });
     }
@@ -215,7 +201,6 @@ public class BillingSystemController implements Alertable{
     public void setCollectedCashListener() {
         view.getCheckOutPane().getCollectedMoneyTf().setOnAction(
                 e -> {
-                    clearMessageLabel();
                     try {
                         double moneyCollected = Double.parseDouble(view.getCheckOutPane().getCollectedMoneyTf().getText());
                         if (moneyCollected < 0) {
@@ -231,9 +216,9 @@ public class BillingSystemController implements Alertable{
                         this.bill.setMoneyCollected(Double.parseDouble(view.getCheckOutPane().getCollectedMoneyTf().getText()));
                         this.bill.setChange(Double.parseDouble(view.getCheckOutPane().getChangeMoney().getText()));
                     } catch (InvalidPaymentArgumentsException ex) {
-                        view.getProductCartBox().getErrorMessage().setText(ex.getMessage());
+                        showAlert(Alert.AlertType.WARNING,"Invalid Payment!",ex.getMessage());
                     } catch (NumberFormatException ex) {
-                        view.getProductCartBox().getErrorMessage().setText("Invalid input entered in cash field!");
+                        showAlert(Alert.AlertType.WARNING,"Wrong Input!","Invalid input entered in cash field!");
                     }
                 }
         );
@@ -242,40 +227,39 @@ public class BillingSystemController implements Alertable{
     public void setCreditCardSaveListener() {
         view.getCheckOutPane().getSaveCreditCard().setOnAction(
                 e -> {
-                    clearMessageLabel();
                     String temp;
                     boolean allValid = true;
 
                     if (Validator.validateCreditCardName(temp = view.getCheckOutPane().getCreditCardName().getText())) {
                         this.bill.setCardName(temp);
                     } else {
-                        displayMessage("Credit card name is set incorrectly!");
+                        showAlert(Alert.AlertType.WARNING,"Wrong Payment Credentials!","Credit card name is set incorrectly!");
                         allValid = false;
                     }
 
                     if (Validator.validateCreditCardNumber(temp = view.getCheckOutPane().getCreditCardNumber().getText())) {
                         this.bill.setCreditCardNr(temp);
                     } else {
-                        displayMessage("Credit card number is set incorrectly!");
+                        showAlert(Alert.AlertType.WARNING,"Wrong Payment Credentials!","Credit card number is set incorrectly!");
                         allValid = false;
                     }
 
                     if (Validator.validateExpirationDateFormat(temp = view.getCheckOutPane().getCreditCardExpDate().getText())) {
                         this.bill.setExpDate(temp);
                     } else {
-                        displayMessage("Credit card expiration date is set incorrectly!");
+                        showAlert(Alert.AlertType.WARNING,"Wrong Payment Credentials!","Credit card expiration date is set incorrectly!");
                         allValid = false;
                     }
 
                     if (Validator.validateCreditCardCvv(temp = view.getCheckOutPane().getCreditCardCVV().getText())) {
                         this.bill.setCvv(temp);
                     } else {
-                        displayMessage("Credit card cvv does not conform to its format!");
+                        showAlert(Alert.AlertType.WARNING,"Wrong Payment Credentials!","Credit card cvv does not conform to its format!");
                         allValid = false;
                     }
 
                     if (allValid) {
-                        displayMessage("Credit Card data saved successfully!");
+                        showAlert(Alert.AlertType.WARNING,"Wrong Payment Credentials!","Credit Card data saved successfully!");
                     }
 
                 }
@@ -286,23 +270,22 @@ public class BillingSystemController implements Alertable{
     public void setCustomerInfoListener() {
         view.getCheckOutPane().getCustomerIdTf().setOnAction(
                 e -> {
-                    clearMessageLabel();
                     String customerId = view.getCheckOutPane().getCustomerIdTf().getText();
                     if (Validator.validateCustomerId(customerId)) {
                         this.bill.setCustomerIdCard(customerId);
                         int index = this.bill.validateCustomerExistance(customerId);
                         if (index == -1) { //Value returned for non existent
-                            this.bill.customers.add(customerId);
-                            this.bill.loyaltyPoints.add(0);
-                            index = this.bill.customers.size() - 1;
-                            displayMessage("A new customer was registered to customer loyalty program!\nHe will get his first loyalty points after bill is generated.");
+                            Database.getDatabase().getCustomers().add(customerId);
+                            Database.getDatabase().getLoyaltyPoints().add(0);
+                            index = Database.getDatabase().getCustomers().size() - 1;
+                            showAlert(Alert.AlertType.INFORMATION,"New Customer!","A new customer was registered to customer loyalty program!\nHe will get his first loyalty points after bill is generated.");
                         }
                         view.getProductCartBox().getCustomerId().setText(customerId);
-                        view.getProductCartBox().getLoyaltyPoints().setText(String.valueOf(this.bill.loyaltyPoints.get(index)));
-                        view.getCheckOutPane().getLoyaltyPoints().setText(String.valueOf(this.bill.loyaltyPoints.get(index)));
+                        view.getProductCartBox().getLoyaltyPoints().setText(String.valueOf(Database.getDatabase().getLoyaltyPoints().get(index)));
+                        view.getCheckOutPane().getLoyaltyPoints().setText(String.valueOf(Database.getDatabase().getCustomers().get(index)));
                         view.getCheckOutPane().getBillLoyalyPoints().setText(String.valueOf(this.bill.calulateLoyaltyPoints()));
                     } else {
-                        displayMessage("The customer id povided is incorrect! ");
+                        showAlert(Alert.AlertType.WARNING,"Wrong Customer Id!","The customer id povided is incorrect! ");
                     }
                 }
         );
@@ -338,9 +321,9 @@ public class BillingSystemController implements Alertable{
                 setUpBillPricingData();
 
             } catch (IllegalArgumentException ex) {
-                displayMessage(ex.getMessage());
+                showAlert(Alert.AlertType.WARNING,"Wrong Input!",ex.getMessage());
             } catch (InsufficientStockException ex) {
-                displayMessage("Insufficient stock for required quantity!");
+                showAlert(Alert.AlertType.WARNING,"Wrong Payment Credentials!","Insufficient stock for required quantity!");
             }
         }
         );
@@ -348,7 +331,6 @@ public class BillingSystemController implements Alertable{
 
     public void setDeleteRowButtonListener() {
         view.getProductCartBox().getRemoveItemButton().setOnAction(e -> {
-            clearMessageLabel();
             // Get the selected items from the product cart table
             ObservableList<ItemBought> selectedItems = view.getProductCartBox()
                     .getProductCartTable()
@@ -356,7 +338,7 @@ public class BillingSystemController implements Alertable{
                     .getSelectedItems();
 
             if (selectedItems.isEmpty()) {
-                view.getProductCartBox().getErrorMessage().setText("No item selected for removal.");
+                showAlert(Alert.AlertType.WARNING,"No Item Selected!","No item selected for removal.");
                 return;
             }
             // Update stock and remove selected items
@@ -376,7 +358,6 @@ public class BillingSystemController implements Alertable{
     public void setClearCartButtonListener(){
         view.getProductCartBox().getClearCart().setOnAction(
                 e->{
-                    clearMessageLabel();
                     itemsBought.clear();
                     this.bill.clearCart();
                     view.getProductCartBox().getProductCartTable().getItems().clear();
@@ -399,7 +380,6 @@ public class BillingSystemController implements Alertable{
     public void setGenerateBillButtonListener(){
         view.getCheckOutPane().getGenerateBillButton().setOnAction(
                 e->{
-                    clearMessageLabel();
                     if(!itemsBought.isEmpty()) {
                         //Check if payment method is empty
                         if(
@@ -416,33 +396,34 @@ public class BillingSystemController implements Alertable{
                                this.bill.getCustomerIdCard()!=null
                             ){
                                 setUpTodaySales();
-                                int index=this.bill.customers.indexOf(this.bill.getCustomerIdCard());
-                                int currentPoints=this.bill.loyaltyPoints.get(index);
-                                this.bill.loyaltyPoints.set(index,currentPoints+this.bill.calulateLoyaltyPoints());
+                                int index=Database.getDatabase().getCustomers().indexOf(this.bill.getCustomerIdCard());
+                                int currentPoints=Database.getDatabase().getLoyaltyPoints().get(index);
+                                Database.getDatabase().getLoyaltyPoints().set(index,currentPoints+this.bill.calulateLoyaltyPoints());
 
                                 try{
                                     this.bill.generateBill();
+                                    this.cashier.getActiveShift().getBills().add(bill);
+                                    Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
+                                    Database.getDatabase().updateCustomers(Database.getDatabase().getCustomers());
+                                    Database.getDatabase().updateInventory(Database.getDatabase().getInventory());
+                                    Database.getDatabase().updateLoyaltyPoints(Database.getDatabase().getLoyaltyPoints());
                                 }
                                 catch(FileNotFoundException ex){
-                                    displayMessage("Some error occured in file creation!");
+                                    showAlert(Alert.AlertType.ERROR,"Error","Some error occured in file creation!");
                                 }
-
-
-                                this.cashier.getActiveShift().getBills().add(this.bill);
-                                displayMessage("Bill Generated succesfully!");
+                                showAlert(Alert.AlertType.INFORMATION,"New Bill created!","Bill Generated succesfully!");
                             }
                             else{
-                                displayMessage("Please set customer personal Id!");
+                                showAlert(Alert.AlertType.WARNING,"Customer Id is not filled!","Please set customer personal Id!");
                             }
-
                         }
                         else{
-                            displayMessage("Please set Payment method!");
+                            showAlert(Alert.AlertType.WARNING,"Wrong Payment Informationials!","Please set Payment method!");
                         }
 
                     }
                     else{
-                        displayMessage("Files.Product card is empty!");
+                        showAlert(Alert.AlertType.WARNING,"Empty Cart!","Product card is empty!");
                     }
                 }
         );

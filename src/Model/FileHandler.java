@@ -131,6 +131,17 @@ public class FileHandler {
         return inventory;
 }
 
+    public static boolean updateInventory(ArrayList<Item> inventory){
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(PRODUCT_FILE))) {
+            for (Item item : inventory) {
+                outputStream.writeObject(item);
+            }
+            return true;
+        } catch (IOException ex) {
+            return false;
+        }
+    }
+
     public static ArrayList<String> getCustomers() {
         ArrayList<String> customers=new ArrayList<>();
         try(ObjectInputStream reader=new ObjectInputStream(new FileInputStream(CUSTOMERS_FILE))){
@@ -219,6 +230,17 @@ public class FileHandler {
         return cashiers;
     }
 
+    public static boolean updateCashiers(ArrayList<Cashier> cashiers){
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(CASHIERS_FILE))) {
+            for (Cashier cashier : cashiers) {
+                outputStream.writeObject(cashier);
+            }
+            return true;
+        } catch (IOException ex) {
+            return false;
+        }
+    }
+
     public static boolean writeCashierToFile(Cashier cashier){
         try(FileOutputStream outputStream=new FileOutputStream(CASHIERS_FILE,true)){
             ObjectOutputStream writer;
@@ -236,7 +258,7 @@ public class FileHandler {
         }
         return false;
     }
-    public boolean writeCustomersToFile(ArrayList<String> customers){
+    public static boolean writeCustomersToFile(ArrayList<String> customers){
         try (FileOutputStream outputStream = new FileOutputStream(CUSTOMERS_FILE, false)) {
             ObjectOutputStream writer=new ObjectOutputStream(outputStream);
             writer.writeObject(customers);
@@ -263,7 +285,7 @@ public class FileHandler {
         }
         return loyaltyPoints;
     }
-    public boolean writeLoyaltyPointsToFile(ArrayList<String> points){
+    public static boolean writeLoyaltyPointsToFile(ArrayList<Integer> points){
         try (FileOutputStream outputStream = new FileOutputStream(LOYALTY_POINTS, false)) {
             ObjectOutputStream writer=new ObjectOutputStream(outputStream);
             writer.writeObject(points);

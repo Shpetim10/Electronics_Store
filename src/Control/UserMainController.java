@@ -118,7 +118,7 @@ public class UserMainController {
 
             // Create a new Scene with the LogInView
             Scene loginScene = new Scene(logIn, 800, 600);
-            MainUser.changeScene(loginScene);
+            //MainUser.changeScene(loginScene);
         });
     }
 
