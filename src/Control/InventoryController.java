@@ -1,7 +1,9 @@
 package Control;
 
 
+import Database.Database;
 import Database.FileHandler;
+import Model.RestockTransaction;
 import Model.SectorType;
 import View.InventoryManagementView;
 import Model.Item;
@@ -14,11 +16,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class InventoryController {
 
     private InventoryManagementView view;
-
+    private ArrayList<Item> inventory= Database.getDatabase().getInventory();
 
     public InventoryController(InventoryManagementView view) {
         this.view = view;
@@ -26,11 +29,13 @@ public class InventoryController {
         setButtonActions();
 
     }
+
+
     private void setEditListeners() {
         this.view.getProductId().setOnEditCommit(e -> {
-            Item item = e.getRowValue();
-            item.setProductId(e.getNewValue());
-            updateFile(item);
+            Item item = e.getRowValue();//Kto jan ne rregull vetem ndrysho ate te file.. ja bjm nje prove
+            item.setProductId(e.getNewValue()); //Kjo e ndryshon elementet e arrayt kto tjerat ti le ksh u?
+            Database.getDatabase().updateInventory(inventory);//Ne vend te ksaj thir metoden qe i shkruan filet nga e para
         });
         this.view.getProductName().setOnEditCommit(e -> {
             Item item = e.getRowValue();
@@ -65,19 +70,23 @@ public class InventoryController {
         this.view.getSupplier().setOnEditCommit(e -> {
             Item item = e.getRowValue();
             item.setSupplier(e.getNewValue());
-            updateFile(item);
+            updateFile(item);//a mblidhemi neser te shkolla punojme pak ok
         });
 
         this.view.getQuantity().setOnEditCommit(e -> {
             Item item = e.getRowValue();
+            int oldQuantity=item.getStockQuantity();
             item.setStockQuantity(e.getNewValue());
             updateFile(item);
+            RestockTransaction restockTransaction=new RestockTransaction(item,e.getNewValue()-oldQuantity);
+            FileHandler.writeTransactionToFile(restockTransaction);
+            item.setLastRestockDate(LocalDate.now()); //Ta besh automatikisht
         });
-        this.view.getLastrestockDate().setOnEditCommit(e -> {
-            Item item = e.getRowValue();
-            item.setLastRestockDate(e.getNewValue());
-            updateFile(item);
-        });
+//        this.view.getLastrestockDate().setOnEditCommit(e -> {
+//            Item item = e.getRowValue();
+//            item.setLastRestockDate(e.getNewValue());
+//            updateFile(item);
+//        });
         this.view.getBarcode().setOnEditCommit(e -> {
             Item item = e.getRowValue();
             item.setBarcode(e.getNewValue());

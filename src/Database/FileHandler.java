@@ -57,7 +57,7 @@ public class FileHandler {
     public static boolean updateInventory(ArrayList<Item> inventory){
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(PRODUCT_FILE))) {
             for (Item item : inventory) {
-                outputStream.writeObject(item);
+                outputStream.writeObject(item);//.kjopo po kjo merr argument arraylist
             }
             return true;
         } catch (IOException ex) {
@@ -167,7 +167,7 @@ public class FileHandler {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(CASHIERS_FILE))) {
             for (Cashier cashier : cashiers) {
                 outputStream.writeObject(cashier);
-            }
+            }//Do ti shkruash nga e para
             return true;
         } catch (IOException ex) {
             return false;
@@ -360,8 +360,7 @@ public class FileHandler {
                 inventory.set(i, updatedItem);  // Update the item
                 break;
             }
-        }
-
+        }//Sben kjo dmth se un i kam be thirrja ksaj metode ktu
         // Write the updated inventory back to the file
         try (ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(PRODUCT_FILE))) {
             for (Item item : inventory) {

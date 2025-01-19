@@ -444,7 +444,6 @@ public class BillingSystemController implements Alertable{
                 }
         );
     }
-
     public void setSwitchTableListener(){
         view.getProductCartBox().getSearchBox().getSearchField().setOnMouseClicked(
                 e->{

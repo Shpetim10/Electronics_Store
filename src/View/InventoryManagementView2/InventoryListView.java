@@ -11,7 +11,7 @@ public class InventoryListView implements Design {
     private double sellingPrice;
     private String brand;
     private CheckBox selected; // This will be used for the CheckBox selection state
-
+//kjo esht  kot
     public InventoryListView(int id, String name, int quantity, double costPrice, double sellingPrice, String brand) {
         this.id = id;
         this.name = name;

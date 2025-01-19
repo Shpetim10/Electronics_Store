@@ -2,11 +2,15 @@ package Model;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
-
-public class Supplier {
-    private SimpleIntegerProperty supplierId;
-    private SimpleStringProperty companyName;
+//ca ben kjo serialazable?Kjo tregon qe objekti mund te shkruhet ne fileok//Dale te bej dhe nje gje tjeter qe me duhet
+public class Supplier implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 5454984158528430148L;
+    private transient SimpleIntegerProperty supplierId;
+    private transient  SimpleStringProperty companyName;
     private SimpleStringProperty contactName;
     private SimpleStringProperty email;
     private SimpleStringProperty phoneNumber;

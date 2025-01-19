@@ -1,5 +1,6 @@
 package View;
 
+import Database.Database;
 import Database.FileHandler;
 import Model.Item;
 import Model.SectorType;
@@ -85,7 +86,7 @@ public class InventoryManagementView extends GridPane implements Design {
 
         quantity = new TableColumn<>("Quantity");
         quantity.setMinWidth(100);
-        quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        quantity.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
         quantity.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
 
         brand = new TableColumn<>("Brand");
@@ -104,10 +105,10 @@ public class InventoryManagementView extends GridPane implements Design {
 
         table.setItems(getSampleData());
         setUpView();
-
+// beji commit e ta shofim neser
     }
     private ObservableList<Item> getSampleData() {
-        ArrayList<Item> inventory = FileHandler.getItemsOfInventory(); // Load from file
+        ArrayList<Item> inventory = Database.getDatabase().getInventory(); // Load from file
         return FXCollections.observableArrayList(inventory); // Convert to ObservableList
     }
 
