@@ -2,32 +2,26 @@ package View;
 
 import Model.Item;
 import Model.SectorType;
-import Model.Supplier;
-import View.Design;
-import View.SearchBoxPane;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
-import java.util.Date;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Add_EditView implements Design {
+public class AddView implements Design {
     SearchBoxPane search=new SearchBoxPane();
 
     private CheckBox select;
     private TextField productCode;
     private TextField productName;
-    private TextField sector;
+    private ComboBox<String> sector;
    // private TextField description;
     private TextField sellingPrice;
     private TextField priceBought;
@@ -35,9 +29,7 @@ public class Add_EditView implements Design {
    // private ComboBox<String> isDiscounted;
    // private TextField discountRate;
     private TextField stockQuantity;
-//    private TextField weight;
-//    private TextField volume;
-//    private TextField color;
+
     private TextField brand;
 //    private ComboBox<String> isDiscontinued;
 //    private ComboBox<String> isAvailable;
@@ -50,11 +42,22 @@ public class Add_EditView implements Design {
     private TextField image;
 
 
-    public Add_EditView() {
+    public AddView() {
         this.select=createCheckBox();
-        this.productCode = createTextField("Product Id");
+        this.productCode = createTextField("Product Code");
         this.productName = createTextField("Product Name");
-        this.sector = createTextField("Sector");
+        this.sector = createComboBox("Sector");
+        this.sector.setItems(FXCollections.observableArrayList(
+                SectorType.ELECTRONICS.toString(),
+                SectorType.ACCESSORIES.toString(),
+                SectorType.HOME_APPLIANCES.toString(),
+                SectorType.MOBILE_DEVICES.toString(),
+                SectorType.CAMERAS.toString(),
+                SectorType.COMPUTERS.toString(),
+                SectorType.GAMING.toString(),
+                SectorType.KITCHEN_ELECTRONICS.toString(),
+                SectorType.SMART_HOME.toString()
+        ));
         //this.description = createTextField("Description");
         this.sellingPrice = createTextField("Selling Price");
         this.priceBought = createTextField("Price Bought");
@@ -95,14 +98,15 @@ public class Add_EditView implements Design {
 
        GridPane grid=new GridPane();
        grid.setVgap(25);
-       grid.setHgap(25);
+      grid.setHgap(25);
+
 
 
         grid.add(createAlignedGreenBoldLabel("Barcode: ", 100), 0, 0);
         grid.add(barcode, 1, 0);
-        grid.add(createAlignedGreenBoldLabel("Product Code: ", 150), 2, 0);
+        grid.add(createAlignedGreenBoldLabel("Files.Product Code: ", 150), 2, 0);
         grid.add(productCode, 3, 0);
-        grid.add(createAlignedGreenBoldLabel("Product Name: ", 150), 4, 0);
+        grid.add(createAlignedGreenBoldLabel("Files.Product Name: ", 150), 4, 0);
         grid.add(productName, 5, 0);
 
         grid.add(createAlignedGreenBoldLabel("Brand: ", 100), 0, 1);
@@ -116,7 +120,7 @@ public class Add_EditView implements Design {
         grid.add(priceBought, 1, 2);
         grid.add(createAlignedGreenBoldLabel("Selling Price: ", 150), 2, 2);
         grid.add(sellingPrice, 3, 2);
-        grid.add(createAlignedGreenBoldLabel("Quantity: ", 100), 4, 2);
+        grid.add(createAlignedGreenBoldLabel(" Quantity: ", 100), 4, 2);
         grid.add(stockQuantity, 5, 2);
 
         grid.add(createAlignedGreenBoldLabel("Last Restock Date: ", 200), 0, 3);
@@ -178,11 +182,11 @@ public class Add_EditView implements Design {
         this.productName = productName;
     }
 
-    public TextField getSector() {
+    public ComboBox<String> getSector() {
         return sector;
     }
 
-    public void setSector(TextField sector) {
+    public void setSector(ComboBox<String> sector) {
         this.sector = sector;
     }
 

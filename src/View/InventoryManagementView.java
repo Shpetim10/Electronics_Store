@@ -2,6 +2,7 @@ package View;
 
 import Model.Item;
 import Model.SectorType;
+import static Model.FileHandler.getItemsOfInventory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -18,6 +19,7 @@ import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.LocalDateStringConverter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class InventoryManagementView extends GridPane implements Design {
     private final TableView<Item> table = new TableView<>();
@@ -105,8 +107,10 @@ public class InventoryManagementView extends GridPane implements Design {
 
     }
     private ObservableList<Item> getSampleData() {
-        return FXCollections.observableArrayList();
+        ArrayList<Item> inventory = getItemsOfInventory(); // Load from file
+        return FXCollections.observableArrayList(inventory); // Convert to ObservableList
     }
+
 
     public void setUpView(){
         this.setPadding(new Insets(10,10,10,10));
@@ -177,13 +181,13 @@ public class InventoryManagementView extends GridPane implements Design {
 //        table.setPrefWidth(400);
 //        table.setStyle("-fx-background-color:white ;"+ "-fx-border-radius:10;" + "-fx-border-color:yellowgreen;");
 //        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-//        // Database.Files.Product Code Column
-//        TableColumn<Item, Integer> idColumn = new TableColumn<>("Database.Files.Product Code");
+//        // Files.Product Code Column
+//        TableColumn<Item, Integer> idColumn = new TableColumn<>("Files.Product Code");
 //        idColumn.setCellValueFactory(new PropertyValueFactory<>("productId"));
 //        idColumn.setMaxWidth(100);
 //
-//        // Database.Files.Product Name Column
-//        TableColumn<Item, String> nameColumn = new TableColumn<>("Database.Files.Product Name");
+//        // Files.Product Name Column
+//        TableColumn<Item, String> nameColumn = new TableColumn<>("Files.Product Name");
 //        nameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
 //        nameColumn.setMaxWidth(150);
 //
@@ -270,7 +274,7 @@ public class InventoryManagementView extends GridPane implements Design {
 //        this.refresh = createGeneralButton("Refresh");
 //        this.restock = createGeneralButton("Restock");
 //        this.edit = createGeneralButton("Edit");
-//        this.add = createGeneralButton("Add Database.Files.Product");
+//        this.add = createGeneralButton("Add Files.Product");
 //        this.delete = createGeneralButton("Delete");
 //        this.clear = createGeneralButton("Clear");
 //        this.search = createComboBox("Select");
@@ -283,13 +287,13 @@ public class InventoryManagementView extends GridPane implements Design {
 //        table.setPrefWidth(400);
 //        table.setStyle("-fx-background-color:white ;"+ "-fx-border-radius:10;" + "-fx-border-color:yellowgreen;");
 //        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-//        // Database.Files.Product Code Column
-//        TableColumn<Item, Integer> idColumn = new TableColumn<>("Database.Files.Product Code");
+//        // Files.Product Code Column
+//        TableColumn<Item, Integer> idColumn = new TableColumn<>("Files.Product Code");
 //        idColumn.setCellValueFactory(new PropertyValueFactory<>("productId"));
 //        idColumn.setMaxWidth(100);
 //
-//        // Database.Files.Product Name Column
-//        TableColumn<Item, String> nameColumn = new TableColumn<>("Database.Files.Product Name");
+//        // Files.Product Name Column
+//        TableColumn<Item, String> nameColumn = new TableColumn<>("Files.Product Name");
 //        nameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
 //        nameColumn.setMaxWidth(150);
 //

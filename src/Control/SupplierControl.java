@@ -1,11 +1,14 @@
 package Control;
 
+import Model.FileHandler;
 import Model.Item;
 import Model.Supplier;
 import View.SupplierView;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
+import static Model.FileHandler.deleteSupplier;
+
 
 public class SupplierControl {
     SupplierView view;
@@ -20,28 +23,33 @@ public class SupplierControl {
         this.view.getSupplierId().setOnEditCommit(e -> {
             Supplier supplier = e.getRowValue();
             supplier.setSupplierId(e.getNewValue());
+            updateFile(supplier);
 
         });
+
 
         this.view.getCompanyName().setOnEditCommit(e -> {
             Supplier supplier = e.getRowValue();
             supplier.setCompanyName(e.getNewValue());
+            updateFile(supplier);
 
         });
         this.view.getEmail().setOnEditCommit(e -> {
             Supplier supplier = e.getRowValue();
             supplier.setEmail(e.getNewValue());
+            updateFile(supplier);
 
         });
         this.view.getPhoneNumber().setOnEditCommit(e -> {
             Supplier supplier = e.getRowValue();
             supplier.setPhoneNumber(e.getNewValue());
+            updateFile(supplier);
 
         });
         this.view.getAddress().setOnEditCommit(e -> {
             Supplier supplier = e.getRowValue();
             supplier.setAddress(e.getNewValue());
-
+            updateFile(supplier);
         });
 
 
@@ -62,6 +70,8 @@ public class SupplierControl {
         }
 
         this.view.getTable().getItems().removeAll(selectedItems);
+        deleteSupplier(selectedItems);
+
 
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Deleted successfully.");
@@ -85,14 +95,25 @@ public class SupplierControl {
             return;
         }
 
-        // Create a new Supplier object with the entered data
+
         try {
             int supplierIdInt = Integer.parseInt(supplierId); // Convert supplierId to an integer
+            if (supplierExists(supplierIdInt)) {
+                showAlert(Alert.AlertType.WARNING, "Duplicate Supplier", "A supplier with this ID already exists!");
+                return;
+            }
+
             Supplier newSupplier = new Supplier(supplierIdInt, companyName, email, phoneNumber, address);
 
             // Add the new supplier to the table's ObservableList
             ObservableList<Supplier> currentSuppliers = this.view.getTable().getItems();
             currentSuppliers.add(newSupplier);
+
+            boolean success = FileHandler.writeSupplierToFile(newSupplier);
+            if (!success) {
+                showAlert(Alert.AlertType.ERROR, "File Error", "Failed to save the supplier to the file.");
+                return;
+            }
 
             // Show success message
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Supplier added successfully.");
@@ -112,5 +133,24 @@ public class SupplierControl {
             alert.show();
         }
     }
+    private boolean supplierExists(int supplierId) {
+        for (Supplier supplier : view.getTable().getItems()) {
+            if (supplier.getSupplierId() == supplierId) {
+                return true; // Supplier already exists
+            }
+        }
+        return false;
+    }
+    public void showAlert(Alert.AlertType type, String title, String message) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+    private void updateFile(Supplier updatedSupplier) {
+        FileHandler.updateSupplierInFile(updatedSupplier);  // Call to update the suppliers file
+    }
+
 
 }

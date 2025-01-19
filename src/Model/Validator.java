@@ -1,5 +1,6 @@
 package Model;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.regex.Pattern;
 
@@ -42,6 +43,42 @@ public class Validator {
     public static boolean validateProductName(String productName){
         return Pattern.matches("^[[A-Z][a-z][0-9]]+$",productName);
     }
+
+    public static boolean validatePositiveInteger(String value) {
+        // Must be a non-negative integer (0 or greater)
+        return value.matches("\\d+") && Integer.parseInt(value) >= 0;
+    }
+
+    public static boolean validatePositiveDouble(String value) {
+        // Must be a positive decimal number
+        return value.matches("\\d+(\\.\\d{1,2})?") && Double.parseDouble(value) > 0;
+    }
+
+    public static boolean validateSupplierName(String supplier) {
+
+        return supplier != null && !supplier.trim().isEmpty();
+    }
+    public static boolean validateLastRestockDate(LocalDate date) {
+        // Date must not be in the future
+        return date != null && !date.isAfter(LocalDate.now());
+    }
+    public static boolean validateImageFile(String filePath) {
+        if (filePath == null || filePath.trim().isEmpty()) {
+            return false; // Empty input is invalid
+        }
+
+        // Check file format (Allowing jpg, png, and jpeg)
+        String filePattern = "([^\\s]+(\\.(?i)(jpg|png|jpeg))$)";
+        boolean validFormat = Pattern.matches(filePattern, filePath);
+
+        // Check if file exists
+        File file = new File(filePath);
+        boolean fileExists = file.exists() && file.isFile();
+
+        return validFormat && fileExists;
+    }
+
+
     public static void main(String[] args) {
 
         System.out.println(validateExpirationDateFormat("00/2025"));

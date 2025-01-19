@@ -14,6 +14,10 @@ import javafx.scene.layout.HBox;
 import javafx.util.converter.IntegerStringConverter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+
+import static Model.FileHandler.getItemsOfInventory;
+import static Model.FileHandler.getSuppliersFromFile;
 
 public class SupplierView extends GridPane implements Design {
     private final TableView<Supplier> table = new TableView<>();
@@ -85,12 +89,10 @@ public class SupplierView extends GridPane implements Design {
 
     }
     private ObservableList<Supplier> getSampleData() {
-        return FXCollections.observableArrayList(
-                new Supplier(1, "Apple", "@gmail","1234","rruga"));
+        ArrayList<Supplier> suppliers = getSuppliersFromFile();
+        return FXCollections.observableArrayList(suppliers);
 
     }
-
-
 
     public void setUpView(){
         this.setPadding(new Insets(10,10,10,10));
@@ -115,11 +117,6 @@ public class SupplierView extends GridPane implements Design {
         grid.add(add,5,1);
         grid.add(delete,9,1);
 
-
-
-//
-//        HBox buttons=new HBox(10);
-//        buttons.getChildren().addAll(add,delete);
 
 
         this.add(box,0,0);
