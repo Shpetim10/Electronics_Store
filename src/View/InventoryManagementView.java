@@ -105,11 +105,7 @@ public class InventoryManagementView extends GridPane implements Design {
 
     }
     private ObservableList<Item> getSampleData() {
-        return FXCollections.observableArrayList(
-                 new Item(1, "Laptop", SectorType.ELECTRONICS, 1200.00, 800.00, "TechSupplier", 10, "Dell",
-                        LocalDate.of(2024, 1, 10), 123456))
-                 ;
-
+        return FXCollections.observableArrayList();
     }
 
     public void setUpView(){

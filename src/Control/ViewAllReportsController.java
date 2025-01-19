@@ -1,7 +1,7 @@
 package Control;
 
 import Model.*;
-import View.PerformanceReportView.ViewAllBillsReportsView;
+import View.PerformanceReportView.ViewAllBillsView;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 
@@ -9,7 +9,7 @@ import java.io.*;
 import java.util.Scanner;
 
 public class ViewAllReportsController implements Alertable{
-    private ViewAllBillsReportsView view=new ViewAllBillsReportsView();
+    private ViewAllBillsView view=new ViewAllBillsView();
     private User user;
 
     public ViewAllReportsController(){
@@ -73,7 +73,7 @@ public class ViewAllReportsController implements Alertable{
         }
     }
 
-    public ViewAllBillsReportsView getView() {
+    public ViewAllBillsView getView() {
         return view;
     }
 

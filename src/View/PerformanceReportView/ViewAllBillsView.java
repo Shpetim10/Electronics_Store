@@ -8,12 +8,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-public class ViewAllBillsReportsView extends HBox implements Design {
+public class ViewAllBillsView extends HBox implements Design {
     private VBox buttonBox=new VBox(20);
     private TextArea displayBill=new TextArea();
     private Label errorMessage=createAlignedBlackBoldLabel("");
 
-    public ViewAllBillsReportsView(){
+    public ViewAllBillsView(){
         setUpView();
     }
 

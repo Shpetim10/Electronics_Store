@@ -1,4 +1,4 @@
-package View.InventoryManagementView2;
+package View;
 
 import Model.Item;
 import Model.SectorType;

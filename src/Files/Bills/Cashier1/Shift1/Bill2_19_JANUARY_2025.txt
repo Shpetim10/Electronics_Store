@@ -4,14 +4,14 @@
 Address:		Tirana, Albania
 
 Date:		19:JANUARY:2025
-Time:		2:40
+Time:		12:8
 
 
 CashierId:		1
 
 
-Customer Id:		K30303030D
-Customer points:		300
+Customer Id:		K30303030H
+Customer points:		240
 
 
                                                            Fiscal Bill
@@ -19,14 +19,14 @@ Customer points:		300
              Id                      Files.Product Name       Quantity               Price      Total Tax                   Total Price
 --------------------------------------------------------------------------------------------------------------------------------------------
 
-            103                                  Fridge              1             1800.00         360.00                       1800.00
+            101                                 MacBook              1             1200.00         240.00                       1200.00
 --------------------------------------------------------------------------------------------------------------------------------------------
 
 
-                                                                  Total of Bill:		             1800.00
-                                                                    Tax of Bill:		              360.00
+                                                                  Total of Bill:		             1200.00
+                                                                    Tax of Bill:		              240.00
 Payment Method:		CASH
-Money given:		2000.0
-Change:		200.0
+Money given:		1200.0
+Change:		0.0
                                        Thank You for shopping with us!
 --------------------------------------------------------------------------------------------------------------------------------------------

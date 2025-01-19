@@ -1,19 +1,12 @@
 package Control;
 
-import MainRoot.MainUser;
 import View.LogInView;
-import View.PerformanceReportView.ViewAllBillsReportsView;
-import View.ProfileInformationView;
 import View.UserMainView;
 
 import java.util.ArrayList;
 import Model.*;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
-import javafx.stage.Stage;
 
 public class UserMainController {
     private UserMainView view=new UserMainView();
@@ -70,7 +63,7 @@ public class UserMainController {
                         }
                         else {
                             AdminManagerViewBillController control=new AdminManagerViewBillController(user);
-                            view.getDisplayPane().getChildren().add(control.getMainView());
+                            view.getDisplayPane().getChildren().add(control.getView());
                         }
 
                     }
@@ -117,7 +110,7 @@ public class UserMainController {
             LogInView logIn = new LogInView();
 
             // Create a new Scene with the LogInView
-            Scene loginScene = new Scene(logIn, 800, 600);
+            Scene loginScene = logIn.createScene();
             //MainUser.changeScene(loginScene);
         });
     }

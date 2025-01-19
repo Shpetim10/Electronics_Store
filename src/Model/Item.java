@@ -1,5 +1,6 @@
 package Model;
 
+import Exceptions.OutOfStockException;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -9,181 +10,152 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import javafx.beans.property.*;
+import java.io.*;
+import java.time.LocalDate;
+
 public class Item implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = -7535246308595776385L;
+    private transient SimpleIntegerProperty productId;
+    private transient SimpleStringProperty productName;
+    private transient SimpleStringProperty sector;
+    private transient SimpleDoubleProperty sellingPrice;
+    private transient SimpleDoubleProperty priceBought;
+    private transient SimpleStringProperty supplierName;
+    private transient SimpleIntegerProperty stockQuantity;
+    private String brand;
+    private LocalDate lastRestockDate;
+    private transient SimpleIntegerProperty barcode;
+
+    // Constructors
+    public Item() {
+        this.productId = new SimpleIntegerProperty();
+        this.productName = new SimpleStringProperty();
+        this.sellingPrice = new SimpleDoubleProperty();
+        this.priceBought = new SimpleDoubleProperty();
+        this.supplierName = new SimpleStringProperty();
+        this.stockQuantity = new SimpleIntegerProperty();
+        this.barcode = new SimpleIntegerProperty();
+    }
+
+    public Item(int productId, String productName, String sector, double sellingPrice, double priceBought,
+                String supplierName, int stockQuantity, String brand, LocalDate lastRestockDate, int barcode) {
+        this();
+        setProductId(productId);
+        setProductName(productName);
+        setSector(sector);
+        setSellingPrice(sellingPrice);
+        setPriceBought(priceBought);
+        setSupplier(supplierName);
+        setStockQuantity(stockQuantity);
+        setBrand(brand);
+        setLastRestockDate(lastRestockDate);
+        setBarcode(barcode);
+    }
+
+    // Serialization methods
+    @Serial
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        out.writeInt(productId.get());
+        out.writeUTF(productName.getValueSafe());
+        out.writeUTF(sector.getValueSafe());
+        out.writeDouble(sellingPrice.get());
+        out.writeDouble(priceBought.get());
+        out.writeUTF(supplierName.getValueSafe());
+        out.writeInt(stockQuantity.get());
+        out.writeUTF(brand);
+        out.writeObject(lastRestockDate);
+        out.writeInt(barcode.get());
+    }
 
     @Serial
-    private static final long serialVersionUID = 6910665039320934429L;
-    private SimpleIntegerProperty productId;
-    private SimpleStringProperty productName;
-    private SectorType sector;
-    private SimpleStringProperty sectorType;
-    private String description;
-    private SimpleDoubleProperty sellingPrice;
-    private SimpleDoubleProperty priceBought;
-    private SimpleStringProperty supplierName;
-
-    private IntegerProperty stockQuantity;
-//    private boolean isLowStock;
-
-    private String brand;
-    //private String isDiscontinued;
-    private LocalDate lastRestockDate;
-  private SimpleStringProperty image;
-    private SimpleIntegerProperty barcode;
-    //private int nrOfReturns;
-    
-
-    public Item() {
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        productId = new SimpleIntegerProperty(in.readInt());
+        productName = new SimpleStringProperty(in.readUTF());
+        sector = new SimpleStringProperty(in.readUTF()) ;
+        sellingPrice = new SimpleDoubleProperty(in.readDouble());
+        priceBought = new SimpleDoubleProperty(in.readDouble());
+        supplierName = new SimpleStringProperty(in.readUTF());
+        stockQuantity = new SimpleIntegerProperty(in.readInt());
+        brand = in.readUTF();
+        lastRestockDate = (LocalDate) in.readObject();
+        barcode = new SimpleIntegerProperty(in.readInt());
     }
 
-    public Item(int productId, String productName, SectorType sector,  double sellingPrice, double priceBought, String supplierName, int stockQuantity, String brand, LocalDate lastRestockDate,  int barcode) {
-        this.setProductId(productId);
-        this.setProductName(productName);
-        this.sector=sector;
-        this.setSellingPrice(sellingPrice);
-        this.setPriceBought(priceBought);
-        this.setSupplier(supplierName);
-        this.setStockQuantity(stockQuantity);
-        this.brand = brand;
-        this.lastRestockDate = lastRestockDate;
-        this.setBrand(brand);
-        this.setBarcode(barcode);
+    // Properties and Getters/Setters
+    public int getProductId() {
+        return productId.get();
     }
 
-
-
-    public void incrementStock(int quantity){
-        setStockQuantity(getStockQuantity()+quantity);
-    } //Sh
-
-    public void decrementStock(int quantity){
-        setStockQuantity(getStockQuantity()-quantity);
-    } //Sh
-
-
+    public void setProductId(int productId) {
+        this.productId.set(productId);
+    }
 
     public String getProductName() {
-        return productName.getValue();
+        return productName.get();
     }
 
     public void setProductName(String productName) {
-        this.productName=new SimpleStringProperty(productName);
-
-    }
-    public int getProductId() {
-        return productId.getValue();
+        this.productName.set(productName);
     }
 
-    public void setProductId(int productid) {
-        this.productId = new SimpleIntegerProperty(productid);
+    public String getSector() {
+        return sector.getValueSafe();
     }
 
-
-
-    public SectorType getSectorType() {
-        return sector;
+    public void setSector(String sector) {
+        this.sector = new SimpleStringProperty(sector);
     }
-
-    public void setSector(SectorType sector) {
-        this.sector = sector;
-    }
-
-    public String getSector(){
-        return sectorType.getValue();
-    }
-    public void setSector(String sector){
-        this.sectorType=new SimpleStringProperty(sector);
-
-    }
-
 
     public double getSellingPrice() {
-        return sellingPrice.getValue();
+        return sellingPrice.get();
     }
 
     public void setSellingPrice(double sellingPrice) {
-        this.sellingPrice =new  SimpleDoubleProperty(sellingPrice);
+        this.sellingPrice.set(sellingPrice);
     }
 
     public double getPriceBought() {
-        return priceBought.getValue();
+        return priceBought.get();
     }
 
     public void setPriceBought(double priceBought) {
-        this.priceBought = new  SimpleDoubleProperty(priceBought);
+        this.priceBought.set(priceBought);
     }
 
     public String getSupplier() {
-        return supplierName.getValue();
+        return supplierName.get();
     }
 
-    public void setSupplier(String supplier) {
-        this.supplierName = new  SimpleStringProperty(supplier);
+    public void setSupplier(String supplierName) {
+        this.supplierName.set(supplierName);
     }
-
-//    public String isDiscounted() {
-//        return isDiscounted;
-//    }
-//
-//    public void setIsDiscounted(String isDiscounted) {
-//        this.isDiscounted=isDiscounted;
-//    }
-//    public void setIsAvailable(String available) {
-//        this.isAvailable=available;
-//    }
-//
-//
-//    public void setDiscounted(String discounted) {
-//        this.isDiscounted = discounted;
-//    }
-//    public void setDiscountRate(Double discount){
-//        this.discountRate=discount;
-//    }
-
-
 
     public int getStockQuantity() {
-        return stockQuantity.getValue();
+        return stockQuantity.get();
     }
 
     public void setStockQuantity(int stockQuantity) {
-        this.stockQuantity = new  SimpleIntegerProperty(stockQuantity);
+        if (stockQuantity < 0) {
+            throw new IllegalArgumentException("Stock quantity cannot be negative.");
+        }
+        this.stockQuantity.set(stockQuantity);
     }
-
-//    public boolean isLowStock() {
-//        return isLowStock;
-//    }
-//
-//    public void setLowStock(boolean lowStock) {
-//        isLowStock = lowStock;
-//    }
-
-
 
     public String getBrand() {
         return brand;
     }
 
     public void setBrand(String brand) {
+        if (brand == null || brand.isBlank()) {
+            throw new IllegalArgumentException("Brand cannot be null or blank.");
+        }
         this.brand = brand;
     }
-
-
-
-
-//
-//    public String isAvailable() {
-//        return available;
-//    }
-//
-//    public void setAvailable(String available) {
-//        this.available = available;
-//    }
-
-
-
-
 
     public LocalDate getLastRestockDate() {
         return lastRestockDate;
@@ -193,23 +165,42 @@ public class Item implements Serializable {
         this.lastRestockDate = lastRestockDate;
     }
 
-
-
-//    public String getImage() {
-//        return image;
-//    }
-//
-//    public void setImage(String image) {
-//        this.image = image;
-//    }
-
-    public int getBarcode(Integer newValue) {
-        return barcode.getValue();
+    public int getBarcode() {
+        return barcode.get();
     }
 
-    public void setBarcode(Integer barcode) {
-        this.barcode = new SimpleIntegerProperty(barcode);}
+    public void setBarcode(int barcode) {
+        this.barcode.set(barcode);
     }
+
+    // Inventory Management
+    public void incrementStock(int quantity) {
+        setStockQuantity(getStockQuantity() + quantity);
+    }
+
+    public void decrementStock(int quantity) {
+        if (quantity > getStockQuantity()) {
+            throw new IllegalArgumentException("Insufficient stock to decrement.");
+        }
+        setStockQuantity(getStockQuantity() - quantity);
+    }
+
+    public void checkInventoryStockAvailable() throws OutOfStockException {
+        if (getStockQuantity() == 0) {
+            throw new OutOfStockException();
+        }
+    }
+
+    // Utility
+    @Override
+    public String toString() {
+        return String.format(
+                "Item [productId=%d, productName=%s, sector=%s, sellingPrice=%.2f, stockQuantity=%d, brand=%s, barcode=%d]",
+                getProductId(), getProductName(), sector, getSellingPrice(), getStockQuantity(), getBrand(), getBarcode());
+    }
+}
+
+
 
 
 

@@ -1,61 +1,63 @@
 package Control;
 
 
-import Model.Administrator;
-import Model.Cashier;
-import Model.User;
-import View.PerformanceReportView.ViewAllBillsReportsView;
-import View.SearchBoxPane;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import Model.*;
+import View.PerformanceReportView.AdminManagerAllBillView;
+
 
 public class AdminManagerViewBillController{
     private User admin;
-    private ViewAllBillsReportsView billView=new ViewAllBillsReportsView();
-    private SearchBoxPane searchBar=new SearchBoxPane("Enter Cashier name...");
-    private VBox mainView=setUpView();
+    private AdminManagerAllBillView view=new AdminManagerAllBillView();
+
+    public AdminManagerViewBillController() {
+        setSearchBoxAction();
+    }
+
     public AdminManagerViewBillController(User admin){
         this.admin=admin;
+        setSearchBoxAction();
+    }
+    public void setSearchBoxAction() {
+        this.view.getSearch().getSearchButton().setOnAction(event -> {
+            String cashierId = this.view.getSearch().getSearchField().getText();
+
+            if (cashierId.isEmpty()) {
+                showError("Search field cannot be empty.");
+                return;
+            }
+
+            Cashier cashier = getCashierById(cashierId);
+
+            if (cashier == null) {
+                showError("No cashier found with ID: " + cashierId);
+            } else {
+                this.view.getBillView().setCashier(cashier);
+                this.view.getDisplayPane().getChildren().add(this.view.getBillView().getView());
+            }
+        });
     }
 
-    public VBox setUpView(){
-        VBox box=new VBox(10);
-        box.setStyle("-fx-background-color: rgba(167,246,8,0.15);");
-        HBox billPane=billView;
-
-        billPane.prefHeightProperty().bind(box.heightProperty()) ;
-        searchBar.setAlignment(Pos.TOP_CENTER);
-        box.getChildren().addAll(searchBar,billPane);
-
-        return box;
+    public Cashier getCashierById(String id) {
+        for(Cashier cashier: Database.getDatabase().getCashiers()){
+            if(cashier.getId()==Integer.parseInt(id)){
+                return cashier;
+            }
+        }
+        return null;
     }
+
+    // Utility to display error messages (example implementation)
+    private void showError(String message) {
+        // Replace with your preferred error message handling (e.g., pop-up, label update)
+        System.err.println("Error: " + message);
+    }
+
 
     public User getAdmin() {
         return admin;
     }
 
-    public void setAdmin(Administrator admin) {
-        this.admin = admin;
+    public AdminManagerAllBillView getView() {
+        return view;
     }
-
-    public SearchBoxPane getSearchBar() {
-        return searchBar;
-    }
-
-    public void setSearchBar(SearchBoxPane searchBar) {
-        this.searchBar = searchBar;
-    }
-
-    public VBox getMainView() {
-        return mainView;
-    }
-
-    public void setMainView(VBox mainView) {
-        this.mainView = mainView;
-    }
-
-
 }

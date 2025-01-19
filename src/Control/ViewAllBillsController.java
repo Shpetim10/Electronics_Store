@@ -2,7 +2,7 @@ package Control;
 
 import Model.Bill;
 import Model.Cashier;
-import View.PerformanceReportView.ViewAllBillsReportsView;
+import View.PerformanceReportView.ViewAllBillsView;
 import javafx.scene.control.Button;
 
 import java.io.EOFException;
@@ -12,11 +12,10 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class ViewAllBillsController {
-    private ViewAllBillsReportsView view=new ViewAllBillsReportsView();
-    private Cashier cashier;
+    private ViewAllBillsView view=new ViewAllBillsView();
+    private Cashier cashier=null;
 
     public ViewAllBillsController(){
-        setViewBillButtonListener();
     }
     public ViewAllBillsController(Cashier cashier){
         this.cashier=cashier;
@@ -56,11 +55,16 @@ public class ViewAllBillsController {
         view.getErrorMessage().setText(message);
     }
 
-    public ViewAllBillsReportsView getView() {
+    public ViewAllBillsView getView() {
         return view;
     }
 
     public Cashier getCashier() {
         return cashier;
+    }
+
+    public void setCashier(Cashier cashier) {
+        this.cashier = cashier;
+        setViewBillButtonListener();
     }
 }

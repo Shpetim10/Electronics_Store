@@ -11,9 +11,9 @@ Shift Date:		2025-01-19
 Start Hour:		11:07:54.596954300
 End Hour:		17:00
 
-Shift Sales:		2400.0
-Shift Tax Paid:		480.0
-Shift No-Tax Earnings:		1920.0
+Shift Sales:		1200.0
+Shift Tax Paid:		240.0
+Shift No-Tax Earnings:		960.0
 Items Sold:		0
 Items Returned:		0
 Items Refunded:		0
@@ -22,9 +22,9 @@ Items Refunded:		0
 			Overall Summary
 
 ----------------------------------------
-Total Sales:		2400.0
-Total Tax Paid:		480.0
-Shift No-Tax Earnings:		1920.0
+Total Sales:		1200.0
+Total Tax Paid:		240.0
+Shift No-Tax Earnings:		960.0
 Total Items Sold:		0
 Total Returns:		0
 Total Refunds:		0

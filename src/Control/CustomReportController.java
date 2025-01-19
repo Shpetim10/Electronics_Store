@@ -92,9 +92,9 @@ public class CustomReportController implements Alertable{
 
 
     public Cashier validateCashierExistence(String id){
-        for(Cashier cashier: Database.getDatabase().getCashiers()){
-                if (cashier.getId() == Integer.parseInt(id)) {
-                    return cashier;
+        for(Cashier user: Database.getDatabase().getCashiers()){
+                if (user.getId() == Integer.parseInt(id)) {
+                    return user;
             }
         }
         return null;

@@ -1,5 +1,6 @@
 package View.UserManagementView;
 
+import Model.Database;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
@@ -9,7 +10,7 @@ import javafx.scene.layout.VBox;
 
 public class UserTable extends VBox {
     private TableView<User> table;
-
+    private ObservableList<User> data = FXCollections.observableArrayList();
     public UserTable() {
         table = new TableView<>();
         initializeTable();
@@ -36,9 +37,6 @@ public class UserTable extends VBox {
         table.getColumns().addAll(idColumn, nameColumn, lastNameColumn, usernameColumn, emailColumn);
 
         // Sample data
-        ObservableList<User> data = FXCollections.observableArrayList(
-
-        );
 
         table.setItems(data);
         this.getChildren().add(table);
@@ -79,5 +77,9 @@ public class UserTable extends VBox {
         public String getEmail() {
             return email;
         }
+    }
+
+    public TableView<User> getTable() {
+        return table;
     }
 }

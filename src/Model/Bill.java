@@ -176,18 +176,6 @@ public class Bill implements CustomerLoyalty, Serializable {
         }
     } //Sh
 
-    public ArrayList<String> getProductNamesByCategory(SectorType type) throws ItemNotFoundException {
-        ArrayList<String> result = new ArrayList<>();
-        for (Item item : cashier.items) {
-            if (item.getSectorType() == type) {
-                result.add(item.getProductName());
-            }
-        }
-        if (result.isEmpty()) throw new ItemNotFoundException("of type " + type + " ");
-
-        return result;
-    } //Sh
-
     public void clearCart() {
         this.getItemBought().clear();
     } //Sh

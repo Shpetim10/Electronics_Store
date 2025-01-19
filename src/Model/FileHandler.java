@@ -159,37 +159,37 @@ public class FileHandler {
         return customers;
     }
 
-//    public static ArrayList<User> getUsers() {
-//        ArrayList<User> users=new ArrayList<>();
-//        try(ObjectInputStream reader=new ObjectInputStream(new FileInputStream(USERS_FILE))){
-//            User user;
-//            Object o;
-//            while(true){
-//                o=reader.readObject();
-//                if(o instanceof Cashier){
-//                    user=(Cashier)o;
-//                }
-//                else if(o instanceof Manager){
-//                    user=(Manager)o;
-//                }
-//                else{
-//                    user=(Administrator)o;
-//                }
-//
-//                users.add(user);
-//            }
-//        }
-//        catch(EOFException ex1){
-//            System.out.println("Reached end of file!");
-//        }
-//        catch(ClassNotFoundException ex){
-//            ex.printStackTrace();
-//        }
-//        catch(IOException ex){
-//            ex.printStackTrace();
-//        }
-//        return users;
-//    }
+    public static ArrayList<User> getUsers() {
+        ArrayList<User> users=new ArrayList<>();
+        try(ObjectInputStream reader=new ObjectInputStream(new FileInputStream(USERS_FILE))){
+            User user;
+            Object o;
+            while(true){
+                o=reader.readObject();
+                if(o instanceof Cashier){
+                    user=(Cashier)o;
+                }
+                else if(o instanceof Manager){
+                    user=(Manager)o;
+                }
+                else{
+                    user=(Administrator)o;
+                }
+
+                users.add(user);
+            }
+        }
+        catch(EOFException ex1){
+            System.out.println("Reached end of file!");
+        }
+        catch(ClassNotFoundException ex){
+            ex.printStackTrace();
+        }
+        catch(IOException ex){
+            ex.printStackTrace();
+        }
+        return users;
+    }
 
     public static boolean writeUserToFile(User user){
         try(FileOutputStream outputStream=new FileOutputStream(USERS_FILE,true)){
@@ -207,6 +207,16 @@ public class FileHandler {
             System.out.println(ex.getLocalizedMessage());
         }
         return false;
+    }
+    public static boolean updateUsers(ArrayList<User> users){
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(CASHIERS_FILE))) {
+            for (User user : users) {
+                outputStream.writeObject(user);
+            }
+            return true;
+        } catch (IOException ex) {
+            return false;
+        }
     }
 
     public static ArrayList<Cashier> getCashiers() {

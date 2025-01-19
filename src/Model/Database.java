@@ -13,7 +13,6 @@ public class Database {
     private ArrayList<Cashier> cashiers;
     private Database(){
         this.inventory=FileHandler.getItemsOfInventory();
-        //this.completedShifts=FileHandler.getCompletedShifts();
         this.customers=FileHandler.getCustomers();
         this.loyaltyPoints=FileHandler.getLoyaltyPoints();
         this.cashiers=FileHandler.getCashiers();
@@ -26,7 +25,9 @@ public class Database {
     public void updateCashiers(ArrayList<Cashier> cashiers){
         FileHandler.updateCashiers(cashiers);
     }
-
+    public void updateUsers(ArrayList<User> users){
+        FileHandler.updateUsers(users);
+    }
     public void updateCustomers(ArrayList<String> customers){
         FileHandler.writeCustomersToFile(customers);
     }

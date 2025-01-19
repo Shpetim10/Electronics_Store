@@ -3,7 +3,7 @@ package Control;
 import Model.Item;
 import Model.SectorType;
 import Model.Validator;
-import View.AddView;
+import View.Add_EditView;
 import javafx.scene.control.Alert;
 
 import java.time.LocalDate;
@@ -11,9 +11,9 @@ import java.time.LocalDate;
 import static Model.FileHandler.writeProductToFile;
 
 public class AddController {
-    private final AddView view;
+    private final Add_EditView view;
 
-    public AddController(AddView view) {
+    public AddController(Add_EditView view) {
         this.view = view;
         initialize();
     }
@@ -49,7 +49,7 @@ public class AddController {
             Item newItem = new Item(
                     productCodeValue,
                     productNameValue,
-                    sectorValue,
+                    sectorValue.toString(), //Change
                     sellingPriceValue,
                     priceBoughtValue,
                     supplier,

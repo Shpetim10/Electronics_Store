@@ -3,6 +3,7 @@ package MainRoot;
 import Control.BillingSystemController;
 import Control.UserMainController;
 import Model.*;
+import View.LogInView;
 import View.UserMainView;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -21,7 +22,6 @@ public class MainUser extends Application {
 
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
-//        this.primaryStage=primaryStage;
 //        int id = 1;
 //        String firstName = "Shpetim";
 //        String lastName = "Shabanaj";
@@ -43,10 +43,12 @@ public class MainUser extends Application {
 //        cashier.getPermissions().add(Permission.BILLING_SYSTEM);
 //        cashier.getPermissions().add(Permission.REPORT_GENERATOR);
 //        cashier.getPermissions().add(Permission.VIEW_ALL_BILLS);
-        //cashier.getPermissions().add(Permission.VIEW_ALL_REPORTS);
+//        cashier.getPermissions().add(Permission.VIEW_ALL_REPORTS);
         //FileHandler.writeCashierToFile(cashier);
-        Cashier cashier=Database.getDatabase().getCashiers().getFirst();
-        UserMainController controller=new UserMainController(cashier);
+        Cashier user=Database.getDatabase().getCashiers().getFirst();
+        LogInView logIn=new LogInView();
+        UserMainController controller=new UserMainController(user);
+
         Scene scene=new Scene(controller.getView());
 
         primaryStage.setTitle("Electronics System");

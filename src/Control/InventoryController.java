@@ -72,7 +72,7 @@ public class InventoryController {
         });
         this.view.getBarcode().setOnEditCommit(e -> {
             Item item = e.getRowValue();
-            item.getBarcode(e.getNewValue());
+            item.setBarcode(e.getNewValue());
         });
         this.view.getSupplier().setOnEditCommit(e -> {
             Item item = e.getRowValue();
