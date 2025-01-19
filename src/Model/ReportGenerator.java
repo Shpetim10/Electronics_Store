@@ -1,5 +1,7 @@
 package Model;
 
+import Database.Database;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,7 +13,7 @@ import java.util.ArrayList;
 public class ReportGenerator {
     public static void writeSectorReport(SectorType sector,LocalDate startDate, LocalDate endDate) throws IOException {
         File reportFile=new File(createSectorReportFilePath(sector,startDate,endDate));
-        ArrayList<Cashier> cashiers=Database.getDatabase().getCashiers();
+        ArrayList<Cashier> cashiers= Database.getDatabase().getCashiers();
         try (PrintWriter output = new PrintWriter(reportFile)) {
             output.println("\t\t\t\t\tSector Report\n");
             output.println("-".repeat(50));
@@ -102,7 +104,7 @@ public class ReportGenerator {
     }
 
     public static String createSectorReportFilePath(SectorType sector, LocalDate startDate, LocalDate endDate){
-        String path = "src/Files/Reports/";
+        String path = "src/Database.Files/Reports/";
         path += getSectorReportName(sector,startDate,endDate).replace(" ","_")+".txt";
         return path;
     }
@@ -177,7 +179,7 @@ public class ReportGenerator {
         }
     }
     public static String createCashierReportFilePath(Cashier cashier, LocalDate startDate, LocalDate endDate){
-        String path = "src/Files/Reports/";
+        String path = "src/Database.Files/Reports/";
         path += getCashierReportName(cashier,startDate,endDate).replace(" ","_")+".txt";
         return path;
     }
@@ -302,7 +304,7 @@ public class ReportGenerator {
     }
 
     public static String createOverallReportFilePath(LocalDate startDate, LocalDate endDate){
-        String path = "src/Files/Reports/";
+        String path = "src/Database.Files/Reports/";
         path += getOverallReportName(startDate,endDate).replace(" ","_")+".txt";
         return path;
     }

@@ -34,6 +34,7 @@ public class ViewAllBillsController {
             }
         }
     }
+
     public void writeBillToArea(Bill bill){
         try(FileInputStream reader=new FileInputStream(bill.getBillFile());){
             Scanner scan=new Scanner(reader);
@@ -51,6 +52,7 @@ public class ViewAllBillsController {
             displayError("Process failed!");
         }
     }
+
     public void displayError(String message){
         view.getErrorMessage().setText(message);
     }

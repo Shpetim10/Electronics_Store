@@ -114,7 +114,7 @@ public class ProductInformationView extends GridPane implements Design {
         photoLabel.setPrefSize(180, 180);
         photoLabel.setStyle("-fx-border-color: black;-fx-border-width:3 ; -fx-alignment: center; -fx-background-radius: 40; -fx-border-radius: 40; -fx-border-width: 2; -fx-border-color: yellowgreen;");
 
-        // Files.Product Info Fields
+        // Database.Files.Product Info Fields
         Label productIdLabel = new Label("Barcode:");
         productIdLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
         Label productIdField = new Label("");

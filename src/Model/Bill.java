@@ -1,7 +1,7 @@
 package Model;
 
+import Database.Database;
 import Exceptions.ItemNotFoundException;
-import Exceptions.LowStockException;
 import Exceptions.OutOfStockException;
 
 import java.io.*;
@@ -10,8 +10,9 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Bill implements CustomerLoyalty, Serializable {
+
     @Serial
-    private static final long serialVersionUID = -4644282291690387264L;
+    private static final long serialVersionUID = -2427632641605966571L;
     private long billId;
     private Cashier cashier;
     private LocalDate dateGenerated;
@@ -74,7 +75,7 @@ public class Bill implements CustomerLoyalty, Serializable {
         }
 
         output.printf("\n\n%70s\n\n", "Fiscal Bill");
-        output.printf("%15s%40s%15s%20s%15s%30s\n", "Id", "Files.Product Name", "Quantity", "Price", "Total Tax", "Total Price");
+        output.printf("%15s%40s%15s%20s%15s%30s\n", "Id","Product Name", "Quantity", "Price", "Total Tax", "Total Price");
         output.println("-".repeat(140) + "\n");
 
         if (this.getItemBought() != null) {
@@ -109,7 +110,7 @@ public class Bill implements CustomerLoyalty, Serializable {
     }   //Sh
 
     public String createBillPath() {
-        String path = "src/Files/Bills/";
+        String path = "src/Database/Files/Bills/";
         path += "Cashier" + this.cashier.getId(); //Add to folder of the current cashier
         path += "/Shift" + this.cashier.getActiveShift().getShiftId() + "/";
         File directory = new File(path);

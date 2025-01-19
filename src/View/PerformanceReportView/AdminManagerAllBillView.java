@@ -20,8 +20,11 @@ public class AdminManagerAllBillView extends VBox {
       public void setUpView(){
           this.setStyle("-fx-background-color: transparent;");
           this.setSpacing(20);
+          this.displayPane.setFocusTraversable(true);
 
           this.displayPane.setStyle("-fx-background-color: transparent;");
+          this.displayPane.prefHeightProperty().bind(this.heightProperty());
+          this.displayPane.prefWidthProperty().bind(this.widthProperty());
 
           this.getChildren().addAll(search, displayPane);
       }

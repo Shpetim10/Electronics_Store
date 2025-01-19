@@ -2,22 +2,13 @@ package View;
 
 
 
-import Model.FileHandler;
+import Database.FileHandler;
 import Model.Item;
-import Model.SectorType;
-import javafx.beans.property.BooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
-
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.function.Function;
 
 public class CustomTableView {
     private TableView<Item> table;

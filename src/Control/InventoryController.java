@@ -1,18 +1,11 @@
 package Control;
 
-import Model.FileHandler;
-import Model.SectorType;
 import View.InventoryManagementView;
 import Model.Item;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.cell.PropertyValueFactory;
-import java.time.LocalDate;
 
 public class InventoryController {
 

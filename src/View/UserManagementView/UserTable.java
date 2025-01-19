@@ -1,6 +1,5 @@
 package View.UserManagementView;
 
-import Model.Database;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;

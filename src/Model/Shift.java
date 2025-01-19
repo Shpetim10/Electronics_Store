@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Shift implements Serializable {
+
     @Serial
     private static final long serialVersionUID = -3400514395325144506L;
     private int shiftId;
@@ -64,7 +65,7 @@ public class Shift implements Serializable {
     //Will be generated automaticaly when the shift is completed
     public void generateShiftReport(){
         File report=null;
-        String reportName="src/Files/Reports/Cashier"+cashier.getId()+"/Shift"+
+        String reportName="src/Database/Files/Reports/Cashier"+cashier.getId()+"/Shift"+
                 shiftId+"_"+shiftDate.getDayOfMonth()+"_"+shiftDate.getMonth()+"_"+shiftDate.getYear()+"txt";
         report=new File(reportName);
         try(PrintWriter output=new PrintWriter(new FileOutputStream(report))){

@@ -17,51 +17,82 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 
-public class LogInView implements Design {
+public class LogInView extends VBox implements Design {
+        private final TextField usernameField = createTextField("Username...");
+        private final PasswordField passwordField = createPasswordField();
+        //private final CheckBox rememberMeCheckBox = new CheckBox("Remember me");
+        private final Button loginButton = createGeneralButton("Log In");
 
-        public Scene createScene() {
+    public LogInView() {
+        setUpView();
+    }
+
+    public void setUpView(){
+        this.setAlignment(Pos.CENTER);
+        this.setStyle("-fx-background-color: rgba(167,246,8,0.15);");
+        this.setSpacing(5);
+
+        Label logInTitle=createAlignedGreenBoldLabel("Log In");
+        Label usernameTitle=createAlignedBlackBoldLabel("Username");
+        Label passwordTitle=createAlignedBlackBoldLabel("Password");
+        Label profileIcon = new Label();
+        profileIcon.setStyle("-fx-background-color: green; -fx-border-radius: 50; -fx-background-radius: 50;");
+        profileIcon.setPrefSize(200, 200);
+        profileIcon.setAlignment(Pos.CENTER);
+
+        ImageView profileImage = new ImageView(new Image("Images/electronicsStoreIcon.png"));
+        profileImage.setFitWidth(100);
+        profileImage.setFitHeight(100);
+
+        StackPane logoPane=new StackPane();
+        logoPane.setStyle("-fx-background-color: transparent;");
+        logoPane.getChildren().addAll(profileIcon,profileImage);
+
+        usernameField.setPrefWidth(250);
+        passwordField.setPrefWidth(250);
+        loginButton.setPrefWidth(150);
+        loginButton.setStyle(
+                "-fx-background-color: green;" +
+                        " -fx-text-fill: white;" +
+                        " -fx-font-size: 14;" +
+                        " -fx-background-radius: 5;");
+
+        this.getChildren().addAll(logoPane, logInTitle,usernameTitle,usernameField, passwordTitle, passwordField,loginButton);
+        this.setFillWidth(false);
+    }
+    public Scene createScene() {
             // Main layout
-            VBox mainLayout = new VBox(15);
-            mainLayout.setAlignment(Pos.CENTER);
-            mainLayout.setStyle("-fx-background-color: rgba(167,246,8,0.15);");
+
 
             // Profile icon
-            Label profileIcon = new Label();
-            profileIcon.setStyle("-fx-background-color: green; -fx-border-radius: 50; -fx-background-radius: 50;");
-            profileIcon.setPrefSize(100, 100);
-            profileIcon.setAlignment(Pos.CENTER);
 
-            ImageView profileImage = new ImageView(new Image("file:/C:/Users/User/Downloads/password.png"));
-            profileImage.setFitWidth(100);
-            profileImage.setFitHeight(100);
             //profileIconStack.getChildren().setAll(profileIcon, profileImage);
 
             // Email field
-            TextField usernameField = new TextField();
-            usernameField.setPromptText("Username");
-            usernameField.setPrefWidth(250);
-            usernameField.setStyle("-fx-background-radius: 5; -fx-border-color: lightgray; -fx-padding: 5;");
+            ///TextField usernameField = new TextField();
+            ///usernameField.setPromptText("Username");
+
+            //usernameField.setStyle("-fx-background-radius: 5; -fx-border-color: lightgray; -fx-padding: 5;");
 
             // Password field
-            PasswordField passwordField = new PasswordField();
-            passwordField.setPromptText("Password");
-            passwordField.setPrefWidth(250);
-            passwordField.setStyle("-fx-background-radius: 5; -fx-border-color: lightgray; -fx-padding: 5;");
+
+            //passwordField.setPromptText("Password");
+            //passwordField.setPrefWidth(250);
+            //passwordField.setStyle("-fx-background-radius: 5; -fx-border-color: lightgray; -fx-padding: 5;");
 
             // Remember me and Forgot Password
-            CheckBox rememberMeCheckBox = new CheckBox("Remember me");
-            Hyperlink forgotPasswordLink = new Hyperlink("Forgot Password?");
-            forgotPasswordLink.setStyle("-fx-text-fill: gray; -fx-font-size: 12;");
 
-            HBox optionsLayout = new HBox(10, rememberMeCheckBox, forgotPasswordLink);
-            optionsLayout.setAlignment(Pos.CENTER_RIGHT);
-            optionsLayout.setPrefWidth(250);
+//            Hyperlink forgotPasswordLink = new Hyperlink("Forgot Password?");
+//            forgotPasswordLink.setStyle("-fx-text-fill: gray; -fx-font-size: 12;");
+
+//            HBox optionsLayout = new HBox(10, rememberMeCheckBox, forgotPasswordLink);
+//            optionsLayout.setAlignment(Pos.CENTER_RIGHT);
+//            optionsLayout.setPrefWidth(250);
 
             // Login button
-            Button loginButton = new Button("LOGIN");
-            loginButton.setPrefWidth(250);
-            loginButton.setStyle(
-                    "-fx-background-color: green; -fx-text-fill: white; -fx-font-size: 14; -fx-background-radius: 5;");
+
+
+
 
             // Button action
             loginButton.setOnAction(event -> {
@@ -83,15 +114,14 @@ public class LogInView implements Design {
                 }
             });
 
-            StackPane root = new StackPane();
-            root.setAlignment(Pos.CENTER);
-            root.setPadding(new Insets(50));
-
-            root.getChildren().add(passwordField);
+//            StackPane root = new StackPane();
+//            root.setAlignment(Pos.CENTER);
+//            root.setPadding(new Insets(50));
+//
+//            root.getChildren().add(passwordField);
 
             // Assemble the layout
-            mainLayout.getChildren().addAll(profileIcon, usernameField, passwordField, optionsLayout, loginButton);
-            mainLayout.setFillWidth(false);
+
 
             class VisiblePasswordFieldSkin extends TextFieldSkin {
 
@@ -163,7 +193,7 @@ public class LogInView implements Design {
 
             passwordField.setSkin(new VisiblePasswordFieldSkin(passwordField));
 
-            return new Scene(mainLayout);
+            return new Scene(this);
         }
 
 
@@ -172,6 +202,18 @@ public class LogInView implements Design {
             // Replace with actual validation logic
             return "user".equals(username) && "password".equals(password);
         }
+
+    public TextField getUsernameField() {
+        return usernameField;
     }
+
+    public PasswordField getPasswordField() {
+        return passwordField;
+    }
+
+    public Button getLoginButton() {
+        return loginButton;
+    }
+}
 
 

@@ -1,10 +1,12 @@
 package MainRoot;
 
-import Control.BillingSystemController;
+import Control.LogInController;
+
 import Control.UserMainController;
+import Database.Database;
+import Database.FileHandler;
 import Model.*;
-import View.LogInView;
-import View.UserMainView;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -13,7 +15,6 @@ import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class MainUser extends Application {
     public static void main(String[] args) {
@@ -44,15 +45,15 @@ public class MainUser extends Application {
 //        cashier.getPermissions().add(Permission.REPORT_GENERATOR);
 //        cashier.getPermissions().add(Permission.VIEW_ALL_BILLS);
 //        cashier.getPermissions().add(Permission.VIEW_ALL_REPORTS);
-        //FileHandler.writeCashierToFile(cashier);
-        Cashier user=Database.getDatabase().getCashiers().getFirst();
-        LogInView logIn=new LogInView();
-        UserMainController controller=new UserMainController(user);
+//        FileHandler.writeCashierToFile(cashier);
+        Cashier cashier= Database.getDatabase().getCashiers().get(0);
+        LogInController logIn=new LogInController();
+        UserMainController controller=new UserMainController(cashier);
 
         Scene scene=new Scene(controller.getView());
-
-        primaryStage.setTitle("Electronics System");
         primaryStage.setScene(scene);
+        primaryStage.setTitle("Electronics System");
+
         primaryStage.setMaximized(true);
         primaryStage.show();
     }

@@ -1,5 +1,6 @@
 package Control;
 
+import Database.Database;
 import Exceptions.InsufficientStockException;
 import Exceptions.InvalidPaymentArgumentsException;
 import Exceptions.OutOfStockException;
@@ -7,7 +8,6 @@ import Model.*;
 import View.BillingSystemView.BillingSystemView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
 
 
@@ -49,7 +49,7 @@ public class BillingSystemController implements Alertable{
     public void setUpGeneralData() {
         try {
             bill = new Bill();
-            bill.setBillId(this.cashier.getActiveShift().getBills().size() + 1);
+            bill.setBillId((this.cashier.getActiveShift().getBills().size() + 1));
             bill.setCashier(this.cashier);
         } catch (NullPointerException ex) {
             throw new NullPointerException();
@@ -68,9 +68,9 @@ public class BillingSystemController implements Alertable{
     }
 
     public void setUpTodaySales() {
-        view.getProductCartBox().getTotalBillNumber().setText(String.valueOf(cashier.getActiveShift().getBills().size()));
-        view.getProductCartBox().getMoneyCollected().setText(String.valueOf(cashier.getActiveShift().getTotalMoneyCollected()));
-        view.getProductCartBox().getTaxCollected().setText(String.valueOf(cashier.getActiveShift().getTotalTaxCollected()));
+        view.getProductCartBox().getTotalBillNumber().setText(String.valueOf(this.cashier.getActiveShift().getBills().size()));
+        view.getProductCartBox().getMoneyCollected().setText(String.valueOf(this.cashier.getActiveShift().getTotalMoneyCollected()));
+        view.getProductCartBox().getTaxCollected().setText(String.valueOf(this.cashier.getActiveShift().getTotalTaxCollected()));
     }
 
     public void setUpBillPricingData() {

@@ -32,7 +32,7 @@ public class ProductCartView extends VBox implements Design {
     }
 
     public void setUpView(){
-        //Files.Product Cart
+        //Database.Files.Product Cart
         this.setSpacing(10);
         this.setStyle("-fx-background-color: transparent;");
 
@@ -125,7 +125,7 @@ public class ProductCartView extends VBox implements Design {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("productId"));
         idColumn.setMaxWidth(100);
 
-        // Files.Product Name column
+        // Database.Files.Product Name column
         TableColumn<ItemBought, String> nameColumn = new TableColumn<>("Product Name");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
         nameColumn.setMinWidth(150);

@@ -7,9 +7,8 @@ import java.util.*;
 
 public class Cashier extends User implements InventoryManagement,Serializable{
 
-
     @Serial
-    private static final long serialVersionUID = 7954358941797462900L;
+    private static final long serialVersionUID = 5900959332953954603L;
     private SectorType sector;
     private ArrayList<Shift> shifts;
     //private ArrayList<File> reportsGenerated=new ArrayList<>();

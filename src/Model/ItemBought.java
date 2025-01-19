@@ -1,5 +1,6 @@
 package Model;
 
+import Database.Database;
 import javafx.beans.property.*;
 
 import java.io.*;

@@ -8,7 +8,7 @@ import javafx.scene.control.Alert;
 
 import java.time.LocalDate;
 
-import static Model.FileHandler.writeProductToFile;
+import static Database.FileHandler.writeProductToFile;
 
 public class AddController {
     private final Add_EditView view;
@@ -31,7 +31,7 @@ public class AddController {
                 productNameValue = view.getProductName().getText();
             }
             else{
-                showAlert(Alert.AlertType.WARNING,"Invalid Input","Files.Product name does not conform format!\n Must start with capital leter and all letters!");
+                showAlert(Alert.AlertType.WARNING,"Invalid Input","Product name does not conform format!\n Must start with capital leter and all letters!");
             }
 
             SectorType sectorValue = SectorType.valueOf(view.getSector().getText().toUpperCase());
@@ -69,7 +69,7 @@ public class AddController {
             clearInputFields();
 
             // Show success message
-            showAlert(Alert.AlertType.INFORMATION, "Files.Product Added", "The product was successfully added!");
+            showAlert(Alert.AlertType.INFORMATION, "Product Added", "The product was successfully added!");
         } catch (NumberFormatException ex) {
             ex.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Invalid Input", "Please ensure all numeric fields are correctly filled.");

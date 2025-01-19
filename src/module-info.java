@@ -10,6 +10,7 @@ module Electronics.Store {
     exports Control;
     exports View;
     exports Model;
-    //exports Files;
+    //exports Database.Files;
     exports Exceptions;
+    exports Database;
 }

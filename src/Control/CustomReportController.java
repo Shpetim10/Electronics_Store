@@ -1,17 +1,17 @@
 package Control;
 
+import Database.Database;
 import Model.*;
 import View.PerformanceReportView.CustomReportView;
 import javafx.scene.control.Alert;
 
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class CustomReportController implements Alertable{
     private CustomReportView view=new CustomReportView();
-    private ArrayList<Cashier> cashiers=Database.getDatabase().getCashiers();
+    private ArrayList<Cashier> cashiers= Database.getDatabase().getCashiers();
     public CustomReportController(){
         setUpGenerateReportButtonListener();
         setUpClearButtonListener();

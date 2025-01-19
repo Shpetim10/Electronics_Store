@@ -1,6 +1,6 @@
 package Model;
 
-import java.util.*;
+import Database.Database;
 
 public interface CustomerLoyalty {
      default int validateCustomerExistance(String customerId) {

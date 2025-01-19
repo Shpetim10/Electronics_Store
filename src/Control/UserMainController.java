@@ -1,5 +1,6 @@
 package Control;
 
+import Database.FileHandler;
 import View.LogInView;
 import View.UserMainView;
 
@@ -10,8 +11,9 @@ import javafx.scene.control.Menu;
 
 public class UserMainController {
     private UserMainView view=new UserMainView();
-    private ArrayList<Item> inventory=FileHandler.getItemsOfInventory();
+    private ArrayList<Item> inventory= FileHandler.getItemsOfInventory();
     private User user;
+
     public UserMainController(User user){
         this.user=user;
         setHomePage();
@@ -30,7 +32,7 @@ public class UserMainController {
             view.getMainMenu().getItems().get(index).setOnAction(
                     e->{
                         clearPane();
-                        BillingSystemController billingSystem=new BillingSystemController((Cashier) user);
+                        BillingSystemController billingSystem=new BillingSystemController((Cashier)user);
                         view.getDisplayPane().getChildren().add(billingSystem.getView());
                     }
             );
@@ -57,12 +59,16 @@ public class UserMainController {
             view.getMainMenu().getItems().get(index).setOnAction(
                     e->{
                         clearPane();
-                        if(this.user.getRole()==EmployeeRole.CASHIER){
+                        if(this.user instanceof Cashier){
                             ViewAllBillsController control=new ViewAllBillsController((Cashier)user);
                             view.getDisplayPane().getChildren().add(control.getView());
                         }
-                        else {
-                            AdminManagerViewBillController control=new AdminManagerViewBillController(user);
+                        else if(user instanceof Manager){
+                            AdminManagerViewBillController control=new AdminManagerViewBillController((Manager)user);
+                            view.getDisplayPane().getChildren().add(control.getView());
+                        }
+                        else{
+                            AdminManagerViewBillController control=new AdminManagerViewBillController((Administrator)user);
                             view.getDisplayPane().getChildren().add(control.getView());
                         }
 
@@ -78,6 +84,67 @@ public class UserMainController {
                     e->{
                             ViewAllReportsController control=new ViewAllReportsController(user);
                             view.getDisplayPane().getChildren().add(control.getView());
+                    }
+            );
+        }
+    }
+
+    public void setAddProductButtonListener(){
+        int index=getMenuItemViewIndex("View Reports");
+        if (index != -1) {
+            view.getMainMenu().getItems().get(index).setOnAction(
+                    e->{
+                        ViewAllReportsController control=new ViewAllReportsController(user);
+                        view.getDisplayPane().getChildren().add(control.getView());
+                    }
+            );
+        }
+    }
+    public void setManageInventoryButtonListener(){
+        int index=getMenuItemViewIndex("View Reports");
+        if (index != -1) {
+            view.getMainMenu().getItems().get(index).setOnAction(
+                    e->{
+                        ViewAllReportsController control=new ViewAllReportsController(user);
+                        view.getDisplayPane().getChildren().add(control.getView());
+                    }
+            );
+        }
+    }
+
+    public void setAddEmployeeButtonListener(){
+        int index=getMenuItemViewIndex("View Reports");
+        if (index != -1) {
+            view.getMainMenu().getItems().get(index).setOnAction(
+                    e->{
+                        ViewAllReportsController control=new ViewAllReportsController(user);
+                        view.getDisplayPane().getChildren().add(control.getView());
+                    }
+            );
+        }
+    }
+    public void setEditEmployeeButtonListener(){
+        int index=getMenuItemViewIndex("View Reports");
+        if (index != -1) {
+            view.getMainMenu().getItems().get(index).setOnAction(
+                    e->{
+                        ViewAllReportsController control=new ViewAllReportsController(user);
+                        view.getDisplayPane().getChildren().add(control.getView());
+                    }
+            );
+        }
+    }
+
+    public void setPermissionGrantingButtonListener(){
+
+    }
+    public void setAddSupplierButtonListener(){
+        int index=getMenuItemViewIndex("View Reports");
+        if (index != -1) {
+            view.getMainMenu().getItems().get(index).setOnAction(
+                    e->{
+                        ViewAllReportsController control=new ViewAllReportsController(user);
+                        view.getDisplayPane().getChildren().add(control.getView());
                     }
             );
         }
@@ -107,10 +174,10 @@ public class UserMainController {
             this.view.getDisplayPane().getChildren().clear();
 
             // Create a new LogInView instance (ensure LogInView extends Parent or a compatible class)
-            LogInView logIn = new LogInView();
+            //LogInView logIn = new LogInView();
 
             // Create a new Scene with the LogInView
-            Scene loginScene = logIn.createScene();
+            //Scene loginScene = logIn.createScene();
             //MainUser.changeScene(loginScene);
         });
     }
