@@ -31,10 +31,10 @@ public class LogInView implements Design {
             profileIcon.setPrefSize(100, 100);
             profileIcon.setAlignment(Pos.CENTER);
 
-            ImageView profileImage = new ImageView(new Image("file:/C:/Users/User/Downloads/password.png"));
+            ImageView profileImage = new ImageView(new Image("file:/C:/Users/User/Downloads/LoginUser.png"));
             profileImage.setFitWidth(100);
             profileImage.setFitHeight(100);
-            //profileIconStack.getChildren().setAll(profileIcon, profileImage);
+           // profileImage.getChildren().setAll(profileIcon, profileImage);
 
             // Email field
             TextField usernameField = new TextField();

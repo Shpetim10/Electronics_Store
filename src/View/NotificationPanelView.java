@@ -1,47 +1,74 @@
 package View;
+
+import Model.Notification;
 import Model.NotificationType;
-import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Alert;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 
-// Main application with embedded notification utility
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class NotificationPanelView implements Design {
 
-    // Utility method for showing notifications
-//    public static void showNotification(String title, String message, NotificationType type) {
-//        // Create and configure the Alert
-//
-//        Alert alert = new Alert();
-//        alert.setTitle(title);
-//        alert.setHeaderText(null);  // No header
-//        alert.setContentText(message);
-//
-//        // Display the Alert dialog
-//        alert.showAndWait();
-//    }
+    private VBox notificationPanel;
 
 
     public Scene createScene() {
-        // Example button to trigger a notification
-        Button notifyButton = new Button("Show Notification");
-        notifyButton.setOnAction(e ->{}
-                //showNotification("Information", "You need to refund!", NotificationType.REFUND)
-        );
+        // Create the main notification panel
+        notificationPanel = new VBox(10);
+        notificationPanel.setAlignment(Pos.CENTER);
+        notificationPanel.setStyle("-fx-padding: 10; -fx-background-color:white; -fx-border-color: #cccccc; -fx-border-width: 1;");
+        notificationPanel.setPrefHeight(60);
 
-        // Layout for the button
-        StackPane root = new StackPane(notifyButton);
-        Scene scene = new Scene(root, 300, 200);
+        // Add a button to generate notifications
+        Button addNotificationButton = new Button("Add Notification");
+        addNotificationButton.setOnAction(event -> addNotification("This is a new notification!"));
 
-        // Set up the Stage
-//        createScene().setTitle("Notification Panel Example");
-//        createScene().setScene(scene);
-//        createScene().show();
-        return scene;
+
+        // Add a button to clear notifications
+        Button clearNotificationsButton = new Button("Clear Notifications");
+        clearNotificationsButton.setOnAction(event -> notificationPanel.getChildren().clear());
+
+        // Layout for the main scene
+        VBox root = new VBox(10, addNotificationButton, clearNotificationsButton, notificationPanel);
+        root.setAlignment(Pos.TOP_CENTER);
+        root.setStyle("-fx-padding: 15; -fx-background-color:rgba(167,246,8,0.15) ;");
+
+
+
+        // Setup the scene and stage
+        return new Scene(root,400,300);
     }
+
+    public void addNotification(String message) {
+        Label notificationLabel = new Label(message);
+        notificationLabel.setStyle("-fx-text-fill:white;-fx-padding: 5; -fx-background-color:green; -fx-border-color: #b2ebf2; -fx-border-width: 1; -fx-border-radius: 3; -fx-background-radius: 3;");
+        notificationPanel.getChildren().add(notificationLabel);
+    }
+    public VBox createNotification(NotificationType subject, String message, Date dateCreated)
+    {
+        VBox notificationMessage = new VBox(10);
+        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+        String formattedTime = timeFormat.format(dateCreated);
+
+        // Create a Label with the full message
+        String fullMessage = subject.name() + ": " + message + ", " + formattedTime;
+        Label notificationLabel = new Label(fullMessage);
+        notificationLabel.setStyle("-fx-text-fill:white ; -fx-font-size: 14;");
+
+        // Add the label to the HBox
+        notificationMessage.getChildren().add(notificationLabel);
+
+        return notificationMessage;
+    }
+
+    /*for(Notification notifications:users.Notifications)
+    {
+        VBox vBox=new VBox();
+        createNotification();
+    }
+     */
 }
-
-
-
