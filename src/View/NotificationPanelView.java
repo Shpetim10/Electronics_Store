@@ -65,10 +65,19 @@ public class NotificationPanelView implements Design {
         return notificationMessage;
     }
 
-    /*for(Notification notifications:users.Notifications)
+  /*  public void setNotificationPanel()
     {
-        VBox vBox=new VBox();
-        createNotification();
+        for (Notification notifications : users.Notifications) {
+            VBox vBox = new VBox();
+
+            notification.setOnAction()(
+                    e->{
+                        addNotification(notifications.getMessage());
+                    }
+                    );
+            view.getButton
+        }
     }
-     */
+
+   */
 }
