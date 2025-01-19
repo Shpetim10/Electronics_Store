@@ -14,7 +14,7 @@ public class NotificationPanelMain extends Application {
         NotificationPanelView view=new NotificationPanelView();
         primaryStage.setTitle("Notification");
         primaryStage.setScene(view.createScene());
-        primaryStage.setMaximized(true);
+        primaryStage.setMaximized(false);
         primaryStage.show();
     }
 }
