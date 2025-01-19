@@ -1,8 +1,8 @@
 package MainRoot;
 
 import Control.AddController;
-import View.Add_EditView;
-import View.Add_EditView;
+import View.AddView;
+import View.AddView;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -13,7 +13,7 @@ public class AddMain extends Application {
     }
 
     public void start(Stage primaryStage){
-        Add_EditView view=new Add_EditView();
+        AddView view=new AddView();
         primaryStage.setTitle("Add/Edit");
         AddController addController = new AddController(view);
         primaryStage.setScene(view.createScene());

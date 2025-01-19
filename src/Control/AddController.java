@@ -1,5 +1,6 @@
 package Control;
 
+import Database.FileHandler;
 import Model.Item;
 import Model.SectorType;
 import Model.Validator;
@@ -8,7 +9,7 @@ import javafx.scene.control.Alert;
 
 import java.time.LocalDate;
 
-import static Model.FileHandler.writeProductToFile;
+
 
 public class AddController {
     private final AddView view;
@@ -115,11 +116,11 @@ public class AddController {
             }
 
 
-
+//Rregullo cik kto
             Item newItem = new Item(
                     productCodeValue,
                     productNameValue,
-                    sectorValue,
+                    sectorValue.toString(),
                     sellingPriceValue,
                     priceBoughtValue,
                     supplier,
@@ -132,7 +133,7 @@ public class AddController {
 
 
             view.getTable().getItems().add(newItem);
-            writeProductToFile(newItem);
+            FileHandler.writeProductToFile(newItem);
 
 
             clearInputFields();

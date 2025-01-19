@@ -1,8 +1,8 @@
 package View;
 
+import Database.FileHandler;
 import Model.Item;
 import Model.SectorType;
-import static Model.FileHandler.getItemsOfInventory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -107,7 +107,7 @@ public class InventoryManagementView extends GridPane implements Design {
 
     }
     private ObservableList<Item> getSampleData() {
-        ArrayList<Item> inventory = getItemsOfInventory(); // Load from file
+        ArrayList<Item> inventory = FileHandler.getItemsOfInventory(); // Load from file
         return FXCollections.observableArrayList(inventory); // Convert to ObservableList
     }
 

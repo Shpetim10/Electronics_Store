@@ -1,9 +1,7 @@
 package Control;
 
-import Model.FileHandler;
 
-
-import static Model.FileHandler.deleteFromFile;
+import Database.FileHandler;
 import Model.SectorType;
 import View.InventoryManagementView;
 import Model.Item;
@@ -32,37 +30,42 @@ public class InventoryController {
         this.view.getProductId().setOnEditCommit(e -> {
             Item item = e.getRowValue();
             item.setProductId(e.getNewValue());
-
+            updateFile(item);
         });
         this.view.getProductName().setOnEditCommit(e -> {
             Item item = e.getRowValue();
             item.setProductName(e.getNewValue());
+            updateFile(item);
 
         });
         this.view.getSector().setOnEditCommit(e -> {
             Item item = e.getRowValue();
             item.setSector(e.getNewValue());
+            updateFile(item);
 
         });
         this.view.getCostPrice().setOnEditCommit(e -> {
             Item item = e.getRowValue();
             item.setPriceBought(e.getNewValue());
+            updateFile(item);
 
         });
         this.view.getSellingPrice().setOnEditCommit(e -> {
             Item item = e.getRowValue();
             item.setSellingPrice(e.getNewValue());
-
+            updateFile(item);
 
         });
         this.view.getBrand().setOnEditCommit(e -> {
             Item item = e.getRowValue();
             item.setBrand(e.getNewValue());
+            updateFile(item);
         });
 
         this.view.getSupplier().setOnEditCommit(e -> {
             Item item = e.getRowValue();
             item.setSupplier(e.getNewValue());
+            updateFile(item);
         });
 
         this.view.getQuantity().setOnEditCommit(e -> {
@@ -105,7 +108,7 @@ public class InventoryController {
 
         this.view.getTable().getItems().removeAll(selectedItems);
 
-        deleteFromFile(selectedItems);
+       // FileHandler.deleteFromFile(selectedItems);
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Deleted successfully.");
         alert.setTitle("Delete Result");

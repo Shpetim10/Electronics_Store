@@ -1,5 +1,6 @@
 package View;
 
+import Database.FileHandler;
 import Model.Item;
 import Model.SectorType;
 import Model.Supplier;
@@ -16,8 +17,6 @@ import javafx.util.converter.IntegerStringConverter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static Model.FileHandler.getItemsOfInventory;
-import static Model.FileHandler.getSuppliersFromFile;
 
 public class SupplierView extends GridPane implements Design {
     private final TableView<Supplier> table = new TableView<>();
@@ -89,7 +88,7 @@ public class SupplierView extends GridPane implements Design {
 
     }
     private ObservableList<Supplier> getSampleData() {
-        ArrayList<Supplier> suppliers = getSuppliersFromFile();
+        ArrayList<Supplier> suppliers = FileHandler.getSuppliersFromFile();
         return FXCollections.observableArrayList(suppliers);
 
     }

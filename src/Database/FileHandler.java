@@ -1,6 +1,7 @@
 package Database;
 
 import Model.*;
+import javafx.collections.ObservableList;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -277,4 +278,99 @@ public class FileHandler {
             return false;
         }
         }
+    public static void updateSupplierInFile(Supplier updatedSupplier) {
+        ArrayList<Supplier> suppliers = getSuppliersFromFile();  // Get current suppliers from file
+
+        // Find the supplier to update and replace it
+        for (int i = 0; i < suppliers.size(); i++) {
+            if (suppliers.get(i).getSupplierId() == updatedSupplier.getSupplierId()) {
+                suppliers.set(i, updatedSupplier);  // Update the supplier
+                break;
+            }
+        }
+
+        // Write the updated suppliers back to the file
+        try (ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(SUPPLIERS_FILE))) {
+            for (Supplier supplier : suppliers) {
+                writer.writeObject(supplier);
+            }
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+    }
+    public static boolean writeSupplierToFile(Supplier supplier) {
+        try (FileOutputStream outputStream = new FileOutputStream(SUPPLIERS_FILE, true)) {
+            ObjectOutputStream writer;
+            if (SUPPLIERS_FILE.length() > 0) {
+                writer = new HeaderlessObjectOutputStream(outputStream);
+            } else {
+                writer = new ObjectOutputStream(outputStream);
+            }
+            writer.writeObject(supplier);
+            writer.close();
+            return true;
+        } catch (IOException ex) {
+            System.out.println("Error writing product to file: " + ex.getLocalizedMessage());
+        }
+        return false;
+    }
+    public static void  deleteSupplier(ObservableList<Supplier> selectedSupplier) {
+        ArrayList<Supplier> suppliers = getSuppliersFromFile(); // Load existing data
+
+        // Remove selected items
+        suppliers.removeAll(selectedSupplier);
+
+        // Overwrite the file with updated data
+        try (ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(PRODUCT_FILE))) {
+            for (Supplier supplier : suppliers) {
+                writer.writeObject(supplier);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    public static ArrayList<Supplier> getSuppliersFromFile(){
+        ArrayList<Supplier> inventory=new ArrayList<>();
+        try(ObjectInputStream reader=new ObjectInputStream(new FileInputStream(SUPPLIERS_FILE))){
+            Supplier supplier;
+            while(true){
+                supplier=(Supplier)reader.readObject();
+                inventory.add(supplier);
+            }
+        }
+        catch(EOFException ex1){
+            System.out.println("Reached end of file!");
+        }
+        catch(ClassNotFoundException ex){
+            ex.printStackTrace();
+        }
+        catch(IOException ex){
+            ex.printStackTrace();
+        }
+        return inventory;
+    }
+    public static void updateItemInFile(Item updatedItem) {
+        ArrayList<Item> inventory = getItemsOfInventory();  // Get current items from file
+
+        // Find the item to update and replace it
+        for (int i = 0; i < inventory.size(); i++) {
+            if (inventory.get(i).getProductId() == updatedItem.getProductId()) {
+                inventory.set(i, updatedItem);  // Update the item
+                break;
+            }
+        }
+
+        // Write the updated inventory back to the file
+        try (ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(PRODUCT_FILE))) {
+            for (Item item : inventory) {
+                writer.writeObject(item);
+            }
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+    }
     }

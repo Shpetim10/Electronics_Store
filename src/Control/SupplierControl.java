@@ -1,13 +1,12 @@
 package Control;
 
-import Model.FileHandler;
+import Database.FileHandler;
 import Model.Item;
 import Model.Supplier;
 import View.SupplierView;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
-import static Model.FileHandler.deleteSupplier;
 
 
 public class SupplierControl {
@@ -70,7 +69,7 @@ public class SupplierControl {
         }
 
         this.view.getTable().getItems().removeAll(selectedItems);
-        deleteSupplier(selectedItems);
+        FileHandler.deleteSupplier(selectedItems);
 
 
 
