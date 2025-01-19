@@ -2,14 +2,13 @@ package Model;
 
 import javafx.beans.property.*;
 
-import java.io.Serial;
-import java.io.Serializable;
+import java.io.*;
 
-public class ItemBought  implements InventoryManagement, Serializable {
+public class ItemBought implements InventoryManagement, Serializable {
+
 
     @Serial
-    private static final long serialVersionUID = -7709318516852293766L;
-    //Are separated for creating table view
+    private static final long serialVersionUID = 742948372676824199L;
     private transient SimpleIntegerProperty productId;
     private transient SimpleStringProperty productName;
     private transient SimpleIntegerProperty quantity;
@@ -17,29 +16,18 @@ public class ItemBought  implements InventoryManagement, Serializable {
     private transient SimpleDoubleProperty totalTax;
     private transient SimpleDoubleProperty totalPrice;
 
-    //Used for Inventory Management
     private Item itemBought;
 
-    public ItemBought(SimpleIntegerProperty productId, SimpleStringProperty productName,
-                      SimpleIntegerProperty quantity, SimpleDoubleProperty sellingPrice) {
-        this.productId = productId;
-        this.productName = productName;
-        this.sellingPrice = sellingPrice;
-        this.quantity = quantity;
+    public ItemBought(int productId, String productName, int quantity, double sellingPrice) {
+        this.productId = new SimpleIntegerProperty(productId);
+        this.productName = new SimpleStringProperty(productName);
+        this.quantity = new SimpleIntegerProperty(quantity);
+        this.sellingPrice = new SimpleDoubleProperty(sellingPrice);
         setTotalPrice();
         setTotalTax();
         setItem();
     }
-    public ItemBought(int productId, String productName,
-                      int quantity, double sellingPrice) {
-        this.setProductId(productId);
-        this.setProductName(productName);
-        this.setSellingPrice(sellingPrice);
-        this.setQuantity(quantity);
-        setTotalPrice();
-        setTotalTax();
-        setItem();
-    }
+
     public ItemBought(Item itemBought) {
         this.productId = new SimpleIntegerProperty(itemBought.getProductId());
         this.productName = new SimpleStringProperty(itemBought.getProductName());
@@ -49,63 +37,92 @@ public class ItemBought  implements InventoryManagement, Serializable {
         setTotalPrice();
         setTotalTax();
     }
+    @Serial
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        out.writeInt(productId.getValue());
+        out.writeUTF(productName.getValueSafe());
+        out.writeInt(quantity.getValue());
+        out.writeDouble(sellingPrice.getValue());
+        out.writeDouble(totalTax.getValue());
+        out.writeDouble(totalPrice.getValue());
+    }
+    @Serial
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        productId = new SimpleIntegerProperty(in.readInt());
+        productName = new SimpleStringProperty((String) in.readUTF());
+        quantity = new SimpleIntegerProperty(in.readInt());
+        sellingPrice = new SimpleDoubleProperty(in.readDouble());
+        totalTax = new SimpleDoubleProperty(in.readDouble());
+        totalPrice = new SimpleDoubleProperty(in.readDouble());
+        setItem();
+    }
+
     public int getProductId() {
-        return productId.getValue();
+        return productId.get();
     }
 
     public void setProductId(int productId) {
-        this.productId=new SimpleIntegerProperty(productId);
-        this.setItem();
+        this.productId.set(productId);
+        setItem();
     }
 
     public String getProductName() {
-        return productName.getValue();
+        return productName.get();
     }
 
     public void setProductName(String productName) {
-        this.productName=new SimpleStringProperty(productName);
+        this.productName.set(productName);
     }
 
     public int getQuantity() {
-        return quantity.getValue();
+        return quantity.get();
     }
 
     public void setQuantity(int quantity) {
-        this.quantity=new SimpleIntegerProperty(quantity);
+        this.quantity.set(quantity);
         setTotalPrice();
         setTotalTax();
     }
 
     public double getSellingPrice() {
-        return sellingPrice.getValue();
+        return sellingPrice.get();
     }
 
     public void setSellingPrice(double sellingPrice) {
-        this.sellingPrice=new SimpleDoubleProperty(sellingPrice);
+        this.sellingPrice.set(sellingPrice);
     }
 
-    public double getTotalPrice(){
-        return this.totalPrice.getValue();
-    }
-    public double getTotalTax(){
-        return this.totalTax.getValue();
+    public double getTotalPrice() {
+        return totalPrice.get();
     }
 
-    public void setTotalTax() {
-        this.totalTax=new SimpleDoubleProperty(0.2*getTotalPrice());
+    public double getTotalTax() {
+        return totalTax.get();
     }
 
-    public void setTotalPrice() {
-        this.totalPrice=new SimpleDoubleProperty(getSellingPrice()*getQuantity());
+    private void setTotalTax() {
+        this.totalTax = new SimpleDoubleProperty(0.2 * getTotalPrice());
     }
-    public void setItem(){
-        for(Item item:Database.getDatabase().getInventory()){
-            if(item.getProductId()==getProductId()){
-                this.itemBought=item;
+
+    private void setTotalPrice() {
+        this.totalPrice = new SimpleDoubleProperty(getSellingPrice() * getQuantity());
+    }
+
+    private void setItem() {
+        if (Database.getDatabase() != null) {
+            for (Item item : Database.getDatabase().getInventory()) {
+                if (item.getProductId() == getProductId()) {
+                    this.itemBought = item;
+                    return;
+                }
             }
         }
+        this.itemBought = null;
     }
-    public Item getItem(){
+
+    public Item getItem() {
         return this.itemBought;
     }
 }

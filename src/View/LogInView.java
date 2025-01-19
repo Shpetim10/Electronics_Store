@@ -1,6 +1,7 @@
 package View;
 
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -10,7 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class LogInView implements Design {
+public class LogInView extends Parent implements Design {
 
         public Scene createScene() {
             // Main layout

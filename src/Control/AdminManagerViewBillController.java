@@ -4,7 +4,7 @@ package Control;
 import Model.Administrator;
 import Model.Cashier;
 import Model.User;
-import View.PerformanceReportView.ViewAllBills;
+import View.PerformanceReportView.ViewAllBillsReportsView;
 import View.SearchBoxPane;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
 
 public class AdminManagerViewBillController{
     private User admin;
-    private ViewAllBills billView=new ViewAllBills();
+    private ViewAllBillsReportsView billView=new ViewAllBillsReportsView();
     private SearchBoxPane searchBar=new SearchBoxPane("Enter Cashier name...");
     private VBox mainView=setUpView();
     public AdminManagerViewBillController(User admin){

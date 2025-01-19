@@ -4,10 +4,14 @@
 Address:		Tirana, Albania
 
 Date:		18:JANUARY:2025
-Time:		13:26
+Time:		23:56
 
 
 CashierId:		1
+
+
+Customer Id:		K30303030D
+Customer points:		160
 
 
                                                            Fiscal Bill
@@ -15,13 +19,14 @@ CashierId:		1
              Id                      Files.Product Name       Quantity               Price      Total Tax                   Total Price
 --------------------------------------------------------------------------------------------------------------------------------------------
 
-            101                                 MacBook             12             1600.00        3840.00                      19200.00
-            102                               Iphone 16              1             1200.00         240.00                       1200.00
+            101                                 MacBook              1             1600.00         320.00                       1600.00
 --------------------------------------------------------------------------------------------------------------------------------------------
 
 
-                                                                  Total of Bill:		            20400.00
-                                                                    Tax of Bill:		             4080.00
-Payment Method:		null
+                                                                  Total of Bill:		             1600.00
+                                                                    Tax of Bill:		              320.00
+Payment Method:		CASH
+Money given:		1700.0
+Change:		100.0
                                        Thank You for shopping with us!
 --------------------------------------------------------------------------------------------------------------------------------------------

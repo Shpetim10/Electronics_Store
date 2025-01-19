@@ -148,37 +148,37 @@ public class FileHandler {
         return customers;
     }
 
-    public static ArrayList<User> getUsers() {
-        ArrayList<User> users=new ArrayList<>();
-        try(ObjectInputStream reader=new ObjectInputStream(new FileInputStream(USERS_FILE))){
-            User user;
-            Object o;
-            while(true){
-                o=reader.readObject();
-                if(o instanceof Cashier){
-                    user=(Cashier)o;
-                }
-                else if(o instanceof Manager){
-                    user=(Manager)o;
-                }
-                else{
-                    user=(Administrator)o;
-                }
-
-                users.add(user);
-            }
-        }
-        catch(EOFException ex1){
-            System.out.println("Reached end of file!");
-        }
-        catch(ClassNotFoundException ex){
-            ex.printStackTrace();
-        }
-        catch(IOException ex){
-            ex.printStackTrace();
-        }
-        return users;
-    }
+//    public static ArrayList<User> getUsers() {
+//        ArrayList<User> users=new ArrayList<>();
+//        try(ObjectInputStream reader=new ObjectInputStream(new FileInputStream(USERS_FILE))){
+//            User user;
+//            Object o;
+//            while(true){
+//                o=reader.readObject();
+//                if(o instanceof Cashier){
+//                    user=(Cashier)o;
+//                }
+//                else if(o instanceof Manager){
+//                    user=(Manager)o;
+//                }
+//                else{
+//                    user=(Administrator)o;
+//                }
+//
+//                users.add(user);
+//            }
+//        }
+//        catch(EOFException ex1){
+//            System.out.println("Reached end of file!");
+//        }
+//        catch(ClassNotFoundException ex){
+//            ex.printStackTrace();
+//        }
+//        catch(IOException ex){
+//            ex.printStackTrace();
+//        }
+//        return users;
+//    }
 
     public static boolean writeUserToFile(User user){
         try(FileOutputStream outputStream=new FileOutputStream(USERS_FILE,true)){

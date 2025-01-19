@@ -7,12 +7,13 @@ import Model.*;
 import View.BillingSystemView.BillingSystemView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
 
 import java.io.FileNotFoundException;
 
 
-public class BillingSystemController {
+public class BillingSystemController implements Alertable{
     private BillingSystemView view = new BillingSystemView();
     private Cashier cashier;
     private Bill bill;
@@ -39,7 +40,7 @@ public class BillingSystemController {
             setDeleteRowButtonListener();
             setSwitchTableListener();
         } catch (NullPointerException ex) {
-            view.getProductCartBox().getErrorMessage().setText("There is no planned shift for you!\nPlease contact Administrator to activate your shift!");
+            showAlert(Alert.AlertType.ERROR,"Action Forbidden!","There is no planned shift for you!\nPlease start your shift in Home Page!");
         }
     }
 

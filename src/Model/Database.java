@@ -13,7 +13,7 @@ public class Database {
     private ArrayList<Cashier> cashiers;
     private Database(){
         this.inventory=FileHandler.getItemsOfInventory();
-        this.completedShifts=FileHandler.getCompletedShifts();
+        //this.completedShifts=FileHandler.getCompletedShifts();
         this.customers=FileHandler.getCustomers();
         this.loyaltyPoints=FileHandler.getLoyaltyPoints();
         this.cashiers=FileHandler.getCashiers();

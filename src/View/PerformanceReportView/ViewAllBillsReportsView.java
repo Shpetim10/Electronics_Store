@@ -3,21 +3,17 @@ package View.PerformanceReportView;
 import View.Design;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
-
-public class ViewAllBills extends HBox implements Design {
+public class ViewAllBillsReportsView extends HBox implements Design {
     private VBox buttonBox=new VBox(20);
     private TextArea displayBill=new TextArea();
     private Label errorMessage=createAlignedBlackBoldLabel("");
 
-    public ViewAllBills(){
+    public ViewAllBillsReportsView(){
         setUpView();
     }
 

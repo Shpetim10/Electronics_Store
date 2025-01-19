@@ -12,5 +12,6 @@ public enum Permission implements Serializable {
     PERMISSION_GRANTING,
     USER_MANAGEMENT,
     REPORT_GENERATOR,
-    VIEW_ALL_BILLS;
+    VIEW_ALL_BILLS,
+    VIEW_ALL_REPORTS;
 }

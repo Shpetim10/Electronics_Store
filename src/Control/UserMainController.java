@@ -1,11 +1,19 @@
 package Control;
 
+import MainRoot.MainUser;
+import View.LogInView;
+import View.PerformanceReportView.ViewAllBillsReportsView;
+import View.ProfileInformationView;
 import View.UserMainView;
 
 import java.util.ArrayList;
 import Model.*;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.stage.Stage;
 
 public class UserMainController {
     private UserMainView view=new UserMainView();
@@ -18,6 +26,10 @@ public class UserMainController {
         setBillingSystemButtonListener();
         setViewBillsButtonListener();
         setGenerateReportButtonListener();
+        setViewReportsButtonListener();
+        setUpProfileInformationIconListener();
+        setUpHomePageSwitcherListener();
+        setUpHomePageSwitcherListener();
     }
     public void setBillingSystemButtonListener(){
         int index=getMenuItemViewIndex("Billing System");
@@ -66,6 +78,50 @@ public class UserMainController {
         }
     }
 
+    public void setViewReportsButtonListener(){
+        int index=getMenuItemViewIndex("View Reports");
+        if (index != -1) {
+            view.getMainMenu().getItems().get(index).setOnAction(
+                    e->{
+                            ViewAllReportsController control=new ViewAllReportsController(user);
+                            view.getDisplayPane().getChildren().add(control.getView());
+                    }
+            );
+        }
+    }
+
+    public void setUpProfileInformationIconListener(){
+        this.view.getProfileLogo().setOnMouseClicked(
+                e->{
+                    ProfileInformationController control=new ProfileInformationController(user);
+                    this.view.getDisplayPane().getChildren().clear();
+                    this.view.getDisplayPane().getChildren().add(control.getView());
+                }
+        );
+    }
+
+    public void setUpHomePageSwitcherListener(){
+        this.view.getStoreLogo().setOnMouseClicked(
+                e->{
+                    this.view.getDisplayPane().getChildren().clear();
+                    this.view.getDisplayPane().getChildren().add(this.view.getHomePage());
+                }
+        );
+    }
+    public void setUpLogOutIconListener() {
+        this.view.getLogOutIcon().setOnMouseClicked(e -> {
+            // Clear the current display pane
+            this.view.getDisplayPane().getChildren().clear();
+
+            // Create a new LogInView instance (ensure LogInView extends Parent or a compatible class)
+            LogInView logIn = new LogInView();
+
+            // Create a new Scene with the LogInView
+            Scene loginScene = new Scene(logIn, 800, 600);
+            MainUser.changeScene(loginScene);
+        });
+    }
+
     //This menu will return index of the item in menu
     public int getMenuItemViewIndex(String viewItem){
 
@@ -88,16 +144,20 @@ public class UserMainController {
         if(user.getPermissions().contains(Permission.VIEW_ALL_BILLS)){
             this.view.addToMainMenu(view.getViewAllBillsItem());
         }
+        if(user.getPermissions().contains(Permission.VIEW_ALL_REPORTS)){
+            this.view.addToMainMenu(view.getViewAllReportsItem());
+        }
     }
 
     public void setHomePage(){
         this.view.getWelcomeMessage().setText("Welcome back, "+user.getFirstName()+" "+user.getLastName()+"!");
         if(user instanceof Cashier){
-            this.view.getDisplayPane().getChildren().add(getView().createCashierMainPage());
+            this.view.setHomePage(this.view.createCashierMainPage());
         }
         else{
-            this.view.getDisplayPane().getChildren().add(getView().createManagerAndAdminHomePage());
+            this.view.setHomePage(this.view.createManagerAndAdminHomePage());
         }
+        this.view.getDisplayPane().getChildren().add(this.view.getHomePage());
     }
 
     public void clearPane(){

@@ -26,7 +26,7 @@ public class BillingSystem extends Application implements Design {
         String password = "password123";
         String email = "jdoe@example.com";
         String phoneNumber = "123-456-7890";
-        Date dateEmployed = new Date();
+        LocalDate dateEmployed = LocalDate.now();
         EmployeeRole role = EmployeeRole.CASHIER;
         ArrayList<Permission> permissions = new ArrayList<>();
         boolean isActive = true;
