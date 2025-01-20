@@ -21,6 +21,15 @@ public class Cashier extends User implements InventoryManagement,Serializable{
         this.shifts = shifts;
     }
 
+    /// Constructor to add - AddCashier
+    public Cashier(int id, String firstName, String lastName, Gender gender, Date birthday, Double salary, String username,
+                   String password, String email, String phoneNumber, LocalDate dateEmployed, EmployeeRole role,
+                   SectorType sector, String photo){
+        super(id, firstName, lastName, gender, birthday, salary, username,
+                password, email, phoneNumber, dateEmployed, role, photo);
+        this.sector = sector;
+    }
+
     public Cashier(int id, String firstName, String lastName, String username, String password, String email, String phoneNumber, LocalDate dateEmployed, EmployeeRole role, ArrayList<Permission> permissions, boolean isActive){
         super(id,firstName,lastName,username,password,email,phoneNumber,dateEmployed,role,permissions,isActive);
         this.shifts=new ArrayList<>();

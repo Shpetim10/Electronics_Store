@@ -6,37 +6,34 @@ import Model.SectorType;
 import View.Design;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class UserAdd extends GridPane implements Design {
-    private int id;
-    private String firstName;
-    private String lastName;
-    private String username;
-    private String password;
-    private String email;
-    private String phoneNumber;
-    private Date dateEmployed;
-    private String photo;
-    private EmployeeRole role;
-    private ArrayList<Permission> permissions;
+public class AddCashier extends GridPane implements Design {
+    private TextField IDTxt;
+    private TextField nameTxt;
+    private TextField lastNameTxt;
+    private ComboBox<String> genderSelection;
+    private TextField salary;
+    private DatePicker birthday;
+    private TextField usernameTxt;
+    private TextField passwordTxt;
+    private TextField emailTxt;
+    private TextField phoneTxt;
+    private DatePicker dateEmployed;
+    private ComboBox<String> roleSelection;
+    private ComboBox<String> sectorSelection;
+    private TextField imagePath;
 
     private Button addBtn;
 
-    public UserAdd() {
-        initializeUI();
-    }
-
-    private void initializeUI() {
+    public AddCashier() {
         this.setPadding(new Insets(50));
         this.setHgap(50);
         this.setVgap(20);
@@ -49,13 +46,13 @@ public class UserAdd extends GridPane implements Design {
         pane.setStyle("-fx-background-color: rgba(167,246,8,0.3);");
 
         // Left side layout (form fields)
-        VBox formLayout = new VBox(15);
+        VBox formLayout = new VBox(5);
         formLayout.setAlignment(Pos.CENTER_LEFT);
         Label IDLabel = createAlignedGreenBoldLabel("ID", 5000);
         Label nameLabel = createAlignedGreenBoldLabel("Name", 5000);
         Label lastNameLabel = createAlignedGreenBoldLabel("Last Name", 5000);
         Label genderLabel = createAlignedGreenBoldLabel("Gender", 5000);
-        Label statusLabel = createAlignedGreenBoldLabel("Status", 5000);
+        Label salaryLabel = createAlignedGreenBoldLabel("Salalry", 5000);
         Label birthdayLabel = createAlignedGreenBoldLabel("Birthday", 5000);
         Label usernameLabel = createAlignedGreenBoldLabel("Username", 5000);
         Label passwordLabel = createAlignedGreenBoldLabel("Password", 5000);
@@ -65,24 +62,23 @@ public class UserAdd extends GridPane implements Design {
         Label roleLabel = createAlignedGreenBoldLabel("Role", 5000);
         Label sectorLabel = createAlignedGreenBoldLabel("Sector", 5000);
 
-        TextField IDTxt = createTextField("ID");
-        TextField nameTxt = createTextField("Name");
-        TextField lastNameTxt = createTextField("Last Name");
-        ComboBox<String> genderSelection = createComboBox("FEMALE");
+        IDTxt = createTextField("ID");
+        nameTxt = createTextField("Name");
+        lastNameTxt = createTextField("Last Name");
+        genderSelection = createComboBox("FEMALE");
         genderSelection.getItems().addAll("MALE", "FEMALE");
-        ComboBox<String> status = createComboBox( "ACTIVE");
-        status.getItems().addAll("ACTIVE", "INACTIVE");
-        DatePicker birthday = createDatePicker("Birthday");
-        TextField usernameTxt = createTextField("Username");
-        TextField passwordTxt = createPasswordField();
-        TextField emailTxt = createTextField("Email");
-        TextField phoneTxt = createTextField("Phone Number");
-        DatePicker dateEmployed= createDatePicker("Date Employed");
-        ComboBox<String> roleSelection = createComboBox("Role");
+        salary = createTextField("Salary");
+        birthday = createDatePicker("Birthday");
+        usernameTxt = createTextField("Username");
+        passwordTxt = createPasswordField();
+        emailTxt = createTextField("Email");
+        phoneTxt = createTextField("Phone Number");
+        dateEmployed = createDatePicker("Date Employed");
+        roleSelection = createComboBox("Role");
         for (EmployeeRole st : EmployeeRole.values()) {
             roleSelection.getItems().add(st.toString());
         }
-        ComboBox<String> sectorSelection = createComboBox("Sector");
+        sectorSelection = createComboBox("Sector");
         for (SectorType st : SectorType.values()) {
             sectorSelection.getItems().add(st.toString());
         }
@@ -92,12 +88,12 @@ public class UserAdd extends GridPane implements Design {
         genderV.getChildren().addAll(genderLabel, genderSelection);
         VBox birthdayV = new VBox();
         birthdayV.getChildren().addAll(birthdayLabel, birthday);
-        VBox statusV = new VBox();
-        statusV.getChildren().addAll(statusLabel, status);
+        VBox salaryV = new VBox();
+        salaryV.getChildren().addAll(salaryLabel, salary);
         HBox gender_birthday_status = new HBox();
         gender_birthday_status.setAlignment(Pos.CENTER);
         gender_birthday_status.setSpacing(50);
-        gender_birthday_status.getChildren().addAll(genderV, birthdayV, statusV);
+        gender_birthday_status.getChildren().addAll(genderV, birthdayV, salaryV);
 
         // Setting date employed and role on the same row
         VBox dateV = new VBox();
@@ -121,9 +117,6 @@ public class UserAdd extends GridPane implements Design {
                 sectorLabel, sectorSelection
         );
 
-//        pane.add(formLayout, 0, 0);
-
-
         // Right side layout (image and buttons)
         VBox rightLayout = new VBox(20);
         rightLayout.setAlignment(Pos.CENTER);
@@ -134,7 +127,7 @@ public class UserAdd extends GridPane implements Design {
         imgView.setFitHeight(350);
         imgView.setPreserveRatio(true);
 
-        TextField imagePath = createTextField("Image path");
+        imagePath = createTextField("Image path");
 
         HBox buttonLayout = new HBox(200);
         buttonLayout.setAlignment(Pos.CENTER);
@@ -149,30 +142,72 @@ public class UserAdd extends GridPane implements Design {
         // Adding layouts to the grid pane
         this.add(formLayout, 0, 0);
         this.add(rightLayout, 1, 0);
-
-        addController();
     }
 
-    private void addController() {
-        addBtn.setOnAction(event -> handleAddUser());
-    }
-
-    private void handleAddUser() {
-        System.out.println("User added: " + username); // Replace with actual logic
-        closeWindow();
-    }
-
-
-    private void closeWindow() {
+    public void closeWindow() {
         Stage stage = (Stage) this.getScene().getWindow();
         stage.close();
     }
 
-    public void showUserAddWindow() {
-        Stage userAddStage = new Stage();
-        userAddStage.setTitle("Add User");
-        userAddStage.setScene(new Scene(this, 800, 600));
-        userAddStage.setMaximized(true);
-        userAddStage.show();
+    public TextField getIDTxt() {
+        return IDTxt;
     }
+
+    public TextField getNameTxt() {
+        return nameTxt;
+    }
+
+    public TextField getLastNameTxt() {
+        return lastNameTxt;
+    }
+
+    public ComboBox<String> getGenderSelection() {
+        return genderSelection;
+    }
+
+    public TextField getSalary() {
+        return salary;
+    }
+
+    public DatePicker getBirthday() {
+        return birthday;
+    }
+
+    public TextField getUsernameTxt() {
+        return usernameTxt;
+    }
+
+    public TextField getPasswordTxt() {
+        return passwordTxt;
+    }
+
+    public TextField getEmailTxt() {
+        return emailTxt;
+    }
+
+    public TextField getPhoneTxt() {
+        return phoneTxt;
+    }
+
+    public DatePicker getDateEmployed() {
+        return dateEmployed;
+    }
+
+    public ComboBox<String> getRoleSelection() {
+        return roleSelection;
+    }
+
+    public ComboBox<String> getSectorSelection() {
+        return sectorSelection;
+    }
+
+    public TextField getImagePath() {
+        return imagePath;
+    }
+
+    public Button getAddBtn() {
+        return addBtn;
+    }
+
+
 }

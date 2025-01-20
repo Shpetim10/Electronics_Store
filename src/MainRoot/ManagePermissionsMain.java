@@ -1,6 +1,8 @@
 package MainRoot;
 
+import Control.ManagePermissionsController;
 import Control.UserManagementController;
+import View.UserManagementView.PermissionGrantingView;
 import javafx.application.Application;
 
 import javafx.scene.Scene;
@@ -9,15 +11,15 @@ import javafx.stage.Stage;
 
 import View.UserManagementView.UserManagementView;
 
-public class UserManagementMain extends Application {
+public class ManagePermissionsMain extends Application {
 
-    UserManagementView view = new UserManagementView();
-    UserManagementController control = new UserManagementController(view);
+    PermissionGrantingView view = new PermissionGrantingView();
+    ManagePermissionsController control = new ManagePermissionsController(view);
     @Override
 
     public void start(Stage primaryStage) {
-        UserManagementView userManagementView = new UserManagementView();
-        Scene scene = new Scene(userManagementView);
+        PermissionGrantingView view = new PermissionGrantingView();
+        Scene scene = new Scene(view);
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.setTitle("User Management");
