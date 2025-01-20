@@ -100,6 +100,13 @@ public class Validator {
         return email != null && email.matches(emailPattern);
     }
 
+    public static boolean isValidPhoneNumber(String phoneNumber) {
+        // Regular expression for phone numbers where spaces are optional
+        String phoneNumberPattern = "^\\+\\d{1,3}(\\s?\\d{2,4}){2,4}$";
+        return phoneNumber != null && phoneNumber.matches(phoneNumberPattern);
+    }
+
+
 
         public static void main(String[] args) {
 

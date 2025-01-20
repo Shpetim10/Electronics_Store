@@ -17,7 +17,6 @@ import javafx.util.converter.IntegerStringConverter;
 public class UserTable extends VBox implements Design {
     private TableView<User> table;
 
-
     private final TableColumn<User, Integer> idColumn;
     private final TableColumn<User, String> nameColumn;
     private final TableColumn<User, String> lastNameColumn;

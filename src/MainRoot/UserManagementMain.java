@@ -2,22 +2,22 @@ package MainRoot;
 
 import Control.UserManagementController;
 import javafx.application.Application;
-
 import javafx.scene.Scene;
-
 import javafx.stage.Stage;
-
 import View.UserManagementView.UserManagementView;
 
 public class UserManagementMain extends Application {
 
-    UserManagementView view = new UserManagementView();
-    UserManagementController control = new UserManagementController(view);
     @Override
-
     public void start(Stage primaryStage) {
-        UserManagementView userManagementView = new UserManagementView();
-        Scene scene = new Scene(userManagementView);
+        // Create the view
+        UserManagementView view = new UserManagementView();
+
+        // Create and initialize the controller
+        UserManagementController controller = new UserManagementController(view);
+
+        // Set up the scene and stage
+        Scene scene = new Scene(view);
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.setTitle("User Management");
@@ -25,9 +25,6 @@ public class UserManagementMain extends Application {
     }
 
     public static void main(String[] args) {
-
         launch(args);
-
     }
-
 }
