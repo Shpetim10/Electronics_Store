@@ -2,7 +2,9 @@ package Database;
 
 import Model.*;
 
+import java.io.File;
 import java.util.ArrayList;
+
 
 public class Database {
     private static Database database=new Database();
@@ -13,16 +15,22 @@ public class Database {
     private ArrayList<Integer> loyaltyPoints;
     private ArrayList<SectorType> sectors;
     private ArrayList<Cashier> cashiers;
+    private ArrayList<Supplier>suppliers;
     private Database(){
         this.inventory=FileHandler.getItemsOfInventory();
         this.customers=FileHandler.getCustomers();
         this.loyaltyPoints=FileHandler.getLoyaltyPoints();
         this.cashiers=FileHandler.getCashiers();
+        this.suppliers= FileHandler.getSuppliersFromFile();
+
         //this.users=FileHandler.getUsers();
         setSectors();
     }
     public void updateInventory(ArrayList<Item> inventory){
         FileHandler.updateInventory(inventory);
+    }
+    public void updateSupplier(ArrayList<Supplier> suppliers){
+        FileHandler.updateSupplierInFile(suppliers);
     }
 
     public void updateCashiers(ArrayList<Cashier> cashiers){
@@ -49,6 +57,9 @@ public class Database {
 
     public ArrayList<Item> getInventory() {
         return inventory;
+    }
+    public ArrayList<Supplier> getSuppliers() {
+        return suppliers;
     }
 
     public ArrayList<Shift> getCompletedShifts() {
