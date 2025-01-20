@@ -278,32 +278,21 @@ public class FileHandler {
             return false;
         }
         }
-    public static void updateSupplierInFile(Supplier updatedSupplier) {
-        ArrayList<Supplier> suppliers = getSuppliersFromFile();  // Get current suppliers from file
-
-        // Find the supplier to update and replace it
-        for (int i = 0; i < suppliers.size(); i++) {
-            if (suppliers.get(i).getSupplierId() == updatedSupplier.getSupplierId()) {
-                suppliers.set(i, updatedSupplier);  // Update the supplier
-                break;
+    public static boolean updateSupplierInFile(ArrayList<Supplier> suppliers) {
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(SUPPLIERS_FILE))) {
+            for (Supplier supplier :suppliers) {
+                outputStream.writeObject(supplier);
             }
-        }
-
-        // Write the updated suppliers back to the file
-        try (ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(SUPPLIERS_FILE))) {
-            for (Supplier supplier : suppliers) {
-                writer.writeObject(supplier);
-            }
-
+            return true;
         } catch (IOException ex) {
-            ex.printStackTrace();
+            return false;
         }
-
     }
+
     public static boolean writeSupplierToFile(Supplier supplier) {
-        try (FileOutputStream outputStream = new FileOutputStream(SUPPLIERS_FILE, true)) {
+        try (FileOutputStream outputStream = new FileOutputStream(FileHandler.SUPPLIERS_FILE, true)) {
             ObjectOutputStream writer;
-            if (SUPPLIERS_FILE.length() > 0) {
+            if (FileHandler.SUPPLIERS_FILE.length() > 0) {
                 writer = new HeaderlessObjectOutputStream(outputStream);
             } else {
                 writer = new ObjectOutputStream(outputStream);
@@ -316,21 +305,21 @@ public class FileHandler {
         }
         return false;
     }
-    public static void  deleteSupplier(ObservableList<Supplier> selectedSupplier) {
-        ArrayList<Supplier> suppliers = getSuppliersFromFile(); // Load existing data
-
-        // Remove selected items
-        suppliers.removeAll(selectedSupplier);
-
-        // Overwrite the file with updated data
-        try (ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(PRODUCT_FILE))) {
-            for (Supplier supplier : suppliers) {
-                writer.writeObject(supplier);
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
+//    public static void  deleteSupplier(ObservableList<Supplier> selectedSupplier) {
+//        ArrayList<Supplier> suppliers = getSuppliersFromFile(); // Load existing data
+//
+//        // Remove selected items
+//        suppliers.removeAll(selectedSupplier);
+//
+//        // Overwrite the file with updated data
+//        try (ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(PRODUCT_FILE))) {
+//            for (Supplier supplier : suppliers) {
+//                writer.writeObject(supplier);
+//            }
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//        }
+//    }
     public static ArrayList<Supplier> getSuppliersFromFile(){
         ArrayList<Supplier> inventory=new ArrayList<>();
         try(ObjectInputStream reader=new ObjectInputStream(new FileInputStream(SUPPLIERS_FILE))){
@@ -351,25 +340,5 @@ public class FileHandler {
         }
         return inventory;
     }
-    public static void updateItemInFile(Item updatedItem) {
-        ArrayList<Item> inventory = getItemsOfInventory();  // Get current items from file
 
-        // Find the item to update and replace it
-        for (int i = 0; i < inventory.size(); i++) {
-            if (inventory.get(i).getProductId() == updatedItem.getProductId()) {
-                inventory.set(i, updatedItem);  // Update the item
-                break;
-            }
-        }//Sben kjo dmth se un i kam be thirrja ksaj metode ktu
-        // Write the updated inventory back to the file
-        try (ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(PRODUCT_FILE))) {
-            for (Item item : inventory) {
-                writer.writeObject(item);
-            }
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
-    }
     }

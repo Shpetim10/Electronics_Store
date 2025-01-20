@@ -4,18 +4,17 @@ import Database.FileHandler;
 import Model.Item;
 import Model.SectorType;
 import Model.Validator;
-import View.AddView;
+import View.AddProductView;
 import javafx.scene.control.Alert;
 
 import java.time.LocalDate;
 
 
 
-public class AddController {
-    private final AddView view;
+public class AddProductController {
+    private final AddProductView view=new AddProductView();
 
-    public AddController(AddView view) {
-        this.view = view;
+    public AddProductController() {
         initialize();
     }
 
@@ -43,9 +42,6 @@ public class AddController {
                 showAlert(Alert.AlertType.WARNING, "Duplicate Product", "A product with this Product Code or Barcode already exists!");
                 return;
             }
-
-
-
             String productNameValue = view.getProductName().getText();
             if (!Validator.validateProductName(productNameValue)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Input", "Product Name must start with a capital letter and contain only letters.");
@@ -114,9 +110,6 @@ public class AddController {
                 showAlert(Alert.AlertType.WARNING, "Invalid Input", "Last Restock Date cannot be in the future.");
                 return;
             }
-
-
-//Rregullo cik kto
             Item newItem = new Item(
                     productCodeValue,
                     productNameValue,
@@ -131,11 +124,8 @@ public class AddController {
 
             );
 
-
             view.getTable().getItems().add(newItem);
             FileHandler.writeProductToFile(newItem);
-
-
             clearInputFields();
 
             // Show success message
@@ -155,7 +145,6 @@ public class AddController {
     public void clearInputFields() {
         view.getProductCode().clear();
         view.getProductName().clear();
-
         view.getSellingPrice().clear();
         view.getPriceBought().clear();
         view.getSupplier().clear();
@@ -182,5 +171,8 @@ public class AddController {
         return false;
     }
 
+    public AddProductView getView() {
+        return view;
+    }
 }
 
