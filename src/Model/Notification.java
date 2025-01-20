@@ -2,13 +2,15 @@ package Model;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 
 public class Notification implements Serializable {
     @Serial
     private static final long serialVersionUID = 2029610921586220545L;
     private String message;
-    private Date dateCreated;
+    private LocalDateTime dateCreated;
     private boolean isRead;
     private NotificationType subject;
 
@@ -17,7 +19,7 @@ public class Notification implements Serializable {
         this.subject=subject;
         this.message=message;
         this.isRead=false;
-        this.dateCreated=new Date();
+        this.dateCreated=LocalDateTime.now();
     }
 
     public Notification(String message){
@@ -30,9 +32,9 @@ public class Notification implements Serializable {
         this.message = message;
     }
 
-    public Date getDateCreated() {return this.dateCreated;}
+    public LocalDateTime getDateCreated() {return this.dateCreated;}
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(LocalDateTime dateCreated) {
         this.dateCreated = dateCreated;
     }
 
@@ -42,6 +44,7 @@ public class Notification implements Serializable {
     }
 
     public NotificationType getSubject() {return this.subject;}
+
     public void setSubject(NotificationType subject) {
         this.subject = subject;
     }
