@@ -19,7 +19,7 @@ public class AddUserMain extends Application {
         // Configure the primary stage
         primaryStage.setTitle("Add Cashier");
         primaryStage.setMaximized(true);
-        primaryStage.setScene(new Scene(userAddView, 800, 600)); // Set the size of the view
+        primaryStage.setScene(new Scene(control.getView(), 800, 600)); // Set the size of the view
         primaryStage.show(); // Display the stage
     }
 

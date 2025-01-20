@@ -17,74 +17,63 @@ public class AddCashierControl {
 
     public AddCashierControl(AddCashier view) {
         this.view = view;
-        view.getAddBtn().setOnAction(e -> handleAddCashier());
+//        view.getAddBtn().setOnAction(e -> handleAddCashier());
     }
 
     public void handleAddCashier() {
-        try {
-            validateInputs();
-
-            int ID = Integer.parseInt(view.getIDTxt().getText());
-            String name = view.getNameTxt().getText();
-            String lastName = view.getLastNameTxt().getText();
-            Gender gender = Gender.valueOf(view.getGenderSelection().getValue());
-            Date birthday = parseDate(view.getBirthday().getValue().toString());
-            Double salary = Double.parseDouble(view.getSalary().getText());
-            String username = view.getUsernameTxt().getText();
-            String password = view.getPasswordTxt().getText();
-            String email = view.getEmailTxt().getText();
-            String phoneNumber = view.getPhoneTxt().getText();
-            LocalDate dateEmployed = view.getDateEmployed().getValue();
-            EmployeeRole role = EmployeeRole.valueOf(view.getRoleSelection().getValue().toUpperCase());
-            SectorType sector = SectorType.valueOf(view.getSectorSelection().getValue().toUpperCase());
-            String photo = view.getImagePath().getText();
-
-            // Create the Cashier object
-            // Create the Cashier object
-
-
-            Cashier newCashier = new Cashier(
-                    ID, name, lastName, gender, birthday, salary, username,
-                    password, email, phoneNumber, dateEmployed, role, sector, photo
-            );
-
-            // Write to the .dat file
-            writeToFile(newCashier);
-
-            System.out.println("Cashier created and written to .dat file successfully");
-            view.closeWindow();
-
-            // Show success message
-            showAlert(Alert.AlertType.INFORMATION, "Success", "Cashier was successfully added and saved to file!");
-
-        } catch (NumberFormatException ex) {
-            showAlert(Alert.AlertType.ERROR, "Invalid Input", "Please ensure all numeric fields are correctly filled.");
-            System.out.println("Number format exception: " + ex.getMessage());
-        } catch (IllegalArgumentException ex) {
-            showAlert(Alert.AlertType.ERROR, "Invalid Input", ex.getMessage());
-            System.out.println("Illegal argument exception: " + ex.getMessage());
-        } catch (ParseException ex) {
-            showAlert(Alert.AlertType.ERROR, "Invalid Date", "Please ensure the date format is YYYY-MM-DD.");
-            System.out.println("Parse exception: " + ex.getMessage());
-        } catch (IOException ex) {
-            showAlert(Alert.AlertType.ERROR, "File Error", "Failed to save cashier to file. Please try again.");
-            System.out.println("IOException: " + ex.getMessage());
-        } catch (Exception ex) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Failed to add cashier. Please try again.");
-            System.out.println("General exception: " + ex.getMessage());
-        }
-    }
-
-    private void validateInputs() {
-        if (view.getIDTxt().getText().isEmpty() || view.getNameTxt().getText().isEmpty() || view.getUsernameTxt().getText().isEmpty()) {
-            throw new IllegalArgumentException("ID, Name, and Username are required fields.");
-        }
-        if (view.getGenderSelection().getValue() == null || view.getRoleSelection().getValue() == null || view.getSectorSelection().getValue() == null) {
-            throw new IllegalArgumentException("Gender, Role, and Sector must be selected.");
-        }
-        if (view.getPhoneTxt().getText().isEmpty()) {
-            throw new IllegalArgumentException("Phone Number is a required field.");
-        }
+//        try {
+//            validateInputs();
+//
+//            int ID = Integer.parseInt(view.getIDTxt().getText());
+//            String name = view.getNameTxt().getText();
+//            String lastName = view.getLastNameTxt().getText();
+//            Gender gender = Gender.valueOf(view.getGenderSelection().getValue());
+//            LocalDate birthday = view.getBirthday().getValue();
+//            Double salary = Double.parseDouble(view.getSalary().getText());
+//            String username = view.getUsernameTxt().getText();
+//            String password = view.getPasswordTxt().getText();
+//            String email = view.getEmailTxt().getText();
+//            String phoneNumber = view.getPhoneTxt().getText();
+//            LocalDate dateEmployed = view.getDateEmployed().getValue();
+//            EmployeeRole role = EmployeeRole.valueOf(view.getRoleSelection().getValue().toUpperCase());
+//            SectorType sector = SectorType.valueOf(view.getSectorSelection().getValue().toUpperCase());
+//            String photo = view.getImagePath().getText();
+//
+//            // Create the Cashier object
+//            // Create the Cashier object
+//
+//
+//            System.out.println("Cashier created and written to .dat file successfully");
+//            view.closeWindow();
+//
+//            // Show success message
+//            showAlert(Alert.AlertType.INFORMATION, "Success", "Cashier was successfully added and saved to file!");
+//
+//        } catch (NumberFormatException ex) {
+//            showAlert(Alert.AlertType.ERROR, "Invalid Input", "Please ensure all numeric fields are correctly filled.");
+//            System.out.println("Number format exception: " + ex.getMessage());
+//        } catch (IllegalArgumentException ex) {
+//            showAlert(Alert.AlertType.ERROR, "Invalid Input", ex.getMessage());
+//            System.out.println("Illegal argument exception: " + ex.getMessage());
+//        } catch (IOException ex) {
+//            showAlert(Alert.AlertType.ERROR, "File Error", "Failed to save cashier to file. Please try again.");
+//            System.out.println("IOException: " + ex.getMessage());
+//        } catch (Exception ex) {
+//            showAlert(Alert.AlertType.ERROR, "Error", "Failed to add cashier. Please try again.");
+//            System.out.println("General exception: " + ex.getMessage());
+//        }
+//    }
+//
+//    private void validateInputs() {
+//        if (view.getIDTxt().getText().isEmpty() || view.getNameTxt().getText().isEmpty() || view.getUsernameTxt().getText().isEmpty()) {
+//            throw new IllegalArgumentException("ID, Name, and Username are required fields.");
+//        }
+//        if (view.getGenderSelection().getValue() == null || view.getRoleSelection().getValue() == null || view.getSectorSelection().getValue() == null) {
+//            throw new IllegalArgumentException("Gender, Role, and Sector must be selected.");
+//        }
+//        if (view.getPhoneTxt().getText().isEmpty()) {
+//            throw new IllegalArgumentException("Phone Number is a required field.");
+//        }
     }
 
     public Date parseDate(String dateString) throws ParseException {

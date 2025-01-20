@@ -1,8 +1,7 @@
 package MainRoot;
 
 
-import Control.InventoryController;
-import View.InventoryManagementView;
+import Control.InventoryManagementController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -16,9 +15,7 @@ public class InvetoryManagementMain extends Application {
     public void start(Stage primaryStage){
         //InventoryManagementView view=new InventoryManagementView();
         primaryStage.setTitle("Inventory");
-        InventoryController control=new InventoryController();
-        primaryStage.setScene(new Scene(view));
-        InventoryController control=new InventoryController();
+        InventoryManagementController control=new InventoryManagementController();
         primaryStage.setScene(new Scene(control.getView()));
         primaryStage.setMaximized(true);
         primaryStage.show();

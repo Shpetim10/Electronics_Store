@@ -3,25 +3,29 @@
 
 Address:		Tirana, Albania
 
-Date:		14:JANUARY:2025
-Time:		22:25
+Date:		20:JANUARY:2025
+Time:		20:11
 
 
-CashierId:		1
+
+
+Customer Id:		A12345678B
+Customer points:		50
 
 
                                                            Fiscal Bill
 
-             Id                            Database.Files.Product Name       Quantity               Price      Total Tax                   Total Price
+             Id                            Product Name       Quantity               Price      Total Tax                   Total Price
 --------------------------------------------------------------------------------------------------------------------------------------------
 
-            101                                    Milk              2                1.50           0.60                          3.00
-            102                                   Bread              1                1.00           0.20                          1.00
+             11                                  Iphone              1              500.00         100.00                        500.00
 --------------------------------------------------------------------------------------------------------------------------------------------
 
 
-                                                                  Total of Bill:		                4.00
-                                                                    Tax of Bill:		                0.80
-Payment Method:		null
+                                                                  Total of Bill:		              500.00
+                                                                    Tax of Bill:		              100.00
+Payment Method:		CASH
+Money given:		500.0
+Change:		0.0
                                        Thank You for shopping with us!
 --------------------------------------------------------------------------------------------------------------------------------------------

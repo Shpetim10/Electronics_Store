@@ -62,8 +62,6 @@ public class ReportGenerator {
                         output.println("Shift Tax Paid:\t\t" + shiftTax);
                         output.println("Shift No-Tax Earnings:\t\t" + (shiftSales - shiftTax));
                         output.println("Items Sold:\t\t" + shift.getNrOfItemsSold());
-                        output.println("Items Returned:\t\t" + shift.getNrOfReturns());
-                        output.println("Items Refunded:\t\t" + shift.getNrOfRefunds());
                         output.println("-".repeat(40));
                         output.println("");
                     }

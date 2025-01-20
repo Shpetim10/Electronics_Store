@@ -16,14 +16,14 @@ import java.io.FileNotFoundException;
 
 public class BillingSystemController implements Alertable{
     private BillingSystemView view = new BillingSystemView();
-    private Cashier cashier;
+    private User user;
     private Bill bill;
     private ObservableList<ItemBought> itemsBought = FXCollections.observableArrayList();
     private ObservableList<Item> inventory=FXCollections.observableArrayList(Database.getDatabase().getInventory());
 
-    public BillingSystemController(Cashier cashier) {
-        try {
-            this.cashier = cashier;
+    public BillingSystemController(User user) {
+//        try {
+            this.user = user;
             setUpGeneralData();
             setCashButtonListener(); //Displays pane
             setCreditCardButtonListener(); //Displays Pane
@@ -40,17 +40,24 @@ public class BillingSystemController implements Alertable{
             setEditQuantityListener();
             setDeleteRowButtonListener();
             setSwitchTableListener();
-        } catch (NullPointerException ex) {
-            showAlert(Alert.AlertType.ERROR,"Action Forbidden!","There is no planned shift for you!\nPlease start your shift in Home Page!");
-        }
+//        } catch (NullPointerException ex) {
+//            System.out.println(ex.getMessage());
+//            showAlert(Alert.AlertType.ERROR,"Action Forbidden!","There is no planned shift for you!\nPlease start your shift in Home Page!");
+//        }
     }
 
     //Useful No-Action Methods
     public void setUpGeneralData() {
         try {
             bill = new Bill();
-            bill.setBillId((this.cashier.getActiveShift().getBills().size() + 1));
-            bill.setCashier(this.cashier);
+            if(user instanceof Cashier){
+                bill.setBillId((((Cashier)this.user).getActiveShift().getBills().size() + 1));
+                bill.setCashier(((Cashier)this.user));
+            }
+            else{
+                bill.setBillId((((Administrator)user).getShift().getBills().size() + 1));
+            }
+
         } catch (NullPointerException ex) {
             throw new NullPointerException();
         }
@@ -68,9 +75,16 @@ public class BillingSystemController implements Alertable{
     }
 
     public void setUpTodaySales() {
-        view.getProductCartBox().getTotalBillNumber().setText(String.valueOf(this.cashier.getActiveShift().getBills().size()));
-        view.getProductCartBox().getMoneyCollected().setText(String.valueOf(this.cashier.getActiveShift().getTotalMoneyCollected()));
-        view.getProductCartBox().getTaxCollected().setText(String.valueOf(this.cashier.getActiveShift().getTotalTaxCollected()));
+        if(user instanceof Cashier) {
+            view.getProductCartBox().getTotalBillNumber().setText(String.valueOf(((Cashier) this.user).getActiveShift().getBills().size()));
+            view.getProductCartBox().getMoneyCollected().setText(String.valueOf(((Cashier) this.user).getActiveShift().getTotalMoneyCollected()));
+            view.getProductCartBox().getTaxCollected().setText(String.valueOf(((Cashier) this.user).getActiveShift().getTotalTaxCollected()));
+        }
+        else{
+            view.getProductCartBox().getTotalBillNumber().setText(String.valueOf(((Administrator) this.user).getShift().getBills().size()));
+            view.getProductCartBox().getMoneyCollected().setText(String.valueOf(((Administrator) this.user).getShift().getTotalMoneyCollected()));
+            view.getProductCartBox().getTaxCollected().setText(String.valueOf(((Administrator) this.user).getShift().getTotalTaxCollected()));
+        }
     }
 
     public void setUpBillPricingData() {
@@ -402,7 +416,13 @@ public class BillingSystemController implements Alertable{
 
                                 try{
                                     this.bill.generateBill();
-                                    this.cashier.getActiveShift().getBills().add(bill);
+                                    if(user instanceof Cashier){
+                                        ((Cashier)this.user).getActiveShift().getBills().add(bill);
+                                    }
+                                    else{
+                                        ((Administrator)this.user).getShift().getBills().add(bill);
+                                    }
+
                                     Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
                                     Database.getDatabase().updateCustomers(Database.getDatabase().getCustomers());
                                     Database.getDatabase().updateInventory(Database.getDatabase().getInventory());
@@ -471,13 +491,13 @@ public class BillingSystemController implements Alertable{
         this.view = view;
     }
 
-    public Cashier getCashier() {
-        return cashier;
-    }
-
-    public void setCashier(Cashier cashier) {
-        this.cashier = cashier;
-    }
+//    public Cashier getCashier() {
+//        return cashier;
+//    }
+//
+//    public void setCashier(Cashier cashier) {
+//        this.cashier = cashier;
+//    }
 
     public Bill getBill() {
         return bill;

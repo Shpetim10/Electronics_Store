@@ -23,11 +23,11 @@ public class NotificationPanelMain extends Application {
         notifications.add(notification);
 
 
-        Manager manager=new Manager(1,"Arlin","B","1234",
-                "abcd","abbccd","0132546", LocalDate.now(),"",EmployeeRole.MANAGER,new ArrayList<>(),true,notifications,new ArrayList<>());
-        NotificationPanelController controller=new NotificationPanelController(manager);
+//        Manager manager=new Manager(1,"Arlin","B","1234",
+//                "abcd","abbccd","0132546", LocalDate.now(),"",EmployeeRole.MANAGER,new ArrayList<>(),true,notifications,new ArrayList<>());
+        //NotificationPanelController controller=new NotificationPanelController(manager);
         primaryStage.setTitle("Notification");
-        primaryStage.setScene(new Scene(controller.getView()));
+        //primaryStage.setScene(new Scene(controller.getView()));
         primaryStage.setMaximized(true);
         primaryStage.show();
     }

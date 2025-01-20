@@ -1,8 +1,6 @@
 package Database;
 
 import Model.*;
-import javafx.collections.ObservableList;
-
 import java.io.*;
 import java.util.ArrayList;
 

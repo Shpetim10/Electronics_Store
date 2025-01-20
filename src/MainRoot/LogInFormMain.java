@@ -1,7 +1,9 @@
 package MainRoot;
 
+import Control.LogInController;
 import View.LogInView;
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
@@ -11,9 +13,9 @@ public class LogInFormMain extends Application {
     }
 
     public void start(Stage primaryStage){
-        LogInView view=new LogInView();
+        LogInController control=new LogInController(primaryStage);
         primaryStage.setTitle("Log in");
-        primaryStage.setScene(view.createScene());
+        primaryStage.setScene(new Scene(control.getView()));
         primaryStage.setMaximized(true);
         primaryStage.show();
     }

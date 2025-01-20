@@ -1,13 +1,10 @@
 package Control;
 
 import Database.FileHandler;
-import View.LogInView;
-import View.SupplierView;
 import View.UserMainView;
 
 import java.util.ArrayList;
 import Model.*;
-import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 
 public class UserMainController {
@@ -33,7 +30,7 @@ public class UserMainController {
             view.getMainMenu().getItems().get(index).setOnAction(
                     e->{
                         clearPane();
-                        BillingSystemController billingSystem=new BillingSystemController((Cashier)user);
+                        BillingSystemController billingSystem=new BillingSystemController(user);
                         view.getDisplayPane().getChildren().add(billingSystem.getView());
                     }
             );
@@ -95,7 +92,7 @@ public class UserMainController {
         if (index != -1) {
             view.getMainMenu().getItems().get(index).setOnAction(
                     e->{
-                        AddController control=new AddController();
+                        //AddController control=new AddController();
                        // view.getDisplayPane().getChildren().add(control.getView());
                     }
             );
@@ -106,7 +103,7 @@ public class UserMainController {
         if (index != -1) {
             view.getMainMenu().getItems().get(index).setOnAction(
                     e->{
-                        InventoryController control=new InventoryController();
+                        InventoryManagementController control=new InventoryManagementController();
                         view.getDisplayPane().getChildren().add(control.getView());
                     }
             );

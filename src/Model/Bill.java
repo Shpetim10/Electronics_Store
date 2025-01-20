@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 public class Bill implements CustomerLoyalty, Serializable {
 
+
     @Serial
     private static final long serialVersionUID = -2427632641605966571L;
     private long billId;
@@ -67,7 +68,8 @@ public class Bill implements CustomerLoyalty, Serializable {
         output.println("Address:\t\tTirana, Albania\n");
         output.println("Date:\t\t" + this.getDateGenerated().getDayOfMonth()+":"+this.getDateGenerated().getMonth()+":"+this.getDateGenerated().getYear());
         output.println("Time:\t\t" + this.getTimeGenerated().getHour()+":"+this.getTimeGenerated().getMinute() + "\n\n");
-        output.println("CashierId:\t\t" + this.cashier.getId());
+        if(cashier!=null)
+            output.println("CashierId:\t\t" + this.cashier.getId());
 
         if(customerIdCard!=null){
             output.println("\n\nCustomer Id:\t\t" + customerIdCard);
@@ -110,16 +112,22 @@ public class Bill implements CustomerLoyalty, Serializable {
     }   //Sh
 
     public String createBillPath() {
-        String path = "src/Database/Files/Bills/";
-        path += "Cashier" + this.cashier.getId(); //Add to folder of the current cashier
-        path += "/Shift" + this.cashier.getActiveShift().getShiftId() + "/";
-        File directory = new File(path);
+        String path="src/Database/Files/Bills/";
+        if(this.cashier!=null){
+            path += "Cashier" + this.cashier.getId(); //Add to folder of the current cashier
+            path += "/Shift" + this.cashier.getActiveShift().getShiftId() + "/";
 
+            }
+            else{
+                path+="Administrator/";
+            }
+        File directory = new File(path);
         if (!directory.exists()) {
             directory.mkdirs(); // Create directories if they do not exist
         }
+            path += "Bill" + this.getBillId() + "_" + this.getDateGenerated().getDayOfMonth() + "_" + this.getDateGenerated().getMonth() + "_" + this.getDateGenerated().getYear() + ".txt";
 
-        path += "Bill" + this.getBillId() + "_" + this.getDateGenerated().getDayOfMonth() + "_" + this.getDateGenerated().getMonth() + "_" + this.getDateGenerated().getYear() + ".txt";
+
         return path;
     }  //Sh
 

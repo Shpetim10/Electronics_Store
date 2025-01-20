@@ -1,17 +1,23 @@
 package Control;
 
 import Database.Database;
-import Exceptions.AccountLockedException;
+import Model.Administrator;
+import Model.Cashier;
+import Model.Manager;
 import Model.User;
 import View.LogInView;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 
 public class LogInController implements Alertable {
     private LogInView view=new LogInView();
     private int logInAttempts = 0;
+    private boolean validCredentials=false;
     private User user=null;
-
-    public LogInController() {
+    private Stage primaryStage;
+    public LogInController(Stage primaryStage) {
+        this.primaryStage=primaryStage;
         setUpLogInViewButton();
     }
 
@@ -24,16 +30,41 @@ public class LogInController implements Alertable {
 
             String username = this.view.getUsernameField().getText();
             String password = this.view.getPasswordField().getText();
-
-            boolean validCredentials=false;
-            for (User user : Database.getDatabase().getUsers()) {
-                if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                    this.user = user;
-                    this.logInAttempts = 0;
-                    validCredentials = true;
-                    break;
+            //Check if Cashier
+            if(!validCredentials) {
+                for (Cashier cashier : Database.getDatabase().getCashiers()) {
+                    if (cashier.getUsername().equals(username) && cashier.getPassword().equals(password)) {
+                        this.user = cashier;
+                        this.logInAttempts = 0;
+                        validCredentials = true;
+                        break;
+                    }
                 }
             }
+            //Check If Manager
+            if(!validCredentials){
+                for (Manager manager : Database.getDatabase().getManagers()) {
+                    if (manager.getUsername().equals(username) && manager.getPassword().equals(password)) {
+                        this.user = manager;
+                        this.logInAttempts = 0;
+                        validCredentials = true;
+                        break;
+
+                    }
+                }
+            }
+            //Check if Administrator
+            if(!validCredentials){
+                for (Administrator administrator : Database.getDatabase().getAdministrators()) {
+                    if (administrator.getUsername().equals(username) && administrator.getPassword().equals(password)) {
+                        this.user = administrator;
+                        this.logInAttempts = 0;
+                        validCredentials = true;
+                        break;
+                    }
+                }
+            }
+
 
             if (!validCredentials) {
                 logInAttempts++;
@@ -42,9 +73,17 @@ public class LogInController implements Alertable {
                     showAlert(Alert.AlertType.WARNING, "Account Locked!", "You have exceeded 5 incorrect login attempts!");
                 }
             }
+            setSwitchStage();
         });
     }
-
+    public void setSwitchStage(){
+        if(validCredentials){
+            showAlert(Alert.AlertType.INFORMATION,"Logged In!","You logged in successfully!");
+            UserMainController mainController=new UserMainController(user);
+            Scene scene=new Scene(mainController.getView());
+            this.primaryStage.setScene(scene);
+        }
+    }
     public LogInView getView() {
         return view;
     }
@@ -53,8 +92,11 @@ public class LogInController implements Alertable {
         return logInAttempts;
     }
 
+    public boolean isValidCredentials() {
+        return validCredentials;
+    }
+
     public User getUser() {
         return user;
     }
-
 }

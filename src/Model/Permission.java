@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public enum Permission implements Serializable {
     BILLING_SYSTEM,
-    RETURN_AND_REFUND,
     PRODUCT_INFORMATION,
     NOTIFICATION_PANEL,
     SUPPLIER_MANAGEMENT,

@@ -1,18 +1,16 @@
 package Control;
 
+import Database.FileHandler;
 import Model.*;
 import View.UserManagementView.AddUser;
 import javafx.scene.control.Alert;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 
-public class AddUserControl {
+public class AddUserControl implements Alertable{
     private final AddUser view;
 
     public AddUserControl(AddUser view) {
@@ -28,7 +26,7 @@ public class AddUserControl {
             String name = view.getNameTxt().getText();
             String lastName = view.getLastNameTxt().getText();
             Gender gender = Gender.valueOf(view.getGenderSelection().getValue());
-            Date birthday = parseDate(view.getBirthday().getValue().toString());
+            LocalDate birthday =view.getBirthday().getValue();
             Double salary = Double.parseDouble(view.getSalary().getText());
             String username = view.getUsernameTxt().getText();
             String password = view.getPasswordTxt().getText();
@@ -39,20 +37,24 @@ public class AddUserControl {
 //            SectorType sector = SectorType.valueOf(view.getSectorSelection().getValue().toUpperCase());
             String photo = view.getImagePath().getText();
 
-            // Create the Cashier object
-            // Create the Cashier object
+            if(role==EmployeeRole.CASHIER){
+                Cashier cashier=new Cashier(ID,name,lastName,gender,birthday,salary,username,password,email,phoneNumber,dateEmployed,role,photo);
+                setCashierDefaultPermissions(cashier);
+                FileHandler.writeCashierToFile(cashier);
+            }
+            else if(role==EmployeeRole.MANAGER){
+                Manager manager=new Manager(ID,name,lastName,gender,birthday,salary,username,password,email,phoneNumber,dateEmployed,role,photo);
+                setManagerDefaultPermissions(manager);
+                FileHandler.writeManagerToFile(manager);
+            }
+            else{
+                Administrator admin=new Administrator(ID,name,lastName,gender,birthday,salary,username,password,email,phoneNumber,dateEmployed,role,photo);
+                setAdministratorDefaultPermissions(admin);
+                FileHandler.writeAdministratorsToFile(admin);
+            }
 
-
-            User newUser = new User(
-                    ID, name, lastName, gender, birthday, salary, username,
-                    password, email, phoneNumber, dateEmployed, role, photo
-            );
-
-            // Write to the .dat file
-            writeToFile(newUser);
 
             System.out.println("User created and written to .dat file successfully");
-            view.closeWindow();
 
             // Show success message
             showAlert(Alert.AlertType.INFORMATION, "Success", "User was successfully added and saved to file!");
@@ -63,12 +65,6 @@ public class AddUserControl {
         } catch (IllegalArgumentException ex) {
             showAlert(Alert.AlertType.ERROR, "Invalid Input", ex.getMessage());
             System.out.println("Illegal argument exception: " + ex.getMessage());
-        } catch (ParseException ex) {
-            showAlert(Alert.AlertType.ERROR, "Invalid Date", "Please ensure the date format is YYYY-MM-DD.");
-            System.out.println("Parse exception: " + ex.getMessage());
-        } catch (IOException ex) {
-            showAlert(Alert.AlertType.ERROR, "File Error", "Failed to save user to file. Please try again.");
-            System.out.println("IOException: " + ex.getMessage());
         } catch (Exception ex) {
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to add user. Please try again.");
             System.out.println("General exception: " + ex.getMessage());
@@ -92,20 +88,36 @@ public class AddUserControl {
         return formatter.parse(dateString);
     }
 
-    public void showAlert(Alert.AlertType type, String title, String message) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+    public void setCashierDefaultPermissions(Cashier cashier){
+        cashier.getPermissions().add(Permission.BILLING_SYSTEM);
+        cashier.getPermissions().add(Permission.VIEW_ALL_BILLS);
+        cashier.getPermissions().add(Permission.PRODUCT_INFORMATION);
+        cashier.getPermissions().add(Permission.NOTIFICATION_PANEL);
+    }
+    public void setManagerDefaultPermissions(Manager manager){
+        manager.getPermissions().add(Permission.REPORT_GENERATOR);
+        manager.getPermissions().add(Permission.VIEW_ALL_REPORTS);
+        manager.getPermissions().add(Permission.VIEW_ALL_BILLS);
+        manager.getPermissions().add(Permission.NOTIFICATION_PANEL);
+        manager.getPermissions().add(Permission.USER_MANAGEMENT);
+        manager.getPermissions().add(Permission.INVENTORY_MANAGEMENT);
+        manager.getPermissions().add(Permission.SUPPLIER_MANAGEMENT);
+        manager.getPermissions().add(Permission.PRODUCT_INFORMATION);
+    }
+    public void setAdministratorDefaultPermissions(Administrator admin){
+        admin.getPermissions().add(Permission.PERMISSION_GRANTING);
+        admin.getPermissions().add(Permission.BILLING_SYSTEM);
+        admin.getPermissions().add(Permission.VIEW_ALL_BILLS);
+        admin.getPermissions().add(Permission.VIEW_ALL_REPORTS);
+        admin.getPermissions().add(Permission.REPORT_GENERATOR);
+        admin.getPermissions().add(Permission.NOTIFICATION_PANEL);
+        admin.getPermissions().add(Permission.USER_MANAGEMENT);
+        admin.getPermissions().add(Permission.INVENTORY_MANAGEMENT);
+        admin.getPermissions().add(Permission.SUPPLIER_MANAGEMENT);
+        admin.getPermissions().add(Permission.PRODUCT_INFORMATION);
     }
 
-    private void writeToFile(User user) throws IOException {
-        String filePath = "users1.dat";
-
-        // Serialize the User object
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath, true))) {
-            oos.writeObject(user);
-        }
+    public AddUser getView() {
+        return view;
     }
 }

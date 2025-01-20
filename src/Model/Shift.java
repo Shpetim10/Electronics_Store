@@ -7,14 +7,13 @@ import java.util.ArrayList;
 
 public class Shift implements Serializable {
 
+
     @Serial
-    private static final long serialVersionUID = -3400514395325144506L;
+    private static final long serialVersionUID = -3322780169283221903L;
     private int shiftId;
     private Cashier cashier;
     private ArrayList<Bill> bills;
     private int nrOfItemsSold;
-    private int nrOfRefunds;
-    private int nrOfReturns;
     private LocalDate shiftDate;
     private LocalTime startHour;
     private LocalTime endHour;
@@ -28,11 +27,17 @@ public class Shift implements Serializable {
         this.startHour = startHour;
         this.endHour = endHour;
         this.bills=new ArrayList<>();
-        this.nrOfItemsSold=this.nrOfRefunds=this.nrOfReturns=0;
+        this.nrOfItemsSold=0;
         this.report=null;
         this.shiftStatus=ShiftStatus.PLANNED;
     }
-
+    public Shift(){
+        //For Manager
+        this.bills=new ArrayList<>();
+        this.nrOfItemsSold=0;
+        this.shiftDate=LocalDate.now();
+        this.shiftStatus=ShiftStatus.ACTIVE;
+    }
     public double getTotalMoneyCollected(){
         double result=0;
         for(Bill bill: bills){
@@ -90,8 +95,6 @@ public class Shift implements Serializable {
             output.println("Total tax paid:\t\t"+totalTax);
             output.println("\n\n\n");
             output.println("Number of items sold:\t\t"+nrOfItemsSold);
-            output.println("Number of items returned:\t\t"+nrOfReturns);
-            output.println("Number of items to refunded:\t\t"+nrOfRefunds);
         }
         catch(IOException ex){
             System.out.println("There was an error in generating report file!");
@@ -130,22 +133,6 @@ public class Shift implements Serializable {
 
     public void setNrOfItemsSold(int nrOfItemsSold) {
         this.nrOfItemsSold = nrOfItemsSold;
-    }
-
-    public int getNrOfRefunds() {
-        return nrOfRefunds;
-    }
-
-    public void setNrOfRefunds(int nrOfRefunds) {
-        this.nrOfRefunds = nrOfRefunds;
-    }
-
-    public int getNrOfReturns() {
-        return nrOfReturns;
-    }
-
-    public void setNrOfReturns(int nrOfReturns) {
-        this.nrOfReturns = nrOfReturns;
     }
 
     public LocalDate getShiftDate() {

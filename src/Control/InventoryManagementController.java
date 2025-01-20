@@ -4,35 +4,29 @@ package Control;
 import Database.Database;
 import Database.FileHandler;
 import Model.RestockTransaction;
-import Model.SectorType;
 import Model.Validator;
 import View.InventoryManagementView;
 import Model.Item;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.cell.PropertyValueFactory;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class InventoryController {
+public class InventoryManagementController {
 
     private InventoryManagementView view=new InventoryManagementView();
     private ArrayList<Item> inventory= Database.getDatabase().getInventory();
 
-    public InventoryController( ) {
+    public InventoryManagementController( ) {
 
         setEditListeners();
         setButtonActions();
         searchBoxListener();
 
     }
-
-
     private void setEditListeners() {
         this.view.getProductId().setOnEditCommit(e -> {
             Item item = e.getRowValue();
@@ -228,11 +222,6 @@ public class InventoryController {
         );
     }
 
-
-
-    public InventoryManagementView getView() {
-        return view;
-    }
     public InventoryManagementView getView() {
         return view;
     }

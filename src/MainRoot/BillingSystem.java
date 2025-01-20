@@ -19,26 +19,26 @@ public class BillingSystem extends Application implements Design {
 
     @Override
     public void start(Stage primaryStage){
-        int id = 1;
-        String firstName = "John";
-        String lastName = "Doe";
-        String username = "jdoe";
-        String password = "password123";
-        String email = "jdoe@example.com";
-        String phoneNumber = "123-456-7890";
-        LocalDate dateEmployed = LocalDate.now();
-        EmployeeRole role = EmployeeRole.CASHIER;
-        ArrayList<Permission> permissions = new ArrayList<>();
-        boolean isActive = true;
-        Cashier cashier = new Cashier(id, firstName, lastName, username, password, email, phoneNumber, dateEmployed, role, 2000,permissions, isActive);
-        Shift shift=new Shift(1,cashier, LocalDate.now(), LocalTime.now(),LocalTime.now());
-        shift.startShift();
-        cashier.getShifts().add(shift);
-
-        BillingSystemController controller=new BillingSystemController(cashier);
-        primaryStage.setTitle("Billing System");
-        primaryStage.setScene(new Scene(controller.getView()));
-        primaryStage.setMaximized(true);
-        primaryStage.show();
+//        int id = 1;
+//        String firstName = "John";
+//        String lastName = "Doe";
+//        String username = "jdoe";
+//        String password = "password123";
+//        String email = "jdoe@example.com";
+//        String phoneNumber = "123-456-7890";
+//        LocalDate dateEmployed = LocalDate.now();
+//        EmployeeRole role = EmployeeRole.CASHIER;
+//        ArrayList<Permission> permissions = new ArrayList<>();
+//        boolean isActive = true;
+//        Cashier cashier = new Cashier(id, firstName, lastName, username, password, email, phoneNumber, dateEmployed, role, 2000,permissions, isActive);
+//        Shift shift=new Shift(1,cashier, LocalDate.now(), LocalTime.now(),LocalTime.now());
+//        shift.startShift();
+//        cashier.getShifts().add(shift);
+//
+//        BillingSystemController controller=new BillingSystemController(cashier);
+//        primaryStage.setTitle("Billing System");
+//        primaryStage.setScene(new Scene(controller.getView()));
+//        primaryStage.setMaximized(true);
+//        primaryStage.show();
     }
 }

@@ -11,24 +11,18 @@ public class Administrator extends User implements InventoryManagement, Serializ
 
 
     @Serial
-    private static final long serialVersionUID = 5687600678546359829L;
+    private static final long serialVersionUID = -5092817987964467787L;
     private ArrayList<User> employees;
+    private Shift shift=new Shift();
     private ArrayList<File> reportsGenerted;
     //Constructor with custom argument
-    public Administrator(int id, String firstName, String lastName, String username, String password, String email,
-                         String phoneNumber, LocalDate dateEmployed, EmployeeRole role,double salary, ArrayList<Permission> permissions,
-                         boolean isActive){
-        super(id, firstName, lastName, username, password, email, phoneNumber, dateEmployed, role,salary, permissions, isActive);
-        this.employees=new ArrayList<>();
-        this.reportsGenerted=new ArrayList<>();
-    }
-    //All Argument Constructor
-    public Administrator(int id,String firstName, String lastName, String username, String password, String email,
-                         String phoneNumber, LocalDate dateEmployed,String photo,EmployeeRole role,double salary,ArrayList<Permission> permissions,
-                         boolean isActive){
-        this(id, firstName, lastName, username, password, email, phoneNumber, dateEmployed, role,salary, permissions, isActive);
-        this.setPhoto(photo);
-        this.reportsGenerted=new ArrayList<>();
+    public Administrator(int id, String firstName, String lastName, Gender gender, LocalDate birthday, Double salary, String username,
+                   String password, String email, String phoneNumber, LocalDate dateEmployed, EmployeeRole role,
+                   String photo){
+        super(id, firstName, lastName, gender, birthday, salary, username,
+                password, email, phoneNumber, dateEmployed, role, photo);
+        this.shift.setShiftStatus(ShiftStatus.ACTIVE);
+        //this.sector = sector;
     }
 
     public ArrayList<User> getEmployees() {
@@ -45,5 +39,9 @@ public class Administrator extends User implements InventoryManagement, Serializ
 
     public void setReportsGenerted(ArrayList<File> reportsGenerted) {
         this.reportsGenerted = reportsGenerted;
+    }
+
+    public Shift getShift() {
+        return shift;
     }
 }

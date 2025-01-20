@@ -8,3 +8,5 @@ Start and end shift methods--> put in gui
 Bind Property of elements in design
 
 Duhet te validohet id kur behet add product, mos te kete duplicate
+
+Duhet te konfigurehen tek billing System vetem ato items qe i perkasin atij sektori

@@ -9,7 +9,7 @@ import java.util.Objects;
 public abstract class User implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = -8220541542593914766L;
+    private static final long serialVersionUID = 4571592484206011080L;
     private int id;
     private String firstName;
     private String lastName;
@@ -20,8 +20,7 @@ public abstract class User implements Serializable {
     private LocalDate dateEmployed;
     private String photo; // reference(address) to photo
     private EmployeeRole role;
-    private Double salary;
-    private Date birthday;
+    private LocalDate birthday;
     private Gender gender;
     private Double salary;
     private ArrayList<Permission> permissions;
@@ -37,7 +36,7 @@ public abstract class User implements Serializable {
     }
 
     /// Constructor to add to file
-    public User(int id, String firstName, String lastName, Gender gender, Date birthday, Double salary, String username,
+    public User(int id, String firstName, String lastName, Gender gender, LocalDate birthday, Double salary, String username,
                 String password, String email, String phoneNumber, LocalDate dateEmployed, EmployeeRole role,
                  String photo){
         this.id = id;
@@ -53,7 +52,7 @@ public abstract class User implements Serializable {
         this.dateEmployed = dateEmployed;
         this.role = role;
         this.photo = photo;
-
+        this.permissions=new ArrayList<>();
 
     }
 
@@ -196,11 +195,11 @@ public abstract class User implements Serializable {
     }
 
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
