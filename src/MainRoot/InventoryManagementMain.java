@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
-public class InvetoryManagementMain extends Application {
+public class InventoryManagementMain extends Application {
     public static void main(String[] args) {
         Application.launch();
     }

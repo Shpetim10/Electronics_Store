@@ -120,7 +120,8 @@ public class AddProductController {
                     stockQuantityValue,
                     brandValue,
                     lastRestockDateValue,
-                    barcodeValue
+                    barcodeValue,
+                    imagePath
 
             );
 
@@ -173,6 +174,5 @@ public class AddProductController {
 
     public AddProductView getView() {
         return view;
-    }
 }
-
+}
