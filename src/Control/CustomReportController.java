@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class CustomReportController implements Alertable{
     private CustomReportView view=new CustomReportView();
-    private ArrayList<Cashier> cashiers= Database.getDatabase().getCashiers();
+    //private ArrayList<Cashier> cashiers= Database.getDatabase().getCashiers();
     public CustomReportController(){
         setUpGenerateReportButtonListener();
         setUpClearButtonListener();
@@ -34,6 +34,7 @@ public class CustomReportController implements Alertable{
                         generateReport();
                     }
                     catch(IOException ex){
+                        System.out.println(ex.getLocalizedMessage());
                         showAlert(Alert.AlertType.ERROR,"Error!","Report could not be generated due to file handling issues!");
                     }
                 }

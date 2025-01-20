@@ -9,7 +9,7 @@ import java.util.Objects;
 public abstract class User implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = -2196552268759347081L;
+    private static final long serialVersionUID = -8220541542593914766L;
     private int id;
     private String firstName;
     private String lastName;
@@ -20,6 +20,7 @@ public abstract class User implements Serializable {
     private LocalDate dateEmployed;
     private String photo; // reference(address) to photo
     private EmployeeRole role;
+    private Double salary;
     private ArrayList<Permission> permissions;
     private boolean isActive;
     private ArrayList<Notification> notifications;
@@ -27,15 +28,15 @@ public abstract class User implements Serializable {
     //All-Argument Constructor
     protected User(int id, String firstName, String lastName, String username,
                 String password, String email, String phoneNumber, LocalDate dateEmployed, String photo,
-                EmployeeRole role, ArrayList<Permission> permissions, boolean isActive, ArrayList<Notification> notifications) {
-        this(id,firstName,lastName,username,password,email,phoneNumber,dateEmployed,role,permissions, isActive);
+                EmployeeRole role, double salary,ArrayList<Permission> permissions, boolean isActive, ArrayList<Notification> notifications) {
+        this(id,firstName,lastName,username,password,email,phoneNumber,dateEmployed,role,salary,permissions, isActive);
         this.photo = photo;
     }
 
     //Constructor without photo
 
     public User(int id, String firstName, String lastName, String username, String password, String email,
-                String phoneNumber, LocalDate dateEmployed, EmployeeRole role, ArrayList<Permission> permissions, boolean isActive) {
+                String phoneNumber, LocalDate dateEmployed, EmployeeRole role,double salary, ArrayList<Permission> permissions, boolean isActive) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -45,6 +46,7 @@ public abstract class User implements Serializable {
         this.phoneNumber = phoneNumber;
         this.dateEmployed = dateEmployed;
         this.role = role;
+        this.salary=salary;
         this.permissions = permissions;
         this.isActive = isActive;
         String message=firstName+" "+lastName+", Welcome to our Electronics Store System! " +
@@ -54,6 +56,7 @@ public abstract class User implements Serializable {
         this.notifications=new ArrayList<>();
         notifications.add(new Notification(NotificationType.OTHER ,message));
     }
+
 
 
     public int getId() {
@@ -146,6 +149,14 @@ public abstract class User implements Serializable {
 
     public boolean isActive() {
         return isActive;
+    }
+
+    public Double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Double salary) {
+        this.salary = salary;
     }
 
     public void setActive(boolean active) {

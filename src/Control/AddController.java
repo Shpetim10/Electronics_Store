@@ -12,10 +12,9 @@ import java.time.LocalDate;
 
 
 public class AddController {
-    private final AddView view;
+    private final AddView view=new AddView();
 
-    public AddController(AddView view) {
-        this.view = view;
+    public AddController() {
         initialize();
     }
 

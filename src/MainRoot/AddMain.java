@@ -15,7 +15,7 @@ public class AddMain extends Application {
     public void start(Stage primaryStage){
         AddView view=new AddView();
         primaryStage.setTitle("Add/Edit");
-        AddController addController = new AddController(view);
+        AddController addController = new AddController();
         primaryStage.setScene(view.createScene());
         primaryStage.setMaximized(true);
         primaryStage.show();

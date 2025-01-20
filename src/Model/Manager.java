@@ -7,16 +7,22 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Manager extends User implements Serializable {
+
     @Serial
-    private static final long serialVersionUID = 6803966091603793532L;
+    private static final long serialVersionUID = -923537105079691357L;
     private ArrayList<SectorType> sectors=new ArrayList<>();
     private ArrayList<File> reportsGenerated = new ArrayList<>();
 
     public Manager(int id, String firstName, String lastName, String username, String password, String email, String phoneNumber,
-                   LocalDate dateEmployed, String photo, EmployeeRole role, ArrayList<Permission> permissions, Boolean isActive,
+                   LocalDate dateEmployed, String photo, EmployeeRole role, double salary,ArrayList<Permission> permissions, Boolean isActive,
                    ArrayList<Notification> notifications, ArrayList<SectorType> sectors){
-        super(id, firstName, lastName,username,password, email, phoneNumber,dateEmployed, photo, role, permissions, isActive, notifications);
+        super(id, firstName, lastName,username,password, email, phoneNumber,dateEmployed, photo, role,salary, permissions, isActive, notifications);
         this.sectors=sectors;
+    }
+
+    public Manager(int id, String firstName, String lastName, String username, String password, String email, String phoneNumber, LocalDate dateEmployed, EmployeeRole role,double salary, ArrayList<Permission> permissions, boolean isActive, ArrayList<SectorType> sectors) {
+        super(id, firstName, lastName, username, password, email, phoneNumber, dateEmployed, role,salary, permissions, isActive);
+        this.sectors = sectors;
     }
 
     public ArrayList<SectorType> getSectors() {

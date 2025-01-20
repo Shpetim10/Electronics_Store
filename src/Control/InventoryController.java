@@ -20,14 +20,12 @@ import java.util.ArrayList;
 
 public class InventoryController {
 
-    private InventoryManagementView view;
+    private InventoryManagementView view=new InventoryManagementView();
     private ArrayList<Item> inventory= Database.getDatabase().getInventory();
 
-    public InventoryController(InventoryManagementView view) {
-        this.view = view;
+    public InventoryController() {
         setEditListeners();
         setButtonActions();
-
     }
 
 
@@ -127,5 +125,7 @@ public class InventoryController {
         FileHandler.updateItemInFile(updatedItem);  // Call to update the inventory file
     }
 
-
+    public InventoryManagementView getView() {
+        return view;
+    }
 }

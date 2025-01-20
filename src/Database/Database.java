@@ -13,11 +13,17 @@ public class Database {
     private ArrayList<Integer> loyaltyPoints;
     private ArrayList<SectorType> sectors;
     private ArrayList<Cashier> cashiers;
+    private ArrayList<Manager> managers;
+    private ArrayList<Administrator> administrators;
+    private ArrayList<RestockTransaction> transactions;
     private Database(){
         this.inventory=FileHandler.getItemsOfInventory();
         this.customers=FileHandler.getCustomers();
         this.loyaltyPoints=FileHandler.getLoyaltyPoints();
         this.cashiers=FileHandler.getCashiers();
+        this.managers=FileHandler.getManagers();
+        this.administrators=FileHandler.getAdministrators();
+        this.transactions=FileHandler.getRestockTransaction();
         //this.users=FileHandler.getUsers();
         setSectors();
     }
@@ -39,6 +45,12 @@ public class Database {
         FileHandler.writeLoyaltyPointsToFile(loyaltyPoints);
     }
 
+    public void updateManagers(ArrayList<Manager> manager){
+        FileHandler.updateManagers(manager);
+    }
+    public void updateAdministrators(ArrayList<Administrator> administrators){
+        FileHandler.updateAdministrators(administrators);
+    }
     public static Database getDatabase(){
         return Database.database;
     }
@@ -57,6 +69,10 @@ public class Database {
 
     public ArrayList<String> getCustomers() {
         return customers;
+    }
+
+    public ArrayList<RestockTransaction> getRestockTransaction(){
+        return transactions;
     }
 
     public void setUsers(ArrayList<User> users) {
@@ -101,5 +117,17 @@ public class Database {
 
     public ArrayList<Cashier> getCashiers() {
         return cashiers;
+    }
+
+    public ArrayList<Manager> getManagers() {
+        return managers;
+    }
+
+    public ArrayList<Administrator> getAdministrators() {
+        return administrators;
+    }
+
+    public ArrayList<RestockTransaction> getTransactions() {
+        return transactions;
     }
 }

@@ -14,6 +14,8 @@ public class FileHandler {
     private final static String BILLS_DIRECTORY=new String("src/Database/Files/Bills");
     private final static File LOYALTY_POINTS=new File("src/Database/Files/DAO/loyaltyPoints.dat");
     private final static File CASHIERS_FILE=new File("src/Database/Files/DAO/cashiers.dat");
+    private final static File MANAGERS_FILE=new File("src/Database/Files/DAO/manager.dat");
+    private final static File ADMINISTRATOR_FILE=new File("src/Database/Files/DAO/administrator.dat");
     private final static File TRANSACTION_FILE=new File("src/Database/Files/DAO/restockTransaction.dat");
 
     public static boolean writeProductToFile(Item item) {
@@ -83,36 +85,30 @@ public class FileHandler {
     }
 
     public static ArrayList<User> getUsers() {
-        ArrayList<User> users=new ArrayList<>();
-        try(ObjectInputStream reader=new ObjectInputStream(new FileInputStream(USERS_FILE))){
-            User user;
-            Object o;
-            while(true){
-                o=reader.readObject();
-                if(o instanceof Cashier){
-                    user=(Cashier)o;
+        ArrayList<User> users = new ArrayList<>();
+        try (ObjectInputStream reader = new ObjectInputStream(new FileInputStream(USERS_FILE))) {
+            while (true) {
+                try {
+                    // Deserialize object and ensure it's a User or subclass of User
+                    Object obj = (User) reader.readObject();
+                    if (obj instanceof User) {
+                        users.add((User) obj);
+                    } else {
+                        System.err.println("Warning: Found a non-User object in the file.");
+                    }
+                } catch (EOFException eof) {
+                    System.out.println("EOF reached!");
+                    break;
                 }
-                else if(o instanceof Manager){
-                    user=(Manager)o;
-                }
-                else{
-                    user=(Administrator)o;
-                }
-
-                users.add(user);
             }
-        }
-        catch(EOFException ex1){
-            System.out.println("Reached end of file!");
-        }
-        catch(ClassNotFoundException ex){
-            ex.printStackTrace();
-        }
-        catch(IOException ex){
-            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            System.err.println("Error: Unable to find a class definition. " + ex.getMessage());
+        } catch (IOException ex) {
+            System.err.println("Error: Unable to read from file. " + ex.getMessage());
         }
         return users;
     }
+
 
     public static boolean writeUserToFile(User user){
         try(FileOutputStream outputStream=new FileOutputStream(USERS_FILE,true)){
@@ -184,6 +180,108 @@ public class FileHandler {
                 writer=new ObjectOutputStream(outputStream);
             }
             writer.writeObject(cashier);
+            return true;
+        }
+        catch(IOException ex){
+            System.out.println(ex.getLocalizedMessage());
+        }
+        return false;
+    }
+
+    //Managers
+    public static ArrayList<Manager> getManagers() {
+        ArrayList<Manager> managers=new ArrayList<>();
+        try(ObjectInputStream reader=new ObjectInputStream(new FileInputStream(MANAGERS_FILE))){
+            Manager manager;
+            while(true){
+                manager=(Manager) reader.readObject();
+                managers.add(manager);
+            }
+        }
+        catch(EOFException ex1){
+            System.out.println("Reached end of file!");
+        }
+        catch(ClassNotFoundException ex){
+            ex.printStackTrace();
+        }
+        catch(IOException ex){
+            ex.printStackTrace();
+        }
+        return managers;
+    }
+
+    public static boolean updateManagers(ArrayList<Manager> managers){
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(MANAGERS_FILE))) {
+            for (Manager manager : managers) {
+                outputStream.writeObject(manager);
+            }//Do ti shkruash nga e para
+            return true;
+        } catch (IOException ex) {
+            return false;
+        }
+    }
+
+    public static boolean writeManagerToFile(Manager manager){
+        try(FileOutputStream outputStream=new FileOutputStream(MANAGERS_FILE,true)){
+            ObjectOutputStream writer;
+            if(CASHIERS_FILE.length()>0){
+                writer=new HeaderlessObjectOutputStream(outputStream);
+            }
+            else{
+                writer=new ObjectOutputStream(outputStream);
+            }
+            writer.writeObject(manager);
+            return true;
+        }
+        catch(IOException ex){
+            System.out.println(ex.getLocalizedMessage());
+        }
+        return false;
+    }
+
+    //Administrators
+    public static ArrayList<Administrator> getAdministrators() {
+        ArrayList<Administrator> administrators=new ArrayList<>();
+        try(ObjectInputStream reader=new ObjectInputStream(new FileInputStream(ADMINISTRATOR_FILE))){
+            Administrator administrator;
+            while(true){
+                administrator=(Administrator) reader.readObject();
+                administrators.add(administrator);
+            }
+        }
+        catch(EOFException ex1){
+            System.out.println("Reached end of file!");
+        }
+        catch(ClassNotFoundException ex){
+            ex.printStackTrace();
+        }
+        catch(IOException ex){
+            ex.printStackTrace();
+        }
+        return administrators;
+    }
+
+    public static boolean updateAdministrators(ArrayList<Administrator> administrators){
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(ADMINISTRATOR_FILE))) {
+            for (Administrator administrator : administrators) {
+                outputStream.writeObject(administrator);
+            }
+            return true;
+        } catch (IOException ex) {
+            return false;
+        }
+    }
+
+    public static boolean writeAdministratorsToFile(Administrator administrator){
+        try(FileOutputStream outputStream=new FileOutputStream(ADMINISTRATOR_FILE,true)){
+            ObjectOutputStream writer;
+            if(ADMINISTRATOR_FILE.length()>0){
+                writer=new HeaderlessObjectOutputStream(outputStream);
+            }
+            else{
+                writer=new ObjectOutputStream(outputStream);
+            }
+            writer.writeObject(administrator);
             return true;
         }
         catch(IOException ex){

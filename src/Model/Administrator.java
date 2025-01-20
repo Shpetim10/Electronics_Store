@@ -9,23 +9,24 @@ import java.util.Date;
 
 public class Administrator extends User implements InventoryManagement, Serializable {
 
+
     @Serial
-    private static final long serialVersionUID = 4216350566416415776L;
+    private static final long serialVersionUID = 5687600678546359829L;
     private ArrayList<User> employees;
     private ArrayList<File> reportsGenerted;
     //Constructor with custom argument
     public Administrator(int id, String firstName, String lastName, String username, String password, String email,
-                         String phoneNumber, LocalDate dateEmployed, EmployeeRole role, ArrayList<Permission> permissions,
+                         String phoneNumber, LocalDate dateEmployed, EmployeeRole role,double salary, ArrayList<Permission> permissions,
                          boolean isActive){
-        super(id, firstName, lastName, username, password, email, phoneNumber, dateEmployed, role, permissions, isActive);
+        super(id, firstName, lastName, username, password, email, phoneNumber, dateEmployed, role,salary, permissions, isActive);
         this.employees=new ArrayList<>();
         this.reportsGenerted=new ArrayList<>();
     }
     //All Argument Constructor
     public Administrator(int id,String firstName, String lastName, String username, String password, String email,
-                         String phoneNumber, LocalDate dateEmployed,String photo,EmployeeRole role,ArrayList<Permission> permissions,
+                         String phoneNumber, LocalDate dateEmployed,String photo,EmployeeRole role,double salary,ArrayList<Permission> permissions,
                          boolean isActive){
-        this(id, firstName, lastName, username, password, email, phoneNumber, dateEmployed, role, permissions, isActive);
+        this(id, firstName, lastName, username, password, email, phoneNumber, dateEmployed, role,salary, permissions, isActive);
         this.setPhoto(photo);
         this.reportsGenerted=new ArrayList<>();
     }

@@ -22,10 +22,14 @@ public class UserMainView extends VBox implements Design{
     private final MenuItem generateReportItem=createMenuItem("Generate Report","Images/generateReportIcon.png");
     private final MenuItem viewAllBillsItem=createMenuItem("View Bills", "Images/viewAllBillsIcon.png");
     private final MenuItem userManagementItem=createMenuItem("Billing System","Images/billingSystemIcon.png");
-    private final MenuItem inventoryManagementItem=createMenuItem("Generate Report","Images/generateReportIcon.png");
-    private final MenuItem supplierManagementItem=createMenuItem("View Bills", "Images/viewAllBillsIcon.png");
-    private final MenuItem permissionGrantingItem=createMenuItem("Permission Granting","Images/billingSystemIcon.png");
+    private final MenuItem inventoryManagementItem=createMenuItem("Inventory Management","Images/generateReportIcon.png");
+    private final MenuItem supplierManagementItem=createMenuItem("Supplier Management", "Images/manageSuppliersIcon.png");
+    private final MenuItem permissionGrantingItem=createMenuItem("Permission Granting","Images/managePermissions.png");
     private final MenuItem viewAllReportsItem=createMenuItem("View Reports","Images/viewReportsIcon.png");
+    private final MenuItem addProductItem=createMenuItem("Add Product","Images/addProductInventoryIcon.png");
+    private final MenuItem manageInventory=createMenuItem("Manage Inventory","Images/manageInventoryIcon.png");
+    private final MenuItem addEmployee=createMenuItem("Add Employee","Images/addUserIcon.png");
+    private final MenuItem manageEmployee=createMenuItem("Staff Management","Images/manageUsersIcon.png");
 
     private final ImageView profileLogo=new ImageView(new Image("Images/yourProfileIcon.png"));
     private final ImageView storeLogo=new ImageView(new Image("Images/electronicsStoreIcon.png"));
@@ -131,7 +135,7 @@ public class UserMainView extends VBox implements Design{
     }
     public BorderPane createManagerAndAdminHomePage(){
         BorderPane pane=new BorderPane();
-
+        pane.setCenter(storeLogo);
         return pane;
     }
     public Pane getDisplayPane() {
@@ -192,6 +196,22 @@ public class UserMainView extends VBox implements Design{
 
     public MenuItem getPermissionGrantingItem() {
         return permissionGrantingItem;
+    }
+
+    public MenuItem getAddProductItem() {
+        return addProductItem;
+    }
+
+    public MenuItem getManageInventory() {
+        return manageInventory;
+    }
+
+    public MenuItem getAddEmployee() {
+        return addEmployee;
+    }
+
+    public MenuItem getManageEmployee() {
+        return manageEmployee;
     }
 
     public ImageView getLogOutIcon() {

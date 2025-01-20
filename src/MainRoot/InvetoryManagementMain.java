@@ -16,7 +16,7 @@ public class InvetoryManagementMain extends Application {
     public void start(Stage primaryStage){
         InventoryManagementView view=new InventoryManagementView();
         primaryStage.setTitle("Inventory");
-        InventoryController control=new InventoryController(view);
+        InventoryController control=new InventoryController();
         primaryStage.setScene(new Scene(view));
         primaryStage.setMaximized(true);
         primaryStage.show();

@@ -30,7 +30,7 @@ public class BillingSystem extends Application implements Design {
         EmployeeRole role = EmployeeRole.CASHIER;
         ArrayList<Permission> permissions = new ArrayList<>();
         boolean isActive = true;
-        Cashier cashier = new Cashier(id, firstName, lastName, username, password, email, phoneNumber, dateEmployed, role, permissions, isActive);
+        Cashier cashier = new Cashier(id, firstName, lastName, username, password, email, phoneNumber, dateEmployed, role, 2000,permissions, isActive);
         Shift shift=new Shift(1,cashier, LocalDate.now(), LocalTime.now(),LocalTime.now());
         shift.startShift();
         cashier.getShifts().add(shift);

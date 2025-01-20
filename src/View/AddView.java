@@ -16,23 +16,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class AddView implements Design {
-    SearchBoxPane search=new SearchBoxPane();
-
-    private CheckBox select;
-    private TextField productCode;
-    private TextField productName;
-    private ComboBox<String> sector;
-   // private TextField description;
-    private TextField sellingPrice;
-    private TextField priceBought;
+    private TextField productCode= createTextField("Product Code");
+    private TextField productName= createTextField("Product Name");
+    private ComboBox<String> sector= createComboBox("Sector");
+    private TextField sellingPrice= createTextField("Selling Price");;
+    private TextField priceBought= createTextField("Price Bought");;
     private TextField supplier;
-   // private ComboBox<String> isDiscounted;
-   // private TextField discountRate;
     private TextField stockQuantity;
 
     private TextField brand;
-//    private ComboBox<String> isDiscontinued;
-//    private ComboBox<String> isAvailable;
     private DatePicker lastRestockDate=createDatePicker("Restock date...");
     private TextField barcode;
     private TextField nrOfReturns;
@@ -43,10 +35,6 @@ public class AddView implements Design {
 
 
     public AddView() {
-        this.select=createCheckBox();
-        this.productCode = createTextField("Product Code");
-        this.productName = createTextField("Product Name");
-        this.sector = createComboBox("Sector");
         this.sector.setItems(FXCollections.observableArrayList(
                 SectorType.ELECTRONICS.toString(),
                 SectorType.ACCESSORIES.toString(),
@@ -58,9 +46,7 @@ public class AddView implements Design {
                 SectorType.KITCHEN_ELECTRONICS.toString(),
                 SectorType.SMART_HOME.toString()
         ));
-        //this.description = createTextField("Description");
-        this.sellingPrice = createTextField("Selling Price");
-        this.priceBought = createTextField("Price Bought");
+
         this.supplier = createTextField("Supplier");
 //        this.isDiscounted = createComboBox("Is Discounted");
 //        isDiscounted.getItems().addAll("Yes","No");
@@ -158,13 +144,8 @@ public class AddView implements Design {
         return scene;
 
     }
-    public CheckBox getSelect() {
-        return select;
-    }
 
-    public void setSelect(CheckBox select) {
-        this.select = select;
-    }
+    
 
     public TextField getProductCode() {
         return productCode;

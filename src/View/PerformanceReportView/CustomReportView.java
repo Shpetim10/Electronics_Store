@@ -67,7 +67,7 @@ public class CustomReportView extends StackPane implements Design {
                 "~Report can be generated for 1 sector and 1 cashier of that sector\n" +
                 "~Report can be generated for 1 sector(All cashiers of that sector)\n" +
                 "~Report can be generated for 1 cashier(Sector is actomatically selected)\n" +
-                "~Report can be generated for overall performance(All sectors and cashiers)\n" +
+                "~Report, statistics and costs can only be generated for overall performance(All sectors and cashiers)\n" +
                 "~Note: End date has to be later than start Date"
         );
 

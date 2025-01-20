@@ -10,7 +10,7 @@ module Electronics.Store {
     exports Control;
     exports View;
     exports Model;
-    //exports Database.Files;
-    exports Exceptions;
     exports Database;
+    exports Exceptions;
+    opens Database.Files.DAO;
 }

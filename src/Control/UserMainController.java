@@ -2,6 +2,7 @@ package Control;
 
 import Database.FileHandler;
 import View.LogInView;
+import View.SupplierView;
 import View.UserMainView;
 
 import java.util.ArrayList;
@@ -90,22 +91,22 @@ public class UserMainController {
     }
 
     public void setAddProductButtonListener(){
-        int index=getMenuItemViewIndex("View Reports");
+        int index=getMenuItemViewIndex("Add Product");
         if (index != -1) {
             view.getMainMenu().getItems().get(index).setOnAction(
                     e->{
-                        ViewAllReportsController control=new ViewAllReportsController(user);
-                        view.getDisplayPane().getChildren().add(control.getView());
+                        AddController control=new AddController();
+                       // view.getDisplayPane().getChildren().add(control.getView());
                     }
             );
         }
     }
     public void setManageInventoryButtonListener(){
-        int index=getMenuItemViewIndex("View Reports");
+        int index=getMenuItemViewIndex("Inventory Management");
         if (index != -1) {
             view.getMainMenu().getItems().get(index).setOnAction(
                     e->{
-                        ViewAllReportsController control=new ViewAllReportsController(user);
+                        InventoryController control=new InventoryController();
                         view.getDisplayPane().getChildren().add(control.getView());
                     }
             );
@@ -113,7 +114,7 @@ public class UserMainController {
     }
 
     public void setAddEmployeeButtonListener(){
-        int index=getMenuItemViewIndex("View Reports");
+        int index=getMenuItemViewIndex("Add Employee");
         if (index != -1) {
             view.getMainMenu().getItems().get(index).setOnAction(
                     e->{
@@ -124,7 +125,7 @@ public class UserMainController {
         }
     }
     public void setEditEmployeeButtonListener(){
-        int index=getMenuItemViewIndex("View Reports");
+        int index=getMenuItemViewIndex("Staff Management");
         if (index != -1) {
             view.getMainMenu().getItems().get(index).setOnAction(
                     e->{
@@ -136,7 +137,15 @@ public class UserMainController {
     }
 
     public void setPermissionGrantingButtonListener(){
-
+        int index=getMenuItemViewIndex("Permission Granting");
+        if (index != -1) {
+            view.getMainMenu().getItems().get(index).setOnAction(
+                    e->{
+                        ViewAllReportsController control=new ViewAllReportsController(user);
+                        view.getDisplayPane().getChildren().add(control.getView());
+                    }
+            );
+        }
     }
     public void setAddSupplierButtonListener(){
         int index=getMenuItemViewIndex("View Reports");
@@ -149,6 +158,19 @@ public class UserMainController {
             );
         }
     }
+
+    public void setSupplierManagementButtonListener(){
+        int index=getMenuItemViewIndex("Supplier Management");
+        if (index != -1) {
+            view.getMainMenu().getItems().get(index).setOnAction(
+                    e->{
+//                        SupplierControl control=new SupplierControl(SupplierView);
+//                        view.getDisplayPane().getChildren().add(control.getView());
+                    }
+            );
+        }
+    }
+
 
     public void setUpProfileInformationIconListener(){
         this.view.getProfileLogo().setOnMouseClicked(
@@ -194,21 +216,34 @@ public class UserMainController {
         return -1;
     }
 
-    public void setUpMenu(){
-        if(user.getPermissions().contains(Permission.BILLING_SYSTEM)){
+    public void setUpMenu() {
+        if (user.getPermissions().contains(Permission.BILLING_SYSTEM)) {
             this.view.addToMainMenu(view.getBillingSystemItem());
         }
-        if(user.getPermissions().contains(Permission.REPORT_GENERATOR)){
+        if (user.getPermissions().contains(Permission.REPORT_GENERATOR)) {
             this.view.addToMainMenu(view.getGenerateReportItem());
         }
-        if(user.getPermissions().contains(Permission.VIEW_ALL_BILLS)){
+        if (user.getPermissions().contains(Permission.VIEW_ALL_BILLS)) {
             this.view.addToMainMenu(view.getViewAllBillsItem());
         }
-        if(user.getPermissions().contains(Permission.VIEW_ALL_REPORTS)){
+        if (user.getPermissions().contains(Permission.VIEW_ALL_REPORTS)) {
             this.view.addToMainMenu(view.getViewAllReportsItem());
         }
+        if (user.getPermissions().contains(Permission.PERMISSION_GRANTING)) {
+            this.view.addToMainMenu(view.getPermissionGrantingItem());
+        }
+        if (user.getPermissions().contains(Permission.USER_MANAGEMENT)) {
+            this.view.addToMainMenu(view.getUserManagementItem());
+            this.view.addToMainMenu(view.getAddEmployee());
+        }
+        if (user.getPermissions().contains(Permission.SUPPLIER_MANAGEMENT)) {
+            this.view.addToMainMenu(view.getSupplierManagementItem());
+        }
+        if (user.getPermissions().contains(Permission.INVENTORY_MANAGEMENT)) {
+            this.view.addToMainMenu(view.getInventoryManagementItem());
+            this.view.addToMainMenu(view.getAddProductItem());
+        }
     }
-
     public void setHomePage(){
         this.view.getWelcomeMessage().setText("Welcome back, "+user.getFirstName()+" "+user.getLastName()+"!");
         if(user instanceof Cashier){
