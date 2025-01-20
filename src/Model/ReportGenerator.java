@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 
 public class ReportGenerator {
-    public static void writeSectorReport(SectorType sector,LocalDate startDate, LocalDate endDate) throws IOException {
+    public static File writeSectorReport(SectorType sector,LocalDate startDate, LocalDate endDate) throws IOException {
         File reportFile=new File(createSectorReportFilePath(sector,startDate,endDate));
         ArrayList<Cashier> cashiers= Database.getDatabase().getCashiers();
         try (PrintWriter output = new PrintWriter(reportFile)) {
@@ -89,6 +89,7 @@ public class ReportGenerator {
             output.println("Total Returns:\t\t" + sectorTotalReturns);
             output.println("Total Refunds:\t\t" + sectorTotalRefunds);
             output.println("\n\n");
+            return reportFile;
         } catch (FileNotFoundException ex) {
             throw new FileNotFoundException("Report file not found: " + reportFile.getPath());
         } catch (IOException ex) {
@@ -106,7 +107,7 @@ public class ReportGenerator {
         return "Report Of Sector "+sector.toString() +" StartDate "+startDate.toString()+" EndDate "+endDate.toString();
     }
 
-    public static void generateCashierReport(Cashier cashier,LocalDate startDate, LocalDate endDate) throws IOException {
+    public static File generateCashierReport(Cashier cashier,LocalDate startDate, LocalDate endDate) throws IOException {
         File reportFile=new File(createCashierReportFilePath(cashier,startDate,endDate));
         try(PrintWriter output=new PrintWriter(reportFile)){
             output.println("\t\t\t\t\tCashier Report\n");
@@ -159,6 +160,8 @@ public class ReportGenerator {
             output.println("Total Items Sold:\t\t" + totalItemsSold);
             output.println("\n\n");
 
+            return reportFile;
+
         } catch (FileNotFoundException ex) {
             throw new FileNotFoundException();
         } catch (IOException ex) {
@@ -176,7 +179,7 @@ public class ReportGenerator {
     }
 
     //Overall Report
-    public static void writeOverallReport(LocalDate startDate, LocalDate endDate) throws IOException {
+    public static File writeOverallReport(LocalDate startDate, LocalDate endDate) throws IOException {
         File reportFile = new File(createOverallReportFilePath(startDate, endDate));
         ArrayList<SectorType> sectors = Database.getDatabase().getSectors();
         ArrayList<Cashier> cashiers = Database.getDatabase().getCashiers();
@@ -324,7 +327,7 @@ public class ReportGenerator {
             output.println("Most Sold Item:\t\t" + mostSoldItem + " (Quantity: " + mostSoldQuantity + ")");
             output.println("Highest Revenue Item:\t" + highestRevenueItem + " (Revenue: " + highestRevenue + ")");
             output.println("\n");
-
+            return reportFile;
         } catch (FileNotFoundException ex) {
             throw new FileNotFoundException("Report file not found: " + reportFile.getPath());
         } catch (IOException ex) {

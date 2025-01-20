@@ -11,8 +11,7 @@ public class Administrator extends User implements InventoryManagement, Serializ
 
 
     @Serial
-    private static final long serialVersionUID = -5092817987964467787L;
-    private ArrayList<User> employees;
+    private static final long serialVersionUID = -4773729155422939186L;
     private Shift shift=new Shift();
     private ArrayList<File> reportsGenerted;
     //Constructor with custom argument
@@ -22,15 +21,8 @@ public class Administrator extends User implements InventoryManagement, Serializ
         super(id, firstName, lastName, gender, birthday, salary, username,
                 password, email, phoneNumber, dateEmployed, role, photo);
         this.shift.setShiftStatus(ShiftStatus.ACTIVE);
+        this.reportsGenerted=new ArrayList<>();
         //this.sector = sector;
-    }
-
-    public ArrayList<User> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(ArrayList<User> employees) {
-        this.employees = employees;
     }
 
     public ArrayList<File> getReportsGenerted() {
