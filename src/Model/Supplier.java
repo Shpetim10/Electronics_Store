@@ -6,11 +6,12 @@ import javafx.beans.property.SimpleStringProperty;
 
 import java.io.*;
 import java.util.*;
-//ca ben kjo serialazable?Kjo tregon qe objekti mund te shkruhet ne fileok//Dale te bej dhe nje gje tjeter qe me duhet
+
 public class Supplier implements Serializable {
 
+
     @Serial
-    private static final long serialVersionUID = 860981446897975582L;
+    private static final long serialVersionUID = -169081151611137633L;
     private transient SimpleIntegerProperty supplierId;
     private transient SimpleStringProperty companyName;
     private transient SimpleStringProperty email;

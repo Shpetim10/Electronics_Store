@@ -16,6 +16,7 @@ import java.time.LocalDate;
 
 public class Item implements Serializable {
 
+
     @Serial
     private static final long serialVersionUID = -7535246308595776385L;
     private transient SimpleIntegerProperty productId;
@@ -25,6 +26,7 @@ public class Item implements Serializable {
     private transient SimpleDoubleProperty priceBought;
     private transient SimpleStringProperty supplierName;
     private transient SimpleIntegerProperty stockQuantity;
+    private transient SimpleStringProperty image;
     private String brand;
     private LocalDate lastRestockDate;
     private transient SimpleIntegerProperty barcode;
@@ -38,10 +40,11 @@ public class Item implements Serializable {
         this.supplierName = new SimpleStringProperty();
         this.stockQuantity = new SimpleIntegerProperty();
         this.barcode = new SimpleIntegerProperty();
+        this.image=new SimpleStringProperty();
     }
 
     public Item(int productId, String productName, String sector, double sellingPrice, double priceBought,
-                String supplierName, int stockQuantity, String brand, LocalDate lastRestockDate, int barcode) {
+                String supplierName, int stockQuantity, String brand, LocalDate lastRestockDate, int barcode,String image) {
         this();
         setProductId(productId);
         setProductName(productName);
@@ -53,6 +56,7 @@ public class Item implements Serializable {
         setBrand(brand);
         setLastRestockDate(lastRestockDate);
         setBarcode(barcode);
+        setImage(image);
     }
 
     // Serialization methods
@@ -191,19 +195,23 @@ public class Item implements Serializable {
         }
     }
 
+    public String getImage() {
+        return image.get();
+    }
+
+    public SimpleStringProperty imageProperty() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image.set(image);
+    }
+
     // Utility
     @Override
     public String toString() {
         return String.format(
                 "Item [productId=%d, productName=%s, sector=%s, sellingPrice=%.2f, stockQuantity=%d, brand=%s, barcode=%d]",
                 getProductId(), getProductName(), sector, getSellingPrice(), getStockQuantity(), getBrand(), getBarcode());
-    }
 }
-
-
-
-
-
-
-
-
+}

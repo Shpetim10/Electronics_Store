@@ -24,28 +24,37 @@ public class InventoryManagementController {
 
         setEditListeners();
         setButtonActions();
-        searchBoxListener();
+        setupSearchBox();
 
     }
     private void setupSearchBox() {
         // Search button
-        view.getSearch().getSearchButton().setOnAction(e -> filterInventory());
-        // When enter is pressed
-        view.getSearch().getSearchField().setOnAction(e -> filterInventory());
+
+            // Search button
+            view.getSearch().getSearchButton().setOnAction(e -> filterInventory());
+            // When enter is pressed
+            view.getSearch().getSearchField().setOnKeyReleased(e -> filterInventory()); // Changed to onKeyReleased
+
     }
 
     private void filterInventory() {
         String searchText = view.getSearch().getSearchField().getText().trim().toLowerCase();
+
+        // If search is empty, reset the table
         if (searchText.isEmpty()) {
-            view.getTable().setItems(FXCollections.observableArrayList(inventory)); // Reset table
+            view.getTable().setItems(FXCollections.observableArrayList(inventory));
             return;
         }
 
         ObservableList<Item> filteredItems = FXCollections.observableArrayList(
                 inventory.stream()
                         .filter(item -> item.getProductName().toLowerCase().contains(searchText)
+                                || String.valueOf(item.getBarcode()).contains(searchText)
+                                ||String.valueOf(item.getLastRestockDate()).contains(searchText)
                                 || String.valueOf(item.getProductId()).contains(searchText)
                                 || item.getBrand().toLowerCase().contains(searchText)
+                                || String.valueOf(item.getStockQuantity()).contains(searchText)
+                                ||item.getSupplier().contains(searchText)
                                 || item.getSector().toLowerCase().contains(searchText))
                         .toList()
         );
