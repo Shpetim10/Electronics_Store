@@ -18,18 +18,24 @@ public class UserMainView extends VBox implements Design{
     private final Menu mainMenu=new Menu("Main Menu");
     private Label welcomeMessage=createAlignedGreenBoldLabel("");
 
+    private final Menu InventoryManagementSubMenu=new Menu("Inventory Management");
+    private final MenuItem addProductItem=createMenuItem("Add Product","Images/addProductInventoryIcon.png");
+    private final MenuItem inventoryManagementItem=createMenuItem("Inventory Management","Images/manageInventoryIcon.png");
+
+    private final Menu UserManagementSubmenu=new Menu("User Management");
+    private final MenuItem addEmployee=createMenuItem("Add Employee","Images/addUserIcon.png");
+    private final MenuItem manageEmployee=createMenuItem("Staff Management","Images/manageUsersIcon.png");
+
     private final MenuItem billingSystemItem=createMenuItem("Billing System","Images/billingSystemIcon.png");
     private final MenuItem generateReportItem=createMenuItem("Generate Report","Images/generateReportIcon.png");
     private final MenuItem viewAllBillsItem=createMenuItem("View Bills", "Images/viewAllBillsIcon.png");
-    private final MenuItem userManagementItem=createMenuItem("Billing System","Images/billingSystemIcon.png");
-    private final MenuItem inventoryManagementItem=createMenuItem("Inventory Management","Images/generateReportIcon.png");
+
+
     private final MenuItem supplierManagementItem=createMenuItem("Supplier Management", "Images/manageSuppliersIcon.png");
     private final MenuItem permissionGrantingItem=createMenuItem("Permission Granting","Images/managePermissions.png");
     private final MenuItem viewAllReportsItem=createMenuItem("View Reports","Images/viewReportsIcon.png");
-    private final MenuItem addProductItem=createMenuItem("Add Product","Images/addProductInventoryIcon.png");
-    private final MenuItem manageInventory=createMenuItem("Manage Inventory","Images/manageInventoryIcon.png");
-    private final MenuItem addEmployee=createMenuItem("Add Employee","Images/addUserIcon.png");
-    private final MenuItem manageEmployee=createMenuItem("Staff Management","Images/manageUsersIcon.png");
+
+
 
     private final ImageView profileLogo=new ImageView(new Image("Images/yourProfileIcon.png"));
     private final ImageView storeLogo=new ImageView(new Image("Images/electronicsStoreIcon.png"));
@@ -53,6 +59,16 @@ public class UserMainView extends VBox implements Design{
         mainMenuIcon.setFitHeight(30);
         mainMenu.setGraphic(mainMenuIcon);
         mainMenuIcon.setVisible(true);
+
+        ImageView inventoryIcon=new ImageView(new Image("Images/manageInventoryIcon.png"));
+        inventoryIcon.setFitHeight(30);
+        inventoryIcon.setFitWidth(30);
+        InventoryManagementSubMenu.setGraphic(inventoryIcon);
+
+        ImageView usersIcon=new ImageView(new Image("Images/manageUsersIcon.png"));
+        usersIcon.setFitWidth(30);
+        usersIcon.setFitHeight(30);
+        UserManagementSubmenu.setGraphic(usersIcon);
 
         storeLogo.setFitHeight(50);
         storeLogo.setFitWidth(50);
@@ -182,9 +198,7 @@ public class UserMainView extends VBox implements Design{
         return viewAllBillsItem;
     }
 
-    public MenuItem getUserManagementItem() {
-        return userManagementItem;
-    }
+
 
     public MenuItem getInventoryManagementItem() {
         return inventoryManagementItem;
@@ -202,9 +216,6 @@ public class UserMainView extends VBox implements Design{
         return addProductItem;
     }
 
-    public MenuItem getManageInventory() {
-        return manageInventory;
-    }
 
     public MenuItem getAddEmployee() {
         return addEmployee;
@@ -228,6 +239,14 @@ public class UserMainView extends VBox implements Design{
 
     public void setHomePage(BorderPane homePage) {
         this.homePage = homePage;
+    }
+
+    public Menu getInventoryManagementSubMenu() {
+        return InventoryManagementSubMenu;
+    }
+
+    public Menu getUserManagementSubmenu() {
+        return UserManagementSubmenu;
     }
 }
 

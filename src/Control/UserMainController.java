@@ -231,15 +231,18 @@ public class UserMainController {
             this.view.addToMainMenu(view.getPermissionGrantingItem());
         }
         if (user.getPermissions().contains(Permission.USER_MANAGEMENT)) {
-            this.view.addToMainMenu(view.getUserManagementItem());
-            this.view.addToMainMenu(view.getAddEmployee());
+            this.view.addToMainMenu(view.getUserManagementSubmenu());
+            this.view.getUserManagementSubmenu().getItems().add(view.getAddEmployee());
+            this.view.getUserManagementSubmenu().getItems().add(view.getManageEmployee());
         }
         if (user.getPermissions().contains(Permission.SUPPLIER_MANAGEMENT)) {
             this.view.addToMainMenu(view.getSupplierManagementItem());
         }
         if (user.getPermissions().contains(Permission.INVENTORY_MANAGEMENT)) {
-            this.view.addToMainMenu(view.getInventoryManagementItem());
-            this.view.addToMainMenu(view.getAddProductItem());
+            this.view.addToMainMenu(view.getInventoryManagementSubMenu());
+            this.view.getInventoryManagementSubMenu().getItems().add(view.getInventoryManagementItem());
+            this.view.getInventoryManagementSubMenu().getItems().add(view.getAddProductItem());
+
         }
     }
     public void setHomePage(){
