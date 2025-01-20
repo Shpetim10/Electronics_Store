@@ -1,10 +1,14 @@
 package Control;
 
+import MainRoot.AddCashierMain;
+import MainRoot.ManagePermissionsMain;
+import MainRoot.UserManagementMain;
 import View.UserManagementView.UserManagementView;
 import View.UserManagementView.UserTable;
 import View.UserManagementView.PermissionGrantingView;
-import View.UserManagementView.UserAdd; // Import UserAdd view
-import javafx.scene.layout.BorderPane;
+import View.UserManagementView.AddCashier;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 public class UserManagementController {
     private UserManagementView view;
@@ -14,7 +18,7 @@ public class UserManagementController {
     public UserManagementController(UserManagementView view) {
         this.view = view;
         this.userTable = new UserTable();
-        this.managePermissionsView = new PermissionGrantingView(); // Initialize the view
+        this.managePermissionsView = new PermissionGrantingView();
 
         // Set initial view
         view.getTemporaryPane().setCenter(userTable);
@@ -26,7 +30,9 @@ public class UserManagementController {
     }
 
     private void showManagePermissionsView() {
-        view.getTemporaryPane().setCenter(managePermissionsView); // Set the center to the permissions view
+        ManagePermissionsMain main = new ManagePermissionsMain();
+        Stage primaryStage = new Stage();
+        main.start(primaryStage);
     }
 
     private void showUserTable() {
@@ -34,7 +40,8 @@ public class UserManagementController {
     }
 
     private void openUserAddWindow() {
-        UserAdd userAddView = new UserAdd();
-        userAddView.showUserAddWindow();
+        AddCashierMain main = new AddCashierMain();
+        Stage primaryStage = new Stage();
+        main.start(primaryStage);
     }
 }

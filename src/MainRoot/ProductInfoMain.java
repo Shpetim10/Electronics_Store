@@ -1,6 +1,7 @@
 package MainRoot;
 
 
+import Control.ProductInformationController;
 import View.ProductInformationView;
 import View.Design;
 import javafx.application.Application;
@@ -14,9 +15,9 @@ public class ProductInfoMain extends Application implements Design {
 
         @Override
         public void start(Stage primaryStage){
-            ProductInformationView view=new ProductInformationView();
+            ProductInformationController controller=new ProductInformationController();
             primaryStage.setTitle("Product Information");
-            primaryStage.setScene(new Scene(view));
+            primaryStage.setScene(new Scene(controller.getView()));
             primaryStage.setMaximized(true);
             primaryStage.show();
         }

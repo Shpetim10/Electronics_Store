@@ -2,6 +2,8 @@ package Model;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class Validator {
@@ -49,6 +51,7 @@ public class Validator {
         return value.matches("\\d+") && Integer.parseInt(value) >= 0;
     }
 
+
     public static boolean validatePositiveDouble(String value) {
         // Must be a positive decimal number
         return value.matches("\\d+(\\.\\d{1,2})?") && Double.parseDouble(value) > 0;
@@ -62,24 +65,43 @@ public class Validator {
         // Date must not be in the future
         return date != null && !date.isAfter(LocalDate.now());
     }
-    public static boolean validateImageFile(String filePath) {
-        if (filePath == null || filePath.trim().isEmpty()) {
-            return false; // Empty input is invalid
+
+        public static boolean validateImageFile(String filePath) {
+            if (filePath == null || filePath.trim().isEmpty()) {
+                return false; // Empty input is invalid
+            }
+
+            // Corrected regex for file extension validation
+            String filePattern = ".*\\.(png|jpg|jpeg)$";
+
+            // Validate file format
+            boolean validFormat = Pattern.matches(filePattern, filePath.toLowerCase());
+
+            if (!validFormat) {
+                return false; // Invalid file format
+            }
+
+            // Validate file existence
+            File file = new File(filePath);
+            return file.exists() && file.isFile();
         }
+    public static boolean doesSupplierExist(ArrayList<Item> inventory, String supplierName) {
 
-        // Check file format (Allowing jpg, png, and jpeg)
-        String filePattern = "([^\\s]+(\\.(?i)(jpg|png|jpeg))$)";
-        boolean validFormat = Pattern.matches(filePattern, filePath);
-
-        // Check if file exists
-        File file = new File(filePath);
-        boolean fileExists = file.exists() && file.isFile();
-
-        return validFormat && fileExists;
+        for (Item item : inventory) {
+            if (item.getSupplier() != null && item.getSupplier().equalsIgnoreCase(supplierName)) {
+                return true; // Supplier exists in the inventory
+            }
+        }
+        return false; // Supplier does not exist in the inventory
+    }
+    public static boolean isValidEmail(String email) {
+        // Regular expression for a valid email format
+        String emailPattern = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        return email != null && email.matches(emailPattern);
     }
 
 
-    public static void main(String[] args) {
+        public static void main(String[] args) {
 
         System.out.println(validateExpirationDateFormat("00/2025"));
         System.out.println(validateExpirationDateFormat("01/2025"));

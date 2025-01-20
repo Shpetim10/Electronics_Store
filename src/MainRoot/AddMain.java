@@ -1,9 +1,9 @@
 package MainRoot;
 
-import Control.AddController;
-import View.AddView;
-import View.AddView;
+import Control.AddProductController;
+import View.AddProductView;
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
@@ -13,10 +13,10 @@ public class AddMain extends Application {
     }
 
     public void start(Stage primaryStage){
-        AddView view=new AddView();
-        primaryStage.setTitle("Add/Edit");
-        AddController addController = new AddController();
-        primaryStage.setScene(view.createScene());
+        //AddProductView view=new AddProductView();
+        primaryStage.setTitle("Add");
+        AddProductController addController = new AddProductController();
+        primaryStage.setScene(new Scene(addController.getView()));
         primaryStage.setMaximized(true);
         primaryStage.show();
     }

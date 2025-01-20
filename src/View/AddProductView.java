@@ -4,7 +4,6 @@ import Model.Item;
 import Model.SectorType;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -15,15 +14,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class AddView implements Design {
-    private TextField productCode= createTextField("Product Code");
-    private TextField productName= createTextField("Product Name");
-    private ComboBox<String> sector= createComboBox("Sector");
-    private TextField sellingPrice= createTextField("Selling Price");;
-    private TextField priceBought= createTextField("Price Bought");;
+public class AddProductView extends GridPane implements Design {
+    SearchBoxPane search=new SearchBoxPane();
+    private CheckBox select;
+    private TextField productCode;
+    private TextField productName;
+    private ComboBox<String> sector;
+    private TextField sellingPrice;
+    private TextField priceBought;
     private TextField supplier;
     private TextField stockQuantity;
-
     private TextField brand;
     private DatePicker lastRestockDate=createDatePicker("Restock date...");
     private TextField barcode;
@@ -34,7 +34,11 @@ public class AddView implements Design {
     private TextField image;
 
 
-    public AddView() {
+    public AddProductView() {
+        this.select=createCheckBox();
+        this.productCode = createTextField("Product Code");
+        this.productName = createTextField("Product Name");
+        this.sector = createComboBox("Sector");
         this.sector.setItems(FXCollections.observableArrayList(
                 SectorType.ELECTRONICS.toString(),
                 SectorType.ACCESSORIES.toString(),
@@ -47,37 +51,27 @@ public class AddView implements Design {
                 SectorType.SMART_HOME.toString()
         ));
 
+        this.sellingPrice = createTextField("Selling Price");
+        this.priceBought = createTextField("Price Bought");
         this.supplier = createTextField("Supplier");
-//        this.isDiscounted = createComboBox("Is Discounted");
-//        isDiscounted.getItems().addAll("Yes","No");
-//        this.discountRate = createTextField("Discount Rate");
         this.stockQuantity = createTextField("Quantity");
-//        this.weight = createTextField("Weight");
-//        this.volume = createTextField("Volume");
-//        this.color = createTextField("Color");
         this.brand = createTextField("Brand");
-//        this.isDiscontinued = createComboBox("Is Discontinued");
-//        isDiscontinued.getItems().addAll("Yes","No");
-//        this.isAvailable = createComboBox("Is Available");
-//        isAvailable.getItems().addAll("Yes","No");
-        //this.lastRestockDate = createTextField("Last Restock Date");
         this.barcode = createTextField("Barcode");
         this.nrOfReturns = createTextField("Number of Returns");
         this.add=createGeneralButton("Add Product");
         this.edit=createGeneralButton("Edit Product");
-
         this.table = new TableView<>();
         this.image=createTextField("Image URL");
+        setUpView();
 
     }
 
+    public void  setUpView() {
 
-    public Scene createScene() {
-        GridPane inventory = new GridPane();
-        inventory.setHgap(20);
-        inventory.setVgap(10);
-        inventory.setPadding(new Insets(50, 100, 50, 100));
-        inventory.setStyle("-fx-background-color: rgba(167,246,8,0.15)");
+        this.setHgap(20);
+        this.setVgap(10);
+        this.setPadding(new Insets(50, 100, 50, 100));
+        this.setStyle("-fx-background-color: rgba(167,246,8,0.15)");
 
         HBox buttons=new HBox(30);
         buttons.getChildren().addAll(add,edit);
@@ -86,41 +80,29 @@ public class AddView implements Design {
        grid.setVgap(25);
       grid.setHgap(25);
 
-
-
         grid.add(createAlignedGreenBoldLabel("Barcode: ", 100), 0, 0);
         grid.add(barcode, 1, 0);
-        grid.add(createAlignedGreenBoldLabel("Files.Product Code: ", 150), 2, 0);
+        grid.add(createAlignedGreenBoldLabel("Product Code: ", 150), 2, 0);
         grid.add(productCode, 3, 0);
-        grid.add(createAlignedGreenBoldLabel("Files.Product Name: ", 150), 4, 0);
+        grid.add(createAlignedGreenBoldLabel("Product Name: ", 150), 4, 0);
         grid.add(productName, 5, 0);
-
         grid.add(createAlignedGreenBoldLabel("Brand: ", 100), 0, 1);
         grid.add(brand, 1, 1);
         grid.add(createAlignedGreenBoldLabel("Sector: ", 100), 2, 1);
         grid.add(sector, 3, 1);
         grid.add(createAlignedGreenBoldLabel("Supplier: ", 100), 4, 1);
         grid.add(supplier, 5, 1);
-
         grid.add(createAlignedGreenBoldLabel("Price Bought: ", 150), 0, 2);
         grid.add(priceBought, 1, 2);
         grid.add(createAlignedGreenBoldLabel("Selling Price: ", 150), 2, 2);
         grid.add(sellingPrice, 3, 2);
         grid.add(createAlignedGreenBoldLabel(" Quantity: ", 100), 4, 2);
         grid.add(stockQuantity, 5, 2);
-
         grid.add(createAlignedGreenBoldLabel("Last Restock Date: ", 200), 0, 3);
         grid.add(lastRestockDate, 1, 3);
         grid.add(createAlignedGreenBoldLabel("Image URL ", 150), 2, 3);
        grid.add(image, 3, 3);
-
-//        grid.add(createAlignedGreenBoldLabel("Discount Rate: ", 150), 4, 3);
-//        grid.add(discountRate, 5, 3);
-
-      //grid.add(add, 4, 4);
        grid.add(add, 5, 7);
-
-
 
         Label label=createAlignedGreenBoldLabel("Products Management",200);
         label.setPrefSize(200,100);
@@ -132,20 +114,19 @@ public class AddView implements Design {
             imageView.setFitHeight(80);
             imageView.setFitWidth(80);
 
-
         searchBox.getChildren().addAll( label);
-       inventory.add(imageView,2,0);
-        inventory.add(searchBox,1,0);
-        //inventory.add(table,1,1);
-       inventory.add(grid,1,8);
-
-
-        Scene scene = new Scene(inventory);
-        return scene;
+       this.add(imageView,2,0);
+        this.add(searchBox,1,0);
+       this.add(grid,1,8);
 
     }
+    public CheckBox getSelect() {
+        return select;
+    }
 
-    
+    public void setSelect(CheckBox select) {
+        this.select = select;
+    }
 
     public TextField getProductCode() {
         return productCode;
@@ -171,13 +152,7 @@ public class AddView implements Design {
         this.sector = sector;
     }
 
-//    public TextField getDescription() {
-//        return description;
-//    }
-//
-//    public void setDescription(TextField description) {
-//        this.description = description;
-//    }
+
 
     public TextField getSellingPrice() {
         return sellingPrice;
@@ -203,21 +178,6 @@ public class AddView implements Design {
         this.supplier = supplier;
     }
 
-//    public ComboBox<String> getIsDiscounted() {
-//        return isDiscounted;
-//    }
-
-//    public void setIsDiscounted(ComboBox<String> isDiscounted) {
-//        this.isDiscounted = isDiscounted;
-//    }
-//
-//    public TextField getDiscountRate() {
-//        return discountRate;
-//    }
-//
-//    public void setDiscountRate(TextField discountRate) {
-//        this.discountRate = discountRate;
-//    }
 
     public TextField getStockQuantity() {
         return stockQuantity;
@@ -227,30 +187,6 @@ public class AddView implements Design {
         this.stockQuantity = stockQuantity;
     }
 
-//    public TextField getWeight() {
-//        return weight;
-//    }
-//
-//    public void setWeight(TextField weight) {
-//        this.weight = weight;
-//    }
-//
-//    public TextField getVolume() {
-//        return volume;
-//    }
-//
-//    public void setVolume(TextField volume) {
-//        this.volume = volume;
-//    }
-//
-//    public TextField getColor() {
-//        return color;
-//    }
-//
-//    public void setColor(TextField color) {
-//        this.color = color;
-//    }
-
     public TextField getBrand() {
         return brand;
     }
@@ -259,21 +195,6 @@ public class AddView implements Design {
         this.brand = brand;
     }
 
-//    public ComboBox<String> getIsDiscontinued() {
-//        return isDiscontinued;
-//    }
-//
-//    public void setIsDiscontinued(ComboBox<String> isDiscontinued) {
-//        this.isDiscontinued = isDiscontinued;
-//    }
-//
-//    public ComboBox<String> getIsAvailable() {
-//        return isAvailable;
-//    }
-//
-//    public void setIsAvailable(ComboBox<String> isAvailable) {
-//        this.isAvailable = isAvailable;
-//    }
 
     public DatePicker getLastRestockDate() {
         return lastRestockDate;
@@ -307,13 +228,6 @@ public class AddView implements Design {
         this.add = add;
     }
 
-    public Button getEdit() {
-        return edit;
-    }
-
-    public void setEdit(Button edit) {
-        this.edit = edit;
-    }
 
     public TableView<Item> getTable() {
         return table;

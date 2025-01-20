@@ -11,7 +11,7 @@ import javafx.scene.layout.*;
 import View.SearchBoxPane;
 
 
-public class ProductInformationView extends GridPane implements Design {
+public class ProductInformationView extends VBox implements Design {
 
     private ImageView photo = new ImageView();
     private Label name = createAlignedBlackLabel("");
@@ -19,28 +19,18 @@ public class ProductInformationView extends GridPane implements Design {
     private Label quantity = createAlignedBlackLabel("");
     private Label price = createAlignedBlackLabel("");
     private Label sector = createAlignedBlackLabel("");
-    private Label description = createAlignedBlackLabel("");
     private Label supplier = createAlignedBlackLabel("");
     private Label brand = createAlignedBlackLabel("");
     private Label lastRestock = createAlignedBlackLabel("");
     private Label sellingPrice = createAlignedBlackLabel("");
-    private Label weight = createAlignedBlackLabel("");
-    private CheckBox isAvailable = createCheckBox();
-    private CheckBox isDiscontinued = createCheckBox();
     private Label priceBought = createAlignedBlackLabel("");
     private final SearchBoxPane searchBox=new SearchBoxPane("Search Product...");
-
+    private GridPane infoPane=createInfoPane();
+    private CustomTableView inventoryTable=new CustomTableView();
+    private StackPane displayPane=new StackPane();
 
     public ImageView getPhoto() {
         return photo;
-    }
-
-    public CheckBox getIsAvailable() {
-        return isAvailable;
-    }
-
-    public CheckBox getIsDiscontinued() {
-        return isDiscontinued;
     }
 
     public Label getProductId() {
@@ -62,11 +52,6 @@ public class ProductInformationView extends GridPane implements Design {
     public Label getSector() {
         return sector;
     }
-
-    public Label getDescription() {
-        return description;
-    }
-
     public Label getSupplier() {
         return supplier;
     }
@@ -83,32 +68,41 @@ public class ProductInformationView extends GridPane implements Design {
         return sellingPrice;
     }
 
-    public Label getWeight() {
-        return weight;
-    }
-
     public Label getPriceBought() {
         return priceBought;
     }
-
-    public HBox topSection() {
-        HBox topSection = new HBox(10);
-        topSection.setPadding(new Insets(10));
-
-        Button refreshButton = new Button("Refresh");
-        topSection.getChildren().addAll(refreshButton);
-
-        BorderPane mainLayout = new BorderPane();
-        mainLayout.setTop(topSection);
-
-        return topSection;
+    public SearchBoxPane getSearchBox() {
+        return searchBox;
     }
 
-    // Adding elements to GridPane
+    public GridPane getInfoPane() {
+        return infoPane;
+    }
+
+    public CustomTableView getInventoryTable() {
+        return inventoryTable;
+    }
+
+    public StackPane getDisplayPane() {
+        return displayPane;
+    }
     public ProductInformationView() {
 
         setUpView();
 
+    }
+    public void setUpView() {
+        this.setSpacing(30);
+        this.setPadding(new Insets(20,20,20,20));
+        searchBox.getSearchButton().setText("View");
+        this.getChildren().addAll(searchBox,displayPane);
+    }
+    public GridPane createInfoPane(){
+        GridPane pane=new GridPane();
+        pane.setHgap(50);
+        pane.setVgap(30);
+        pane.setPadding(new Insets(50, 50, 50, 50));
+        pane.setStyle("-fx-background-color: rgba(167,246,8,0.15)");
         Label photoLabel = new Label(" Photo");
         photoLabel.setStyle("-fx-font-size: 12;  -fx-text-fill: darkgreen;");
         photoLabel.setPrefSize(180, 180);
@@ -140,12 +134,6 @@ public class ProductInformationView extends GridPane implements Design {
         Label priceField = new Label();
         priceField.setStyle("-fx-pref-width: 200;-fx-background-color: white;-fx-border-width:3 ; -fx-alignment: center; -fx-background-radius: 40; -fx-border-radius: 40; -fx-border-width: 2; -fx-border-color: yellowgreen;");
 
-        Label descriptionLabel = new Label("Description:");
-        descriptionLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
-        Label descriptionField = new Label();
-        descriptionField.setStyle("-fx-pref-width: 300;-fx-background-color: white;-fx-border-width:3 ; -fx-alignment: center; -fx-background-radius: 40; -fx-border-radius: 40; -fx-border-width: 2; -fx-border-color: yellowgreen;");
-
-
         Label supplierLabel = new Label("Supplier:");
         supplierLabel.setStyle(" -fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
         Label supplierField = new Label();
@@ -161,11 +149,6 @@ public class ProductInformationView extends GridPane implements Design {
         Label lastRestockPicker = new Label();
         lastRestockPicker.setStyle("-fx-pref-width: 200;-fx-background-color: white;-fx-border-width:3 ; -fx-alignment: center; -fx-background-radius: 40; -fx-border-radius: 40; -fx-border-width: 2; -fx-border-color: yellowgreen;");
 
-        Label weightLabel = new Label("Weight:");
-        weightLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
-        Label weightField = new Label();
-        weightField.setStyle("-fx-pref-width: 200;-fx-background-color: white;-fx-border-width:3 ; -fx-alignment: center; -fx-background-radius: 40; -fx-border-radius: 40; -fx-border-width: 2; -fx-border-color: yellowgreen;");
-
         Label sellingPriceLabel = new Label("Selling Price:");
         sellingPriceLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
         Label sellingPriceField = new Label();
@@ -176,60 +159,37 @@ public class ProductInformationView extends GridPane implements Design {
         Label priceBoughtField = new Label();
         priceBoughtField.setStyle("-fx-pref-width: 200;-fx-background-color: white;-fx-border-width:3 ; -fx-alignment: center; -fx-background-radius: 40; -fx-border-radius: 40; -fx-border-width: 2; -fx-border-color: yellowgreen;");
 
-        CheckBox isAvailableCheckbox = new CheckBox("Is Available?");
-        isAvailableCheckbox.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
-        CheckBox isDiscontinuedCheckbox = new CheckBox("Is Discontinued?");
-        isDiscontinuedCheckbox.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: darkgreen;");
+        pane.add(photoLabel, 4, 4,4,4);
+        pane.add(productIdLabel, 1, 1);
+        pane.add(productIdField, 2, 1);
+        pane.add(nameLabel, 1, 2);
+        pane.add(nameField, 2, 2);
+
+        pane.add(sectorLabel, 1, 10);
+        pane.add(sectorField, 2, 10);
+
+        pane.add(quantityLabel, 1, 3);
+        pane.add(quantityField, 2, 3);
+
+        pane.add(supplierLabel, 1, 5);
+        pane.add(supplierField, 2, 5);
+        pane.add(brandLabel, 1, 6);
+        pane.add(brandField, 2, 6);
+        pane.add(lastRestockLabel, 1, 7);
+        pane.add(lastRestockPicker, 2, 7);
+
+        pane.add(priceLabel, 1, 8);
+        pane.add(priceField, 2, 8);
+
+        pane.add(sellingPriceLabel, 3, 2);
+        pane.add(sellingPriceField, 4, 2);
+
+        pane.add(priceBoughtLabel, 3, 1);
+        pane.add(priceBoughtField, 4, 1);
 
 
-        this.add(photoLabel, 0, 0);
-
-        this.add(searchBox,2,0);
-
-        this.add(productIdLabel, 1, 1);
-        this.add(productIdField, 2, 1);
-        this.add(nameLabel, 1, 2);
-        this.add(nameField, 2, 2);
-
-        this.add(sectorLabel, 1, 10);
-        this.add(sectorField, 2, 10);
-
-        this.add(quantityLabel, 1, 3);
-        this.add(quantityField, 2, 3);
-
-        this.add(descriptionLabel, 1, 4);
-        this.add(descriptionField, 2, 4, 2, 1);
-
-        this.add(supplierLabel, 1, 5);
-        this.add(supplierField, 2, 5);
-        this.add(brandLabel, 1, 6);
-        this.add(brandField, 2, 6);
-        this.add(lastRestockLabel, 1, 7);
-        this.add(lastRestockPicker, 2, 7);
-
-        this.add(priceLabel, 1, 8);
-        this.add(priceField, 2, 8);
-
-        this.add(weightLabel, 1, 9);
-        this.add(weightField, 2, 9);
-
-        this.add(sellingPriceLabel, 3, 2);
-        this.add(sellingPriceField, 4, 2);
-
-        this.add(priceBoughtLabel, 3, 1);
-        this.add(priceBoughtField, 4, 1);
-
-        this.add(isAvailableCheckbox, 3, 5);
-        this.add(isDiscontinuedCheckbox, 3, 6);
-
-
-
+        return pane;
     }
-    public void setUpView() {
-        this.setHgap(50);
-        this.setVgap(30);
-        this.setPadding(new Insets(50, 50, 50, 50));
-        this.setStyle("-fx-background-color: rgba(167,246,8,0.15)");
 
-    }
+
 }

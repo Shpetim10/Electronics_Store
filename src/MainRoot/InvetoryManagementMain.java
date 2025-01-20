@@ -14,10 +14,12 @@ public class InvetoryManagementMain extends Application {
     }
 
     public void start(Stage primaryStage){
-        InventoryManagementView view=new InventoryManagementView();
+        //InventoryManagementView view=new InventoryManagementView();
         primaryStage.setTitle("Inventory");
         InventoryController control=new InventoryController();
         primaryStage.setScene(new Scene(view));
+        InventoryController control=new InventoryController();
+        primaryStage.setScene(new Scene(control.getView()));
         primaryStage.setMaximized(true);
         primaryStage.show();
     }

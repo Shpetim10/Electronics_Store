@@ -21,6 +21,9 @@ public abstract class User implements Serializable {
     private String photo; // reference(address) to photo
     private EmployeeRole role;
     private Double salary;
+    private Date birthday;
+    private Gender gender;
+    private Double salary;
     private ArrayList<Permission> permissions;
     private boolean isActive;
     private ArrayList<Notification> notifications;
@@ -31,6 +34,27 @@ public abstract class User implements Serializable {
                 EmployeeRole role, double salary,ArrayList<Permission> permissions, boolean isActive, ArrayList<Notification> notifications) {
         this(id,firstName,lastName,username,password,email,phoneNumber,dateEmployed,role,salary,permissions, isActive);
         this.photo = photo;
+    }
+
+    /// Constructor to add to file
+    public User(int id, String firstName, String lastName, Gender gender, Date birthday, Double salary, String username,
+                String password, String email, String phoneNumber, LocalDate dateEmployed, EmployeeRole role,
+                 String photo){
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.birthday = birthday;
+        this.salary = salary;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.dateEmployed = dateEmployed;
+        this.role = role;
+        this.photo = photo;
+
+
     }
 
     //Constructor without photo
@@ -169,6 +193,23 @@ public abstract class User implements Serializable {
 
     public void setNotifications(ArrayList<Notification> notifications) {
         this.notifications = notifications;
+    }
+
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     @Override
