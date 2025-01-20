@@ -12,7 +12,7 @@ import java.util.Objects;
 public abstract class User implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = 1574601041687009184L;
+    private static final long serialVersionUID = 15424254887009184L;
     private transient SimpleIntegerProperty id;
     private transient SimpleStringProperty firstName;
     private transient SimpleStringProperty lastName;
@@ -24,12 +24,12 @@ public abstract class User implements Serializable {
     private transient String password;
     private transient LocalDate dateEmployed;
     private transient String photo; // reference(address) to photo
-    private transient Date birthday;
+    private transient LocalDate birthday;
     private transient Gender gender;
-    private transient ArrayList<Permission> permissions;
-    private transient ArrayList<Boolean> permissionsBoolean;
-    private transient boolean isActive;
-    private transient ArrayList<Notification> notifications;
+    private ArrayList<Permission> permissions;
+    private  ArrayList<Boolean> permissionsBoolean;
+    private  boolean isActive;
+    private  ArrayList<Notification> notifications;
 
     /// For Cashier
     public User(int id, String firstName, String lastName, String username, String password, String email,
@@ -58,50 +58,61 @@ public abstract class User implements Serializable {
         getNotifications().add(new Notification(NotificationType.OTHER, message));
     }
 
-
-    //All-Argument Constructor
-    protected User(int id, String firstName, String lastName, String username,
-                   String password, String email, String phoneNumber, LocalDate dateEmployed, String photo,
-                   EmployeeRole role, ArrayList<Permission> permissions, boolean isActive, ArrayList<Notification> notifications) {
+    /// Permissions
+    public User(int id, String firstName, String lastName, String username, EmployeeRole role, ArrayList<Boolean> permissions){
         this.setId(id);
         this.setFirstName(firstName);
         this.setLastName(lastName);
+        this.setUsername(username);
+        this.setRole(role);
+
+    }
+
+
+    //All-Argument Constructor
+//    protected User(int id, String firstName, String lastName, String username,
+//                   String password, String email, String phoneNumber, LocalDate dateEmployed, String photo,
+//                   EmployeeRole role, ArrayList<Permission> permissions, boolean isActive, ArrayList<Notification> notifications) {
+//        this.setId(id);
+//        this.setFirstName(firstName);
+//        this.setLastName(lastName);
+//        this.setUsername(username);
+//        this.setPassword(password);
+//        this.setEmail(email);
+//        this.setPhoneNumber(phoneNumber);
+//        this.setDateEmployed(dateEmployed);
+//        this.setRole(role);
+//        this.setActive(isActive);
+//
+//        this.setPhoto(photo);
+//
+//        if (notifications != null) {
+//            this.setNotifications(notifications);
+//        }
+//    }
+
+    /// Constructor to add to file
+    public User(int id, String firstName, String lastName, Gender gender, LocalDate birthday, Double salary, String username,
+                String password, String email, String phoneNumber, LocalDate dateEmployed, EmployeeRole role,
+                String photo) {
+        this.setId(id);
+        this.setFirstName(firstName);
+        this.setLastName(lastName);
+        this.setGender(gender);
+        this.setBirthday(birthday);
+        this.setSalary(salary);
         this.setUsername(username);
         this.setPassword(password);
         this.setEmail(email);
         this.setPhoneNumber(phoneNumber);
         this.setDateEmployed(dateEmployed);
         this.setRole(role);
-        this.setPermissions(permissions);
-        this.setActive(isActive);
-
         this.setPhoto(photo);
 
-        if (notifications != null) {
-            this.setNotifications(notifications);
-        }
+        this.permissions=new ArrayList<>();
+        this.notifications=new ArrayList<>();
     }
 
-    /// Constructor to add to file
-    public User(int id, String firstName, String lastName, Gender gender, Date birthday, Double salary, String username,
-                String password, String email, String phoneNumber, LocalDate dateEmployed, EmployeeRole role,
-                 String photo){
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender;
-        this.birthday = birthday;
-        this.salary = salary;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.dateEmployed = dateEmployed;
-        this.role = role;
-        this.photo = photo;
-
-
-    }
 
     //Constructor without photo
 
@@ -285,11 +296,11 @@ public abstract class User implements Serializable {
     }
 
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
@@ -300,15 +311,6 @@ public abstract class User implements Serializable {
     public void setGender(Gender gender) {
         this.gender = gender;
     }
-
-    public ArrayList<Boolean> getPermissionsBoolean() {
-        return permissionsBoolean;
-    }
-
-    public void setPermissionsBoolean(ArrayList<Boolean> permissionsBoolean) {
-        this.permissionsBoolean = permissionsBoolean;
-    }
-
 
 
     @Override

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Database {
     private static Database database=new Database();
-    private ArrayList<User> users;
+    private ArrayList<User> users=new ArrayList<>();
     private ArrayList<Item> inventory;
     private ArrayList<Shift> completedShifts;
     private ArrayList<String> customers;
@@ -29,7 +29,9 @@ public class Database {
         this.managers=FileHandler.getManagers();
         this.administrators=FileHandler.getAdministrators();
         this.transactions=FileHandler.getRestockTransaction();
-        //this.users=FileHandler.getUsers();
+        this.users.addAll(this.cashiers);
+        this.users.addAll(this.managers);
+        this.users.addAll(this.administrators);
         setSectors();
     }
     public void updateInventory(ArrayList<Item> inventory){

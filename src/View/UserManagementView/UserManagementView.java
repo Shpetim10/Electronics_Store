@@ -155,13 +155,15 @@ public class UserManagementView extends GridPane implements Design {
     }
 
     private ObservableList<User> getSampleData() {
-        ArrayList<User> user = Database.getDatabase().getUsers();
-        for(Cashier cashier: Database.getDatabase().getCashiers()){
-            user.add(cashier);
-        }
-        //for(Manager manager :Database.getDatabase().getM)
+        ArrayList<User> users = new ArrayList<>();
 
-        return FXCollections.observableArrayList(user);
+        // Add all users from different roles to the list
+        users.addAll(Database.getDatabase().getCashiers());
+        users.addAll(Database.getDatabase().getManagers());
+        users.addAll(Database.getDatabase().getAdministrators());
+
+        // Convert to ObservableList
+        return FXCollections.observableArrayList(users);
     }
 
 

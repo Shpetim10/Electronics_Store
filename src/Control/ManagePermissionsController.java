@@ -21,7 +21,7 @@ public class ManagePermissionsController {
             public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
                 if (newValue != null) {
                     // Update the checkboxes based on the selected user's permissions
-                    updatePermissionCheckboxes(newValue);
+//                    updatePermissionCheckboxes(newValue);
                 }
             }
         });
@@ -32,16 +32,16 @@ public class ManagePermissionsController {
      *
      * @param user The user whose permissions need to be displayed.
      */
-    private void updatePermissionCheckboxes(User user) {
-        // Retrieve the user's permissions
-        ArrayList<Boolean> permissionsBoolean = user.getPermissionsBoolean();
-
-        // Clear all checkboxes and reapply based on the user's permissions
-        for (int i = 0; i < permissionsBoolean.size(); i++) {
-            boolean hasPermission = permissionsBoolean.get(i);
-
-            // Update the corresponding checkbox in the PermissionGrantingView
-            view.getPermissionsCheckBoxes().get(i).setSelected(hasPermission);
-        }
-    }
+//    private void updatePermissionCheckboxes(User user) {
+//        // Retrieve the user's permissions
+////        ArrayList<Boolean> permissionsBoolean = user.getPermissionsBoolean();
+//
+//        // Clear all checkboxes and reapply based on the user's permissions
+//        for (int i = 0; i < permissionsBoolean.size(); i++) {
+//            boolean hasPermission = permissionsBoolean.get(i);
+//
+//            // Update the corresponding checkbox in the PermissionGrantingView
+//            view.getPermissionsCheckBoxes().get(i).setSelected(hasPermission);
+//        }
+//    }
 }

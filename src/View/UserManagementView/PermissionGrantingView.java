@@ -1,9 +1,6 @@
 package View.UserManagementView;
 
-import Model.EmployeeRole;
-import Model.Permission;
-import Model.SectorType;
-import Model.User;
+import Model.*;
 import View.Design;
 import View.SearchBoxPane;
 import javafx.collections.FXCollections;
@@ -167,9 +164,9 @@ public class PermissionGrantingView extends HBox implements Design {
     private ObservableList<User> getSampleData() {
         // Replace this with actual data fetching
         return FXCollections.observableArrayList(
-                new User(1, "John", "Doe", "jdoe", EmployeeRole.CASHIER, getCashierPermissions()),
-                new User(2, "Jane", "Smith", "jsmith", EmployeeRole.MANAGER, getManagerPermissions()),
-                new User(3, "Arjan", "Muka", "armuka", EmployeeRole.ADMINISTRATOR, getAdministratorPermissions())
+                new Cashier(1, "John", "Doe", "jdoe", EmployeeRole.CASHIER, getCashierPermissions()),
+                new Manager(2, "Jane", "Smith", "jsmith", EmployeeRole.MANAGER, getManagerPermissions()),
+                new Administrator(3, "Arjan", "Muka", "armuka", EmployeeRole.ADMINISTRATOR, getAdministratorPermissions())
         );
     }
 

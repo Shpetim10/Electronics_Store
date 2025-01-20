@@ -8,8 +8,9 @@ import java.util.ArrayList;
 
 public class Manager extends User implements Serializable {
 
+
     @Serial
-    private static final long serialVersionUID = -6318675204383467745L;
+    private static final long serialVersionUID = 3648542730375750254L;
     private ArrayList<SectorType> sectors=new ArrayList<>();
     private ArrayList<File> reportsGenerated = new ArrayList<>();
 
@@ -21,6 +22,11 @@ public class Manager extends User implements Serializable {
         //this.sector = sector;
         this.sectors=new ArrayList<>();
         this.reportsGenerated=new ArrayList<>();
+    }
+
+    /// Add Constructor
+    public Manager(int id, String firstName, String lastName, String username, EmployeeRole role, ArrayList<Boolean> permissions){
+        super(id, firstName, lastName, username, role, permissions);
     }
 
     public ArrayList<SectorType> getSectors() {

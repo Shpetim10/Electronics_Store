@@ -11,7 +11,7 @@ public class Administrator extends User implements InventoryManagement, Serializ
 
 
     @Serial
-    private static final long serialVersionUID = -4773729155422939186L;
+    private static final long serialVersionUID = 3587655460939970455L;
     private Shift shift=new Shift();
     private ArrayList<File> reportsGenerted;
     //Constructor with custom argument
@@ -25,6 +25,10 @@ public class Administrator extends User implements InventoryManagement, Serializ
         //this.sector = sector;
     }
 
+    /// Add constructor
+    public Administrator(int id, String firstName, String lastName, String username, EmployeeRole role, ArrayList<Boolean> permissions){
+        super(id, firstName, lastName, username, role, permissions);
+    }
     public ArrayList<File> getReportsGenerted() {
         return reportsGenerted;
     }

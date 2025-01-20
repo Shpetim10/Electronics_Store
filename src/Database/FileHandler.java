@@ -435,6 +435,7 @@ public class FileHandler {
             ex.printStackTrace();
         }
         return inventory;
+        //Fshi dhe njeher kto filet dhe ndrysho ato serial keyt
     }
 
     }
