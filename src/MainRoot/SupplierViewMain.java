@@ -16,10 +16,10 @@ public class SupplierViewMain extends Application {
     }
 
     public void start(Stage primaryStage){
-        SupplierView view=new SupplierView();
+        // view=new SupplierView();
         primaryStage.setTitle("Supplier");
-        SupplierControl control=new SupplierControl(view);
-        primaryStage.setScene(new Scene(view));
+        SupplierControl control=new SupplierControl();
+        primaryStage.setScene(new Scene(control.getView()));
         primaryStage.setMaximized(true);
         primaryStage.show();
     }

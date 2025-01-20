@@ -1,5 +1,6 @@
 package View;
 
+import Database.Database;
 import Database.FileHandler;
 import Model.Item;
 import Model.SectorType;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 
 public class SupplierView extends GridPane implements Design {
     private final TableView<Supplier> table = new TableView<>();
+    private ObservableList<Supplier> supplierList;
 
     private final TableColumn<Supplier, Integer> supplierId;
     private final TableColumn<Supplier, String> companyName;
@@ -38,6 +40,8 @@ public class SupplierView extends GridPane implements Design {
     Label label=createAlignedGreenBoldLabel("Supplier Management",200);
 
     public SupplierView() {
+        this.supplierList = FXCollections.observableArrayList(Database.getDatabase().getSuppliers());
+        table.setItems(supplierList);
         table.setEditable(true);
         table.setPrefHeight(800);
         table.setPrefWidth(3000);
@@ -83,15 +87,15 @@ public class SupplierView extends GridPane implements Design {
         this.phone = createTextField("Phone Number");
         this.Address = createTextField("Address");
 
-        table.setItems(getSampleData());
+        //supplierList.addAll(getSampleData());
         setUpView();
 
     }
-    private ObservableList<Supplier> getSampleData() {
-        ArrayList<Supplier> suppliers = FileHandler.getSuppliersFromFile();
-        return FXCollections.observableArrayList(suppliers);
-
-    }
+//    private ObservableList<Supplier> getSampleData() {
+//        ArrayList<Supplier> suppliers = Database.getDatabase().getSuppliers();
+//        return FXCollections.observableArrayList(suppliers);
+//
+//    }
 
     public void setUpView(){
         this.setPadding(new Insets(10,10,10,10));
@@ -115,9 +119,6 @@ public class SupplierView extends GridPane implements Design {
         grid.add(Address, 9, 0);
         grid.add(add,5,1);
         grid.add(delete,9,1);
-
-
-
         this.add(box,0,0);
         this.add(table,0,3);
         this.add(grid,0,4);
@@ -169,6 +170,13 @@ public class SupplierView extends GridPane implements Design {
     public void setcName(TextField cName) {
         this.cName = cName;
     }
+    public TextField getEmailField() {
+        return Email;
+    }
+
+    public TextField getAddressField() {
+        return Address;
+    }
 
     public void setEmail(TextField email) {
         Email = email;
@@ -184,5 +192,8 @@ public class SupplierView extends GridPane implements Design {
 
     public void setAddress(TextField address) {
         Address = address;
+    }
+    public ObservableList<Supplier> getSupplierList() {
+        return supplierList;
     }
 }
