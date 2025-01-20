@@ -20,6 +20,30 @@ public class SupplierControl {
         setEditListeners();
         setButtonActions();
         this.view.getTable().setItems(tableContent);
+
+        this.view.getSearch().getSearchField().textProperty().addListener((observable, oldValue, newValue) -> {
+            searchSuppliers(newValue); // Call the search method when the text changes
+        });
+    }
+    private void searchSuppliers(String query) {
+        ObservableList<Supplier> filteredList = FXCollections.observableArrayList();
+
+        // If the search query is empty, show all suppliers
+        if (query.isEmpty()) {
+            filteredList.addAll(suppliers);
+        } else {
+            // Filter suppliers based on query
+            filteredList.addAll(suppliers.stream()
+                    .filter(supplier -> supplier.getCompanyName().toLowerCase().contains(query.toLowerCase()) ||
+                            supplier.getEmail().toLowerCase().contains(query.toLowerCase()) ||
+                            supplier.getPhoneNumber().toLowerCase().contains(query.toLowerCase()) ||
+                            supplier.getAddress().toLowerCase().contains(query.toLowerCase()))
+                    .toList());
+        }
+
+        // Update the table with the filtered list
+        tableContent.setAll(filteredList);
+
     }
 
     private void setEditListeners() {

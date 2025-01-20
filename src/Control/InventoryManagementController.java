@@ -27,6 +27,33 @@ public class InventoryManagementController {
         searchBoxListener();
 
     }
+    private void setupSearchBox() {
+        // Search button
+        view.getSearch().getSearchButton().setOnAction(e -> filterInventory());
+        // When enter is pressed
+        view.getSearch().getSearchField().setOnAction(e -> filterInventory());
+    }
+
+    private void filterInventory() {
+        String searchText = view.getSearch().getSearchField().getText().trim().toLowerCase();
+        if (searchText.isEmpty()) {
+            view.getTable().setItems(FXCollections.observableArrayList(inventory)); // Reset table
+            return;
+        }
+
+        ObservableList<Item> filteredItems = FXCollections.observableArrayList(
+                inventory.stream()
+                        .filter(item -> item.getProductName().toLowerCase().contains(searchText)
+                                || String.valueOf(item.getProductId()).contains(searchText)
+                                || item.getBrand().toLowerCase().contains(searchText)
+                                || item.getSector().toLowerCase().contains(searchText))
+                        .toList()
+        );
+
+        view.getTable().setItems(filteredItems);
+    }
+
+
     private void setEditListeners() {
         this.view.getProductId().setOnEditCommit(e -> {
             Item item = e.getRowValue();

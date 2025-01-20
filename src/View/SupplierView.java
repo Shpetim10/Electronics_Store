@@ -196,4 +196,8 @@ public class SupplierView extends GridPane implements Design {
     public ObservableList<Supplier> getSupplierList() {
         return supplierList;
     }
+
+    public SearchBoxPane getSearch() {
+        return search;
+    }
 }
