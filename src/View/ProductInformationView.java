@@ -159,27 +159,29 @@ public class ProductInformationView extends VBox implements Design {
         Label priceBoughtField = new Label();
         priceBoughtField.setStyle("-fx-pref-width: 200;-fx-background-color: white;-fx-border-width:3 ; -fx-alignment: center; -fx-background-radius: 40; -fx-border-radius: 40; -fx-border-width: 2; -fx-border-color: yellowgreen;");
 
-        pane.add(photoLabel, 4, 4,4,4);
+        pane.add(photoLabel, 4, 5,5,4);
         pane.add(productIdLabel, 1, 1);
         pane.add(productIdField, 2, 1);
         pane.add(nameLabel, 1, 2);
         pane.add(nameField, 2, 2);
 
-        pane.add(sectorLabel, 1, 10);
-        pane.add(sectorField, 2, 10);
-
-        pane.add(quantityLabel, 1, 3);
-        pane.add(quantityField, 2, 3);
+        pane.add(quantityLabel, 1, 4);
+        pane.add(quantityField, 2, 4);
 
         pane.add(supplierLabel, 1, 5);
         pane.add(supplierField, 2, 5);
-        pane.add(brandLabel, 1, 6);
-        pane.add(brandField, 2, 6);
+
         pane.add(lastRestockLabel, 1, 7);
         pane.add(lastRestockPicker, 2, 7);
 
         pane.add(priceLabel, 1, 8);
         pane.add(priceField, 2, 8);
+
+        pane.add(brandLabel, 1, 11);
+        pane.add(brandField, 2, 11);
+
+        pane.add(sectorLabel, 1, 10);
+        pane.add(sectorField, 2, 10);
 
         pane.add(sellingPriceLabel, 3, 2);
         pane.add(sellingPriceField, 4, 2);
