@@ -29,6 +29,8 @@ public class NotificationPanelView extends VBox implements Design {
         this.notificationDisplay.setStyle("-fx-background-color:transparent");
         this.notificationDisplay.setAlignment(Pos.TOP_CENTER);
         this.notificationPanel.setContent(notificationDisplay);
+        this.setSpacing(10);
+        this.notificationDisplay.setAlignment(Pos.TOP_CENTER);
 
         this.getChildren().addAll(displayNotificationButton,clearNotification,notificationPanel);
     }
