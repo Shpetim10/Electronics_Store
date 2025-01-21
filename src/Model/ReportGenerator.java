@@ -131,22 +131,24 @@ public class ReportGenerator {
                     output.println("End Hour:\t\t" + shift.getEndHour());
                     output.println("");
 
+                    int shiftItemsSold=0;
                     double shiftSales = 0, shiftTax = 0;
                     for (Bill bill : shift.getBills()) {
                         for (ItemBought item : bill.getItemBought()) {
                             shiftSales += item.getTotalPrice();
                             shiftTax += item.getTotalTax();
-                            totalItemsSold+=item.getQuantity();
+                            shiftItemsSold+=item.getQuantity();
                         }
                     }
 
                     totalSales += shiftSales;
                     totalTax += shiftTax;
+                    totalItemsSold+=shiftItemsSold;
 
                     output.println("Shift Sales:\t\t" + shiftSales);
                     output.println("Shift Tax Paid:\t\t" + shiftTax);
                     output.println("Shift No-Tax Earnings:\t\t" + (shiftSales-shiftTax));
-                    output.println("Items Sold:\t\t" + shift.getNrOfItemsSold());
+                    output.println("Items Sold:\t\t" + shiftItemsSold);
                     output.println("-".repeat(40));
                     output.println("");
                 }
@@ -184,7 +186,7 @@ public class ReportGenerator {
         ArrayList<SectorType> sectors = Database.getDatabase().getSectors();
         ArrayList<Cashier> cashiers = Database.getDatabase().getCashiers();
 
-        // Variables to track most sold item and highest revenue item
+        //For stats
         String mostSoldItem = "None";
         int mostSoldQuantity = 0;
         String highestRevenueItem = "None";
@@ -223,6 +225,7 @@ public class ReportGenerator {
                                 || shift.getShiftDate().isEqual(endDate)) {
 
                             double shiftSales = 0, shiftTax = 0;
+                            int shiftItemsSold=0;
 
                             for (Bill bill : shift.getBills()) {
                                 for (ItemBought item : bill.getItemBought()) {
@@ -232,7 +235,7 @@ public class ReportGenerator {
 
                                     shiftSales += totalPrice;
                                     shiftTax += item.getTotalTax();
-                                    cashierTotalItemsSold += quantity;
+                                    shiftItemsSold+=quantity;
 
                                     // Update most sold item
                                     if (quantity > mostSoldQuantity) {
@@ -250,6 +253,7 @@ public class ReportGenerator {
 
                             cashierTotalSales += shiftSales;
                             cashierTotalTax += shiftTax;
+                            cashierTotalItemsSold+=shiftItemsSold;
                         }
                     }
 

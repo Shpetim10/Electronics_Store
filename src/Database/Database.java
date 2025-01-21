@@ -142,4 +142,30 @@ public class Database {
     public ArrayList<RestockTransaction> getTransactions() {
         return transactions;
     }
+
+    //Write products
+    public void saveProduct(Item item){
+        FileHandler.writeProductToFile(item);
+        getInventory().add(item);
+    }
+    public void saveCashier(Cashier cashier){
+        FileHandler.writeCashierToFile(cashier);
+        getCashiers().add(cashier);
+    }
+    public void saveManager(Manager manager){
+        FileHandler.writeManagerToFile(manager);
+        getManagers().add(manager);
+    }
+    public void saveAdministrator(Administrator admin){
+        FileHandler.writeAdministratorsToFile(admin);
+        getAdministrators().add(admin);
+    }
+    public void saveSupplier(Supplier supplier){
+        FileHandler.writeSupplierToFile(supplier);
+        getSuppliers().add(supplier);
+    }
+    public void saveRestockTransaction(RestockTransaction restockTransaction){
+        FileHandler.writeTransactionToFile(restockTransaction);
+        getRestockTransaction().add(restockTransaction);
+    }
 }

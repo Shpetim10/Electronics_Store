@@ -33,7 +33,7 @@ public class LogInController implements Alertable {
             //Check if Cashier
             if(!validCredentials) {
                 for (Cashier cashier : Database.getDatabase().getCashiers()) {
-                    if (cashier.getUsername().equals(username) && cashier.getUsername().equals(password)) {
+                    if (cashier.getUsername().equals(username) && cashier.getPassword().equals(password)) {
                         this.user = cashier;
                         this.logInAttempts = 0;
                         validCredentials = true;

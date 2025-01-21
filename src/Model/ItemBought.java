@@ -47,6 +47,7 @@ public class ItemBought implements InventoryManagement, Serializable {
         out.writeDouble(sellingPrice.getValue());
         out.writeDouble(totalTax.getValue());
         out.writeDouble(totalPrice.getValue());
+        out.writeObject(itemBought);
     }
     @Serial
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {

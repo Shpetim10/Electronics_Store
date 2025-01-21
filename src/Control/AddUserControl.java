@@ -14,10 +14,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class AddUserControl implements Alertable{
-    private final AddUser view;
+    private final AddUser view=new AddUser();
 
-    public AddUserControl(AddUser view) {
-        this.view = view;
+    public AddUserControl() {
         view.getAddBtn().setOnAction(e -> handleAddUser());
         setRoleChoiceListener();
     }
@@ -38,7 +37,6 @@ public class AddUserControl implements Alertable{
             String phoneNumber = view.getPhoneTxt().getText();
             LocalDate dateEmployed = view.getDateEmployed().getValue();
             EmployeeRole role = EmployeeRole.valueOf(view.getRoleSelection().getValue().toUpperCase());
-//            SectorType sector = SectorType.valueOf(view.getSectorSelection().getValue().toUpperCase());
             String photo = view.getImagePath().getText();
 
             SectorType cashierSector=null;
@@ -152,6 +150,12 @@ public class AddUserControl implements Alertable{
                     else if(role.equals("MANAGER")){
                         setManagerSectorDisplay();
                     }
+                    else{
+                        if(view.getSectorV().getChildren().size()!=0){
+                            view.getSectorV().getChildren().remove(1); //Checks if the previous choice was admin
+                        }
+
+                    }
                 }
         );
     }
@@ -166,5 +170,9 @@ public class AddUserControl implements Alertable{
     }
     public AddUser getView() {
         return view;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(Database.getDatabase().getCashiers().getFirst().getSector().toString());
     }
 }

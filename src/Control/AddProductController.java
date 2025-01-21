@@ -1,10 +1,12 @@
 package Control;
 
+import Database.Database;
 import Database.FileHandler;
 import Model.Item;
 import Model.SectorType;
 import Model.Validator;
 import View.AddProductView;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
 
 import java.time.LocalDate;
@@ -125,12 +127,11 @@ public class AddProductController {
 
             );
 
-            view.getTable().getItems().add(newItem);
-            FileHandler.writeProductToFile(newItem);
+            Database.getDatabase().saveProduct(newItem);
             clearInputFields();
 
             // Show success message
-            showAlert(Alert.AlertType.INFORMATION, "Files.Product Added", "The product was successfully added!");
+            showAlert(Alert.AlertType.INFORMATION, "Product Added", "The product was successfully added!");
         } catch (NumberFormatException ex) {
             ex.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Invalid Input", "Please ensure all numeric fields are correctly filled.");
@@ -153,7 +154,7 @@ public class AddProductController {
         view.getBrand().clear();
         view.getBarcode().clear();
         view.getNrOfReturns().clear();
-
+        view.getLastRestockDate();
     }
 
     public void showAlert(Alert.AlertType type, String title, String message) {

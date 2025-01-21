@@ -14,7 +14,7 @@ public class AddUserMain extends Application {
         AddUser userAddView = new AddUser();
 
         // Attach the controller to the view
-        AddUserControl control = new AddUserControl(userAddView);
+        AddUserControl control = new AddUserControl();
 
         // Configure the primary stage
         primaryStage.setTitle("Add Cashier");

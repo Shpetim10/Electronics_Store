@@ -20,17 +20,8 @@ public class UserMainController implements Alertable {
         this.user=user;
         setHomePage();
         setUpMenu();
-        setBillingSystemButtonListener();
-        setViewBillsButtonListener();
-        setGenerateReportButtonListener();
-        setViewReportsButtonListener();
         setUpProfileInformationIconListener();
         setUpHomePageSwitcherListener();
-        setUpHomePageSwitcherListener();
-        setAddEmployeeButtonListener();
-        setAddProductButtonListener();
-        setSupplierManagementButtonListener();
-        setManageInventoryButtonListener();
     }
     public void setBillingSystemButtonListener(){
         int index=getMenuItemViewIndex("Billing System");
@@ -97,9 +88,12 @@ public class UserMainController implements Alertable {
     }
 
     public void setAddProductButtonListener(){
-        int index=getMenuItemViewIndex("Add Product");
+        int index=getMenuItemViewIndex("Inventory Management");
+        Menu subMenu=null;
         if (index != -1) {
-            view.getMainMenu().getItems().get(index).setOnAction(
+            subMenu = (Menu) view.getMainMenu().getItems().get(index);
+        }
+        subMenu.getItems().get(1).setOnAction( //it is second in submenu
                     e->{
                         clearPane();
                         AddProductController control=new AddProductController();
@@ -107,11 +101,14 @@ public class UserMainController implements Alertable {
                     }
             );
         }
-    }
+
     public void setManageInventoryButtonListener(){
         int index=getMenuItemViewIndex("Inventory Management");
+        Menu subMenu=null;
         if (index != -1) {
-            view.getMainMenu().getItems().get(index).setOnAction(
+            subMenu = (Menu) view.getMainMenu().getItems().get(index);
+        }
+            subMenu.getItems().get(0).setOnAction(//it is first in submenu
                     e->{
                         clearPane();
                         InventoryManagementController control=new InventoryManagementController();
@@ -119,7 +116,6 @@ public class UserMainController implements Alertable {
                     }
             );
         }
-    }
 
     public void setAddEmployeeButtonListener(){
         int index=getMenuItemViewIndex("Add Employee");
@@ -127,7 +123,7 @@ public class UserMainController implements Alertable {
             view.getMainMenu().getItems().get(index).setOnAction(
                     e->{
                         clearPane();
-                        ViewAllReportsController control=new ViewAllReportsController(user);
+                        AddUserControl control=new AddUserControl();
                         view.getDisplayPane().getChildren().add(control.getView());
                     }
             );
@@ -151,8 +147,8 @@ public class UserMainController implements Alertable {
             view.getMainMenu().getItems().get(index).setOnAction(
                     e->{
                         clearPane();
-                        ViewAllReportsController control=new ViewAllReportsController(user);
-                        view.getDisplayPane().getChildren().add(control.getView());
+                        // control=new ViewAllReportsController(user);
+                        //view.getDisplayPane().getChildren().add(control.getView());
                     }
             );
         }
@@ -216,36 +212,44 @@ public class UserMainController implements Alertable {
         }
         return -1;
     }
-
     public void setUpMenu() {
         if (user.getPermissions().contains(Permission.BILLING_SYSTEM)) {
             this.view.addToMainMenu(view.getBillingSystemItem());
+            setBillingSystemButtonListener();
         }
         if (user.getPermissions().contains(Permission.REPORT_GENERATOR)) {
             this.view.addToMainMenu(view.getGenerateReportItem());
+            setGenerateReportButtonListener();
         }
         if (user.getPermissions().contains(Permission.VIEW_ALL_BILLS)) {
             this.view.addToMainMenu(view.getViewAllBillsItem());
+            setViewBillsButtonListener();
         }
         if (user.getPermissions().contains(Permission.VIEW_ALL_REPORTS)) {
             this.view.addToMainMenu(view.getViewAllReportsItem());
+            setViewReportsButtonListener();
         }
         if (user.getPermissions().contains(Permission.PERMISSION_GRANTING)) {
             this.view.addToMainMenu(view.getPermissionGrantingItem());
+            setPermissionGrantingButtonListener();
         }
         if (user.getPermissions().contains(Permission.USER_MANAGEMENT)) {
             this.view.addToMainMenu(view.getUserManagementSubmenu());
             this.view.getUserManagementSubmenu().getItems().add(view.getAddEmployee());
             this.view.getUserManagementSubmenu().getItems().add(view.getManageEmployee());
+            setAddEmployeeButtonListener();
+            //usermanagement
         }
         if (user.getPermissions().contains(Permission.SUPPLIER_MANAGEMENT)) {
             this.view.addToMainMenu(view.getSupplierManagementItem());
+            setSupplierManagementButtonListener();
         }
         if (user.getPermissions().contains(Permission.INVENTORY_MANAGEMENT)) {
             this.view.addToMainMenu(view.getInventoryManagementSubMenu());
             this.view.getInventoryManagementSubMenu().getItems().add(view.getInventoryManagementItem());
             this.view.getInventoryManagementSubMenu().getItems().add(view.getAddProductItem());
-
+            setManageInventoryButtonListener();
+            setAddProductButtonListener();
         }
     }
 
