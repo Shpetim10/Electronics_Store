@@ -129,7 +129,8 @@ public class CustomReportController implements Alertable{
 
     //Date Validation
     private boolean isValidDateRange(LocalDate startDate, LocalDate endDate) {
-        return startDate.isBefore(endDate) && !startDate.isAfter(LocalDate.now());
+        return startDate.isBefore(endDate) && !startDate.isAfter(LocalDate.now()) &&
+                !endDate.isAfter(LocalDate.now());
     }
 
 

@@ -25,7 +25,6 @@ public class Database {
         this.loyaltyPoints=FileHandler.getLoyaltyPoints();
         this.cashiers=FileHandler.getCashiers();
         this.suppliers= FileHandler.getSuppliersFromFile();
-
         this.managers=FileHandler.getManagers();
         this.administrators=FileHandler.getAdministrators();
         this.transactions=FileHandler.getRestockTransaction();

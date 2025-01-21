@@ -149,11 +149,22 @@ public class UserMainView extends VBox implements Design{
         pane.setRight(storeIconClone);
         return pane;
     }
+
     public BorderPane createManagerAndAdminHomePage(){
         BorderPane pane=new BorderPane();
-        pane.setCenter(storeLogo);
+        pane.setPadding(new Insets(40,40,40,40));
+
+        VBox header=new VBox(20);
+        Label quote=createAlignedGreenBoldLabel("A great opera house isn't run by a director, but by a great administrator.\n"+"-----Steven Berkoff-----");
+        header.getChildren().addAll(welcomeMessage,quote);
+
+        ImageView storeIconClone=new ImageView(new Image("Images/electronicsStoreIcon.png"));
+
+        pane.setTop(header);
+        pane.setCenter(storeIconClone);
         return pane;
     }
+
     public Pane getDisplayPane() {
         return displayPane;
     }

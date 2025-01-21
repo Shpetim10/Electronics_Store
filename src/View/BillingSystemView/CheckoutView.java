@@ -53,7 +53,7 @@ public class CheckoutView extends GridPane implements Design {
                 "-fx-border-color: yellowgreen;" +
                 "-fx-border-width: 1;");
         this.setAlignment(Pos.CENTER);
-        this.setPadding(new Insets(20,20,20,20));
+        this.setPadding(new Insets(10,10,10,10));
 
         //Titles
         Label checkoutTitle=createAlignedGreenBoldLabel("Checkout\n");

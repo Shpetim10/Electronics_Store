@@ -17,6 +17,7 @@ public class ViewAllReportsController implements Alertable{
     }
     public ViewAllReportsController(User user){
         this.user=user;
+        this.view.getTitle().setText("All generated reports");
         setViewReportsButtonListener();
     }
 

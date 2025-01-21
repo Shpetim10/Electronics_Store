@@ -57,7 +57,7 @@ public class FileHandler {
     public static boolean updateInventory(ArrayList<Item> inventory){
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(PRODUCT_FILE))) {
             for (Item item : inventory) {
-                outputStream.writeObject(item);//.kjopo po kjo merr argument arraylist
+                outputStream.writeObject(item);
             }
             return true;
         } catch (IOException ex) {
@@ -87,7 +87,6 @@ public class FileHandler {
         try (ObjectInputStream reader = new ObjectInputStream(new FileInputStream(USERS_FILE))) {
             while (true) {
                 try {
-                    // Deserialize object and ensure it's a User or subclass of User
                     Object obj = (User) reader.readObject();
                     if (obj instanceof User) {
                         users.add((User) obj);
@@ -161,7 +160,7 @@ public class FileHandler {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(CASHIERS_FILE))) {
             for (Cashier cashier : cashiers) {
                 outputStream.writeObject(cashier);
-            }//Do ti shkruash nga e para
+            }
             return true;
         } catch (IOException ex) {
             return false;
@@ -435,7 +434,6 @@ public class FileHandler {
             ex.printStackTrace();
         }
         return inventory;
-        //Fshi dhe njeher kto filet dhe ndrysho ato serial keyt
     }
 
     }

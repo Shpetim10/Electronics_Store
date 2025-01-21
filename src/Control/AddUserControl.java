@@ -1,13 +1,16 @@
 package Control;
 
+import Database.Database;
 import Database.FileHandler;
 import Model.*;
 import View.UserManagementView.AddUser;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class AddUserControl implements Alertable{
@@ -16,6 +19,7 @@ public class AddUserControl implements Alertable{
     public AddUserControl(AddUser view) {
         this.view = view;
         view.getAddBtn().setOnAction(e -> handleAddUser());
+        setRoleChoiceListener();
     }
 
     public void handleAddUser() {
@@ -37,13 +41,26 @@ public class AddUserControl implements Alertable{
 //            SectorType sector = SectorType.valueOf(view.getSectorSelection().getValue().toUpperCase());
             String photo = view.getImagePath().getText();
 
+            SectorType cashierSector=null;
+            ArrayList<SectorType> managerSectors=null;
             if(role==EmployeeRole.CASHIER){
-                Cashier cashier=new Cashier(ID,name,lastName,gender,birthday,salary,username,password,email,phoneNumber,dateEmployed,role,photo);
+                cashierSector=findSector(view.getCashierSectorSelection().getSelectionModel().getSelectedItem());
+            }
+            else if(role==EmployeeRole.MANAGER){
+                managerSectors=new ArrayList<>();
+                ObservableList<String> selected=this.view.getManagerSectorSelection().getSelectionModel().getSelectedItems();
+                for(String sector: selected){
+                    managerSectors.add(findSector(sector));
+                }
+            }
+
+            if(role==EmployeeRole.CASHIER){
+                Cashier cashier=new Cashier(ID,name,lastName,gender,birthday,salary,username,password,email,phoneNumber,dateEmployed,role,photo,cashierSector);
                 setCashierDefaultPermissions(cashier);
                 FileHandler.writeCashierToFile(cashier);
             }
             else if(role==EmployeeRole.MANAGER){
-                Manager manager=new Manager(ID,name,lastName,gender,birthday,salary,username,password,email,phoneNumber,dateEmployed,role,photo);
+                Manager manager=new Manager(ID,name,lastName,gender,birthday,salary,username,password,email,phoneNumber,dateEmployed,role,photo,managerSectors);
                 setManagerDefaultPermissions(manager);
                 FileHandler.writeManagerToFile(manager);
             }
@@ -117,6 +134,36 @@ public class AddUserControl implements Alertable{
         admin.getPermissions().add(Permission.PRODUCT_INFORMATION);
     }
 
+    //Handle cashier sector selection
+    public void setCashierSectorDisplay(){
+        this.view.getSectorV().getChildren().add(view.getCashierSectorSelection());
+    }
+    public void setManagerSectorDisplay(){
+        this.view.getSectorV().getChildren().add(view.getManagerSectorSelection());
+    }
+
+    public void setRoleChoiceListener(){
+        this.view.getRoleSelection().setOnAction(
+                e->{
+                    String role=this.view.getRoleSelection().getValue();
+                    if(role.equals("CASHIER")){
+                        setCashierSectorDisplay();
+                    }
+                    else if(role.equals("MANAGER")){
+                        setManagerSectorDisplay();
+                    }
+                }
+        );
+    }
+
+    public SectorType findSector(String sectorString){
+        for(SectorType sector:Database.getDatabase().getSectors()){
+            if(sector.toString().equalsIgnoreCase(sectorString)){
+                return sector;
+            }
+        }
+        return null;
+    }
     public AddUser getView() {
         return view;
     }

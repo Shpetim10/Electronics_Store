@@ -17,7 +17,7 @@ public class ProfileInformationController {
         this.view.getUsername().setText(user.getUsername());
         this.view.getRole().setText(user.getRole().toString());
         this.view.getPhoneNumber().setText(user.getPhoneNumber());
-        this.view.getDateEmployed().setText(user.getDateEmployed().toString());
+        this.view.getDateEmployed().setText(user.getDateEmployed().getDayOfMonth()+" "+user.getDateEmployed().getMonth()+" "+user.getDateEmployed().getYear());
     }
 
     public ProfileInformationView getView() {

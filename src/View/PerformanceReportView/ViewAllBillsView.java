@@ -11,8 +11,7 @@ import javafx.scene.paint.Color;
 public class ViewAllBillsView extends HBox implements Design {
     private VBox buttonBox=new VBox(20);
     private TextArea displayBill=new TextArea();
-    private Label errorMessage=createAlignedBlackBoldLabel("");
-
+    private Label title=createAlignedGreenBoldLabel("All Generated Bills");
     public ViewAllBillsView(){
         setUpView();
     }
@@ -57,9 +56,7 @@ public class ViewAllBillsView extends HBox implements Design {
         buttonBox.prefHeightProperty().bind(this.heightProperty());
         buttonBox.prefWidthProperty().bind(this.widthProperty());
 
-        this.errorMessage.setTextFill(Color.RED);
-
-        buttonBox.getChildren().addAll(createAlignedGreenBoldLabel("All Generated Bills"),this.errorMessage);
+        buttonBox.getChildren().addAll(title);
     }
 
     public VBox getButtonBox() {
@@ -78,11 +75,11 @@ public class ViewAllBillsView extends HBox implements Design {
         this.displayBill = displayBill;
     }
 
-    public Label getErrorMessage() {
-        return errorMessage;
+    public Label getTitle() {
+        return title;
     }
 
-    public void setErrorMessage(Label errorMessage) {
-        this.errorMessage = errorMessage;
+    public void setTitle(Label title) {
+        this.title = title;
     }
 }

@@ -3,6 +3,7 @@ package Control;
 import Model.Bill;
 import Model.Cashier;
 import View.PerformanceReportView.ViewAllBillsView;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 
 import java.io.EOFException;
@@ -11,7 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class ViewAllBillsController {
+public class ViewAllBillsController implements Alertable{
     private ViewAllBillsView view=new ViewAllBillsView();
     private Cashier cashier=null;
 
@@ -47,15 +48,12 @@ public class ViewAllBillsController {
 
         }
         catch (FileNotFoundException e) {
-            displayError("Bill file was not found!");
+            showAlert(Alert.AlertType.ERROR,"File error!","Bill file was not found!");
         } catch (IOException e) {
-            displayError("Process failed!");
+            showAlert(Alert.AlertType.ERROR,"Error!","Process failed!");
         }
     }
 
-    public void displayError(String message){
-        view.getErrorMessage().setText(message);
-    }
 
     public ViewAllBillsView getView() {
         return view;

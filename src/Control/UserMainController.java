@@ -4,11 +4,14 @@ import Database.FileHandler;
 import View.AddProductView;
 import View.UserMainView;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import Model.*;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 
-public class UserMainController {
+public class UserMainController implements Alertable {
     private UserMainView view=new UserMainView();
     private ArrayList<Item> inventory= FileHandler.getItemsOfInventory();
     private User user;
@@ -245,20 +248,60 @@ public class UserMainController {
 
         }
     }
+
+    //HomePage
     public void setHomePage(){
         this.view.getWelcomeMessage().setText("Welcome back, "+user.getFirstName()+" "+user.getLastName()+"!");
         if(user instanceof Cashier){
             this.view.setHomePage(this.view.createCashierMainPage());
+            setUpCashierButtonListeners();
         }
         else{
             this.view.setHomePage(this.view.createManagerAndAdminHomePage());
         }
         this.view.getDisplayPane().getChildren().add(this.view.getHomePage());
     }
+    //Cashier buttons
+
+    public void setUpCashierButtonListeners(){
+        this.view.getStartShift().setOnAction(e->{
+            if(((Cashier)user).getActiveShift()==null){
+                Shift shift=new Shift(
+                        ((Cashier)user).getShifts().size()+1,
+                        ((Cashier)user),
+                        LocalDate.now(),
+                        LocalTime.now(),
+                        LocalTime.now()
+                );
+                shift.setShiftStatus(ShiftStatus.ACTIVE);
+                ((Cashier)user).getShifts().add(shift);
+                showAlert(Alert.AlertType.INFORMATION,"Action completed!","You just started a shift!");
+            }
+            else{
+                showAlert(Alert.AlertType.WARNING,"Warning!","You cannot start a new shift because you already have an active one!\n" +
+                        "In Case you want to start a new one first end the previous one.");
+            }
+        });
+
+        this.view.getEndShift().setOnAction(e->{
+            if(((Cashier)user).getActiveShift()!=null){
+                ((Cashier)user).getActiveShift().setEndHour(LocalTime.now());
+                ((Cashier)user).getActiveShift().setEndHour(LocalTime.now());
+                ((Cashier)user).getActiveShift().generateShiftReport();
+                ((Cashier)user).getActiveShift().setShiftStatus(ShiftStatus.COMPLETED);
+                showAlert(Alert.AlertType.INFORMATION,"Action Completed!","You just finished your shift!\nHave a nice day!");
+            }
+            else{
+                showAlert(Alert.AlertType.WARNING,"Warning","You do not have an active shift!");
+            }
+        });
+    }
+
 
     public void clearPane(){
         this.view.getDisplayPane().getChildren().clear();
     }
+
     public UserMainView getView() {
         return view;
     }

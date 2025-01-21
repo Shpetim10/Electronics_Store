@@ -16,10 +16,10 @@ public class Manager extends User implements Serializable {
 
     public Manager(int id, String firstName, String lastName, Gender gender, LocalDate birthday, Double salary, String username,
                    String password, String email, String phoneNumber, LocalDate dateEmployed, EmployeeRole role,
-                   String photo){
+                   String photo,ArrayList<SectorType> sectors){
         super(id, firstName, lastName, gender, birthday, salary, username,
                 password, email, phoneNumber, dateEmployed, role, photo);
-        //this.sector = sector;
+        this.sectors = sectors;
         this.sectors=new ArrayList<>();
         this.reportsGenerated=new ArrayList<>();
     }

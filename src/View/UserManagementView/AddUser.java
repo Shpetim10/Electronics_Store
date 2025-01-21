@@ -1,5 +1,6 @@
 package View.UserManagementView;
 
+import Database.Database;
 import Model.EmployeeRole;
 import Model.SectorType;
 import View.Design;
@@ -24,7 +25,14 @@ public class AddUser extends GridPane implements Design {
     private TextField phoneTxt;
     private DatePicker dateEmployed;
     private ComboBox<String> roleSelection;
-    //    private ComboBox<String> sectorSelection;
+    //Secor and role box
+    //For Cashier
+    private VBox roleV = new VBox();
+    private ComboBox<String> cashierSectorSelection=new ComboBox<>();
+    //For Manager
+    private VBox sectorV = new VBox();
+    private ListView<String> managerSectorSelection=new ListView<>();
+
     private TextField imagePath;
 
     private Button addBtn;
@@ -56,7 +64,7 @@ public class AddUser extends GridPane implements Design {
         Label phoneLabel = createAlignedGreenBoldLabel("Phone Number", 5000);
         Label dateLabel = createAlignedGreenBoldLabel("Date Employed", 5000);
         Label roleLabel = createAlignedGreenBoldLabel("Role", 5000);
-//        Label sectorLabel = createAlignedGreenBoldLabel("Sector", 5000);
+        Label sectorLabel = createAlignedGreenBoldLabel("Sector",5000 );
 
         IDTxt = createTextField("ID");
         nameTxt = createTextField("Name");
@@ -74,10 +82,11 @@ public class AddUser extends GridPane implements Design {
         for (EmployeeRole st : EmployeeRole.values()) {
             roleSelection.getItems().add(st.toString());
         }
-//        sectorSelection = createComboBox("Sector");
-//        for (SectorType st : SectorType.values()) {
-//            sectorSelection.getItems().add(st.toString());
-//        }
+        //Set sectors
+        for(SectorType sector : Database.getDatabase().getSectors()){
+            cashierSectorSelection.getItems().add(sector.toString());
+            managerSectorSelection.getItems().add(sector.toString());
+        }
 
         // Setting gender, birthday, and status on the same row
         VBox genderV = new VBox();
@@ -94,11 +103,15 @@ public class AddUser extends GridPane implements Design {
         // Setting date employed and role on the same row
         VBox dateV = new VBox();
         dateV.getChildren().addAll(dateLabel, dateEmployed);
-        VBox roleV = new VBox();
-        roleV.getChildren().addAll(roleLabel, roleSelection);
-        HBox date_role = new HBox();
-        date_role.setAlignment(Pos.CENTER);
-        date_role.getChildren().addAll(dateV, roleV);
+
+        roleV.getChildren().addAll(roleLabel,roleSelection);
+        sectorV.getChildren().add(sectorLabel);
+
+        managerSectorSelection.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+        HBox date_role_sector = new HBox();
+        date_role_sector.setAlignment(Pos.CENTER);
+        date_role_sector.getChildren().addAll(dateV, roleV,sectorV);
 
         formLayout.getChildren().addAll(
                 IDLabel, IDTxt,
@@ -109,7 +122,7 @@ public class AddUser extends GridPane implements Design {
                 passwordLabel, passwordTxt,
                 emailLabel, emailTxt,
                 phoneLabel, phoneTxt,
-                date_role
+                date_role_sector
 //                sectorLabel, sectorSelection
         );
 
@@ -205,5 +218,19 @@ public class AddUser extends GridPane implements Design {
         return addBtn;
     }
 
+    public ComboBox<String> getCashierSectorSelection() {
+        return cashierSectorSelection;
+    }
 
+    public ListView<String> getManagerSectorSelection() {
+        return managerSectorSelection;
+    }
+
+    public VBox getRoleV() {
+        return roleV;
+    }
+
+    public VBox getSectorV() {
+        return sectorV;
+    }
 }

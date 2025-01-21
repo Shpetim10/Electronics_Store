@@ -110,7 +110,13 @@ public abstract class User implements Serializable {
         this.setPhoto(photo);
 
         this.permissions=new ArrayList<>();
-        this.notifications=new ArrayList<>();
+        String message = firstName + " " + lastName + ", Welcome to our Electronics Store System! " +
+                "\nWe hope we have a strong collaboration and get customers' experience even better! " +
+                "\nIf any concern arises, feel free to notify your assigned sector's manager. " +
+                "\n\nGreetings from stores' Management board! ";
+
+        setNotifications(new ArrayList<>());
+        getNotifications().add(new Notification(NotificationType.OTHER, message));
     }
 
 
@@ -136,8 +142,13 @@ public abstract class User implements Serializable {
         out.writeUTF(username.getValueSafe());
         out.writeUTF(email.getValueSafe());
         out.writeUTF(phoneNumber.getValueSafe());
-        out.writeObject(role); // Assuming role is a serializable object
+        out.writeObject(role);
         out.writeDouble(salary.get());
+        out.writeObject(birthday);
+        out.writeObject(gender);
+        out.writeUTF(photo == null ? "" : photo);
+        out.writeUTF(password == null ? "" : password);
+        out.writeObject(dateEmployed);
     }
 
     @Serial
@@ -149,13 +160,19 @@ public abstract class User implements Serializable {
         username = new SimpleStringProperty(in.readUTF());
         email = new SimpleStringProperty(in.readUTF());
         phoneNumber = new SimpleStringProperty(in.readUTF());
-        role = (EmployeeRole) in.readObject(); // Assuming role is a serializable object
+        role = (EmployeeRole) in.readObject();
         salary = new SimpleDoubleProperty(in.readDouble());
+        birthday = (LocalDate) in.readObject();
+        gender = (Gender) in.readObject();
+        photo = in.readUTF();
+        password = in.readUTF();
+        dateEmployed=(LocalDate) in.readObject();
     }
 
 
+
     public int getId() {
-        return id.get();
+        return id.getValue();
     }
 
     public SimpleIntegerProperty idProperty() {
@@ -167,7 +184,7 @@ public abstract class User implements Serializable {
     }
 
     public String getFirstName() {
-        return firstName.get();
+        return firstName.getValueSafe();
     }
 
     public SimpleStringProperty firstNameProperty() {
@@ -179,7 +196,7 @@ public abstract class User implements Serializable {
     }
 
     public String getLastName() {
-        return lastName.get();
+        return lastName.getValueSafe();
     }
 
     public SimpleStringProperty lastNameProperty() {
@@ -191,7 +208,7 @@ public abstract class User implements Serializable {
     }
 
     public String getUsername() {
-        return username.get();
+        return username.getValueSafe();
     }
 
     public SimpleStringProperty usernameProperty() {
@@ -203,7 +220,7 @@ public abstract class User implements Serializable {
     }
 
     public String getEmail() {
-        return email.get();
+        return email.getValueSafe();
     }
 
     public SimpleStringProperty emailProperty() {
@@ -215,7 +232,7 @@ public abstract class User implements Serializable {
     }
 
     public String getPhoneNumber() {
-        return phoneNumber.get();
+        return phoneNumber.getValueSafe();
     }
 
     public SimpleStringProperty phoneNumberProperty() {
@@ -227,7 +244,7 @@ public abstract class User implements Serializable {
     }
 
     public double getSalary() {
-        return salary.get();
+        return salary.getValue();
     }
 
     public SimpleDoubleProperty salaryProperty() {
