@@ -13,3 +13,5 @@ There’s also the Supplier Management which shows the details about the supplie
 
 Admin Credentials: Username: Shpetim  Password: Admin1234
 Manager Credentials: Username: Arjan Password:Arjan123.
+Cashier: Username: eglis  Password: Eglis123.
+Cashier: Username: arlin Password: Arlin123.

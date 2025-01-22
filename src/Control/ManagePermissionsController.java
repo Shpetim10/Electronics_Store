@@ -98,7 +98,12 @@ public class ManagePermissionsController {
                         selectedUser.getPermissions().remove(Permission.BILLING_SYSTEM);
                     }
 
-                    Database.getDatabase().updateUsers(users);
+                    if(selectedUser instanceof Cashier)
+                        Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
+                    else if (selectedUser instanceof Manager)
+                        Database.getDatabase().updateManagers(Database.getDatabase().getManagers());
+                    else
+                        Database.getDatabase().updateAdministrators(Database.getDatabase().getAdministrators());
                 });
 
                 view.getProductInformationCB().selectedProperty().addListener((observable, oldValue, newValue) -> {
@@ -107,7 +112,13 @@ public class ManagePermissionsController {
                     } else {
                         selectedUser.getPermissions().remove(Permission.PRODUCT_INFORMATION);
                     }
-                    Database.getDatabase().updateUsers(users);
+
+                    if(selectedUser instanceof Cashier)
+                        Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
+                    else if (selectedUser instanceof Manager)
+                        Database.getDatabase().updateManagers(Database.getDatabase().getManagers());
+                    else
+                        Database.getDatabase().updateAdministrators(Database.getDatabase().getAdministrators());
                 });
 
                 view.getNotificationPanelCB().selectedProperty().addListener((observable, oldValue, newValue) -> {
@@ -116,7 +127,12 @@ public class ManagePermissionsController {
                     } else {
                         selectedUser.getPermissions().remove(Permission.NOTIFICATION_PANEL);
                     }
-                    Database.getDatabase().updateUsers(users);
+                    if(selectedUser instanceof Cashier)
+                        Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
+                    else if (selectedUser instanceof Manager)
+                        Database.getDatabase().updateManagers(Database.getDatabase().getManagers());
+                    else
+                        Database.getDatabase().updateAdministrators(Database.getDatabase().getAdministrators());
                 });
 
                 view.getViewAllBillsCB().selectedProperty().addListener((observable, oldValue, newValue) -> {
@@ -125,7 +141,13 @@ public class ManagePermissionsController {
                     } else {
                         selectedUser.getPermissions().remove(Permission.VIEW_ALL_BILLS);
                     }
-                    Database.getDatabase().updateUsers(users);
+
+                    if(selectedUser instanceof Cashier)
+                        Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
+                    else if (selectedUser instanceof Manager)
+                        Database.getDatabase().updateManagers(Database.getDatabase().getManagers());
+                    else
+                        Database.getDatabase().updateAdministrators(Database.getDatabase().getAdministrators());
                 });
 
                 view.getSupplierManagementCB().selectedProperty().addListener((observable, oldValue, newValue) -> {
@@ -134,7 +156,12 @@ public class ManagePermissionsController {
                     } else {
                         selectedUser.getPermissions().remove(Permission.SUPPLIER_MANAGEMENT);
                     }
-                    Database.getDatabase().updateUsers(users);
+                    if(selectedUser instanceof Cashier)
+                        Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
+                    else if (selectedUser instanceof Manager)
+                        Database.getDatabase().updateManagers(Database.getDatabase().getManagers());
+                    else
+                        Database.getDatabase().updateAdministrators(Database.getDatabase().getAdministrators());
                 });
 
                 view.getInventoryManagementCB().selectedProperty().addListener((observable, oldValue, newValue) -> {
@@ -143,7 +170,12 @@ public class ManagePermissionsController {
                     } else {
                         selectedUser.getPermissions().remove(Permission.INVENTORY_MANAGEMENT);
                     }
-                    Database.getDatabase().updateUsers(users);
+                    if(selectedUser instanceof Cashier)
+                        Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
+                    else if (selectedUser instanceof Manager)
+                        Database.getDatabase().updateManagers(Database.getDatabase().getManagers());
+                    else
+                        Database.getDatabase().updateAdministrators(Database.getDatabase().getAdministrators());
                 });
 
                 view.getUserManagementCB().selectedProperty().addListener((observable, oldValue, newValue) -> {
@@ -152,7 +184,12 @@ public class ManagePermissionsController {
                     } else {
                         selectedUser.getPermissions().remove(Permission.USER_MANAGEMENT);
                     }
-                    Database.getDatabase().updateUsers(users);
+                    if(selectedUser instanceof Cashier)
+                        Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
+                    else if (selectedUser instanceof Manager)
+                        Database.getDatabase().updateManagers(Database.getDatabase().getManagers());
+                    else
+                        Database.getDatabase().updateAdministrators(Database.getDatabase().getAdministrators());
                 });
 
                 view.getReportGeneratorCB().selectedProperty().addListener((observable, oldValue, newValue) -> {
@@ -161,7 +198,12 @@ public class ManagePermissionsController {
                     } else {
                         selectedUser.getPermissions().remove(Permission.REPORT_GENERATOR);
                     }
-                    Database.getDatabase().updateUsers(users);
+                    if(selectedUser instanceof Cashier)
+                        Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
+                    else if (selectedUser instanceof Manager)
+                        Database.getDatabase().updateManagers(Database.getDatabase().getManagers());
+                    else
+                        Database.getDatabase().updateAdministrators(Database.getDatabase().getAdministrators());
                 });
 
                 view.getViewAllReportsCB().selectedProperty().addListener((observable, oldValue, newValue) -> {
@@ -170,7 +212,12 @@ public class ManagePermissionsController {
                     } else {
                         selectedUser.getPermissions().remove(Permission.VIEW_ALL_REPORTS);
                     }
-                    Database.getDatabase().updateUsers(users);
+                    if(selectedUser instanceof Cashier)
+                        Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
+                    else if (selectedUser instanceof Manager)
+                        Database.getDatabase().updateManagers(Database.getDatabase().getManagers());
+                    else
+                        Database.getDatabase().updateAdministrators(Database.getDatabase().getAdministrators());
                 });
 
                 view.getPermissionGrantingCB().selectedProperty().addListener((observable, oldValue, newValue) -> {
@@ -179,7 +226,12 @@ public class ManagePermissionsController {
                     } else {
                         selectedUser.getPermissions().remove(Permission.PERMISSION_GRANTING);
                     }
-                    Database.getDatabase().updateUsers(users);
+                    if(selectedUser instanceof Cashier)
+                        Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
+                    else if (selectedUser instanceof Manager)
+                        Database.getDatabase().updateManagers(Database.getDatabase().getManagers());
+                    else
+                        Database.getDatabase().updateAdministrators(Database.getDatabase().getAdministrators());
                 });
 
 

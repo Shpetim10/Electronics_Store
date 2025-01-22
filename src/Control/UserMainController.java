@@ -22,7 +22,7 @@ public class UserMainController implements Alertable {
         setHomePage();
         setUpMenu();
         setUpProfileInformationIconListener();
-        setUpNotificationListener();
+        //setUpNotificationListener();
         setUpHomePageSwitcherListener();
     }
     public void setBillingSystemButtonListener(){
@@ -261,6 +261,9 @@ public class UserMainController implements Alertable {
         if(user.getPermissions().contains(Permission.PRODUCT_INFORMATION)){
             this.view.addToMainMenu(view.getViewProductInfoItem());
             setProductInformationButtonListener();
+        }
+        if(user.getPermissions().contains(Permission.NOTIFICATION_PANEL)){
+            setUpNotificationListener();
         }
     }
 

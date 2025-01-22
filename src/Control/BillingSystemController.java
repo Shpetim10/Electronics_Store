@@ -282,7 +282,7 @@ public class BillingSystemController implements Alertable {
                     }
 
                     if (allValid) {
-                        showAlert(Alert.AlertType.WARNING,"Wrong Payment Credentials!","Credit Card data saved successfully!");
+                        showAlert(Alert.AlertType.INFORMATION,"Successful Payment!!","Credit Card data saved successfully!");
                     }
 
                 }

@@ -1,5 +1,6 @@
 package Model;
 
+import Database.Database;
 import Database.FileHandler;
 
 import java.io.File;
@@ -110,10 +111,10 @@ public class Validator {
 
     public static boolean isSupplierRegistered(String supplierName) {
 
-        ArrayList<Item> items = FileHandler.getItemsOfInventory();
+        ArrayList<Supplier> suppliers = Database.getDatabase().getSuppliers();
 
-        for (Item item : items) {
-            if (item.getSupplier().equalsIgnoreCase(supplierName)) {
+        for (Supplier supplier : suppliers) {
+            if (supplier.getCompanyName().equalsIgnoreCase(supplierName)) {
                 return true;
             }
         }
