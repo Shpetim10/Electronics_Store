@@ -154,8 +154,8 @@ public class UserMainController implements Alertable {
             view.getMainMenu().getItems().get(index).setOnAction(
                     e->{
                         clearPane();
-                        // control=new ViewAllReportsController(user);
-                        //view.getDisplayPane().getChildren().add(control.getView());
+                        ManagePermissionsController control=new ManagePermissionsController();
+                        view.getDisplayPane().getChildren().add(control.getView());
                     }
             );
         }

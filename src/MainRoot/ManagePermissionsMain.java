@@ -10,7 +10,7 @@ public class ManagePermissionsMain extends Application {
     @Override
     public void start(Stage primaryStage) {
         PermissionGrantingView view = new PermissionGrantingView();
-        new ManagePermissionsController(view);
+        new ManagePermissionsController();
 
         Scene scene = new Scene(view, 800, 600);
         primaryStage.setScene(scene);

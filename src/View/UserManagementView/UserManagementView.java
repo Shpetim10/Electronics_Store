@@ -59,9 +59,10 @@ public class UserManagementView extends GridPane implements Design {
                 "-fx-font-size: 20;");
         table.setMinHeight(500);
 
+
         // Create columns
         idColumn = new TableColumn<>("ID");
-        idColumn.setMinWidth(100);
+        idColumn.setMinWidth(50);
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         idColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
 
@@ -71,45 +72,46 @@ public class UserManagementView extends GridPane implements Design {
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         lastNameColumn = new TableColumn<>("Last Name");
-        lastNameColumn.setMinWidth(100);
+        lastNameColumn.setMinWidth(125);
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         lastNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         usernameColumn = new TableColumn<>("Username");
-        usernameColumn.setMinWidth(100);
+        usernameColumn.setMinWidth(120);
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         usernameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         emailColumn = new TableColumn<>("Email");
-        emailColumn.setMinWidth(100);
+        emailColumn.setMinWidth(250);
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         emailColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         phoneNumberColumn = new TableColumn<>("Phone Number");
-        phoneNumberColumn.setMinWidth(100);
+        phoneNumberColumn.setMinWidth(180);
         phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
         phoneNumberColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-
-        salaryColumn = new TableColumn<>("Salary");
-        salaryColumn.setMinWidth(100);
-        salaryColumn.setCellValueFactory(new PropertyValueFactory<>("salary"));
-        salaryColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
 
         roleColumn = new TableColumn<>("Role");
         roleColumn.setMinWidth(100);
         roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
-        roleColumn.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<EmployeeRole>() {
-
+        roleColumn.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<>() {
             @Override
-            public String toString(EmployeeRole employeeRole) {
-                return "";
+            public String toString(EmployeeRole role) {
+                return role != null ? role.toString() : "";
             }
 
             @Override
-            public EmployeeRole fromString(String s) {
-                return null;
+            public EmployeeRole fromString(String string) {
+                return EmployeeRole.valueOf(string.toUpperCase());
             }
         }));
+
+        salaryColumn = new TableColumn<>("Salary");
+        salaryColumn.setMinWidth(80);
+        salaryColumn.setCellValueFactory(new PropertyValueFactory<>("salary"));
+        salaryColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+
+
 
         // Add columns to the table
         table.getColumns().addAll(idColumn, nameColumn, lastNameColumn, usernameColumn, emailColumn, phoneNumberColumn, roleColumn, salaryColumn);
@@ -148,7 +150,7 @@ public class UserManagementView extends GridPane implements Design {
         VBox buttonBox = new VBox(10);
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setMinSize(200,150);
-        buttonBox.getChildren().addAll(addUserBtn, managePermissionsBtn, deleteBtn);
+        buttonBox.getChildren().addAll(deleteBtn);
 
         // Add the button box to the main grid
         this.add(buttonBox, 0, 0);

@@ -17,11 +17,9 @@ import java.util.ArrayList;
 
 public class UserManagementController {
     private UserManagementView view=new UserManagementView();
-    private ArrayList<User> users= Database.getDatabase().getUsers();
+    private ArrayList<User> users = Database.getDatabase().getUsers();
 
     public UserManagementController() {
-
-
         setEditListeners();
         setDeleteActions();
         searchBoxListener();
@@ -132,7 +130,7 @@ public class UserManagementController {
     private void userDelete() {
         User selectedUser = this.view.getTable().getSelectionModel().getSelectedItem();
 
-        if (selectedUser==null) {
+        if (selectedUser == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "No user selected for deletion.");
             alert.setTitle("Delete Warning");
             alert.show();
@@ -140,13 +138,15 @@ public class UserManagementController {
         }
 
         this.view.getTable().getItems().remove(selectedUser);
-        users.remove(selectedUser); // Ensure to remove from the ObservableList as well
+        users.remove(selectedUser);
+
         Database.getDatabase().updateUsers(users);
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Deleted successfully.");
         alert.setTitle("Delete Result");
         alert.show();
     }
+
 
     public void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
@@ -156,27 +156,34 @@ public class UserManagementController {
         alert.showAndWait();
     }
 
-    public void searchBoxListener(){
-        view.getSearchBox().getSearchField().setOnAction(
-                e->{
+    public void searchBoxListener() {
+        ObservableList<User> originalUsers = FXCollections.observableArrayList(view.getTable().getItems());
 
-                    String searchQuery=this.view.getSearchBox().getSearchField().getText().toLowerCase();
-                    ObservableList<User> filteredUsers= FXCollections.observableArrayList();
-                    for(User user: view.getTable().getItems()){
-                        if(user.getFirstName().toLowerCase().contains(searchQuery)){
-                            filteredUsers.add(user);
-                        }
+        view.getSearchBox().getSearchField().setOnAction(e -> {
+            String searchQuery = this.view.getSearchBox().getSearchField().getText().toLowerCase();
+
+            ObservableList<User> filteredUsers = FXCollections.observableArrayList();
+
+            // Only filter if there's a search query
+            if (!searchQuery.isEmpty()) {
+                for (User user : originalUsers) {
+                    // Check multiple fields (firstName, lastName, email, and ID)
+                    if (user.getFirstName().toLowerCase().contains(searchQuery) ||
+                            user.getLastName().toLowerCase().contains(searchQuery) ||
+                            user.getEmail().toLowerCase().contains(searchQuery) ||
+                            String.valueOf(user.getId()).contains(searchQuery)) {
+                        filteredUsers.add(user);
                     }
-                    this.view.getTable().setItems(filteredUsers);
                 }
-        );
+                this.view.getTable().setItems(filteredUsers);
+            } else {
+                // Reset to original list
+                this.view.getTable().setItems(originalUsers);
+            }
+        });
     }
 
     public UserManagementView getView() {
         return view;
-    }
-
-    public ArrayList<User> getUsers() {
-        return users;
     }
 }
