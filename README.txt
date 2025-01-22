@@ -1,12 +1,15 @@
 Electronics Store
+-----------------
+Program description
+The program starts with the log-in view, where each employee uses  its own username and password to access his dashboard. After logging in the user has access to features based on the permissions they have: cashiers’ default permissions are Billing System, View All Bills, Product Information and Notification Panel; managers’ default permissions are Report Generator, View All Reports, View All Bills, Notification Panel, User Management, Inventory Management, Supplier Management and Product Information; and the administrator has all of the above permissions and also Managing Permissions. They access those features on the main menu.
+	Starting with the Billing System, each cashier has the right to generate bills. They can only generate bills if they have an active shift, which can be determined when they enter the system. Based on the sector they are part of they can manage the sales of the products of their sector. For instance a cashier of the Computers sector can sell computers. In the system of generating bills they can search about a product, register loyal customers, take payment with cash or credit card.
+Then all of these bills are saved and can be accessed through View All Bills, which can be made by cashiers, managers and the administrator. These bills will also help to generate reports about each sector and cashier. All the generated reports can also be viewed in View All Reports.
+The Inventory Management System displays all the products that are available in the store. Here you can also add new products, delete the existing ones if the store no longer sells it and also edit any product. The product ‘profile’ can be viewed in Product Information where it displays all the necessary information about the product. Any specific product can be found using the search bar above the inventory table.
+In the Notification Panel when there is a restock or a new product is added the cashiers and managers of those sectors are notified.
+User Management is of two types: User management of  manager and administrator. The administrator has the right to add new employees, change or delete all employees as needed. Whereas the manager can only edit or remove cashiers of the sectors he is responsible for. There’s also a search bar in this view which allows you to find any employee by id, name or username.  The administrator also has an extra feature in which he can change the permissions of each employee. At the start each employee has its default permissions, but the administrator using permissions granting can manipulate the permissions as needed.
+When creating new employees or  new products, the program requires every information to be correct. There are validations which will make sure that there are no duplicate IDs & usernames for users,  no duplicate product codes & barcodes for products and no duplicate supplier ID.Another validation is about checking the existence of a supplier before adding the product.The product cannot be added in the inventory if the supplier has not been registered in the supplier management. For users it also makes sure that there is a strong password for each.
+There’s also the Supplier Management which shows the details about the suppliers which provide the products to the store.
+	There are also some extra features presented in the dashboard such as the ability to log out and to check the employee profile.
 
-Permissions tek user class ==>Tek form ne fillm mund te vendoset null, me pas mund te shtohet tek faqja permission granting ose
-ne fillim do te jet default me pas mun te ndryshoj
-
-Start and end shift methods--> put in gui
-
-Bind Property of elements in design
-
-Duhet te validohet id kur behet add product, mos te kete duplicate
-
-Duhet te konfigurehen tek billing System vetem ato items qe i perkasin atij sektori
+Admin Credentials: Username: Shpetim  Password: Admin1234
+Manager Credentials: Username: Arjan Password:Arjan123.
