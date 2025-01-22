@@ -5,11 +5,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 
-public class Cashier extends User implements InventoryManagement,Serializable{
-
+public class Cashier extends User implements InventoryManagement, Serializable{
 
     @Serial
-    private static final long serialVersionUID = -5138556347272401794L;
+    private static final long serialVersionUID = -3161335128738280319L;
     private SectorType sector;
     private ArrayList<Shift> shifts;
     //private ArrayList<File> reportsGenerated=new ArrayList<>();

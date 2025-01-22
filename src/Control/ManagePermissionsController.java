@@ -3,16 +3,10 @@ package Control;
 import Database.Database;
 import Model.*;
 import View.UserManagementView.PermissionGrantingView;
-import java.io.*;
 import java.util.ArrayList;
 
-import static Database.FileHandler.*;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import View.SearchBoxPane;
-
 
 public class ManagePermissionsController {
 

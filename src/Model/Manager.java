@@ -10,7 +10,7 @@ public class Manager extends User implements Serializable {
 
 
     @Serial
-    private static final long serialVersionUID = 3648542730375750254L;
+    private static final long serialVersionUID = -937962226369155240L;
     private ArrayList<SectorType> sectors=new ArrayList<>();
     private ArrayList<File> reportsGenerated = new ArrayList<>();
 

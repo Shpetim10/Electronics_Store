@@ -17,9 +17,8 @@ import java.time.LocalDate;
 
 public class Item implements Serializable {
 
-
     @Serial
-    private static final long serialVersionUID = -7535246308595776385L;
+    private static final long serialVersionUID = -1858509259382911391L;
     private transient SimpleIntegerProperty productId;
     private transient SimpleStringProperty productName;
     private transient SimpleStringProperty sector;

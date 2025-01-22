@@ -21,8 +21,6 @@ public class NotificationPanelController {
     {
         Button displayButton = view.getDisplayNotificationButton();
 
-
-
         this.view.getDisplayNotificationButton().setOnAction(e ->{
             view.getNotificationDisplay().getChildren().clear();
             for(Notification notification:user.getNotifications() )

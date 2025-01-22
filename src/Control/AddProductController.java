@@ -2,10 +2,7 @@ package Control;
 
 import Database.Database;
 import Database.FileHandler;
-import Model.Item;
-import Model.RestockTransaction;
-import Model.SectorType;
-import Model.Validator;
+import Model.*;
 import View.AddProductView;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
@@ -133,6 +130,13 @@ public class AddProductController {
             Database.getDatabase().saveProduct(newItem);
             clearInputFields();
 
+            for(Cashier user: Database.getDatabase().getCashiers()){
+                if(user.getSector().toString().equals(newItem.getSector())){
+                    user.getNotifications().add(new Notification(NotificationType.NEW_PRODUCT,"We want to notify you that "+newItem.getProductName()+" is added to inventory!"));
+
+                }
+            }
+            Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
             // Show success message
             showAlert(Alert.AlertType.INFORMATION, "Product Added", "The product was successfully added!");
         } catch (NumberFormatException ex) {

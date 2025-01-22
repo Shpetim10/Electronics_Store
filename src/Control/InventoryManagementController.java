@@ -3,10 +3,8 @@ package Control;
 
 import Database.Database;
 import Database.FileHandler;
-import Model.RestockTransaction;
-import Model.Validator;
+import Model.*;
 import View.InventoryManagementView;
-import Model.Item;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,7 +19,7 @@ public class InventoryManagementController {
     private InventoryManagementView view=new InventoryManagementView();
     private ArrayList<Item> inventory= Database.getDatabase().getInventory();
 
-    public InventoryManagementController( ) {
+    public InventoryManagementController() {
 
         setEditListeners();
         setButtonActions();
@@ -181,9 +179,19 @@ public class InventoryManagementController {
             int oldQuantity=item.getStockQuantity();
             item.setStockQuantity(e.getNewValue());
             RestockTransaction restockTransaction=new RestockTransaction(item,e.getNewValue()-oldQuantity);
-            FileHandler.writeTransactionToFile(restockTransaction);
+
+            Database.getDatabase().saveRestockTransaction(restockTransaction);
             item.setLastRestockDate(LocalDate.now());
             Database.getDatabase().updateInventory(inventory);
+
+            //Notify Users
+            for(Cashier user: Database.getDatabase().getCashiers()){
+                if(user.getSector().toString().equals(item.getSector())){
+                    user.getNotifications().add(new Notification(NotificationType.RESTOCKED,"Item "+item.getProductName()+" is restocked by "+(e.getNewValue()-oldQuantity)+" items."));
+
+                }
+            }
+            Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
         });
 //        this.view.getLastrestockDate().setOnEditCommit(e -> {
 //            Item item = e.getRowValue();
@@ -231,6 +239,15 @@ public class InventoryManagementController {
         this.view.getTable().getItems().remove(selectedItem);
         inventory.remove(selectedItem); // Ensure to remove from the ObservableList as well
         Database.getDatabase().updateInventory(inventory);
+
+        //Notify cashiers
+        for(Cashier user: Database.getDatabase().getCashiers()){
+            if(user.getSector().toString().equals(selectedItem.getSector())){
+                user.getNotifications().add(new Notification(NotificationType.DISCONTINUED,"Item "+selectedItem.getProductName()+" is discontinued!"));
+
+            }
+        }
+        Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Deleted successfully.");
         alert.setTitle("Delete Result");

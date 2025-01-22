@@ -51,7 +51,12 @@ public class UserManagementController {
                 return;
             }
             user.setFirstName(newName);
-            Database.getDatabase().updateUsers(users);
+            if(user instanceof Cashier)
+                Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
+            else if (user instanceof Manager)
+                Database.getDatabase().updateManagers(Database.getDatabase().getManagers());
+            else
+                Database.getDatabase().updateAdministrators(Database.getDatabase().getAdministrators());
         });
 
         this.view.getLastNameColumn().setOnEditCommit(e -> {
@@ -62,7 +67,12 @@ public class UserManagementController {
                 return;
             }
             user.setLastName(newLastName);
-            Database.getDatabase().updateUsers(users);
+            if(user instanceof Cashier)
+                Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
+            else if (user instanceof Manager)
+                Database.getDatabase().updateManagers(Database.getDatabase().getManagers());
+            else
+                Database.getDatabase().updateAdministrators(Database.getDatabase().getAdministrators());
         });
 
         this.view.getUsernameColumn().setOnEditCommit(e -> {
@@ -73,7 +83,12 @@ public class UserManagementController {
                 return;
             }
             user.setUsername(newUsername);
-            Database.getDatabase().updateUsers(users);
+            if(user instanceof Cashier)
+                Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
+            else if (user instanceof Manager)
+                Database.getDatabase().updateManagers(Database.getDatabase().getManagers());
+            else
+                Database.getDatabase().updateAdministrators(Database.getDatabase().getAdministrators());
         });
 
         this.view.getEmailColumn().setOnEditCommit(e -> {
@@ -84,7 +99,12 @@ public class UserManagementController {
                 return;
             }
             user.setEmail(newEmail);
-            Database.getDatabase().updateUsers(users);
+            if(user instanceof Cashier)
+                Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
+            else if (user instanceof Manager)
+                Database.getDatabase().updateManagers(Database.getDatabase().getManagers());
+            else
+                Database.getDatabase().updateAdministrators(Database.getDatabase().getAdministrators());
         });
 
         this.view.getPhoneNumberColumn().setOnEditCommit(e -> {
@@ -95,7 +115,12 @@ public class UserManagementController {
                 return;
             }
             user.setPhoneNumber(newPhoneNumber);
-            Database.getDatabase().updateUsers(users);
+            if(user instanceof Cashier)
+                Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
+            else if (user instanceof Manager)
+                Database.getDatabase().updateManagers(Database.getDatabase().getManagers());
+            else
+                Database.getDatabase().updateAdministrators(Database.getDatabase().getAdministrators());
         });
 
         this.view.getSalaryColumn().setOnEditCommit(e -> {
@@ -106,7 +131,12 @@ public class UserManagementController {
                 return;
             }
             user.setSalary(newSalary);
-            Database.getDatabase().updateUsers(users);
+            if(user instanceof Cashier)
+                Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
+            else if (user instanceof Manager)
+                Database.getDatabase().updateManagers(Database.getDatabase().getManagers());
+            else
+                Database.getDatabase().updateAdministrators(Database.getDatabase().getAdministrators());
         });
 
         this.view.getRoleColumn().setOnEditCommit(e -> {
@@ -119,12 +149,18 @@ public class UserManagementController {
                 return;
             }
             user.setRole(newRole);
-            Database.getDatabase().updateUsers(users);
+            if(user instanceof Cashier)
+                Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
+            else if (user instanceof Manager)
+                Database.getDatabase().updateManagers(Database.getDatabase().getManagers());
+            else
+                Database.getDatabase().updateAdministrators(Database.getDatabase().getAdministrators());
         });
+
     }
 
     private void setDeleteActions() {
-        this.view.getDeleteBtn().setOnAction(event -> userDelete());// Set delete action once
+        this.view.getDeleteBtn().setOnAction(event -> userDelete());
     }
 
     private void userDelete() {
@@ -140,7 +176,12 @@ public class UserManagementController {
         this.view.getTable().getItems().remove(selectedUser);
         users.remove(selectedUser);
 
-        Database.getDatabase().updateUsers(users);
+        if(selectedUser instanceof Cashier)
+            Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
+        else if (selectedUser instanceof Manager)
+            Database.getDatabase().updateManagers(Database.getDatabase().getManagers());
+        else
+            Database.getDatabase().updateAdministrators(Database.getDatabase().getAdministrators());
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Deleted successfully.");
         alert.setTitle("Delete Result");

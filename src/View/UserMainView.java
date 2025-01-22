@@ -21,6 +21,7 @@ public class UserMainView extends VBox implements Design{
     private final Menu InventoryManagementSubMenu=new Menu("Inventory Management");
     private final MenuItem addProductItem=createMenuItem("Add Product","Images/addProductInventoryIcon.png");
     private final MenuItem inventoryManagementItem=createMenuItem("Inventory Management","Images/manageInventoryIcon.png");
+    private final MenuItem viewProductInfoItem=createMenuItem("Product Information","Images/productInfoIcon.png");
 
     private final Menu UserManagementSubmenu=new Menu("User Management");
     private final MenuItem addEmployee=createMenuItem("Add Employee","Images/addUserIcon.png");
@@ -124,6 +125,8 @@ public class UserMainView extends VBox implements Design{
 
         return pane;
     }
+
+
     //Create user mainView
     public BorderPane createCashierMainPage(){
         BorderPane pane=new BorderPane();
@@ -258,6 +261,10 @@ public class UserMainView extends VBox implements Design{
 
     public Menu getUserManagementSubmenu() {
         return UserManagementSubmenu;
+    }
+
+    public MenuItem getViewProductInfoItem() {
+        return viewProductInfoItem;
     }
 }
 

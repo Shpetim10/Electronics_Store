@@ -17,7 +17,6 @@ public class ProductInformationView extends VBox implements Design {
     private Label name = createAlignedBlackLabel("");
     private Label productId = createAlignedBlackLabel("");
     private Label quantity = createAlignedBlackLabel("");
-    private Label price = createAlignedBlackLabel("");
     private Label sector = createAlignedBlackLabel("");
     private Label supplier = createAlignedBlackLabel("");
     private Label brand = createAlignedBlackLabel("");
@@ -43,10 +42,6 @@ public class ProductInformationView extends VBox implements Design {
 
     public Label getQuantity() {
         return quantity;
-    }
-
-    public Label getPrice() {
-        return price;
     }
 
     public Label getSector() {
@@ -102,7 +97,7 @@ public class ProductInformationView extends VBox implements Design {
         pane.setHgap(50);
         pane.setVgap(30);
         pane.setPadding(new Insets(50, 50, 50, 50));
-        pane.setStyle("-fx-background-color: rgba(167,246,8,0.15)");
+        pane.setStyle("-fx-background-color: transparent;");
         Label photoLabel = new Label(" Photo");
         photoLabel.setStyle("-fx-font-size: 12;  -fx-text-fill: darkgreen;");
         photoLabel.setPrefSize(180, 180);
@@ -161,31 +156,28 @@ public class ProductInformationView extends VBox implements Design {
 
         pane.add(photoLabel, 4, 4,4,4);
         pane.add(productIdLabel, 1, 1);
-        pane.add(productIdField, 2, 1);
+        pane.add(this.productId, 2, 1);
         pane.add(nameLabel, 1, 2);
-        pane.add(nameField, 2, 2);
+        pane.add(this.name, 2, 2);
 
         pane.add(sectorLabel, 1, 10);
-        pane.add(sectorField, 2, 10);
+        pane.add(this.sector, 2, 10);
 
         pane.add(quantityLabel, 1, 3);
-        pane.add(quantityField, 2, 3);
+        pane.add(this.quantity, 2, 3);
 
         pane.add(supplierLabel, 1, 5);
-        pane.add(supplierField, 2, 5);
+        pane.add(this.supplier, 2, 5);
         pane.add(brandLabel, 1, 6);
-        pane.add(brandField, 2, 6);
+        pane.add(this.brand, 2, 6);
         pane.add(lastRestockLabel, 1, 7);
-        pane.add(lastRestockPicker, 2, 7);
-
-        pane.add(priceLabel, 1, 8);
-        pane.add(priceField, 2, 8);
+        pane.add(this.lastRestock, 2, 7);
 
         pane.add(sellingPriceLabel, 3, 2);
-        pane.add(sellingPriceField, 4, 2);
+        pane.add(this.sellingPrice, 4, 2);
 
         pane.add(priceBoughtLabel, 3, 1);
-        pane.add(priceBoughtField, 4, 1);
+        pane.add(this.priceBought, 4, 1);
 
 
         return pane;

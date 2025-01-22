@@ -1,17 +1,12 @@
 package View;
 
-import Model.Notification;
 import Model.NotificationType;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
-
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class NotificationPanelView extends VBox implements Design {
     private Button displayNotificationButton = createGeneralButton("Display Notifications");
@@ -29,19 +24,22 @@ public class NotificationPanelView extends VBox implements Design {
         this.notificationDisplay.setStyle("-fx-background-color:transparent");
         this.notificationDisplay.setAlignment(Pos.TOP_CENTER);
         this.notificationPanel.setContent(notificationDisplay);
+        this.setSpacing(10);
+        this.notificationDisplay.setAlignment(Pos.TOP_CENTER);
 
         this.getChildren().addAll(displayNotificationButton,clearNotification,notificationPanel);
     }
 
-
-    public void addNotification(String message) {
-        Label notificationLabel = new Label(message);
-        notificationLabel.setStyle("-fx-text-fill:white;-fx-padding: 5; -fx-background-color:green; -fx-border-color: #b2ebf2; -fx-border-width: 1; -fx-border-radius: 3; -fx-background-radius: 3;");
-    }
+//    public void addNotification(String message) {
+//        Label notificationLabel = new Label(message);
+//        notificationLabel.setStyle("-fx-text-fill:white;-fx-padding: 5; -fx-background-color:green; -fx-border-color: #b2ebf2; -fx-border-width: 1; -fx-border-radius: 3; -fx-background-radius: 3;");
+//    }
     public VBox createNotification(NotificationType subject, String message, LocalDateTime dateCreated)
     {
         VBox notificationMessage = new VBox(10);
-        notificationMessage.setStyle("-fx-background-color:white;");
+        notificationMessage.setStyle("-fx-background-color:white;" +
+                "-fx-border-color: yellowgreen;" +
+                "-fx-border-width: 1;");
         Label title = createAlignedGreenBoldLabel("New Notification !");
         Label displayTime = createAlignedBlackLabel("Date :"+dateCreated.toString());
         Label displaySubject= createAlignedGreenBoldLabel(subject.toString());
@@ -67,4 +65,3 @@ public class NotificationPanelView extends VBox implements Design {
         return notificationDisplay;
     }
 }
-

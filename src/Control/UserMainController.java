@@ -22,6 +22,7 @@ public class UserMainController implements Alertable {
         setHomePage();
         setUpMenu();
         setUpProfileInformationIconListener();
+        setUpNotificationListener();
         setUpHomePageSwitcherListener();
     }
     public void setBillingSystemButtonListener(){
@@ -161,6 +162,19 @@ public class UserMainController implements Alertable {
         }
     }
 
+    public void setProductInformationButtonListener(){
+        int index=getMenuItemViewIndex("Product Information");
+        if (index != -1) {
+            view.getMainMenu().getItems().get(index).setOnAction(
+                    e->{
+                        clearPane();
+                        ProductInformationController control=new ProductInformationController();
+                        view.getDisplayPane().getChildren().add(control.getView());
+                    }
+            );
+        }
+    }
+
     public void setSupplierManagementButtonListener(){
         int index=getMenuItemViewIndex("Supplier Management");
         if (index != -1) {
@@ -244,6 +258,10 @@ public class UserMainController implements Alertable {
             setManageInventoryButtonListener();
             setAddProductButtonListener();
         }
+        if(user.getPermissions().contains(Permission.PRODUCT_INFORMATION)){
+            this.view.addToMainMenu(view.getViewProductInfoItem());
+            setProductInformationButtonListener();
+        }
     }
 
     //HomePage
@@ -296,6 +314,15 @@ public class UserMainController implements Alertable {
         });
     }
 
+
+    //Notification Listener
+    public void setUpNotificationListener(){
+        this.view.getNotificationLogo().setOnMouseClicked(e->{
+            NotificationPanelController controller=new NotificationPanelController(user);
+            clearPane();
+            this.view.getDisplayPane().getChildren().add(controller.getView());
+        });
+    }
 
     public void clearPane(){
         this.view.getDisplayPane().getChildren().clear();
