@@ -14,6 +14,8 @@ import javafx.scene.control.Alert;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import static Model.Validator.isSupplierRegistered;
+
 public class InventoryManagementController {
 
     private InventoryManagementView view=new InventoryManagementView();
@@ -146,15 +148,18 @@ public class InventoryManagementController {
             Item item = e.getRowValue();
             String newSupplier = e.getNewValue();
 
-            if (!Validator.doesSupplierExist(inventory,newSupplier)) {
-                showAlert(Alert.AlertType.WARNING, "Supplier Already Exists", "The supplier already exists in the inventory.");
-                return; // Prevent update if supplier already exists
-            }
+//            if (!Validator.doesSupplierExist(inventory,newSupplier)) {
+//                showAlert(Alert.AlertType.WARNING, "Supplier Already Exists", "The supplier already exists in the inventory.");
+//                return; // Prevent update if supplier already exists
+//            }
             if (newSupplier == null || newSupplier.trim().isEmpty()) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Barcode", "Barcode cannot be empty.");
                 return;
             }
-
+            if (!Validator.isSupplierRegistered(newSupplier)) {
+                showAlert(Alert.AlertType.WARNING, "Unregistered Supplier", "The supplier must be registered in the system before adding products.");
+                return;
+            }
             // Validate Supplier (non-empty string)
             if (!Validator.validateSupplierName(newSupplier)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Supplier", "Supplier name cannot be empty.");
@@ -193,11 +198,7 @@ public class InventoryManagementController {
             }
             Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
         });
-//        this.view.getLastrestockDate().setOnEditCommit(e -> {
-//            Item item = e.getRowValue();
-//            item.setLastRestockDate(e.getNewValue());
-//            updateFile(item);
-//        });
+
         this.view.getBarcode().setOnEditCommit(e -> {
             Item item = e.getRowValue();
             String newBarcode = String.valueOf(e.getNewValue());
@@ -213,12 +214,6 @@ public class InventoryManagementController {
             }
             Database.getDatabase().updateInventory(inventory);
         });
-//        this.view.getSupplier().setOnEditCommit(e -> {
-//            Item item = e.getRowValue();
-//            item.setSupplier(e.getNewValue());
-//            Database.getDatabase().updateInventory(inventory);
-//        });
-
         }
 
 
@@ -244,7 +239,6 @@ public class InventoryManagementController {
         for(Cashier user: Database.getDatabase().getCashiers()){
             if(user.getSector().toString().equals(selectedItem.getSector())){
                 user.getNotifications().add(new Notification(NotificationType.DISCONTINUED,"Item "+selectedItem.getProductName()+" is discontinued!"));
-
             }
         }
         Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());

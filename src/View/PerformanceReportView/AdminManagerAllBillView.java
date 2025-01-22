@@ -4,14 +4,16 @@ import Control.AdminManagerViewBillController;
 import Control.ViewAllBillsController;
 import View.SearchBoxPane;
 import View.UserManagementView.UserTable;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class AdminManagerAllBillView extends VBox {
       private SearchBoxPane search=new SearchBoxPane("Enter Cashier ID...");
       private StackPane displayPane=new StackPane();
+      private UserTable userTable=new UserTable();
       private ViewAllBillsController billView=new ViewAllBillsController();
-      //private UserTable userTable=new UserTable();
+
 
       public AdminManagerAllBillView(){
           setUpView();
@@ -39,5 +41,9 @@ public class AdminManagerAllBillView extends VBox {
 
     public StackPane getDisplayPane() {
         return displayPane;
+    }
+
+    public UserTable getUserTable() {
+        return userTable;
     }
 }

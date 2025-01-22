@@ -20,7 +20,6 @@ public class Manager extends User implements Serializable {
         super(id, firstName, lastName, gender, birthday, salary, username,
                 password, email, phoneNumber, dateEmployed, role, photo);
         this.sectors = sectors;
-        this.sectors=new ArrayList<>();
         this.reportsGenerated=new ArrayList<>();
     }
 

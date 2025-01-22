@@ -37,6 +37,8 @@ public class ViewAllBillsView extends HBox implements Design {
         scrollPane.setContent(buttonBox);
         scrollPane.setStyle("-fx-alignment: center;");
 
+        Label title=createAlignedGreenBoldLabel("View Generated Bills");
+
         displayBill.setStyle("-fx-alignment: center;" +
                 "-fx-background-color: transparent;");
         displayBill.setPrefWidth(140);

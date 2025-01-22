@@ -71,7 +71,7 @@ public class AddProductView extends GridPane implements Design {
         this.setHgap(20);
         this.setVgap(10);
         this.setPadding(new Insets(50, 100, 50, 100));
-        this.setStyle("-fx-background-color: rgba(167,246,8,0.15)");
+        this.setStyle("-fx-background-color: transparent;");
 
         HBox buttons=new HBox(30);
         buttons.getChildren().addAll(add,edit);

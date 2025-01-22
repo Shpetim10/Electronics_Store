@@ -1,7 +1,6 @@
 package View.UserManagementView;
 
 import Database.Database;
-import MainRoot.UserManagementMain;
 import Model.*;
 import View.Design;
 import View.SearchBoxPane;
@@ -122,7 +121,7 @@ public class UserManagementView extends GridPane implements Design {
         this.setPadding(new Insets(20, 20, 20, 20));
         this.setHgap(50);
         this.setVgap(20);
-        this.setStyle("-fx-background-color: rgba(167,246,8,0.3);" +
+        this.setStyle("-fx-background-color: transparent;" +
                 "-fx-border-radius: 10;" +
                 "-fx-background-radius: 10;" +
                 "-fx-border-color: rgba(256,246,8,0.3);" +

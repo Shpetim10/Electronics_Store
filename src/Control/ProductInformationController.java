@@ -42,7 +42,6 @@ public void displayProductInfo(Item selectedItem)
     view.getLastRestock().setText(String.valueOf(selectedItem.getLastRestockDate()));
     view.getSellingPrice().setText(String.format("$%.2f", selectedItem.getSellingPrice()));
     view.getPriceBought().setText(String.format("$%.2f", selectedItem.getPriceBought()));
-    // view.getPhotoLabel().setText((selectedItem.getImage()));
 }
 public ProductInformationView getView() {
     return view;

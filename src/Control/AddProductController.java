@@ -88,9 +88,6 @@ public class AddProductController {
                 return;
             }
 
-
-
-
             String stockQuantityText = view.getStockQuantity().getText();
             if (!Validator.validatePositiveInteger(stockQuantityText)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Input", "Stock Quantity must be a non-negative integer.");
@@ -108,6 +105,10 @@ public class AddProductController {
             LocalDate lastRestockDateValue = view.getLastRestockDate().getValue();
             if (!Validator.validateLastRestockDate(lastRestockDateValue)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Input", "Last Restock Date cannot be in the future.");
+                return;
+            }
+            if (!Validator.isSupplierRegistered(supplier)) {
+                showAlert(Alert.AlertType.WARNING, "Unregistered Supplier", "The supplier must be registered in the system before adding products.");
                 return;
             }
             Item newItem = new Item(
@@ -133,7 +134,6 @@ public class AddProductController {
             for(Cashier user: Database.getDatabase().getCashiers()){
                 if(user.getSector().toString().equals(newItem.getSector())){
                     user.getNotifications().add(new Notification(NotificationType.NEW_PRODUCT,"We want to notify you that "+newItem.getProductName()+" is added to inventory!"));
-
                 }
             }
             Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());

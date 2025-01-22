@@ -1,45 +1,28 @@
 package Control;
 
 import Database.Database;
-import MainRoot.AddCashierMain;
-import MainRoot.ManagePermissionsMain;
-import MainRoot.UserManagementMain;
 import Model.*;
 import View.UserManagementView.UserManagementView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.stage.Stage;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class UserManagementController {
     private UserManagementView view=new UserManagementView();
-    private ArrayList<User> users = Database.getDatabase().getUsers();
+    private User user;
 
-    public UserManagementController() {
+    public UserManagementController(User user) {
+        this.user=user;
         setEditListeners();
         setDeleteActions();
         searchBoxListener();
-
-        // Set button actions after the view is initialized
-//        view.getManagePermissionsBtn().setOnAction(e -> showManagePermissionsView());
-//        view.getAddUserBtn().setOnAction(e -> openUserAddWindow());
+        if(user instanceof Manager){
+            this.view.getTable().setItems(getDataForManager());
+        }
     }
 
-//    private void showManagePermissionsView() {
-//        ManagePermissionsMain main = new ManagePermissionsMain();
-//        Stage primaryStage = new Stage();
-//        main.start(primaryStage);
-//    }
-//
-//    private void openUserAddWindow() {
-//        AddCashierMain main = new AddCashierMain();
-//        Stage primaryStage = new Stage();
-//        main.start(primaryStage);
-//    }
 
     private void setEditListeners() {
 // Add edit commit handlers for table columns
@@ -174,14 +157,22 @@ public class UserManagementController {
         }
 
         this.view.getTable().getItems().remove(selectedUser);
-        users.remove(selectedUser);
 
-        if(selectedUser instanceof Cashier)
+
+        if(selectedUser instanceof Cashier){
+            Database.getDatabase().getCashiers().remove(selectedUser);
             Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
-        else if (selectedUser instanceof Manager)
+        }
+        else if (selectedUser instanceof Manager){
+            Database.getDatabase().getManagers().remove(selectedUser);
             Database.getDatabase().updateManagers(Database.getDatabase().getManagers());
-        else
+        }
+
+        else{
+            Database.getDatabase().getAdministrators().remove(selectedUser);
             Database.getDatabase().updateAdministrators(Database.getDatabase().getAdministrators());
+        }
+
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Deleted successfully.");
         alert.setTitle("Delete Result");
@@ -224,6 +215,24 @@ public class UserManagementController {
         });
     }
 
+    private ObservableList<User> getDataForManager(){
+        ArrayList<Cashier> users = new ArrayList<>();
+        ArrayList<User> neededUsers = new ArrayList<>();
+        ArrayList<SectorType> sectors = ((Manager)user).getSectors();
+
+        users.addAll(Database.getDatabase().getCashiers());
+        //check if the cashiers are part of manager's sectors
+        for(int i = 0; i < sectors.size();i++ ) {
+            //Add cashiers
+            for(Cashier u: users) {
+                if (sectors.contains(u.getSector()) && !neededUsers.contains(u)) {
+                    neededUsers.add(u);
+                }
+            }
+        }
+
+        return FXCollections.observableArrayList(neededUsers);
+    }
     public UserManagementView getView() {
         return view;
     }

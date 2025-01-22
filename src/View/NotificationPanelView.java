@@ -19,29 +19,29 @@ public class NotificationPanelView extends VBox implements Design {
     public void setUpView() {
 
         this.setAlignment(Pos.CENTER);
-        this.setStyle("-fx-padding: 10; -fx-background-color:transparent;");
-        notificationPanel.setStyle("-fx-background-color:transparent;-fx-border-color:yellowgreen;-fx-border-width:1;");
-        this.notificationDisplay.setStyle("-fx-background-color:transparent");
-        this.notificationDisplay.setAlignment(Pos.TOP_CENTER);
+        this.setStyle("-fx-padding: 10;" +
+                " -fx-background-color:transparent;");
+        this.notificationPanel.setStyle("-fx-background-color: rgba(167,246,8,0.15);");
+        this.notificationDisplay.setStyle("-fx-background-color:rgba(167,246,8,0.15);");
+        this.notificationDisplay.setAlignment(Pos.CENTER);
+
         this.notificationPanel.setContent(notificationDisplay);
-        this.setSpacing(10);
+
+        this.setSpacing(20);
         this.notificationDisplay.setAlignment(Pos.TOP_CENTER);
 
         this.getChildren().addAll(displayNotificationButton,clearNotification,notificationPanel);
     }
 
-//    public void addNotification(String message) {
-//        Label notificationLabel = new Label(message);
-//        notificationLabel.setStyle("-fx-text-fill:white;-fx-padding: 5; -fx-background-color:green; -fx-border-color: #b2ebf2; -fx-border-width: 1; -fx-border-radius: 3; -fx-background-radius: 3;");
-//    }
     public VBox createNotification(NotificationType subject, String message, LocalDateTime dateCreated)
     {
         VBox notificationMessage = new VBox(10);
+        notificationMessage.setAlignment(Pos.CENTER);
         notificationMessage.setStyle("-fx-background-color:white;" +
                 "-fx-border-color: yellowgreen;" +
                 "-fx-border-width: 1;");
         Label title = createAlignedGreenBoldLabel("New Notification !");
-        Label displayTime = createAlignedBlackLabel("Date :"+dateCreated.toString());
+        Label displayTime = createAlignedBlackLabel("Date :"+dateCreated.getDayOfMonth()+" "+dateCreated.getMonth()+" "+dateCreated.getYear()+"\t"+dateCreated.getHour()+" : "+dateCreated.getMinute());
         Label displaySubject= createAlignedGreenBoldLabel(subject.toString());
         Label displayMessage = createAlignedBlackBoldLabel(message);
 

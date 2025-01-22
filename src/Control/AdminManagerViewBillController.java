@@ -4,40 +4,69 @@ package Control;
 import Database.Database;
 import Model.*;
 import View.PerformanceReportView.AdminManagerAllBillView;
+import View.UserManagementView.UserTable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.SelectionMode;
+
+import java.util.ArrayList;
 
 
-public class AdminManagerViewBillController{
+public class AdminManagerViewBillController implements Alertable{
     private User admin;
     private AdminManagerAllBillView view=new AdminManagerAllBillView();
 
     public AdminManagerViewBillController() {
-        setSearchBoxAction();
+        setUpPaneSwitcher();
+        searchBoxListener();
+        getSearchButtonListener();
     }
 
     public AdminManagerViewBillController(User admin){
         this.admin=admin;
-        setSearchBoxAction();
+        this.view.getUserTable().getTable().setEditable(false);
+        this.view.getUserTable().getTable().getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        if(admin instanceof Manager){
+            this.view.getUserTable().getTable().setItems(getDataForManager());
+        }
+        setUpPaneSwitcher();
+        searchBoxListener();//search
+        getSearchButtonListener();//show bills
     }
-    public void setSearchBoxAction() {
-        this.view.getSearch().getSearchButton().setOnAction(event -> {
-            String cashierId = this.view.getSearch().getSearchField().getText();
 
-            if (cashierId.isEmpty()) {
-                showError("Search field cannot be empty.");
-                return;
+
+    public void searchBoxListener(){
+        view.getSearch().getSearchField().setOnAction(
+                e->{
+                    String searchQuery=this.view.getSearch().getSearchField().getText().toLowerCase();
+                    ObservableList<User> filteredItems= FXCollections.observableArrayList();
+                    for(User user: view.getUserTable().getTable().getItems()){
+                        if(user.getFirstName().toLowerCase().contains(searchQuery) && user.getRole()!=EmployeeRole.MANAGER && user.getRole()!=EmployeeRole.ADMINISTRATOR){
+                            filteredItems.add(user);
+                        }
+                    }
+                    this.view.getUserTable().getTable().setItems(filteredItems);
+                }
+        );
+    }
+
+    public void getSearchButtonListener(){
+        this.view.getSearch().getSearchButton().setOnAction(e->{
+            User user=this.view.getUserTable().getTable().getSelectionModel().getSelectedItem();
+
+            if(user!=null){
+                if(user instanceof Cashier){
+                    this.view.getBillView().setCashier((Cashier)user);
+                    this.view.getDisplayPane().getChildren().clear();
+                    this.view.getDisplayPane().getChildren().add(this.view.getBillView().getView());
+                }
             }
-
-            Cashier cashier = getCashierById(cashierId);
-
-            if (cashier == null) {
-                showError("No cashier found with ID: " + cashierId);
-            } else {
-                this.view.getBillView().setCashier(cashier);
-                this.view.getDisplayPane().getChildren().add(this.view.getBillView().getView());
+            else {
+                showAlert(Alert.AlertType.WARNING,"User does not exist!","This user does not exist!");
             }
         });
     }
-
     public Cashier getCashierById(String id) {
         for(Cashier cashier: Database.getDatabase().getCashiers()){
             if(cashier.getId()==Integer.parseInt(id)){
@@ -48,16 +77,36 @@ public class AdminManagerViewBillController{
     }
 
     // Utility to display error messages (example implementation)
-    private void showError(String message) {
-        // Replace with your preferred error message handling (e.g., pop-up, label update)
-        System.err.println("Error: " + message);
+
+    public void setUpPaneSwitcher(){
+        view.getSearch().getSearchField().setOnMouseClicked(
+                e->{
+                    this.view.getDisplayPane().getChildren().clear();
+                    this.view.getUserTable().getTable().setItems(this.view.getUserTable().getCashierData());
+                    this.view.getDisplayPane().getChildren().add(this.view.getUserTable().getTable());
+                });
     }
-
-
     public User getAdmin() {
         return admin;
     }
+    private ObservableList<User> getDataForManager(){
+        ArrayList<Cashier> users = new ArrayList<>();
+        ArrayList<User> neededUsers = new ArrayList<>();
+        ArrayList<SectorType> sectors = ((Manager)admin).getSectors();
 
+        users.addAll(Database.getDatabase().getCashiers());
+        //check if the cashiers are part of manager's sectors
+        for(int i = 0; i < sectors.size();i++ ) {
+            //Add cashiers
+            for(Cashier u: users) {
+                if (sectors.contains(u.getSector()) && !neededUsers.contains(u)) {
+                    neededUsers.add(u);
+                }
+            }
+        }
+
+        return FXCollections.observableArrayList(neededUsers);
+    }
     public AdminManagerAllBillView getView() {
         return view;
     }

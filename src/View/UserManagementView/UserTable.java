@@ -1,6 +1,9 @@
 package View.UserManagementView;
 
+import Database.Database;
+import Model.Cashier;
 import Model.EmployeeRole;
+import Model.User;
 import View.Design;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,10 +17,12 @@ import javafx.util.StringConverter;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 
+import java.util.ArrayList;
+
 public class UserTable extends VBox implements Design {
     private TableView<User> table;
 
-    private final TableColumn<User, Integer> idColumn;
+    private final TableColumn< User, Integer> idColumn;
     private final TableColumn<User, String> nameColumn;
     private final TableColumn<User, String> lastNameColumn;
     private final TableColumn<User, String> usernameColumn;
@@ -27,8 +32,6 @@ public class UserTable extends VBox implements Design {
     private final TableColumn<User, EmployeeRole> roleColumn;
 
 
-
-    private ObservableList<User> data = FXCollections.observableArrayList();
 
     public UserTable() {
 
@@ -98,60 +101,75 @@ public class UserTable extends VBox implements Design {
 
         // Sample data
 
-        table.setItems(data);
+        table.setItems(getCashierData());
         this.getChildren().add(table);
     }
 
-    // User class to represent user data
-    public static class User {
-        private int id;
-        private String firstName;
-        private String lastName;
-        private String username;
-        private String email;
-        private String phoneNumber;
-        private Double salary;
+    public ObservableList<User> getCashierData(){
+        ArrayList<User> cashiers=new ArrayList<>();
 
-        public User(int id, String firstName, String lastName, String username, String email, String phoneNumber,Double salary) {
-            this.id = id;
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.username = username;
-            this.email = email;
-            this.phoneNumber = phoneNumber;
-            this.salary = salary;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public String getFirstName() {
-            return firstName;
-        }
-
-        public String getLastName() {
-            return lastName;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public String getPhoneNumber() {
-            return phoneNumber;
-        }
-
-        public Double getSalary() {
-            return salary;
-        }
-
-
+        cashiers.addAll(Database.getDatabase().getCashiers());
+        return FXCollections.observableArrayList(cashiers);
     }
+    // User class to represent user data
+//    public static class User {
+//        private int id;
+//        private String firstName;
+//        private String lastName;
+//        private String username;
+//        private String email;
+//        private String phoneNumber;
+//        private Double salary;
+//        private User user;
+
+//        public User(int id, String firstName, String lastName, String username, String email, String phoneNumber,Double salary) {
+//            this.id = id;
+//            this.firstName = firstName;
+//            this.lastName = lastName;
+//            this.username = username;
+//            this.email = email;
+//            this.phoneNumber = phoneNumber;
+//            this.salary = salary;
+//        }
+//
+//        public int getId() {
+//            return id;
+//        }
+//
+//        public String getFirstName() {
+//            return firstName;
+//        }
+//
+//        public String getLastName() {
+//            return lastName;
+//        }
+//
+//        public String getUsername() {
+//            return username;
+//        }
+//
+//        public String getEmail() {
+//            return email;
+//        }
+//
+//        public String getPhoneNumber() {
+//            return phoneNumber;
+//        }
+//
+//        public Double getSalary() {
+//            return salary;
+//        }
+//
+//        public Model.User getUser(){
+//            for(Model.User user: Database.getDatabase().getUsers()){
+//                if(user.getId()==this.id){
+//                    return user;
+//                }
+//            }
+//            return null;
+//        }
+//
+//    }
 
     public TableView<User> getTable() {
         return table;

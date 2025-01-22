@@ -143,7 +143,7 @@ public class UserMainController implements Alertable {
         subMenu.getItems().get(1).setOnAction(
                 e->{
                     clearPane();
-                    UserManagementController control=new UserManagementController();
+                    UserManagementController control=new UserManagementController(user);
                     view.getDisplayPane().getChildren().add(control.getView());
                 }
         );

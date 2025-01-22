@@ -1,5 +1,7 @@
 package Model;
 
+import Database.FileHandler;
+
 import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -43,7 +45,7 @@ public class Validator {
 
     //For products
     public static boolean validateProductName(String productName){
-        return Pattern.matches("^[[A-Z][a-z][0-9]]+$",productName);
+        return Pattern.matches("^[A-Za-z0-9]+$",productName);
     }
 
     public static boolean validatePositiveInteger(String value) {
@@ -106,12 +108,16 @@ public class Validator {
         return phoneNumber != null && phoneNumber.matches(phoneNumberPattern);
     }
 
+    public static boolean isSupplierRegistered(String supplierName) {
 
+        ArrayList<Item> items = FileHandler.getItemsOfInventory();
 
-        public static void main(String[] args) {
-
-        System.out.println(validateExpirationDateFormat("00/2025"));
-        System.out.println(validateExpirationDateFormat("01/2025"));
-        System.out.println(validateExpirationDateFormat("05/2026"));
+        for (Item item : items) {
+            if (item.getSupplier().equalsIgnoreCase(supplierName)) {
+                return true;
+            }
+        }
+        return false;
     }
+
 }

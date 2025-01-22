@@ -12,6 +12,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class AddUser extends GridPane implements Design {
     private TextField IDTxt;
     private TextField nameTxt;
@@ -25,17 +27,29 @@ public class AddUser extends GridPane implements Design {
     private TextField phoneTxt;
     private DatePicker dateEmployed;
     private ComboBox<String> roleSelection;
-    //Secor and role box
+    //Sector and role box
     //For Cashier
-    private VBox roleV = new VBox();
     private ComboBox<String> cashierSectorSelection=createComboBox("Sector...");
     //For Manager
-    private VBox sectorV = new VBox();
-    private ListView<String> managerSectorSelection=new ListView<>();
+    private VBox sectorButtons = new VBox();
+    private ArrayList<RadioButton> managerSectorSelection=new ArrayList<>();
 
+    private VBox sectorV=new VBox();
     private TextField imagePath;
 
     private Button addBtn;
+
+    private CheckBox homeAppliancesCB;
+    private CheckBox electronicsCB;
+    private CheckBox computersCB;
+    private CheckBox mobileDevicesCB;
+    private CheckBox accessoriesCB;
+    private CheckBox gamingCB;
+    private CheckBox camerasCB;
+    private CheckBox kitchenElectronicsCB;
+    private CheckBox smartHomeCB;
+
+    private VBox checkBoxContainerManager;
 
     public AddUser() {
         this.setPadding(new Insets(50));
@@ -84,8 +98,13 @@ public class AddUser extends GridPane implements Design {
         }
         //Set sectors
         for(SectorType sector : Database.getDatabase().getSectors()){
+            //Cashier
             cashierSectorSelection.getItems().add(sector.toString());
-            managerSectorSelection.getItems().add(sector.toString());
+            //Manager
+            RadioButton button=new RadioButton(sector.toString());
+            managerSectorSelection.add(button);
+            sectorButtons.getChildren().add(button);
+
         }
 
         // Setting gender, birthday, and status on the same row
@@ -104,14 +123,64 @@ public class AddUser extends GridPane implements Design {
         VBox dateV = new VBox();
         dateV.getChildren().addAll(dateLabel, dateEmployed);
 
+        VBox roleV=new VBox();
         roleV.getChildren().addAll(roleLabel,roleSelection);
-        sectorV.getChildren().add(sectorLabel);
 
-        managerSectorSelection.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        this.sectorV.getChildren().add(sectorLabel);
+
 
         HBox date_role_sector = new HBox();
         date_role_sector.setAlignment(Pos.CENTER);
         date_role_sector.getChildren().addAll(dateV, roleV,sectorV);
+
+        /// creating checkboxes for sector
+        homeAppliancesCB = new CheckBox("HOME APPLIANCES");
+        homeAppliancesCB.setStyle("-fx-border-radius: 2;" +
+                "-fx-font-size: 12;" +
+                "-fx-border-color: yellowgreen;" +
+                "-fx-border-width: 1;" +
+                "-fx-background-color: white;" +
+                "-fx-text-fill: green;");
+        homeAppliancesCB.setSelected(false);
+
+        electronicsCB = new CheckBox("ELECTRONICS");
+        electronicsCB.setStyle(homeAppliancesCB.getStyle());
+        electronicsCB.setSelected(false);
+
+        computersCB = new CheckBox("COMPUTERS");
+        computersCB.setStyle(homeAppliancesCB.getStyle());
+        computersCB.setSelected(false);
+
+        mobileDevicesCB = new CheckBox("MOBILE DEVICES");
+        mobileDevicesCB.setStyle(homeAppliancesCB.getStyle());
+        mobileDevicesCB.setSelected(false);
+
+        accessoriesCB = new CheckBox("ACCESSORIES");
+        accessoriesCB.setStyle(homeAppliancesCB.getStyle());
+        accessoriesCB.setSelected(false);
+
+        gamingCB = new CheckBox("GAMING");
+        gamingCB.setStyle(homeAppliancesCB.getStyle());
+        gamingCB.setSelected(false);
+
+        camerasCB = new CheckBox("CAMERAS");
+        camerasCB.setStyle(homeAppliancesCB.getStyle());
+        camerasCB.setSelected(false);
+
+        kitchenElectronicsCB = new CheckBox("KITCHEN ELECTRONICS");
+        kitchenElectronicsCB.setStyle(homeAppliancesCB.getStyle());
+        kitchenElectronicsCB.setSelected(false);
+
+        smartHomeCB = new CheckBox("SMART HOME");
+        smartHomeCB.setStyle(homeAppliancesCB.getStyle());
+        smartHomeCB.setSelected(false);
+
+        /// creating checkbox container
+
+        checkBoxContainerManager = new VBox();
+        checkBoxContainerManager.getChildren().addAll(homeAppliancesCB, electronicsCB, computersCB, mobileDevicesCB,
+                accessoriesCB, gamingCB, camerasCB, kitchenElectronicsCB, smartHomeCB);
+        checkBoxContainerManager.setMinWidth(100);
 
         formLayout.getChildren().addAll(
                 IDLabel, IDTxt,
@@ -222,15 +291,55 @@ public class AddUser extends GridPane implements Design {
         return cashierSectorSelection;
     }
 
-    public ListView<String> getManagerSectorSelection() {
+    public ArrayList<RadioButton> getManagerSectorSelection() {
         return managerSectorSelection;
     }
 
-    public VBox getRoleV() {
-        return roleV;
+    public VBox getSectorButtons() {
+        return sectorButtons;
     }
 
     public VBox getSectorV() {
         return sectorV;
+    }
+
+    public CheckBox getHomeAppliancesCB() {
+        return homeAppliancesCB;
+    }
+
+    public CheckBox getElectronicsCB() {
+        return electronicsCB;
+    }
+
+    public CheckBox getComputersCB() {
+        return computersCB;
+    }
+
+    public CheckBox getMobileDevicesCB() {
+        return mobileDevicesCB;
+    }
+
+    public CheckBox getAccessoriesCB() {
+        return accessoriesCB;
+    }
+
+    public CheckBox getGamingCB() {
+        return gamingCB;
+    }
+
+    public CheckBox getCamerasCB() {
+        return camerasCB;
+    }
+
+    public CheckBox getKitchenElectronicsCB() {
+        return kitchenElectronicsCB;
+    }
+
+    public CheckBox getSmartHomeCB() {
+        return smartHomeCB;
+    }
+
+    public VBox getCheckBoxContainerManager() {
+        return checkBoxContainerManager;
     }
 }

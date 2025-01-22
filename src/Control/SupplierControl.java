@@ -43,7 +43,6 @@ public class SupplierControl {
 
         // Update the table with the filtered list
         tableContent.setAll(filteredList);
-
     }
 
     private void setEditListeners() {
