@@ -101,7 +101,7 @@ public class Item implements Serializable {
     }
 
     public String getProductName() {
-        return productName.get();
+        return productName.getValueSafe();
     }
 
     public void setProductName(String productName) {

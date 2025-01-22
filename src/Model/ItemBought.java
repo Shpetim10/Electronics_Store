@@ -125,6 +125,7 @@ public class ItemBought implements InventoryManagement, Serializable {
     }
 
     public Item getItem() {
+        setItem();
         return this.itemBought;
     }
 }

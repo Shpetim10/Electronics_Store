@@ -99,27 +99,27 @@ Total Items Sold:		0
 Cashier ID:		2
 Cashier Name:		Aleks Aliu
 
-Total Sales for Cashier:		1000.0
-Total Tax Paid:		200.0
-Total No-Tax Earnings:		800.0
-Items Sold:		1
+Total Sales for Cashier:		4600.0
+Total Tax Paid:		920.0
+Total No-Tax Earnings:		3680.0
+Items Sold:		3
 ----------------------------------------
 
 		Sector Summary for: ELECTRONICS
 --------------------------------------------------
-Total Sales:		1000.0
-Total Tax Paid:		200.0
-Total No-Tax Earnings:		800.0
-Total Items Sold:		1
+Total Sales:		4600.0
+Total Tax Paid:		920.0
+Total No-Tax Earnings:		3680.0
+Total Items Sold:		3
 
 
 			Overall Sales Summary
 
 ------------------------------------------------------------
-Overall Total Sales:		1000.0
-Overall Total Tax Paid:		200.0
-Overall No-Tax Earnings:		800.0
-Overall Items Sold:		1
+Overall Total Sales:		4600.0
+Overall Total Tax Paid:		920.0
+Overall No-Tax Earnings:		3680.0
+Overall Items Sold:		3
 
 
 			Overall Cost Summary
@@ -129,8 +129,8 @@ Overall Items Sold:		1
 Estimated Restock Cost:		0.0
 Estimated Staff Cost:		11000.0
 Estimated Total Cost:		11000.0
-Estimated Profit:		-10000.0
-Most Sold Item:		Iphone16 (Quantity: 1)
-Highest Revenue Item:	Iphone16 (Revenue: 1000.0)
+Estimated Profit:		-6400.0
+Most Sold Item:		Fridge (Quantity: 2)
+Highest Revenue Item:	Fridge (Revenue: 3600.0)
 
 

@@ -43,7 +43,7 @@ public class SupplierView extends GridPane implements Design {
         this.supplierList = FXCollections.observableArrayList(Database.getDatabase().getSuppliers());
         table.setItems(supplierList);
         table.setEditable(true);
-        table.setPrefHeight(800);
+        table.setPrefHeight(500);
         table.setPrefWidth(3000);
         table.setStyle("-fx-background-color:white ;" +
                 "-fx-border-radius:10;" +
@@ -87,15 +87,15 @@ public class SupplierView extends GridPane implements Design {
         this.phone = createTextField("Phone Number");
         this.Address = createTextField("Address");
 
-        //supplierList.addAll(getSampleData());
+        supplierList.addAll(getSampleData());
         setUpView();
 
     }
-//    private ObservableList<Supplier> getSampleData() {
-//        ArrayList<Supplier> suppliers = Database.getDatabase().getSuppliers();
-//        return FXCollections.observableArrayList(suppliers);
-//
-//    }
+    private ObservableList<Supplier> getSampleData() {
+        ArrayList<Supplier> suppliers = Database.getDatabase().getSuppliers();
+        return FXCollections.observableArrayList(suppliers);
+
+    }
 
     public void setUpView(){
         this.setPadding(new Insets(10,10,10,10));

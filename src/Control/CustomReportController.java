@@ -119,12 +119,14 @@ public class CustomReportController implements Alertable{
 
     private void handleSectorReport(String sector, LocalDate startDate, LocalDate endDate) throws IOException {
         if (sector.equalsIgnoreCase("Overall report(All cashiers selected)")) {
-            ReportGenerator.writeOverallReport(startDate, endDate);
+            report=ReportGenerator.writeOverallReport(startDate, endDate);
+            showAlert(Alert.AlertType.INFORMATION, "Success!", "Overall report generated successfully!");
         } else {
             SectorType sectorType = getSectorType(sector);
             report=ReportGenerator.writeSectorReport(sectorType, startDate, endDate);
+            showAlert(Alert.AlertType.INFORMATION, "Success!", "Sector report generated successfully!");
         }
-        showAlert(Alert.AlertType.INFORMATION, "Success!", "Sector report generated successfully!");
+
     }
 
     //Date Validation
