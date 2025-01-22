@@ -20,7 +20,9 @@ public class LogInController implements Alertable {
         this.primaryStage=primaryStage;
         setUpLogInViewButton();
     }
-
+    public LogInController(){
+        setUpLogInViewButton();
+    }
     private void setUpLogInViewButton() {
         this.view.getLoginButton().setOnAction(e -> {
             if (logInAttempts >= 5) {
@@ -77,13 +79,30 @@ public class LogInController implements Alertable {
         });
     }
     public void setSwitchStage(){
-        if(validCredentials){
-            showAlert(Alert.AlertType.INFORMATION,"Logged In!","You logged in successfully!");
-            UserMainController mainController=new UserMainController(user);
-            Scene scene=new Scene(mainController.getView());
-            this.primaryStage.setScene(scene);
+            if (validCredentials) {
+                showAlert(Alert.AlertType.INFORMATION, "Logged In!", "You logged in successfully!");
+
+                // Main controller
+                UserMainController mainController = new UserMainController(user);
+                Scene mainScene = new Scene(mainController.getView());
+                this.primaryStage.setScene(mainScene);
+                this.primaryStage.setMaximized(true);
+
+                //Log out
+                mainController.getView().getLogOutIcon().setOnMouseClicked(e -> {
+                    LogInController backScene=new LogInController(primaryStage);
+                    this.primaryStage.setScene(new Scene(backScene.getView(),500,500));
+
+                    showAlert(Alert.AlertType.INFORMATION, "Log out!", "You logged out successfully!");
+                });
+            } else {
+                // Notify the user if credentials are invalid
+                showAlert(Alert.AlertType.ERROR, "Login Failed!", "Invalid username or password. Please try again.");
+            }
         }
-    }
+
+
+
     public LogInView getView() {
         return view;
     }

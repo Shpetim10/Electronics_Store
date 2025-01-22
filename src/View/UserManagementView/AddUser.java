@@ -28,7 +28,7 @@ public class AddUser extends GridPane implements Design {
     //Secor and role box
     //For Cashier
     private VBox roleV = new VBox();
-    private ComboBox<String> cashierSectorSelection=new ComboBox<>();
+    private ComboBox<String> cashierSectorSelection=createComboBox("Sector...");
     //For Manager
     private VBox sectorV = new VBox();
     private ListView<String> managerSectorSelection=new ListView<>();

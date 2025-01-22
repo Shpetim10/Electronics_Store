@@ -1,6 +1,7 @@
 package Control;
 
 import Database.Database;
+import Exceptions.DifferentSectorForItemCashier;
 import Exceptions.InsufficientStockException;
 import Exceptions.InvalidPaymentArgumentsException;
 import Exceptions.OutOfStockException;
@@ -14,37 +15,39 @@ import javafx.scene.control.Alert;
 import java.io.FileNotFoundException;
 
 
-public class BillingSystemController implements Alertable{
+public class BillingSystemController implements Alertable {
     private BillingSystemView view = new BillingSystemView();
     private User user;
     private Bill bill;
     private ObservableList<ItemBought> itemsBought = FXCollections.observableArrayList();
-    private ObservableList<Item> inventory=FXCollections.observableArrayList(Database.getDatabase().getInventory());
-
+    private ObservableList<Item> inventory = FXCollections.observableArrayList(Database.getDatabase().getInventory());
+    private ObservableList<Item> cashierInventory=FXCollections.observableArrayList();
     public BillingSystemController(User user) {
-//        try {
-            this.user = user;
-            setUpGeneralData();
-            setCashButtonListener(); //Displays pane
-            setCreditCardButtonListener(); //Displays Pane
-            setCustomerInfoButtonListener(); //Displays pane
-            setPayByCreditCardRbListener();
-            setPayCashRbListener();
-            setNewBillButtonListener();
-            setAddButtonListener();
-            setCollectedCashListener();
-            setCreditCardSaveListener();
-            setCustomerInfoListener();
-            setClearCartButtonListener();
-            setGenerateBillButtonListener();
-            setEditQuantityListener();
-            setDeleteRowButtonListener();
-            setSwitchTableListener();
-//        } catch (NullPointerException ex) {
-//            System.out.println(ex.getMessage());
-//            showAlert(Alert.AlertType.ERROR,"Action Forbidden!","There is no planned shift for you!\nPlease start your shift in Home Page!");
-//        }
+        try {
+        this.user = user;
+        setUpGeneralData();
+        setCashButtonListener(); //Displays pane
+        setCreditCardButtonListener(); //Displays Pane
+        setCustomerInfoButtonListener(); //Displays pane
+        setPayByCreditCardRbListener();
+        setPayCashRbListener();
+        setNewBillButtonListener();
+        setAddButtonListener();
+        setCollectedCashListener();
+        setCreditCardSaveListener();
+        setCustomerInfoListener();
+        setClearCartButtonListener();
+        setGenerateBillButtonListener();
+        setEditQuantityListener();
+        setDeleteRowButtonListener();
+        setSwitchTableListener();
+    }catch(NullPointerException ex)
+
+    {
+        System.out.println(ex.getMessage());
+        showAlert(Alert.AlertType.ERROR, "Action Forbidden!", "There is no planned shift for you!\nPlease start your shift in Home Page!");
     }
+}
 
     //Useful No-Action Methods
     public void setUpGeneralData() {
@@ -178,7 +181,11 @@ public class BillingSystemController implements Alertable{
                 if (selectedItem == null) {
                     throw new NullPointerException("No item selected!");
                 }
-
+                if(user instanceof Cashier){
+                    if(selectedItem.getSectorType()!=((Cashier)user).getSector()){
+                        throw new DifferentSectorForItemCashier();
+                    }
+                }
                 ItemBought itemBought = new ItemBought(selectedItem);
 
                 if (!checkCartForProductPresence(itemBought)) {
@@ -201,6 +208,8 @@ public class BillingSystemController implements Alertable{
                 showAlert(Alert.AlertType.WARNING,"Inventory Alert!",ex.getMessage());
             } catch (NullPointerException ex) {
                 showAlert(Alert.AlertType.WARNING,"Error!","Something wrong happened!");
+            } catch (DifferentSectorForItemCashier ex) {
+                showAlert(Alert.AlertType.WARNING,"Forbidden!",ex.getMessage());
             }
         });
     }
@@ -339,7 +348,7 @@ public class BillingSystemController implements Alertable{
             } catch (InsufficientStockException ex) {
                 showAlert(Alert.AlertType.WARNING,"Wrong Payment Credentials!","Insufficient stock for required quantity!");
             }
-        }
+                }
         );
     }
 
@@ -452,7 +461,6 @@ public class BillingSystemController implements Alertable{
     public void searchBoxListener(){
         view.getProductCartBox().getSearchBox().getSearchField().setOnAction(
                 e->{
-
                     String searchQuery=this.view.getProductCartBox().getSearchBox().getSearchField().getText().toLowerCase();
                     ObservableList<Item> filteredItems=FXCollections.observableArrayList();
                     for(Item item: view.getProductCartBox().getInventoryTable().getTable().getItems()){
@@ -482,6 +490,14 @@ public class BillingSystemController implements Alertable{
         );
     }
 
+
+    public void setCashierInventory(){
+        for(Item item:Database.getDatabase().getInventory()){
+            if(item.getSector().equals(((Cashier)user).getSector())){
+                cashierInventory.add(item);
+            }
+        }
+    }
     //Getters Setters
     public BillingSystemView getView() {
         return view;

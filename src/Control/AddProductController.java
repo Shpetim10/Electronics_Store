@@ -3,6 +3,7 @@ package Control;
 import Database.Database;
 import Database.FileHandler;
 import Model.Item;
+import Model.RestockTransaction;
 import Model.SectorType;
 import Model.Validator;
 import View.AddProductView;
@@ -127,6 +128,8 @@ public class AddProductController {
 
             );
 
+            RestockTransaction transaction=new RestockTransaction(newItem,newItem.getStockQuantity());
+            Database.getDatabase().saveRestockTransaction(transaction);
             Database.getDatabase().saveProduct(newItem);
             clearInputFields();
 

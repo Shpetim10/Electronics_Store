@@ -14,7 +14,7 @@ public class UserManagementMain extends Application {
         UserManagementView view = new UserManagementView();
 
         // Create and initialize the controller
-        UserManagementController controller = new UserManagementController(view);
+        UserManagementController controller = new UserManagementController();
 
         // Set up the scene and stage
         Scene scene = new Scene(view);

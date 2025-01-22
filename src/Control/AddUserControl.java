@@ -55,21 +55,19 @@ public class AddUserControl implements Alertable{
             if(role==EmployeeRole.CASHIER){
                 Cashier cashier=new Cashier(ID,name,lastName,gender,birthday,salary,username,password,email,phoneNumber,dateEmployed,role,photo,cashierSector);
                 setCashierDefaultPermissions(cashier);
-                FileHandler.writeCashierToFile(cashier);
+                Database.getDatabase().saveCashier(cashier);
             }
             else if(role==EmployeeRole.MANAGER){
                 Manager manager=new Manager(ID,name,lastName,gender,birthday,salary,username,password,email,phoneNumber,dateEmployed,role,photo,managerSectors);
                 setManagerDefaultPermissions(manager);
-                FileHandler.writeManagerToFile(manager);
+                Database.getDatabase().saveManager(manager);
             }
             else{
                 Administrator admin=new Administrator(ID,name,lastName,gender,birthday,salary,username,password,email,phoneNumber,dateEmployed,role,photo);
                 setAdministratorDefaultPermissions(admin);
-                FileHandler.writeAdministratorsToFile(admin);
+                Database.getDatabase().saveAdministrator(admin);
             }
 
-
-            System.out.println("User created and written to .dat file successfully");
 
             // Show success message
             showAlert(Alert.AlertType.INFORMATION, "Success", "User was successfully added and saved to file!");
@@ -145,9 +143,15 @@ public class AddUserControl implements Alertable{
                 e->{
                     String role=this.view.getRoleSelection().getValue();
                     if(role.equals("CASHIER")){
+                        if(view.getSectorV().getChildren().size()==2){
+                            view.getSectorV().getChildren().remove(1); //Checks if the previous choice was admin
+                        }
                         setCashierSectorDisplay();
                     }
                     else if(role.equals("MANAGER")){
+                        if(view.getSectorV().getChildren().size()==2){
+                            view.getSectorV().getChildren().remove(1); //Checks if the previous choice was admin
+                        }
                         setManagerSectorDisplay();
                     }
                     else{
@@ -172,7 +176,4 @@ public class AddUserControl implements Alertable{
         return view;
     }
 
-    public static void main(String[] args) {
-        System.out.println(Database.getDatabase().getCashiers().getFirst().getSector().toString());
-    }
 }

@@ -1,5 +1,6 @@
 package Control;
 
+import Model.Administrator;
 import Model.Bill;
 import Model.Cashier;
 import View.PerformanceReportView.ViewAllBillsView;
@@ -17,6 +18,7 @@ public class ViewAllBillsController implements Alertable{
     private Cashier cashier=null;
 
     public ViewAllBillsController(){
+
     }
     public ViewAllBillsController(Cashier cashier){
         this.cashier=cashier;
@@ -24,14 +26,17 @@ public class ViewAllBillsController implements Alertable{
     }
 
     public void setViewBillButtonListener(){
-        for(Bill bill: this.cashier.getActiveShift().getBills()){
-            Button button=view.createLargeButton("Bill "+bill.getBillId());{
-                button.setOnAction(
-                        e->{
-                            writeBillToArea(bill);
-                        }
-                );
-            view.getButtonBox().getChildren().add(button);
+        if(this.cashier.getActiveShift()!=null){
+            for (Bill bill : this.cashier.getActiveShift().getBills()) {
+                Button button = view.createLargeButton("Bill " + bill.getBillId());
+                {
+                    button.setOnAction(
+                            e -> {
+                                writeBillToArea(bill);
+                            }
+                    );
+                    view.getButtonBox().getChildren().add(button);
+                }
             }
         }
     }

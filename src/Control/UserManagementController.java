@@ -16,11 +16,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class UserManagementController {
-    private UserManagementView view;
+    private UserManagementView view=new UserManagementView();
     private ArrayList<User> users= Database.getDatabase().getUsers();
 
-    public UserManagementController(UserManagementView view) {
-        this.view = view;
+    public UserManagementController() {
+
 
         setEditListeners();
         setDeleteActions();
@@ -172,4 +172,11 @@ public class UserManagementController {
         );
     }
 
+    public UserManagementView getView() {
+        return view;
+    }
+
+    public ArrayList<User> getUsers() {
+        return users;
+    }
 }

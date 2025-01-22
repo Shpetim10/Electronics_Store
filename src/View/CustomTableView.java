@@ -2,6 +2,7 @@ package View;
 
 
 
+import Database.Database;
 import Database.FileHandler;
 import Model.Item;
 import javafx.collections.FXCollections;
@@ -38,7 +39,7 @@ public class CustomTableView {
         addColumn("Brand", "brand", 80);
         addColumn("Last Restock Date", "lastRestockDate", 100);
 
-        ObservableList<Item> items = FXCollections.observableArrayList(FileHandler.getItemsOfInventory());
+        ObservableList<Item> items = FXCollections.observableArrayList(Database.getDatabase().getInventory());
         table.setItems(items);
     }
 

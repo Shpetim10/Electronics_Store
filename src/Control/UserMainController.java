@@ -1,5 +1,6 @@
 package Control;
 
+import Database.Database;
 import Database.FileHandler;
 import View.AddProductView;
 import View.UserMainView;
@@ -118,9 +119,12 @@ public class UserMainController implements Alertable {
         }
 
     public void setAddEmployeeButtonListener(){
-        int index=getMenuItemViewIndex("Add Employee");
+        int index=getMenuItemViewIndex("User Management");
+        Menu subMenu=null;
         if (index != -1) {
-            view.getMainMenu().getItems().get(index).setOnAction(
+            subMenu = (Menu) view.getMainMenu().getItems().get(index);
+        }
+            subMenu.getItems().get(0).setOnAction(
                     e->{
                         clearPane();
                         AddUserControl control=new AddUserControl();
@@ -128,18 +132,21 @@ public class UserMainController implements Alertable {
                     }
             );
         }
+
+    public void setEditEmployeeButtonListener(){
+        int index=getMenuItemViewIndex("User Management");
+        Menu subMenu=null;
+        if (index != -1) {
+            subMenu = (Menu) view.getMainMenu().getItems().get(index);
+        }
+        subMenu.getItems().get(1).setOnAction(
+                e->{
+                    clearPane();
+                    UserManagementController control=new UserManagementController();
+                    view.getDisplayPane().getChildren().add(control.getView());
+                }
+        );
     }
-//    public void setEditEmployeeButtonListener(){
-//        int index=getMenuItemViewIndex("Staff Management");
-//        if (index != -1) {
-//            view.getMainMenu().getItems().get(index).setOnAction(
-//                    e->{
-//                        ViewAllReportsController control=new ViewAllReportsController(user);
-//                        view.getDisplayPane().getChildren().add(control.getView());
-//                    }
-//            );
-//        }
-//    }
 
     public void setPermissionGrantingButtonListener(){
         int index=getMenuItemViewIndex("Permission Granting");
@@ -167,13 +174,12 @@ public class UserMainController implements Alertable {
         }
     }
 
-
     public void setUpProfileInformationIconListener(){
         this.view.getProfileLogo().setOnMouseClicked(
                 e->{
                     clearPane();
                     ProfileInformationController control=new ProfileInformationController(user);
-                    this.view.getDisplayPane().getChildren().clear();
+                    clearPane();
                     this.view.getDisplayPane().getChildren().add(control.getView());
                 }
         );
@@ -186,19 +192,6 @@ public class UserMainController implements Alertable {
                     this.view.getDisplayPane().getChildren().add(this.view.getHomePage());
                 }
         );
-    }
-    public void setUpLogOutIconListener() {
-        this.view.getLogOutIcon().setOnMouseClicked(e -> {
-            // Clear the current display pane
-            this.view.getDisplayPane().getChildren().clear();
-
-            // Create a new LogInView instance (ensure LogInView extends Parent or a compatible class)
-            //LogInView logIn = new LogInView();
-
-            // Create a new Scene with the LogInView
-            //Scene loginScene = logIn.createScene();
-            //MainUser.changeScene(loginScene);
-        });
     }
 
     //This menu will return index of the item in menu
@@ -238,7 +231,7 @@ public class UserMainController implements Alertable {
             this.view.getUserManagementSubmenu().getItems().add(view.getAddEmployee());
             this.view.getUserManagementSubmenu().getItems().add(view.getManageEmployee());
             setAddEmployeeButtonListener();
-            //usermanagement
+            setEditEmployeeButtonListener();
         }
         if (user.getPermissions().contains(Permission.SUPPLIER_MANAGEMENT)) {
             this.view.addToMainMenu(view.getSupplierManagementItem());
@@ -279,6 +272,7 @@ public class UserMainController implements Alertable {
                 );
                 shift.setShiftStatus(ShiftStatus.ACTIVE);
                 ((Cashier)user).getShifts().add(shift);
+                Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
                 showAlert(Alert.AlertType.INFORMATION,"Action completed!","You just started a shift!");
             }
             else{
@@ -293,6 +287,7 @@ public class UserMainController implements Alertable {
                 ((Cashier)user).getActiveShift().setEndHour(LocalTime.now());
                 ((Cashier)user).getActiveShift().generateShiftReport();
                 ((Cashier)user).getActiveShift().setShiftStatus(ShiftStatus.COMPLETED);
+                Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
                 showAlert(Alert.AlertType.INFORMATION,"Action Completed!","You just finished your shift!\nHave a nice day!");
             }
             else{

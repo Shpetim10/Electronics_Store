@@ -1,5 +1,6 @@
 package Model;
 
+import Database.Database;
 import Exceptions.OutOfStockException;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -110,7 +111,14 @@ public class Item implements Serializable {
     public String getSector() {
         return sector.getValueSafe();
     }
-
+    public SectorType getSectorType(){
+        for(SectorType type: Database.getDatabase().getSectors()){
+            if(type.toString().equals(this.getSector())){
+                return type;
+            }
+        }
+        return null;
+    }
     public void setSector(String sector) {
         this.sector = new SimpleStringProperty(sector);
     }
