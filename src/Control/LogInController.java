@@ -91,8 +91,8 @@ public class LogInController implements Alertable {
                 //Log out
                 mainController.getView().getLogOutIcon().setOnMouseClicked(e -> {
                     LogInController backScene=new LogInController(primaryStage);
-                    this.primaryStage.setScene(new Scene(backScene.getView(),500,500));
-
+                    this.primaryStage.setScene(new Scene(backScene.getView()));
+                    //this.primaryStage.setMaximized(true);
                     showAlert(Alert.AlertType.INFORMATION, "Log out!", "You logged out successfully!");
                 });
             } else {

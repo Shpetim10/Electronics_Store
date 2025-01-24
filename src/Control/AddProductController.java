@@ -52,11 +52,6 @@ public class AddProductController {
                 showAlert(Alert.AlertType.WARNING, "Invalid Input", "Please select a Sector.");
                 return;
             }
-
-            if (view.getSector().getSelectionModel().getSelectedItem() == null) {
-                showAlert(Alert.AlertType.WARNING, "Invalid Input", "Please select a Sector.");
-                return;
-            }
             SectorType sectorValue = SectorType.valueOf(view.getSector().getSelectionModel().getSelectedItem());
 
 

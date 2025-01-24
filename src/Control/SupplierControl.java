@@ -47,8 +47,13 @@ public class SupplierControl {
 
     private void setEditListeners() {
         this.view.getSupplierId().setOnEditCommit(e -> {
-            e.getRowValue().setSupplierId(e.getNewValue());
-            updateSupplierFile();
+            if (supplierExists(e.getNewValue())) {
+                showAlert(Alert.AlertType.WARNING, "Duplicate Supplier", "A supplier with this ID already exists!");
+            }
+            else{
+                e.getRowValue().setSupplierId(e.getNewValue());
+                updateSupplierFile();
+            }
         });
 
         this.view.getCompanyName().setOnEditCommit(e -> {

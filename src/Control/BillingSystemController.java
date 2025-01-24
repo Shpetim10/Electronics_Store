@@ -9,6 +9,7 @@ import Model.*;
 import View.BillingSystemView.BillingSystemView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
 
 
@@ -202,7 +203,7 @@ public class BillingSystemController implements Alertable {
                     view.getProductCartBox().getTablePane().getChildren().clear();
                     view.getProductCartBox().getTablePane().getChildren().add(view.getProductCartBox().getProductCartTable());
                 } else {
-                    showAlert(Alert.AlertType.WARNING,"Wrong Payment Method!","This item is already added to the cart!");
+                    showAlert(Alert.AlertType.WARNING,"Wrong Selection!","This item is already added to the cart!");
                 }
             } catch (OutOfStockException ex) {
                 showAlert(Alert.AlertType.WARNING,"Inventory Alert!",ex.getMessage());
@@ -427,12 +428,13 @@ public class BillingSystemController implements Alertable {
                                     this.bill.generateBill();
                                     if(user instanceof Cashier){
                                         ((Cashier)this.user).getActiveShift().getBills().add(bill);
+                                        Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
                                     }
                                     else{
                                         ((Administrator)this.user).getShift().getBills().add(bill);
+                                        Database.getDatabase().updateAdministrators(Database.getDatabase().getAdministrators());
                                     }
 
-                                    Database.getDatabase().updateCashiers(Database.getDatabase().getCashiers());
                                     Database.getDatabase().updateCustomers(Database.getDatabase().getCustomers());
                                     Database.getDatabase().updateInventory(Database.getDatabase().getInventory());
                                     Database.getDatabase().updateLoyaltyPoints(Database.getDatabase().getLoyaltyPoints());
@@ -459,7 +461,7 @@ public class BillingSystemController implements Alertable {
     }
 
     public void searchBoxListener(){
-        view.getProductCartBox().getSearchBox().getSearchField().setOnAction(
+        view.getProductCartBox().getSearchBox().getSearchField().setOnKeyReleased(
                 e->{
                     String searchQuery=this.view.getProductCartBox().getSearchBox().getSearchField().getText().toLowerCase();
                     ObservableList<Item> filteredItems=FXCollections.observableArrayList();
@@ -469,6 +471,9 @@ public class BillingSystemController implements Alertable {
                         }
                     }
                     this.view.getProductCartBox().getInventoryTable().getTable().setItems(filteredItems);
+                    if(this.view.getProductCartBox().getSearchBox().getSearchField().getText().equals("")){
+                        this.view.getProductCartBox().getInventoryTable().getTable().setItems(this.inventory);
+                    }
                 }
         );
     }

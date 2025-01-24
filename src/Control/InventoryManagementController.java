@@ -72,6 +72,7 @@ public class InventoryManagementController {
                 showAlert(Alert.AlertType.WARNING, "Invalid Quantity", "Quantity must be a non-negative integer.");
                 return;
             }
+            item.setProductId(Integer.parseInt(newProductId));
             Database.getDatabase().updateInventory(inventory);
         });
 
@@ -97,6 +98,7 @@ public class InventoryManagementController {
                 showAlert(Alert.AlertType.WARNING, "Invalid Sector", "Sector cannot be empty.");
                 return;
             }
+            item.setSector(newSector);
             Database.getDatabase().updateInventory(inventory);
 
         });
@@ -113,6 +115,7 @@ public class InventoryManagementController {
                 showAlert(Alert.AlertType.WARNING, "Invalid Cost Price", "Cost Price must be a positive number.");
                 return;
             }
+            item.setPriceBought(Double.parseDouble(newCostPrice));
             Database.getDatabase().updateInventory(inventory);
 
         });
@@ -129,6 +132,7 @@ public class InventoryManagementController {
                 showAlert(Alert.AlertType.WARNING, "Invalid Selling Price", "Selling price must be a positive number.");
                 return;
             }
+            item.setSellingPrice(Double.parseDouble(newSellingPrice));
             Database.getDatabase().updateInventory(inventory);
 
         });
@@ -141,6 +145,7 @@ public class InventoryManagementController {
                 showAlert(Alert.AlertType.WARNING, "Invalid Brand", "Brand cannot be empty.");
                 return;
             }
+            item.setBrand(newBrand);
             Database.getDatabase().updateInventory(inventory);
         });
 
@@ -165,6 +170,7 @@ public class InventoryManagementController {
                 showAlert(Alert.AlertType.WARNING, "Invalid Supplier", "Supplier name cannot be empty.");
                 return;
             }
+            item.setSupplier(newSupplier);
             Database.getDatabase().updateInventory(inventory);
         });
 
@@ -212,6 +218,7 @@ public class InventoryManagementController {
                 showAlert(Alert.AlertType.WARNING, "Invalid Barcode", "Barcode cannot be empty.");
                 return;
             }
+            item.setBarcode(Integer.valueOf(newBarcode));
             Database.getDatabase().updateInventory(inventory);
         });
         }
